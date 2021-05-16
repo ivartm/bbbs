@@ -15,7 +15,9 @@ class Event(models.Model):
     end_at = models.DateTimeField()
     seats = models.IntegerField()
     taken_seats = models.IntegerField(default=0)
-    city = models.ForeignKey(City, related_name='cities', on_delete=models.RESTRICT)
+    city = models.ForeignKey(
+        City, related_name='cities', on_delete=models.RESTRICT
+    )
 
     def __str__(self):
         return self.title
