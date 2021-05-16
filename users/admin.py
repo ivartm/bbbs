@@ -1,9 +1,9 @@
 from django.contrib import admin
 
 from django.contrib.admin import register
-from django.utils.functional import empty
 
 from users.models import Profile
+
 
 @register(Profile)
 class ProfileAdmin(admin.ModelAdmin):

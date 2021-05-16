@@ -11,6 +11,5 @@ class ProfileView(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        # queryset = self.filter_queryset(self.get_queryset())
         obj = get_object_or_404(Profile, user=self.request.user)
         return obj
