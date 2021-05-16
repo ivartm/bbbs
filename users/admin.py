@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from django.contrib.admin import register
+from django.utils.functional import empty
+
+from users.models import Profile
+
+@register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'city', 'role')
+    empty_value_display = '-пусто-'

@@ -1,24 +1,26 @@
 from django.db import models
 from django.conf import settings
-# from common.models import City
+from common.models import City
 
 
 class Profile(models.Model):
     class Role(models.TextChoices):
-        MENTOR = 'mentor'
-        MODERATOR_REG = 'moderator_regional'
-        MODERATOR_GEN = 'moderator_general'
-        ADMIN = 'admin'
+        MENTOR = "mentor"
+        MODERATOR_REG = "moderator_regional"
+        MODERATOR_GEN = "moderator_general"
+        ADMIN = "admin"
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    # city = models.OneToOneField('City', on_delete=models.RESTRICT)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
+    city = models.OneToOneField(City, on_delete=models.RESTRICT)
     role = models.CharField(
         max_length=20,
         choices=Role.choices,
     )
 
     def __str__(self):
-        return 'Профиль пользователя {}'.format(self.user.username)
+        return "Профиль пользователя {}".format(self.user.username)
 
     @property
     def is_admin(self):
