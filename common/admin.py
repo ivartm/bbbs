@@ -1,9 +1,14 @@
 from django.contrib import admin
 from django.contrib.admin import register
 
-from common.models import City
+from .models import City
 
-@register(City)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'is_primary')
-    empty_value_display = '-пусто-'
+
+class CityAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'is_primary',)
+    search_fields = ('name',)
+    list_filter = ('is_primary',)
+    empty_field = '--- пусто ---'
+
+
+admin.site.register(City, CityAdmin)
