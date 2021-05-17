@@ -37,3 +37,6 @@ class Profile(models.Model):
     @property
     def is_mentor(self):
         return self.Role.MENTOR == self.role
+
+
+

@@ -34,6 +34,6 @@ class EventParticipantViewSet(generics.ListCreateAPIView):
 
 
 class EventViewSet(generics.ListAPIView):
-    queryset = Event.objects.all().order_by('start_at')
+    queryset = Event.objects.filter(user=self.request.user).order_by('start_at')
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]

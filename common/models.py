@@ -6,7 +6,7 @@ User = get_user_model()
 
 class City(models.Model):
     name = models.CharField(max_length=30)
-    is_primary = models.BooleanField(default=False)   # Noqa не совсем понятен параметр
+    is_primary = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

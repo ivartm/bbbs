@@ -5,5 +5,5 @@ from common.models import City
 
 @register(City)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('name', 'is_primary')
+    list_display = ('id', 'name', 'is_primary')
     empty_value_display = '-пусто-'

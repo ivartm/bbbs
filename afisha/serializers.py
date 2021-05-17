@@ -12,4 +12,3 @@ class EventParticipantSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventParticipant
         fields = '__all__'
-        lookup_field = 'slug'
