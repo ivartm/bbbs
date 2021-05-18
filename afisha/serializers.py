@@ -3,6 +3,7 @@ from afisha.models import Event, EventParticipant
 
 
 class EventSerializer(serializers.ModelSerializer):
+    booked = serializers.BooleanField(default=False, read_only=True)
     class Meta:
         model = Event
         fields = '__all__'

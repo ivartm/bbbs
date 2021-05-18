@@ -1,4 +1,3 @@
-from django.views import generic
 from rest_framework import generics, viewsets
 from rest_framework.mixins import (
     CreateModelMixin,
@@ -8,6 +7,7 @@ from rest_framework.mixins import (
 from rest_framework.permissions import IsAuthenticated
 
 from afisha.models import Event, EventParticipant
+from users.models import Profile
 from afisha.serializers import EventSerializer, EventParticipantSerializer
 
 
@@ -34,6 +34,12 @@ class EventParticipantViewSet(generics.ListCreateAPIView):
 
 
 class EventViewSet(generics.ListAPIView):
-    queryset = Event.objects.filter(user=self.request.user).order_by('start_at')
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        profile = Profile.objects.get(user=self.request.user.id)
+        queryset = Event.objects.filter(
+            city_id=profile.city.id
+        ).order_by('start_at')
+        return queryset

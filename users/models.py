@@ -13,7 +13,9 @@ class Profile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
-    city = models.OneToOneField(City, on_delete=models.RESTRICT)
+    city = models.OneToOneField(
+        City, related_name="profile", on_delete=models.RESTRICT
+    )
     role = models.CharField(
         max_length=20,
         choices=Role.choices,
@@ -37,6 +39,3 @@ class Profile(models.Model):
     @property
     def is_mentor(self):
         return self.Role.MENTOR == self.role
-
-
-
