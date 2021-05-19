@@ -1,4 +1,5 @@
-from rest_framework import generics, viewsets
+from rest_framework import generics
+from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import (
     CreateModelMixin,
     ListModelMixin,
@@ -11,26 +12,32 @@ from users.models import Profile
 from afisha.serializers import EventSerializer, EventParticipantSerializer
 
 
-class CrudToEventParticipantViewSet(
-    CreateModelMixin,
-    ListModelMixin,
-    DestroyModelMixin,
-    viewsets.GenericViewSet
+class EventParticipantGetPostViewSet(
+    CreateModelMixin, ListModelMixin, GenericViewSet
 ):
-    pass
-
-
-# class EventParticipantViewSet(CrudToEventParticipantViewSet):
-#     queryset = EventParticipant.objects.all().order_by('-id')
-#     serializer_class = EventParticipantSerializer
-#     permission_classes = [IsAuthenticated]
-#     # filter_backends = [SearchFilter]
-#     search_fields = ['event', ]
-
-class EventParticipantViewSet(generics.ListCreateAPIView):
-    queryset = EventParticipant.objects.all().order_by('-id')
+    queryset = EventParticipant.objects.all()
     serializer_class = EventParticipantSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = EventParticipant.objects.filter(
+            user=self.request.user
+        ).order_by("event")
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class EventParticipantDeleteViewSet(DestroyModelMixin, GenericViewSet):
+    serializer_class = EventParticipantSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = EventParticipant.objects.filter(
+            user=self.request.user
+        ).order_by("event")
+        return queryset
 
 
 class EventViewSet(generics.ListAPIView):
@@ -39,7 +46,7 @@ class EventViewSet(generics.ListAPIView):
 
     def get_queryset(self):
         profile = Profile.objects.get(user=self.request.user.id)
-        queryset = Event.objects.filter(
-            city_id=profile.city.id
-        ).order_by('start_at')
+        queryset = Event.objects.filter(city_id=profile.city.id).order_by(
+            "start_at"
+        )
         return queryset

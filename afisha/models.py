@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import UniqueConstraint
 from django.contrib.auth import get_user_model
 
 from common.models import City
@@ -16,16 +17,35 @@ class Event(models.Model):
     seats = models.IntegerField()
     taken_seats = models.IntegerField(default=0)
     city = models.ForeignKey(
-        City, related_name='cities', on_delete=models.RESTRICT
+        City, related_name="event", on_delete=models.RESTRICT
     )
 
     def __str__(self):
         return self.title
 
     class Meta:
-        ordering = ['start_at']
+        ordering = ["start_at"]
+        verbose_name = "Событие"
+        verbose_name_plural = "События"
 
 
 class EventParticipant(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    event = models.OneToOneField(Event, on_delete=models.RESTRICT)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="eventparticipant",
+        null=True,
+    )
+    event = models.ForeignKey(
+        Event, on_delete=models.RESTRICT, related_name="eventparticipant"
+    )
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=["user", "event"], name="unique_participant"
+            )
+        ]
+        ordering = ["-event"]
+        verbose_name = "Участник"
+        verbose_name_plural = "Участники"
