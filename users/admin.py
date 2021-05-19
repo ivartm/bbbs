@@ -6,62 +6,60 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 
-class ProfileInline(admin.StackedInline):
+class StaffRequiredAdminMixin(object):
+
+    def check_perm(self, user_obj):
+
+        if user_obj.profile.is_admin:
+            return True
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return self.check_perm(request.user)
+
+    def has_change_permission(self, request, obj=None):
+        return self.check_perm(request.user)
+
+    def has_delete_permission(self, request, obj=None):
+        return self.check_perm(request.user)
+
+    def has_view_permission(self, request, obj=None):
+        return self.check_perm(request.user)
+
+
+class ProfileInline(StaffRequiredAdminMixin, admin.StackedInline):
     model = Profile
     can_delete = False
     verbose_name_plural = 'Profile'
     fk_name = 'user'
-    fields = ('role',)
-
-    def has_change_permission(self, request, obj=None):
-        is_admin = Profile.objects.get(user=request.user).is_admin
-        is_superuser = request.user.is_superuser
-        if is_superuser or is_admin:
-            return True
-        return False
+    fields = ('role', 'city',)
 
 
-class UserAdmin(UserAdmin):
+class UserAdmin(StaffRequiredAdminMixin, UserAdmin):
     inlines = (ProfileInline, )
-    list_display = ('pk', 'username',)
+    list_display = ('id', 'username',
+                    'is_active', 'is_staff',
+                    'user_role', 'user_city')
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('email',)}),
         (_('Permissions'), {
-            'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions'),
+            'fields': ('is_active', 'is_staff',
+                       'is_superuser', 'user_permissions'),
         }),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
 
-    # def get_inline_instances(self, request, obj=None):
-    #     if not obj:
-    #         return list()
-    #     return super(UserAdmin, self).get_inline_instances(request, obj)
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return list()
+        return super(UserAdmin, self).get_inline_instances(request, obj)
 
-    # def has_delete_permission(self, request, obj=None):
-    #     is_admin = Profile.objects.get(user=request.user).is_admin
-    #     if not is_admin:
-    #         return False
+    def user_role(self, obj):
+        return obj.profile.role
 
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        is_superuser = request.user.is_superuser
-        is_admin = Profile.objects.get(user=request.user).is_admin
-        disabled_fields = set()
-
-        if not (is_superuser or is_admin):
-            disabled_fields |= {
-                'is_staff',
-                'is_active',
-                'is_superuser',
-                'user_permissions',
-            }
-
-        for f in disabled_fields:
-            if f in form.base_fields:
-                form.base_fields[f].disabled = True
-
-        return form
+    def user_city(self, obj):
+        return obj.profile.city
 
 
 admin.site.unregister(Group)
