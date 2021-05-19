@@ -1,25 +1,22 @@
 from rest_framework import generics
-<<<<<<< HEAD
 from django.contrib.auth.models import User
-=======
-from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
->>>>>>> events
 from users.models import Profile
 from users.serializers import ProfileSerializer, TokenSerializer
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.generics import get_object_or_404
 from rest_framework import status, permissions
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
 
 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
 
     return {
-        'refresh': str(refresh),
-        'access': str(refresh.access_token),
+        "refresh": str(refresh),
+        "access": str(refresh.access_token),
     }
 
 
@@ -29,11 +26,9 @@ class TokenAPI(APIView):
     def post(self, request):
         serializer = TokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = User.objects.get(username=serializer.validated_data['username'])
+        user = User.objects.get(username=serializer.validated_data["username"])
         token = get_tokens_for_user(user)
-        return Response(
-            token, status=status.HTTP_201_CREATED
-        )
+        return Response(token, status=status.HTTP_201_CREATED)
 
 
 class ProfileView(generics.RetrieveUpdateAPIView):

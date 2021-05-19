@@ -11,35 +11,33 @@ class TokenSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'password']
+        fields = ["username", "password"]
 
     def validate(self, data):
-        username = data['username']
-        password = data['password']
+        username = data["username"]
+        password = data["password"]
         if username is None:
             raise serializers.ValidationError(
-                'An username is required to log in.'
+                "An username is required to log in."
             )
         if password is None:
             raise serializers.ValidationError(
-                'A password is required to log in.'
+                "A password is required to log in."
             )
 
         user = authenticate(username=username, password=password)
         if user is None:
             raise serializers.ValidationError(
-                'A user with this username and password was not found.'
+                "A user with this username and password was not found."
             )
 
         if not user.is_active:
             raise serializers.ValidationError(
-                'This user has been deactivated.'
+                "This user has been deactivated."
             )
         user = Profile.objects.get(user__username=username).role
-        if user != 'mentor':
-            raise serializers.ValidationError(
-                'Ошибка прав доступа'
-            )
+        if user != "mentor":
+            raise serializers.ValidationError("Ошибка прав доступа")
 
         return data
 
@@ -49,8 +47,4 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['id', 'user', 'city']
-<<<<<<< HEAD
-=======
-        # fields = ['id', 'user']
->>>>>>> events
+        fields = ["id", "user", "city"]

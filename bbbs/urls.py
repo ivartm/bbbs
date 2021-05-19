@@ -1,9 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from rest_framework_simplejwt.views import TokenRefreshView
 
 admin.autodiscover()
 urlpatterns = [
@@ -15,4 +12,5 @@ urlpatterns = [
     path('api/', include('users.urls')),
     path('api/', include('main.urls')),
     path('api/', include('common.urls')),
+    path('api/', include('afisha.urls')),
 ]
