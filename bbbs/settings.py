@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'common',
+    'afisha',
+    'django_extensions',
+
 ]
 
 MIDDLEWARE = [

@@ -1,5 +1,10 @@
 from django.contrib import admin
+<<<<<<< HEAD
 from users.admin import StaffRequiredAdminMixin
+=======
+from django.contrib.admin import register
+
+>>>>>>> events
 from .models import City
 
 

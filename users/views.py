@@ -1,5 +1,10 @@
 from rest_framework import generics
+<<<<<<< HEAD
 from django.contrib.auth.models import User
+=======
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+>>>>>>> events
 from users.models import Profile
 from users.serializers import ProfileSerializer, TokenSerializer
 
@@ -34,8 +39,8 @@ class TokenAPI(APIView):
 class ProfileView(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        queryset = self.filter_queryset(self.get_queryset())
-        obj = queryset.get(user=self.request.user)
+        obj = get_object_or_404(Profile, user=self.request.user)
         return obj

@@ -50,3 +50,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['id', 'user', 'city']
+<<<<<<< HEAD
+=======
+        # fields = ['id', 'user']
+>>>>>>> events
