@@ -1,6 +1,6 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import UniqueConstraint
-from django.contrib.auth import get_user_model
 
 from common.models import City
 
@@ -15,7 +15,6 @@ class Event(models.Model):
     start_at = models.DateTimeField()
     end_at = models.DateTimeField()
     seats = models.IntegerField()
-    taken_seats = models.IntegerField(default=0)
     city = models.ForeignKey(
         City, related_name="event", on_delete=models.RESTRICT
     )
