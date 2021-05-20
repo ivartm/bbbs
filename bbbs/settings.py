@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'users',
     'common',
     'afisha',
-    'django_extensions',
 
 ]
 

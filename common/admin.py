@@ -1,5 +1,5 @@
 from django.contrib import admin
-from users.admin import StaffRequiredAdminMixin
+from users.utils import StaffRequiredAdminMixin
 from .models import City
 
 

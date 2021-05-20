@@ -1,30 +1,10 @@
 from django.utils.translation import gettext_lazy as _
 from users.models import Profile
+from users.utils import StaffRequiredAdminMixin
 from django.contrib.auth.models import User, Group
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-
-
-class StaffRequiredAdminMixin(object):
-
-    def check_perm(self, user_obj):
-
-        if user_obj.profile.is_admin:
-            return True
-        return False
-
-    def has_add_permission(self, request, obj=None):
-        return self.check_perm(request.user)
-
-    def has_change_permission(self, request, obj=None):
-        return self.check_perm(request.user)
-
-    def has_delete_permission(self, request, obj=None):
-        return self.check_perm(request.user)
-
-    def has_view_permission(self, request, obj=None):
-        return self.check_perm(request.user)
 
 
 class ProfileInline(StaffRequiredAdminMixin, admin.StackedInline):
@@ -65,4 +45,3 @@ class UserAdmin(StaffRequiredAdminMixin, UserAdmin):
 admin.site.unregister(Group)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register(Profile)
