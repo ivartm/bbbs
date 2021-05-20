@@ -7,10 +7,10 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     class Role(models.TextChoices):
-        MENTOR = "mentor"
-        MODERATOR_REG = "moderator_regional"
-        MODERATOR_GEN = "moderator_general"
-        ADMIN = "admin"
+        MENTOR = 'mentor'
+        MODERATOR_REG = 'moderator_regional'
+        MODERATOR_GEN = 'moderator_general'
+        ADMIN = 'admin'
 
     user = models.OneToOneField(User,
                                 on_delete=models.CASCADE,
@@ -23,8 +23,11 @@ class Profile(models.Model):
         default=Role.MENTOR
     )
 
+    class Meta:
+        verbose_name = 'Профиль'
+
     def __str__(self):
-        return 'Профиль пользователя'
+        return 'Дополнительная информация'
 
     @receiver(post_save, sender=User)
     def create_and_update_user_profile(sender, instance, created, **kwargs):

@@ -13,5 +13,9 @@ class City(models.Model):
         help_text='Укажите, если город должен иметь приоритетный вывод'
     )
 
+    class Meta:
+        verbose_name = 'Город'
+        verbose_name_plural = 'Города'
+
     def __str__(self):
         return self.name
