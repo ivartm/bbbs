@@ -26,12 +26,18 @@ class EventAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
         return Event.objects.all()
 
     def has_view_permission(self, request, obj=None):
+        if request.user.is_anonymous:
+            return False
         return True
 
     def has_change_permission(self, request, obj=None):
+        if request.user.is_anonymous:
+            return False
         return True
 
     def has_module_permission(self, request):
+        if request.user.is_anonymous:
+            return False
         return True
 
 

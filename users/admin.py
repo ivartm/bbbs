@@ -20,6 +20,7 @@ class UserAdmin(StaffRequiredAdminMixin, UserAdmin):
     list_display = ('id', 'username',
                     'is_active', 'is_staff',
                     'user_role', 'user_city')
+    list_display_links = ('username',)
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('email',)}),
