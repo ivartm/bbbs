@@ -30,6 +30,15 @@ class UserAdmin(StaffRequiredAdminMixin, UserAdmin):
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
 
+    def get_fieldsets(self, request, obj=None):
+        if not request.user.profile.is_admin:
+            fieldsets = (
+                (None, {'fields': ('username',)}),
+                (_('Personal info'), {'fields': ('email',)}),
+            )
+            return fieldsets
+        return super().get_fieldsets(request, obj)
+
     def get_inline_instances(self, request, obj=None):
         if not obj:
             return list()

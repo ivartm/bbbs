@@ -26,7 +26,13 @@ class EventAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
         return Event.objects.all()
 
     def has_view_permission(self, request, obj=None):
-        return request.user.profile.is_moderator_reg or request.user.profile.is_moderator_gen
+        return True
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def has_module_permission(self, request):
+        return True
 
 
 @register(EventParticipant)
