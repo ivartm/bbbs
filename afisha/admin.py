@@ -1,5 +1,5 @@
-from django.contrib.admin import register
 from django.contrib import admin
+from django.contrib.admin import register
 
 from afisha.models import Event, EventParticipant
 from users.utils import StaffRequiredAdminMixin
@@ -15,7 +15,6 @@ class EventAdmin(admin.ModelAdmin):
         "start_at",
         "end_at",
         "seats",
-        "taken_seats",
         "city",
     )
     empty_value_display = "-пусто-"
