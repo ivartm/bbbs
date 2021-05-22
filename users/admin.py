@@ -32,7 +32,8 @@ class UserAdmin(StaffRequiredAdminMixin, UserAdmin):
     )
 
     def get_fieldsets(self, request, obj=None):
-        if not request.user.profile.is_admin:
+        if not request.user.profile.is_admin or\
+                not request.user.is_superuser:
             fieldsets = (
                 (None, {'fields': ('username',)}),
                 (_('Personal info'), {'fields': ('email',)}),
