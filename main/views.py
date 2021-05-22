@@ -1,42 +1,12 @@
-from django.http import Http404
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from main.models import Main
-from main.serializers import MainSerializer
+from afisha.models import Event
+from afisha.serializers import EventSerializer
+from django.utils import timezone
 
 
 TEMP_DATA = {
-    # "event": {
-    #     "id": 11,
-    #     "tags": [
-    #         {
-    #             "id": 111,
-    #             "name": "Волонтёры",
-    #             "slug": "volunteers"
-    #         },
-    #         {
-    #             "id": 112,
-    #             "name": "Дети",
-    #             "slug": "children"
-    #         }
-    #     ],
-    #     "title": "Субботний meet up: учимся проходить интевью",
-    #     "startAt": "2021-05-08T19:22:00Z",
-    #     "endAt": "2021-05-08T21:22:00Z",
-    #     "address": "Садовническая наб., д. 77 стр. 1 (офис компании "
-    #                "Ernst&Young)",
-    #     "contact": "Александра, +7 926 356-78-90",
-    #     "remainSeats": 5,
-    #     "description": "Наконец-то наступила весна и мы пережили эту долгую "
-    #                    "зиму! И возможно, что внутренних сил и ресурса сейчас "
-    #                    "не так много, а до окончания учебного года ещё целых "
-    #                    "несколько месяцев. Поэтому приглашаем вас на встречу "
-    #                    "нашего ресурсного клуба \"Наставник PRO\", которую мы "
-    #                    "хотим посвятить теме поиска моральных сил, смыслов и "
-    #                    "внутреннего ресурса для общения и взаимодействия с "
-    #                    "нашими подопечными.",
-    #     "booked": True
-    # },
     "history": {
         "id": 21,
         "imageUrl": "https://picsum.photos/870/520",
@@ -212,14 +182,12 @@ TEMP_DATA = {
 
 
 class MainView(APIView):
-    def get_object(self):
-        try:
-            return Main.objects.get(on_view=True)
-        except Main.DoesNotExist:
-            raise Http404
+    permission_classes = [AllowAny]
 
     def get(self, request):
-        obj = self.get_object()
-        serializer = MainSerializer(obj)
-        data = {**serializer.data, **TEMP_DATA}
-        return Response(data)
+        context = {}
+        event = Event.objects.get(start_at__gt=timezone.now())
+        event_serializer = EventSerializer(event)
+        context['event'] = {**event_serializer.data}
+        context.update(**TEMP_DATA)
+        return Response(context)
