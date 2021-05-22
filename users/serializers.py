@@ -35,15 +35,14 @@ class TokenSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "This user has been deactivated."
             )
-        user = Profile.objects.get(user__username=username).role
-        if user != "mentor":
+        if not user.profile.is_mentor:
             raise serializers.ValidationError("Ошибка прав доступа")
 
         return data
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    city = CitySerializer(required=False, read_only=True)
+    city = CitySerializer(read_only=True)
 
     class Meta:
         model = Profile
