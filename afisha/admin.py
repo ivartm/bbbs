@@ -8,6 +8,8 @@ from users.utils import StaffRequiredAdminMixin
 @register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
+        "city",
         "address",
         "contact",
         "title",
@@ -15,7 +17,6 @@ class EventAdmin(admin.ModelAdmin):
         "start_at",
         "end_at",
         "seats",
-        "city",
     )
     empty_value_display = "-пусто-"
 

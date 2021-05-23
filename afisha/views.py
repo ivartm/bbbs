@@ -1,7 +1,10 @@
 from django.db.models import Count
 from rest_framework import generics
-from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin,
-                                   ListModelMixin)
+from rest_framework.mixins import (
+    CreateModelMixin,
+    DestroyModelMixin,
+    ListModelMixin,
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
@@ -10,35 +13,26 @@ from afisha.serializers import EventParticipantSerializer, EventSerializer
 from users.models import Profile
 
 
-class EventParticipantGetPostViewSet(
-    CreateModelMixin, ListModelMixin, GenericViewSet
+class CrudToEventParticipantViewSet(
+    CreateModelMixin, ListModelMixin, DestroyModelMixin, GenericViewSet
 ):
-    queryset = EventParticipant.objects.all()
+    pass
+
+
+class EventParticipantViewSet(CrudToEventParticipantViewSet):
     serializer_class = EventParticipantSerializer
     permission_classes = [IsAuthenticated]
+    search_fields = [
+        "event",
+    ]
 
     def get_queryset(self):
-        queryset = EventParticipant.objects.filter(
-            user=self.request.user
-        ).order_by("event")
+        user = self.request.user
+        queryset = EventParticipant.objects.filter(user=user)
         return queryset
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
-
-class EventParticipantDeleteViewSet(DestroyModelMixin, GenericViewSet):
-    serializer_class = EventParticipantSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        queryset = EventParticipant.objects.filter(
-            user=self.request.user
-        ).order_by("event")
-        return queryset
-
-    def perform_destroy(self, instance):
-        instance.delete()
 
 
 class EventViewSet(generics.ListAPIView):
