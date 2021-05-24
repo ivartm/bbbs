@@ -42,7 +42,7 @@ class EventViewSet(generics.ListAPIView):
     def get_queryset(self):
         profile = Profile.objects.get(user_id=self.request.user.id)
         queryset = (
-            Event.objects.filter(city_id=profile.city.id)
+            Event.objects.filter(city=profile.city)
             .annotate(taken_seats=(Count("eventparticipant")))
             .order_by("start_at")
         )
