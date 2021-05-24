@@ -1,3 +1,21 @@
 from django.db import models
 
-# Create your models here.
+
+class City(models.Model):
+    name = models.CharField(
+        max_length=30,
+        verbose_name='Город',
+        help_text='Введите город',
+    )
+    is_primary = models.BooleanField(
+        default=False,
+        verbose_name='Приоритет вывода',
+        help_text='Укажите, если город должен иметь приоритетный вывод'
+    )
+
+    class Meta:
+        verbose_name = 'Город'
+        verbose_name_plural = 'Города'
+
+    def __str__(self):
+        return self.name
