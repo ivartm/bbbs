@@ -135,3 +135,4 @@ dmypy.json
 
 #mac_os settings
 .DS_Store
+old.settings.py

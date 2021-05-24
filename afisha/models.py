@@ -8,15 +8,35 @@ User = get_user_model()
 
 
 class Event(models.Model):
-    address = models.CharField(max_length=200)
-    contact = models.CharField(max_length=200)
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    start_at = models.DateTimeField()
-    end_at = models.DateTimeField()
-    seats = models.IntegerField()
+    address = models.CharField(
+        max_length=200,
+        verbose_name="Адрес"
+    )
+    contact = models.CharField(
+        max_length=200,
+        verbose_name="Контакт"
+    )
+    title = models.CharField(
+        max_length=200,
+        verbose_name="Название"
+    )
+    description = models.TextField(
+        verbose_name="Дополнительная информация"
+    )
+    start_at = models.DateTimeField(
+        verbose_name="Начало"
+    )
+    end_at = models.DateTimeField(
+        verbose_name="Окончание"
+    )
+    seats = models.IntegerField(
+        verbose_name="Свободные места"
+    )
     city = models.ForeignKey(
-        City, related_name="event", on_delete=models.RESTRICT
+        City,
+        related_name="event",
+        on_delete=models.RESTRICT,
+        verbose_name="Город"
     )
 
     def __str__(self):
@@ -24,8 +44,8 @@ class Event(models.Model):
 
     class Meta:
         ordering = ["start_at"]
-        verbose_name = "Событие"
-        verbose_name_plural = "События"
+        verbose_name = "Мероприятие"
+        verbose_name_plural = "Мероприятия"
 
 
 class EventParticipant(models.Model):
@@ -34,9 +54,13 @@ class EventParticipant(models.Model):
         on_delete=models.CASCADE,
         related_name="eventparticipant",
         null=True,
+        verbose_name="Участник"
     )
     event = models.ForeignKey(
-        Event, on_delete=models.RESTRICT, related_name="eventparticipant"
+        Event,
+        on_delete=models.RESTRICT,
+        related_name="eventparticipant",
+        verbose_name="Мероприятие"
     )
 
     class Meta:

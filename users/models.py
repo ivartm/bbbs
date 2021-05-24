@@ -12,15 +12,22 @@ class Profile(models.Model):
         MODERATOR_GEN = 'moderator_general'
         ADMIN = 'admin'
 
-    user = models.OneToOneField(User,
-                                on_delete=models.CASCADE,
-                                related_name='profile')
-    city = models.ForeignKey(City, on_delete=models.SET_NULL,
-                             null=True)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='profile'
+    )
+    city = models.ForeignKey(
+        City,
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name="Город"
+    )
     role = models.CharField(
         max_length=20,
         choices=Role.choices,
-        default=Role.MENTOR
+        default=Role.MENTOR,
+        verbose_name="Роль"
     )
 
     class Meta:
