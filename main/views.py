@@ -186,8 +186,8 @@ class MainView(APIView):
 
     def get(self, request):
         context = {}
-        event = Event.objects.get(start_at__gt=timezone.now())
-        event_serializer = EventSerializer(event)
+        event = Event.objects.filter(start_at__gt=timezone.now()).first()
+        event_serializer = EventSerializer(event, context={'request': request})
         context['event'] = {**event_serializer.data}
         context.update(**TEMP_DATA)
         return Response(context)
