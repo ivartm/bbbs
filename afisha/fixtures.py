@@ -1,18 +1,25 @@
+from users.models import Profile
+from common.factories import CityFactory
 import factory
 
-from .factories import (
-    CityFactory,
-    ProfileFactory,
-    UserFactory,
-    EventFactory,
-    EventParticipantFactory,
-)
+from afisha.factories import EventParticipantFactory
+
+CITIES = [
+    "Волгоград",
+    "Астрахань",
+    "Казань",
+    "Железногорск",
+    "Чебоксары",
+    "Санкт-Петербург",
+    "Москва",
+]
 
 
 def make_fixtures():
+    """Create City, User, Profile, Event, EventParticipant fixtures."""
     with factory.Faker.override_default_locale("ru_RU"):
-        CityFactory.create_batch(100)
-        ProfileFactory.create_batch(100)
-        UserFactory.create_batch(100)
-        EventFactory.create_batch(100),
-        EventParticipantFactory.create_batch(100)
+        for city_name in CITIES:
+            CityFactory(name=city_name)
+
+        EventParticipantFactory.create_batch(200)
+

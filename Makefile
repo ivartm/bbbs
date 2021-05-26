@@ -12,3 +12,6 @@ fill-db:
 
 shell:
 	python manage.py shell_plus --settings=config.settings.dev
+
+runtest:
+	python manage.py test --settings=config.settings.dev

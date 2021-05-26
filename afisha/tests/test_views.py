@@ -1,12 +1,9 @@
-from django.test import TestCase
-from django.urls import reverse
-from rest_framework.test import APIClient, force_authenticate
+from rest_framework.test import APIClient
 from rest_framework.test import APITestCase
 
-from pprint import pprint
-
-
-from afisha.factories import CityFactory, EventFactory, UserFactory
+from common.factories import CityFactory
+from users.factories import UserFactory
+from afisha.factories import EventFactory
 
 
 class ViewAfishaTests(APITestCase):
@@ -14,16 +11,16 @@ class ViewAfishaTests(APITestCase):
     def setUpClass(cls) -> None:
         super().setUpClass()
 
+        cls.city = CityFactory(name="Воркута")
+        cls.event = EventFactory(city=cls.city)
+        
         cls.mentor = UserFactory(profile__role="mentor")
         cls.moderator_reg = UserFactory(profile__role="moderator_reg")
         cls.moderator_gen = UserFactory(profile__role="moderator_gen")
         cls.admin = UserFactory(
             profile__role="admin",
-            profile__city__name="Воркута",
+            profile__city=cls.city,
         )
-
-        cls.city = CityFactory(name="Воркута")
-        cls.event = EventFactory(city__name="Воркута")
         cls.unauthorized_client = APIClient()
 
     def return_authorized_user_client(self, user):
