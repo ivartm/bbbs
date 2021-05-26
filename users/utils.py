@@ -1,4 +1,7 @@
-class StaffRequiredAdminMixin(object):
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
+class StaffRequiredAdminMixin:
 
     def check_perm(self, user_obj):
         if user_obj.is_anonymous:
@@ -26,7 +29,7 @@ class StaffRequiredAdminMixin(object):
         return True
 
 
-class AdminAndModerMixin(object):
+class AdminAndModerMixin:
 
     def check_perm(self, user_obj):
         if user_obj.is_anonymous:
@@ -50,3 +53,12 @@ class AdminAndModerMixin(object):
 
     def has_module_permission(self, request):
         return True
+
+
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+
+    return {
+        "refresh": str(refresh),
+        "access": str(refresh.access_token),
+    }
