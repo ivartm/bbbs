@@ -31,12 +31,12 @@ class Event(models.Model):
     endAt = models.DateTimeField(
         verbose_name="Окончание"
     )
-    seats = models.IntegerField(
+    seats = models.PositiveIntegerField(
         verbose_name="Свободные места"
     )
     city = models.ForeignKey(
         City,
-        related_name="event",
+        related_name="events",
         on_delete=models.RESTRICT,
         verbose_name="Город"
     )
@@ -71,7 +71,7 @@ class EventParticipant(models.Model):
     event = models.ForeignKey(
         Event,
         on_delete=models.RESTRICT,
-        related_name="eventparticipant",
+        related_name="eventparticipants",
         verbose_name="Мероприятие"
     )
 
