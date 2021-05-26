@@ -1,4 +1,4 @@
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from afisha.models import Event
@@ -186,7 +186,7 @@ class MainView(APIView):
 
     def get(self, request):
         context = {}
-        event = Event.objects.filter(start_at__gt=timezone.now()).first()
+        event = Event.objects.filter(startAt__gt=timezone.now()).first()
         event_serializer = EventSerializer(event, context={'request': request})
         context['event'] = {**event_serializer.data}
         context.update(**TEMP_DATA)

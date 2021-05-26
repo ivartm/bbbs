@@ -4,10 +4,10 @@ from .models import City
 
 
 class CityAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
-    list_display = ('id', 'name', 'is_primary',)
+    list_display = ('id', 'name', 'isPrimary',)
     list_display_links = ('name',)
     search_fields = ('name',)
-    list_filter = ('is_primary',)
+    list_filter = ('isPrimary',)
     empty_field = '--- пусто ---'
 
 

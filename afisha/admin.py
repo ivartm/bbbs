@@ -14,8 +14,8 @@ class EventAdmin(admin.ModelAdmin):
         "contact",
         "title",
         "description",
-        "start_at",
-        "end_at",
+        "startAt",
+        "endAt",
         "seats",
     )
     empty_value_display = "-пусто-"

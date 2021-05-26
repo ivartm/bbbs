@@ -7,12 +7,12 @@ from users.models import Profile
 
 class EventSerializer(serializers.ModelSerializer):
     booked = serializers.SerializerMethodField("is_booked")
-    taken_seats = serializers.IntegerField(read_only=True)
+    takenSeats = serializers.IntegerField(read_only=True)
 
     def is_booked(self, instanse):
         user = self.context["request"].user
         if EventParticipant.objects.filter(
-            event=Event.objects.get(id=instanse.id), user=user
+            event=Event.objects.get(id=instanse.id), user_id=user.id
         ).exists():
             return True
         return False
@@ -33,9 +33,9 @@ class EventParticipantSerializer(serializers.ModelSerializer):
         request = self.context["request"]
         user = request.user
         profile = Profile.objects.get(user=user)
-        taken_seats = EventParticipant.objects.filter(event=event).count()
+        takenSeats = EventParticipant.objects.filter(event=event).count()
         seats = event.seats
-        end_event = event.end_at
+        end_event = event.endAt
         if request.method == "POST":
             if event.city != profile.city:
                 raise serializers.ValidationError(
@@ -45,7 +45,7 @@ class EventParticipantSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     {"message": "Мероприятие уже закончилось."}
                 )
-            if taken_seats > seats:
+            if takenSeats > seats:
                 raise serializers.ValidationError(
                     {"message": "Извините, мест больше нет."}
                 )

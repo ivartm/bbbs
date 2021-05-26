@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import UniqueConstraint
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 from common.models import City
 
@@ -24,10 +25,10 @@ class Event(models.Model):
     description = models.TextField(
         verbose_name="Дополнительная информация"
     )
-    start_at = models.DateTimeField(
+    startAt = models.DateTimeField(
         verbose_name="Начало"
     )
-    end_at = models.DateTimeField(
+    endAt = models.DateTimeField(
         verbose_name="Окончание"
     )
     seats = models.IntegerField(
@@ -44,14 +45,19 @@ class Event(models.Model):
         return self.title
 
     class Meta:
-        ordering = ["start_at"]
+        ordering = ["startAt"]
         verbose_name = "Мероприятие"
         verbose_name_plural = "Мероприятия"
 
     def clean(self):
-        if self.start_at > self.end_at:
+        if self.startAt > self.endAt:
             raise ValidationError({
-                'end_at': 'Проверьте дату'})
+                'end_at': 'Проверьте дату: не может быть меньше даты начала'
+            })
+        if self.startAt < timezone.now():
+            raise ValidationError({
+                'start_at': 'Проверьте дату: не может быть меньше текущей'
+            })
 
 
 class EventParticipant(models.Model):
