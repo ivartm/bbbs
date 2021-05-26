@@ -64,7 +64,7 @@ class EventParticipant(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="eventparticipant",
+        related_name="eventparticipants",
         null=True,
         verbose_name="Участник"
     )

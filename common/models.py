@@ -40,7 +40,7 @@ class City(models.Model):
         verbose_name='Приоритет вывода',
         help_text='Укажите, если город должен иметь приоритетный вывод'
     )
-    time_zone = BooleanField
+    # time_zone = BooleanField
 
     class Meta:
         verbose_name = 'Город'

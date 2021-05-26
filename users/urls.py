@@ -1,12 +1,15 @@
 from django.urls import path
+from django.urls.conf import include
 from .views import ProfileView
 from .views import TokenAPI
 from rest_framework_simplejwt.views import TokenRefreshView
 
-urlpatterns = [
+extra_patterns = [
+    path('token/', TokenAPI.as_view(), name='token'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('profile/', ProfileView.as_view(), name='profile'),
+]
 
-    path('v1/profile/', ProfileView.as_view()),
-    path('v1/token/', TokenAPI.as_view()),
-    path('v1/token/refresh/',
-         TokenRefreshView.as_view(), name='token_refresh'),
+urlpatterns = [
+    path('v1/', include(extra_patterns)),
 ]

@@ -13,7 +13,7 @@ from users.models import Profile
 
 
 class CityAPIView(ListAPIView):
-    queryset = City.objects.all()
+    queryset = City.objects.all().order_by('-isPrimary', 'name')
     serializer_class = CitySerializer
     permission_classes = [AllowAny]
 

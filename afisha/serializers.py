@@ -1,4 +1,5 @@
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
 from afisha.models import Event, EventParticipant
@@ -11,8 +12,9 @@ class EventSerializer(serializers.ModelSerializer):
 
     def is_booked(self, instanse):
         user = self.context["request"].user
+        event = get_object_or_404(Event, id=instanse.id)
         if EventParticipant.objects.filter(
-            event=Event.objects.get(id=instanse.id), user_id=user.id
+            event=event, user_id=user.id
         ).exists():
             return True
         return False
@@ -32,7 +34,7 @@ class EventParticipantSerializer(serializers.ModelSerializer):
         event = data["event"]
         request = self.context["request"]
         user = request.user
-        profile = Profile.objects.get(user=user)
+        profile = get_object_or_404(Profile, user=user)
         takenSeats = EventParticipant.objects.filter(event=event).count()
         seats = event.seats
         end_event = event.endAt
