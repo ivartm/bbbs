@@ -44,7 +44,7 @@ class UserAdmin(StaffRequiredAdminMixin, UserAdmin):
     def get_inline_instances(self, request, obj=None):
         if not obj:
             return list()
-        return super(UserAdmin, self).get_inline_instances(request, obj)
+        return super().get_inline_instances(request, obj)
 
     def user_role(self, obj):
         return obj.profile.role
