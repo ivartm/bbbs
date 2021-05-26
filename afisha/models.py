@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import UniqueConstraint
+from django.core.exceptions import ValidationError
 
 from common.models import City
 
@@ -46,6 +47,11 @@ class Event(models.Model):
         ordering = ["start_at"]
         verbose_name = "Мероприятие"
         verbose_name_plural = "Мероприятия"
+
+    def clean(self):
+        if self.start_at > self.end_at:
+            raise ValidationError({
+                'end_at': 'Проверьте дату'})
 
 
 class EventParticipant(models.Model):

@@ -11,4 +11,4 @@ fill-db:
 	python manage.py loaddata --settings=config.settings.dev fixtures.json
 
 shell:
-	python manage.py shell_plus
+	python manage.py shell_plus --settings=config.settings.dev

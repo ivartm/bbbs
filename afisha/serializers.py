@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import serializers
 
 from afisha.models import Event, EventParticipant
@@ -34,19 +35,24 @@ class EventParticipantSerializer(serializers.ModelSerializer):
         profile = Profile.objects.get(user=user)
         taken_seats = EventParticipant.objects.filter(event=event).count()
         seats = event.seats
+        end_event = event.end_at
         if request.method == "POST":
             if event.city != profile.city:
                 raise serializers.ValidationError(
-                    {"message": "!!!Извините, но мероприятие не в Вашем городе"}
+                    {"message": "Извините, но мероприятие не в Вашем городе."}
+                )
+            if end_event < timezone.now():
+                raise serializers.ValidationError(
+                    {"message": "Мероприятие уже закончилось."}
                 )
             if taken_seats > seats:
                 raise serializers.ValidationError(
-                    {"message": "!!Извините, мест больше нет"}
+                    {"message": "Извините, мест больше нет."}
                 )
             if EventParticipant.objects.filter(
                 user=user, event=event
             ).exists():
                 raise serializers.ValidationError(
-                    {"message": "!Вы уже зарегистрированы на это мероприятие"}
+                    {"message": "Вы уже зарегистрированы на это мероприятие."}
                 )
         return data
