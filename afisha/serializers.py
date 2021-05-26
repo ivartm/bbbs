@@ -10,9 +10,9 @@ class EventSerializer(serializers.ModelSerializer):
     booked = serializers.SerializerMethodField("is_booked")
     takenSeats = serializers.IntegerField(read_only=True)
 
-    def is_booked(self, instanse):
+    def is_booked(self, instance):
         user = self.context["request"].user
-        event = get_object_or_404(Event, id=instanse.id)
+        event = get_object_or_404(Event, id=instance.id)
         if EventParticipant.objects.filter(
             event=event, user_id=user.id
         ).exists():
