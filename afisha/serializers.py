@@ -37,16 +37,16 @@ class EventParticipantSerializer(serializers.ModelSerializer):
         if request.method == "POST":
             if event.city != profile.city:
                 raise serializers.ValidationError(
-                    {"message": "Извините, но мероприятие не в Вашем городе"}
+                    {"message": "!!!Извините, но мероприятие не в Вашем городе"}
                 )
             if taken_seats > seats:
                 raise serializers.ValidationError(
-                    {"message": "Извините, мест больше нет"}
+                    {"message": "!!Извините, мест больше нет"}
                 )
             if EventParticipant.objects.filter(
                 user=user, event=event
             ).exists():
                 raise serializers.ValidationError(
-                    {"message": "Вы уже зарегистрированы на это мероприятие"}
+                    {"message": "!Вы уже зарегистрированы на это мероприятие"}
                 )
         return data

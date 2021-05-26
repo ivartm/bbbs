@@ -29,7 +29,7 @@ class Event(models.Model):
     end_at = models.DateTimeField(
         verbose_name="Окончание"
     )
-    seats = models.IntegerField(
+    seats = models.PositiveIntegerField(
         verbose_name="Свободные места"
     )
     city = models.ForeignKey(
