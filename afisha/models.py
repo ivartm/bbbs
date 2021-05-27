@@ -41,7 +41,7 @@ class Event(models.Model):
             raise ValidationError(
                 {"start_at": "Проверьте дату: не может быть меньше текущей"}
             )
-        if self.start_at < timezone.now():
+        if self.startAt < timezone.now():
             raise ValidationError(
                 {"start_at": "Время начала не может быть меньше текущего"}
             )
@@ -55,14 +55,14 @@ class EventParticipant(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="eventparticipants",
+        related_name="event_participants",
         null=True,
         verbose_name="Участник",
     )
     event = models.ForeignKey(
         Event,
         on_delete=models.RESTRICT,
-        related_name="eventparticipants",
+        related_name="event_participants",
         verbose_name="Мероприятие",
     )
 
