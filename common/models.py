@@ -1,35 +1,61 @@
 from django.db import models
-from django.db.models.fields import BooleanField
 
 
 class City(models.Model):
-    # class TimeZone(models.TextChoices):
-    #     KALININGRAD = 'Europe/Kaliningrad'
-    #     MOSCOW = 'Europe/Moscow'
-    #     KIROV = 'Europe/Kirov'
-    #     VOLGOGRAD = 'Europe/Volgograd'
-    #     ASTRAKHAN = 'Europe/Astrakhan'
-    #     'Europe/Saratov', 
-    #     'Europe/Ulyanovsk', 
-    #     'Europe/Samara', 
-    #     'Asia/Yekaterinburg', 
-    #     'Asia/Omsk', 
-    #     'Asia/Novosibirsk', 
-    #     'Asia/Barnaul', 
-    #     'Asia/Tomsk', 
-    #     'Asia/Novokuznetsk', 
-    #     'Asia/Krasnoyarsk', 
-    #     'Asia/Irkutsk', 
-    #     'Asia/Chita', 
-    #     'Asia/Yakutsk', 
-    #     'Asia/Khandyga', 
-    #     'Asia/Vladivostok', 
-    #     'Asia/Ust-Nera', 
-    #     'Asia/Magadan', 
-    #     'Asia/Sakhalin', 
-    #     'Asia/Srednekolymsk', 
-    #     'Asia/Kamchatka', 
-    #     'Asia/Anadyr'
+    KALININGRAD = 'Europe/Kaliningrad'
+    MOSCOW = 'Europe/Moscow'
+    KIROV = 'Europe/Kirov'
+    VOLGOGRAD = 'Europe/Volgograd'
+    ASTRAKHAN = 'Europe/Astrakhan'
+    SARATOV = 'Europe/Saratov'
+    ULYANOVSK = 'Europe/Ulyanovsk'
+    SAMARA = 'Europe/Samara'
+    YEKATERINBURG = 'Asia/Yekaterinburg'
+    OMSK = 'Asia/Omsk'
+    NOVOSIBIRSK = 'Asia/Novosibirsk'
+    BARNAUL = 'Asia/Barnaul'
+    TOMSK = 'Asia/Tomsk'
+    NOVOKUZNETSK = 'Asia/Novokuznetsk'
+    KRASNOYARSK = 'Asia/Krasnoyarsk'
+    IRKUTSK = 'Asia/Irkutsk'
+    CHITA = 'Asia/Chita'
+    YAKUTSK = 'Asia/Yakutsk'
+    KHANDYGA = 'Asia/Khandyga'
+    VLADIVOSTOK = 'Asia/Vladivostok'
+    UST_NERA = 'Asia/Ust-Nera'
+    MAGADAN = 'Asia/Magadan'
+    SAKHALIN = 'Asia/Sakhalin'
+    SREDNEKOLYMSK = 'Asia/Srednekolymsk'
+    KAMCHATKA = 'Asia/Kamchatka'
+    ANADYR = 'Asia/Anadyr'
+    TIMEZONE_CHOICES = [
+        (KALININGRAD, 'Калининград'),
+        (MOSCOW, 'Москва'),
+        (KIROV, 'Киров'),
+        (VOLGOGRAD, 'Волгоград'),
+        (ASTRAKHAN, 'Астрахань'),
+        (SARATOV, 'Саратов'),
+        (ULYANOVSK, 'Ульяновск'),
+        (SAMARA, 'Самара'),
+        (YEKATERINBURG, 'Екатеринбург'),
+        (OMSK, 'Омск'),
+        (NOVOSIBIRSK, 'Новосибирск'),
+        (BARNAUL, 'Барнаул'),
+        (TOMSK, 'Томск'),
+        (NOVOKUZNETSK, 'Новокузнецк'),
+        (KRASNOYARSK, 'Красноярск'),
+        (IRKUTSK, 'Иркутск'),
+        (CHITA, 'Чита'),
+        (YAKUTSK, 'Якутск'),
+        (KHANDYGA, 'Хандыга'),
+        (VLADIVOSTOK, 'Владивосток'),
+        (UST_NERA, 'Усть-Нера'),
+        (MAGADAN, 'Магадан'),
+        (SAKHALIN, 'Сахалин'),
+        (SREDNEKOLYMSK, 'Среднеколымск'),
+        (KAMCHATKA, 'Камчатка'),
+        (ANADYR, 'Анадырь')
+    ]
     name = models.CharField(
         max_length=30,
         verbose_name='Город',
@@ -40,7 +66,12 @@ class City(models.Model):
         verbose_name='Приоритет вывода',
         help_text='Укажите, если город должен иметь приоритетный вывод'
     )
-    # time_zone = BooleanField
+    timeZone = models.CharField(
+        max_length=50,
+        choices=TIMEZONE_CHOICES,
+        default=MOSCOW,
+        verbose_name="Часовой пояс"
+    )
 
     class Meta:
         verbose_name = 'Город'
