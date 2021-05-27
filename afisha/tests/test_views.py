@@ -1,5 +1,6 @@
 from rest_framework.test import APIClient
 from rest_framework.test import APITestCase
+from django.urls import reverse
 
 from common.factories import CityFactory
 from users.factories import UserFactory
@@ -22,6 +23,11 @@ class ViewAfishaTests(APITestCase):
             profile__city=cls.city,
         )
         cls.unauthorized_client = APIClient()
+
+        cls.path_events = reverse(
+            "events-participants",
+            
+        )
 
     def return_authorized_user_client(self, user):
         authorized_client = APIClient()

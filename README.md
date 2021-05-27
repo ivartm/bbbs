@@ -38,6 +38,16 @@ make build-static
 make fill-db
 ```
 
+Создать и применить миграции, без заполнения данными
+```shell
+make migrate
+```
+
+Создать суперпользователя:
+```shell
+make createsuperuser
+```
+
 Запуск shell plus (должен быть установлен)
 
 ```shell
