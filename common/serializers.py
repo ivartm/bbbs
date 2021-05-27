@@ -1,9 +1,11 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, BooleanField
 
 from .models import City
 
 
 class CitySerializer(ModelSerializer):
+    isPrimary = BooleanField(source="is_primary")
+
     class Meta:
         model = City
-        fields = '__all__'
+        fields = "id", "name", "isPrimary"
