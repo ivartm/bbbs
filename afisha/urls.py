@@ -1,14 +1,15 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from afisha.views import EventParticipantViewSet, EventViewSet
+from afisha.views import (
+    EventParticipantViewSet,
+    EventViewSet,
+)
 
 router = DefaultRouter()
 router.register(
-    # "afisha",
     "event-participants",
     EventParticipantViewSet,
-    # EventViewSet,
     basename="event-participants",
 )
 
