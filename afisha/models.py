@@ -57,6 +57,10 @@ class Event(models.Model):
             raise ValidationError({
                 "start_at": "Время начала не может быть меньше текущего"
             })
+        if self.seats < 1:
+            raise ValidationError({
+                "seats": "Число мест должно быть больше нуля"
+            })
 
 
 class EventParticipant(models.Model):
