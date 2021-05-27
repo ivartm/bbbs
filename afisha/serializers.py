@@ -29,8 +29,8 @@ class EventParticipantSerializer(serializers.ModelSerializer):
         lookup_field = "event"
 
     def validate(self, data):
-        event = data["event"]
-        request = self.context["request"]
+        event = data.get("event")
+        request = self.context.get("request")
         user = request.user
         profile = Profile.objects.get(user=user)
         taken_seats = EventParticipant.objects.filter(event=event).count()
@@ -45,7 +45,7 @@ class EventParticipantSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     {"message": "Мероприятие уже закончилось."}
                 )
-            if taken_seats > seats:
+            if taken_seats >= seats:
                 raise serializers.ValidationError(
                     {"message": "Извините, мест больше нет."}
                 )
