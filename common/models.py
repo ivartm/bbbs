@@ -6,6 +6,7 @@ class City(models.Model):
         max_length=30,
         verbose_name='Город',
         help_text='Введите город',
+        unique=True,
     )
     is_primary = models.BooleanField(
         default=False,
