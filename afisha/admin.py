@@ -28,8 +28,8 @@ class EventAdmin(admin.ModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         if request.user.profile.is_moderator_reg:
-            form.base_fields['city'].disabled = True
-        form.base_fields['city'].initial = request.user.profile.city
+            form.base_fields["city"].disabled = True
+        form.base_fields["city"].initial = request.user.profile.city
         return form
 
     def has_add_permission(self, request):

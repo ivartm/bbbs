@@ -5,6 +5,7 @@ from users.models import Profile
 
 
 class CitySerializer(ModelSerializer):
+
     class Meta:
         model = City
         fields = '__all__'
@@ -13,5 +14,5 @@ class CitySerializer(ModelSerializer):
 class MyCitySerializer(ModelSerializer):
     class Meta:
         model = Profile
-        fields = ("id", "city")
+        fields = "id", "city"
         lookup_field = "city"

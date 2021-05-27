@@ -1,4 +1,5 @@
 from django.db.models import Count
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.mixins import (
     CreateModelMixin,
@@ -11,7 +12,6 @@ from rest_framework.viewsets import GenericViewSet
 from afisha.models import Event, EventParticipant
 from afisha.serializers import EventParticipantSerializer, EventSerializer
 from users.models import Profile
-from django.shortcuts import get_object_or_404
 
 
 class CrudToEventParticipantViewSet(
@@ -41,7 +41,7 @@ class EventViewSet(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        profile = get_object_or_404(Profile, user=self.request.user)
+        profile = get_object_or_404(Profile, user_id=self.request.user.id)
         queryset = (
             Event.objects.filter(city=profile.city)
             .annotate(taken_seats=(Count("eventparticipants")))

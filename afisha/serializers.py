@@ -1,5 +1,5 @@
-from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from rest_framework import serializers
 
 from afisha.models import Event, EventParticipant
@@ -31,8 +31,8 @@ class EventParticipantSerializer(serializers.ModelSerializer):
         lookup_field = "event"
 
     def validate(self, data):
-        event = data["event"]
-        request = self.context["request"]
+        event = data.get("event")
+        request = self.context.get("request")
         user = request.user
         profile = get_object_or_404(Profile, user=user)
         takenSeats = EventParticipant.objects.filter(event=event).count()
@@ -47,7 +47,7 @@ class EventParticipantSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     {"message": "Мероприятие уже закончилось."}
                 )
-            if takenSeats > seats:
+            if takenSeats >= seats:
                 raise serializers.ValidationError(
                     {"message": "Извините, мест больше нет."}
                 )

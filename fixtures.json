@@ -1,1 +1,1529 @@
-[{"model": "admin.logentry", "pk": 1, "fields": {"action_time": "2021-05-22T19:07:13.118Z", "user": 1, "content_type": 8, "object_id": "1", "object_repr": "Москва", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 2, "fields": {"action_time": "2021-05-22T19:07:18.299Z", "user": 1, "content_type": 8, "object_id": "1", "object_repr": "Москва", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"\\u041f\\u0440\\u0438\\u043e\\u0440\\u0438\\u0442\\u0435\\u0442 \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"}}, {"model": "admin.logentry", "pk": 3, "fields": {"action_time": "2021-05-22T19:07:34.370Z", "user": 1, "content_type": 8, "object_id": "2", "object_repr": "Санкт-Петербург", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 4, "fields": {"action_time": "2021-05-22T19:07:42.514Z", "user": 1, "content_type": 8, "object_id": "3", "object_repr": "Чебоксары", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 5, "fields": {"action_time": "2021-05-22T19:07:50.243Z", "user": 1, "content_type": 8, "object_id": "4", "object_repr": "Железногорск", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 6, "fields": {"action_time": "2021-05-22T19:07:55.575Z", "user": 1, "content_type": 8, "object_id": "5", "object_repr": "Казань", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 7, "fields": {"action_time": "2021-05-22T19:08:18.267Z", "user": 1, "content_type": 8, "object_id": "6", "object_repr": "Астрахань", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 8, "fields": {"action_time": "2021-05-22T19:08:24.059Z", "user": 1, "content_type": 8, "object_id": "7", "object_repr": "Волгоград", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 9, "fields": {"action_time": "2021-05-22T19:13:09.658Z", "user": 1, "content_type": 4, "object_id": "1", "object_repr": "admin", "action_flag": 2, "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"Role\", \"City\"]}}]"}}, {"model": "admin.logentry", "pk": 10, "fields": {"action_time": "2021-05-22T19:14:22.750Z", "user": 1, "content_type": 4, "object_id": "2", "object_repr": "moderator_regional", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 11, "fields": {"action_time": "2021-05-22T19:15:54.842Z", "user": 1, "content_type": 4, "object_id": "2", "object_repr": "moderator_regional", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Email address\", \"Staff status\"]}}, {\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"}}, {"model": "admin.logentry", "pk": 12, "fields": {"action_time": "2021-05-22T19:16:08.594Z", "user": 1, "content_type": 4, "object_id": "2", "object_repr": "moderator_regional", "action_flag": 2, "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"}}, {"model": "admin.logentry", "pk": 13, "fields": {"action_time": "2021-05-22T19:16:43.784Z", "user": 1, "content_type": 4, "object_id": "3", "object_repr": "moderator_general", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 14, "fields": {"action_time": "2021-05-22T19:16:52.383Z", "user": 1, "content_type": 4, "object_id": "3", "object_repr": "moderator_general", "action_flag": 2, "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"}}, {"model": "admin.logentry", "pk": 15, "fields": {"action_time": "2021-05-22T19:18:56.346Z", "user": 1, "content_type": 4, "object_id": "3", "object_repr": "moderator_general", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Staff status\"]}}]"}}, {"model": "admin.logentry", "pk": 16, "fields": {"action_time": "2021-05-22T19:20:29.454Z", "user": 1, "content_type": 4, "object_id": "3", "object_repr": "moderator_general", "action_flag": 2, "change_message": "[]"}}, {"model": "admin.logentry", "pk": 17, "fields": {"action_time": "2021-05-22T19:21:01.898Z", "user": 1, "content_type": 4, "object_id": "4", "object_repr": "moderator_regional1", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 18, "fields": {"action_time": "2021-05-22T19:21:08.547Z", "user": 1, "content_type": 4, "object_id": "4", "object_repr": "moderator_regional1", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Staff status\"]}}, {\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"}}, {"model": "admin.logentry", "pk": 19, "fields": {"action_time": "2021-05-22T19:21:38.267Z", "user": 1, "content_type": 4, "object_id": "5", "object_repr": "moderator_regional2", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 20, "fields": {"action_time": "2021-05-22T19:21:57.153Z", "user": 1, "content_type": 4, "object_id": "5", "object_repr": "moderator_regional2", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Staff status\"]}}, {\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"}}, {"model": "admin.logentry", "pk": 21, "fields": {"action_time": "2021-05-22T19:23:13.524Z", "user": 1, "content_type": 4, "object_id": "6", "object_repr": "mentor", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 22, "fields": {"action_time": "2021-05-22T19:23:53.505Z", "user": 1, "content_type": 4, "object_id": "6", "object_repr": "mentor", "action_flag": 2, "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"}}, {"model": "admin.logentry", "pk": 23, "fields": {"action_time": "2021-05-22T19:24:32.619Z", "user": 1, "content_type": 4, "object_id": "7", "object_repr": "mentor2", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 24, "fields": {"action_time": "2021-05-22T19:24:53.088Z", "user": 1, "content_type": 4, "object_id": "7", "object_repr": "mentor2", "action_flag": 2, "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"}}, {"model": "admin.logentry", "pk": 25, "fields": {"action_time": "2021-05-22T19:25:05.750Z", "user": 1, "content_type": 4, "object_id": "3", "object_repr": "moderator_general", "action_flag": 2, "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"Role\"]}}]"}}, {"model": "admin.logentry", "pk": 26, "fields": {"action_time": "2021-05-22T19:25:13.428Z", "user": 1, "content_type": 4, "object_id": "2", "object_repr": "moderator_regional", "action_flag": 2, "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"Role\"]}}]"}}, {"model": "admin.logentry", "pk": 27, "fields": {"action_time": "2021-05-22T19:25:24.212Z", "user": 1, "content_type": 4, "object_id": "4", "object_repr": "moderator_regional1", "action_flag": 2, "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"Role\"]}}]"}}, {"model": "admin.logentry", "pk": 28, "fields": {"action_time": "2021-05-22T19:25:36.462Z", "user": 1, "content_type": 4, "object_id": "4", "object_repr": "moderator_regional1", "action_flag": 2, "change_message": "[]"}}, {"model": "admin.logentry", "pk": 29, "fields": {"action_time": "2021-05-22T19:25:43.729Z", "user": 1, "content_type": 4, "object_id": "5", "object_repr": "moderator_regional2", "action_flag": 2, "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"Role\"]}}]"}}, {"model": "admin.logentry", "pk": 30, "fields": {"action_time": "2021-05-22T19:26:34.131Z", "user": 1, "content_type": 4, "object_id": "8", "object_repr": "mentor3", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 31, "fields": {"action_time": "2021-05-22T19:26:43.895Z", "user": 1, "content_type": 4, "object_id": "8", "object_repr": "mentor3", "action_flag": 2, "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"}}, {"model": "admin.logentry", "pk": 32, "fields": {"action_time": "2021-05-22T20:17:50.678Z", "user": 1, "content_type": 9, "object_id": "1", "object_repr": "Субботний meet up: учимся проходить интевью", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 33, "fields": {"action_time": "2021-05-22T20:23:03.566Z", "user": 1, "content_type": 9, "object_id": "2", "object_repr": "Фестиваль электротранспорта Electrofest", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 34, "fields": {"action_time": "2021-05-22T20:27:33.083Z", "user": 1, "content_type": 9, "object_id": "3", "object_repr": "Выставка «Клод Моне. Гений импрессионизма»", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 35, "fields": {"action_time": "2021-05-22T20:29:03.630Z", "user": 1, "content_type": 9, "object_id": "4", "object_repr": "Выставка «Стефано Бомбардьери. Мальчик и слон»", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 36, "fields": {"action_time": "2021-05-22T20:30:06.798Z", "user": 1, "content_type": 9, "object_id": "5", "object_repr": "Музей Эмоций", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 37, "fields": {"action_time": "2021-05-22T20:30:15.523Z", "user": 1, "content_type": 9, "object_id": "5", "object_repr": "Музей Эмоций", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"City\"]}}]"}}, {"model": "admin.logentry", "pk": 38, "fields": {"action_time": "2021-05-22T20:32:51.619Z", "user": 1, "content_type": 9, "object_id": "6", "object_repr": "Вечер одноактных балетов. «Не дай мне уйти», «Барокко»", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 39, "fields": {"action_time": "2021-05-22T20:33:59.315Z", "user": 1, "content_type": 9, "object_id": "7", "object_repr": "инверсия", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 40, "fields": {"action_time": "2021-05-22T20:36:35.893Z", "user": 1, "content_type": 9, "object_id": "8", "object_repr": "Юбилейный концерт коллектива «Уяв»", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 41, "fields": {"action_time": "2021-05-22T20:39:40.367Z", "user": 1, "content_type": 9, "object_id": "9", "object_repr": "Выставка работ участников  девятого городского конкурса", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 42, "fields": {"action_time": "2021-05-22T20:40:38.469Z", "user": 1, "content_type": 9, "object_id": "10", "object_repr": "III городской открытый творческий фестиваль", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 43, "fields": {"action_time": "2021-05-22T20:41:57.014Z", "user": 1, "content_type": 9, "object_id": "11", "object_repr": "«Семья – гордость моя!»", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 44, "fields": {"action_time": "2021-05-22T20:42:35.375Z", "user": 1, "content_type": 10, "object_id": "1", "object_repr": "EventParticipant object (1)", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 45, "fields": {"action_time": "2021-05-22T20:42:44.760Z", "user": 1, "content_type": 10, "object_id": "1", "object_repr": "EventParticipant object (1)", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Event\"]}}]"}}, {"model": "admin.logentry", "pk": 46, "fields": {"action_time": "2021-05-22T20:42:53.360Z", "user": 1, "content_type": 10, "object_id": "1", "object_repr": "EventParticipant object (1)", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"User\"]}}]"}}, {"model": "admin.logentry", "pk": 47, "fields": {"action_time": "2021-05-22T20:43:01.320Z", "user": 1, "content_type": 10, "object_id": "1", "object_repr": "EventParticipant object (1)", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"User\"]}}]"}}, {"model": "admin.logentry", "pk": 48, "fields": {"action_time": "2021-05-22T20:43:08.553Z", "user": 1, "content_type": 10, "object_id": "1", "object_repr": "EventParticipant object (1)", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"User\"]}}]"}}, {"model": "admin.logentry", "pk": 49, "fields": {"action_time": "2021-05-22T20:44:03.777Z", "user": 1, "content_type": 10, "object_id": "2", "object_repr": "EventParticipant object (2)", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "auth.permission", "pk": 1, "fields": {"name": "Can add log entry", "content_type": 1, "codename": "add_logentry"}}, {"model": "auth.permission", "pk": 2, "fields": {"name": "Can change log entry", "content_type": 1, "codename": "change_logentry"}}, {"model": "auth.permission", "pk": 3, "fields": {"name": "Can delete log entry", "content_type": 1, "codename": "delete_logentry"}}, {"model": "auth.permission", "pk": 4, "fields": {"name": "Can view log entry", "content_type": 1, "codename": "view_logentry"}}, {"model": "auth.permission", "pk": 5, "fields": {"name": "Can add permission", "content_type": 2, "codename": "add_permission"}}, {"model": "auth.permission", "pk": 6, "fields": {"name": "Can change permission", "content_type": 2, "codename": "change_permission"}}, {"model": "auth.permission", "pk": 7, "fields": {"name": "Can delete permission", "content_type": 2, "codename": "delete_permission"}}, {"model": "auth.permission", "pk": 8, "fields": {"name": "Can view permission", "content_type": 2, "codename": "view_permission"}}, {"model": "auth.permission", "pk": 9, "fields": {"name": "Can add group", "content_type": 3, "codename": "add_group"}}, {"model": "auth.permission", "pk": 10, "fields": {"name": "Can change group", "content_type": 3, "codename": "change_group"}}, {"model": "auth.permission", "pk": 11, "fields": {"name": "Can delete group", "content_type": 3, "codename": "delete_group"}}, {"model": "auth.permission", "pk": 12, "fields": {"name": "Can view group", "content_type": 3, "codename": "view_group"}}, {"model": "auth.permission", "pk": 13, "fields": {"name": "Can add user", "content_type": 4, "codename": "add_user"}}, {"model": "auth.permission", "pk": 14, "fields": {"name": "Can change user", "content_type": 4, "codename": "change_user"}}, {"model": "auth.permission", "pk": 15, "fields": {"name": "Can delete user", "content_type": 4, "codename": "delete_user"}}, {"model": "auth.permission", "pk": 16, "fields": {"name": "Can view user", "content_type": 4, "codename": "view_user"}}, {"model": "auth.permission", "pk": 17, "fields": {"name": "Can add content type", "content_type": 5, "codename": "add_contenttype"}}, {"model": "auth.permission", "pk": 18, "fields": {"name": "Can change content type", "content_type": 5, "codename": "change_contenttype"}}, {"model": "auth.permission", "pk": 19, "fields": {"name": "Can delete content type", "content_type": 5, "codename": "delete_contenttype"}}, {"model": "auth.permission", "pk": 20, "fields": {"name": "Can view content type", "content_type": 5, "codename": "view_contenttype"}}, {"model": "auth.permission", "pk": 21, "fields": {"name": "Can add session", "content_type": 6, "codename": "add_session"}}, {"model": "auth.permission", "pk": 22, "fields": {"name": "Can change session", "content_type": 6, "codename": "change_session"}}, {"model": "auth.permission", "pk": 23, "fields": {"name": "Can delete session", "content_type": 6, "codename": "delete_session"}}, {"model": "auth.permission", "pk": 24, "fields": {"name": "Can view session", "content_type": 6, "codename": "view_session"}}, {"model": "auth.permission", "pk": 25, "fields": {"name": "Can add Профиль", "content_type": 7, "codename": "add_profile"}}, {"model": "auth.permission", "pk": 26, "fields": {"name": "Can change Профиль", "content_type": 7, "codename": "change_profile"}}, {"model": "auth.permission", "pk": 27, "fields": {"name": "Can delete Профиль", "content_type": 7, "codename": "delete_profile"}}, {"model": "auth.permission", "pk": 28, "fields": {"name": "Can view Профиль", "content_type": 7, "codename": "view_profile"}}, {"model": "auth.permission", "pk": 29, "fields": {"name": "Can add Город", "content_type": 8, "codename": "add_city"}}, {"model": "auth.permission", "pk": 30, "fields": {"name": "Can change Город", "content_type": 8, "codename": "change_city"}}, {"model": "auth.permission", "pk": 31, "fields": {"name": "Can delete Город", "content_type": 8, "codename": "delete_city"}}, {"model": "auth.permission", "pk": 32, "fields": {"name": "Can view Город", "content_type": 8, "codename": "view_city"}}, {"model": "auth.permission", "pk": 33, "fields": {"name": "Can add Событие", "content_type": 9, "codename": "add_event"}}, {"model": "auth.permission", "pk": 34, "fields": {"name": "Can change Событие", "content_type": 9, "codename": "change_event"}}, {"model": "auth.permission", "pk": 35, "fields": {"name": "Can delete Событие", "content_type": 9, "codename": "delete_event"}}, {"model": "auth.permission", "pk": 36, "fields": {"name": "Can view Событие", "content_type": 9, "codename": "view_event"}}, {"model": "auth.permission", "pk": 37, "fields": {"name": "Can add Участник", "content_type": 10, "codename": "add_eventparticipant"}}, {"model": "auth.permission", "pk": 38, "fields": {"name": "Can change Участник", "content_type": 10, "codename": "change_eventparticipant"}}, {"model": "auth.permission", "pk": 39, "fields": {"name": "Can delete Участник", "content_type": 10, "codename": "delete_eventparticipant"}}, {"model": "auth.permission", "pk": 40, "fields": {"name": "Can view Участник", "content_type": 10, "codename": "view_eventparticipant"}}, {"model": "auth.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$260000$OAD0EmB9Y2sVneFJxOuust$LcjilHqlTL9PYkwjYpb7VWeYIcjZ9l/jXywiU2VNn/Y=", "last_login": "2021-05-22T19:05:25.899Z", "is_superuser": true, "username": "admin", "first_name": "", "last_name": "", "email": "admin@admin.ru", "is_staff": true, "is_active": true, "date_joined": "2021-05-21T05:10:25.024Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "pk": 2, "fields": {"password": "pbkdf2_sha256$260000$dbohHfOpEl9uCzmPp18lLd$+n4oz0T1lUB4RDopalflN8B5kGCdBdOe6j2NV/xKCkU=", "last_login": null, "is_superuser": false, "username": "moderator_regional", "first_name": "", "last_name": "", "email": "chel@chel.ru", "is_staff": true, "is_active": true, "date_joined": "2021-05-22T19:14:22Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "pk": 3, "fields": {"password": "pbkdf2_sha256$260000$qTjwY0tBGrSf6A9X2Dv6Y9$ZQkv342buRmwijQXdxpGVdW+GA+uiakoUrqTLo0cwyk=", "last_login": null, "is_superuser": false, "username": "moderator_general", "first_name": "", "last_name": "", "email": "", "is_staff": true, "is_active": true, "date_joined": "2021-05-22T19:16:43Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "pk": 4, "fields": {"password": "pbkdf2_sha256$260000$9k0EMJY6eEiRj7d4mWAVgl$dKu5+5Rmyv+YfFfrFazHlc3clQDMTBZiMztfBlWotDI=", "last_login": null, "is_superuser": false, "username": "moderator_regional1", "first_name": "", "last_name": "", "email": "", "is_staff": true, "is_active": true, "date_joined": "2021-05-22T19:21:01Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "pk": 5, "fields": {"password": "pbkdf2_sha256$260000$Xqwedvxp2MjgVoa0QqOyFP$GjOemruSO4cHYVyX6YB3rePRz+vhxMh95K/R8gOSf9w=", "last_login": null, "is_superuser": false, "username": "moderator_regional2", "first_name": "", "last_name": "", "email": "", "is_staff": true, "is_active": true, "date_joined": "2021-05-22T19:21:38Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "pk": 6, "fields": {"password": "pbkdf2_sha256$260000$V1uQ1CL6Tt8AJZnXKofrZ4$5YMMBQO5QOxG7xi4xyxGW5NF4D2sB7NSzt+AoM949zc=", "last_login": null, "is_superuser": false, "username": "mentor", "first_name": "", "last_name": "", "email": "", "is_staff": false, "is_active": true, "date_joined": "2021-05-22T19:23:13Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "pk": 7, "fields": {"password": "pbkdf2_sha256$260000$JUpjwA2ADlUAdx8EDnZFUw$NYNhNNFfIWFWpgoTG2wsWFId0GI4S3w4ouKVrhLmCd0=", "last_login": null, "is_superuser": false, "username": "mentor2", "first_name": "", "last_name": "", "email": "", "is_staff": false, "is_active": true, "date_joined": "2021-05-22T19:24:32Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "pk": 8, "fields": {"password": "pbkdf2_sha256$260000$7K0l2nqDzFI8WmNhF6bqKG$dAurNK6iPze7o9NqLhvioXhTvD7iCKrrp30YPxHsrOc=", "last_login": null, "is_superuser": false, "username": "mentor3", "first_name": "", "last_name": "", "email": "", "is_staff": false, "is_active": true, "date_joined": "2021-05-22T19:26:33Z", "groups": [], "user_permissions": []}}, {"model": "contenttypes.contenttype", "pk": 1, "fields": {"app_label": "admin", "model": "logentry"}}, {"model": "contenttypes.contenttype", "pk": 2, "fields": {"app_label": "auth", "model": "permission"}}, {"model": "contenttypes.contenttype", "pk": 3, "fields": {"app_label": "auth", "model": "group"}}, {"model": "contenttypes.contenttype", "pk": 4, "fields": {"app_label": "auth", "model": "user"}}, {"model": "contenttypes.contenttype", "pk": 5, "fields": {"app_label": "contenttypes", "model": "contenttype"}}, {"model": "contenttypes.contenttype", "pk": 6, "fields": {"app_label": "sessions", "model": "session"}}, {"model": "contenttypes.contenttype", "pk": 7, "fields": {"app_label": "users", "model": "profile"}}, {"model": "contenttypes.contenttype", "pk": 8, "fields": {"app_label": "common", "model": "city"}}, {"model": "contenttypes.contenttype", "pk": 9, "fields": {"app_label": "afisha", "model": "event"}}, {"model": "contenttypes.contenttype", "pk": 10, "fields": {"app_label": "afisha", "model": "eventparticipant"}}, {"model": "sessions.session", "pk": "n5x1rbhnne054o86d2fbmcem6cicdnvj", "fields": {"session_data": ".eJxVjDsOwjAQBe_iGll24k9CSZ8zWLveNQ4gW4qTCnF3EikFtG9m3lsE2NYctsZLmElchRaX3w0hPrkcgB5Q7lXGWtZlRnko8qRNTpX4dTvdv4MMLe-11WnwTvVEluzoY9LorcEelNEJCZU3g9NOMyfYeYowOobUsY1ooLPi8wXkBThl:1lkWw9:CIiyna1JQ4M78puEuC0xJEYh8Q8IyiQ3zZLjJijcGO0", "expire_date": "2021-06-05T19:05:25.904Z"}}, {"model": "users.profile", "pk": 1, "fields": {"user": 1, "city": 1, "role": "admin"}}, {"model": "users.profile", "pk": 2, "fields": {"user": 2, "city": 3, "role": "moderator_regional"}}, {"model": "users.profile", "pk": 3, "fields": {"user": 3, "city": 1, "role": "moderator_general"}}, {"model": "users.profile", "pk": 4, "fields": {"user": 4, "city": 4, "role": "moderator_regional"}}, {"model": "users.profile", "pk": 5, "fields": {"user": 5, "city": 5, "role": "moderator_regional"}}, {"model": "users.profile", "pk": 6, "fields": {"user": 6, "city": 1, "role": "mentor"}}, {"model": "users.profile", "pk": 7, "fields": {"user": 7, "city": 3, "role": "mentor"}}, {"model": "users.profile", "pk": 8, "fields": {"user": 8, "city": 4, "role": "mentor"}}, {"model": "common.city", "pk": 1, "fields": {"name": "Москва", "is_primary": true}}, {"model": "common.city", "pk": 2, "fields": {"name": "Санкт-Петербург", "is_primary": true}}, {"model": "common.city", "pk": 3, "fields": {"name": "Чебоксары", "is_primary": false}}, {"model": "common.city", "pk": 4, "fields": {"name": "Железногорск", "is_primary": false}}, {"model": "common.city", "pk": 5, "fields": {"name": "Казань", "is_primary": false}}, {"model": "common.city", "pk": 6, "fields": {"name": "Астрахань", "is_primary": false}}, {"model": "common.city", "pk": 7, "fields": {"name": "Волгоград", "is_primary": false}}, {"model": "afisha.event", "pk": 1, "fields": {"address": "Садовническая наб., д. 77 стр. 1 (офис компании Ernst&Young", "contact": "Александра, +7 926 356-78-90", "title": "Субботний meet up: учимся проходить интевью", "description": "Наконец-то наступила весна и мы пережили эту долгую зиму! И возможно, что внутренних сил и ресурса сейчас не так много, а до окончания учебного года ещё целых несколько месяцев. Поэтому приглашаем вас на встречу нашего ресурсного клуба \\\"Наставник PRO\\\", которую мы хотим посвятить теме поиска моральных сил, смыслов и внутреннего ресурса для общения и взаимодействия с нашими подопечными.", "start_at": "2021-05-01T06:00:00Z", "end_at": "2021-05-17T00:00:00Z", "seats": 10, "city": 1}}, {"model": "afisha.event", "pk": 2, "fields": {"address": "станция МЦД-2 «Курьяново", "contact": "+74-305924525", "title": "Фестиваль электротранспорта Electrofest", "description": "В 2021 году уже не получится просто взять и закрыть глаза на проблемы экологии. Электротранспорт становится всё популярнее, а главное, доступнее: уже никого не удивит, если сосед, например, поедет на работу на электросамокате. Большой электрический праздник для ценителей и профи пройдёт в конце мая в центре технических видов спорта «Москва».\r\n\r\nИсточник: https://kudago.com/msk/event/festival-festival-elektrotransporta-electrofest/", "start_at": "2021-05-10T00:00:00Z", "end_at": "2021-05-22T12:00:00Z", "seats": 3, "city": 1}}, {"model": "afisha.event", "pk": 3, "fields": {"address": "Сад имени Баумана", "contact": "+70-025882", "title": "Выставка «Клод Моне. Гений импрессионизма»", "description": "Клод Моне принёс в живопись свет и воздух, а его художественные принципы дали начало импрессионизму. Увидеть работы мэтра можно на выставке в саду имени Баумана.", "start_at": "2021-05-10T00:00:00Z", "end_at": "2021-06-05T18:00:00Z", "seats": 100, "city": 1}}, {"model": "afisha.event", "pk": 4, "fields": {"address": "Василеостровская, Приморская, Спортивная", "contact": "+708-52627092", "title": "Выставка «Стефано Бомбардьери. Мальчик и слон»", "description": "Музей Эрарта приглашает взглянуть на работы итальянского скульптора Стефано Бомбардьери, посмотреть на мир детскими глазами, а заодно — задуматься о фундаментальных вопросах бытия.\r\n\r\nИсточник: https://kudago.com/spb/event/vyistavka-stefano-bombarderi-malchik-i-slon/", "start_at": "2021-05-25T20:28:50Z", "end_at": "2021-07-09T20:28:56Z", "seats": 50, "city": 2}}, {"model": "afisha.event", "pk": 5, "fields": {"address": "ул. Итальянская, д. 1 (перекресток с наб. канала Грибоедова)", "contact": "+7092-02342", "title": "Музей Эмоций", "description": "Создатель музея, художник Алексей Сергиенко, уверен: искусство должно вызывать чувства. Арт-объекты, видео и инсталляции — всё, что вы увидите в Музее Эмоций, заставляет посетителей проживать определённые душевные состояния и помогает изучать собственные эмоциональные реакции.\r\n\r\nИсточник: https://kudago.com/spb/place/interesnoe-mesto-muzej-emotsij/", "start_at": "2021-06-05T20:29:51Z", "end_at": "2021-06-30T20:29:58Z", "seats": 30, "city": 2}}, {"model": "afisha.event", "pk": 6, "fields": {"address": "Чувашский Государственный Театр Оперы и Балета Московский пр-кт, д 1", "contact": "+99234241", "title": "Вечер одноактных балетов. «Не дай мне уйти», «Барокко»", "description": "Жителей столицы ждут потрясающие премьеры: одноактные балеты \"Не дай мне уйти\" и \"Барокко\". Эти постановки готовят два совершенно разных по стилю, но одинаково талантливых балетмейстера-постановщика. Солист Большого театра - заслуженный артист России Андрей Меркурьев является неизменных гостем балетного фестиваля. В этом году, впервые на нашей сцене, он выступит в качестве хореографа. И, конечно, фестиваль не может обойтись без премьерного спектакля художественного руководителя балетной труппы - лауреата международных конкурсов Данила Салимбаева", "start_at": "2021-05-11T00:00:00Z", "end_at": "2021-05-22T00:00:00Z", "seats": 300, "city": 3}}, {"model": "afisha.event", "pk": 7, "fields": {"address": "Чебоксары, ул. Водопроводная 9/77", "contact": "+720412094", "title": "инверсия", "description": "ИНВЕРСИЯ - оффлайн мероприятие, которое в ускоренном игровом формате поможет тебе разобраться, что такое социальные проекты, как их развивать, как набирать команду и находить ресурсы для реализации проектов", "start_at": "2021-05-12T06:00:00Z", "end_at": "2021-05-18T12:00:00Z", "seats": 100, "city": 3}}, {"model": "afisha.event", "pk": 8, "fields": {"address": "ДК «Ухсая»", "contact": "8(8352) 23-04-66", "title": "Юбилейный концерт коллектива «Уяв»", "description": "Юбиляры приглашают дорогих гостей на праздничный концерт, где так же примут участие лучшие творческие коллективы города Чебоксары и Чувашской Республики! Руководитель – Козлова Зинаида Алексеевна, заслуженный работник культуры Российской Федерации и Чувашской Республики, Лауреат премии Правительства России «Душа России». Погрузиться в мир музыкально-песенного и обрядового фольклора можно будет 25 мая в 18:30 в ДК «Ухсая». Вас ждет праздник души и сердца, посвященный 35-летию заслуженного коллектива народного творчества Российской Федерации, народного фольклорного ансамбля «Уяв»! Концертная программа обещает быть насыщенной и яркой! Участники праздника подарят зрителям незабываемые впечатления и позитивные эмоции!", "start_at": "2021-06-01T12:00:00Z", "end_at": "2021-06-06T18:00:00Z", "seats": 80, "city": 3}}, {"model": "afisha.event", "pk": 9, "fields": {"address": "Культурный центр «АРТ»", "contact": "+7325235346", "title": "Выставка работ участников  девятого городского конкурса", "description": "Выставка работ участников\r\n\r\nдевятого городского конкурса\r\n\r\nдетского патриотического рисунка\r\n\r\n«Правнуки Победы - 2021»,\r\n\r\nпосвященного 76-й годовщине Победы\r\n\r\nв Великой Отечественной войне,\r\n\r\nсреди воспитанников муниципальных\r\n\r\nдошкольных образовательных учреждений", "start_at": "2021-05-13T06:00:00Z", "end_at": "2021-05-27T12:00:00Z", "seats": 423, "city": 4}}, {"model": "afisha.event", "pk": 10, "fields": {"address": "Летняя площадка культурного центра «Горница»", "contact": "+87543479", "title": "III городской открытый творческий фестиваль", "description": "III городской открытый творческий фестиваль\r\n\r\n«Живая нить русского слова»,\r\n\r\nпосвященный Дню славянской письменности и культуры", "start_at": "2021-06-02T06:00:00Z", "end_at": "2021-06-06T06:00:00Z", "seats": 130, "city": 4}}, {"model": "afisha.event", "pk": 11, "fields": {"address": "Парк культуры и отдыха им.Никитина  (площадка  у фонтана «Радуга»)", "contact": "+7298423-05", "title": "«Семья – гордость моя!»", "description": "«Семья – гордость моя!»\r\n\r\nконцертно-развлекательная программа, посвященная\r\n\r\nМеждународному дню семьи,\r\n\r\nдля детей", "start_at": "2021-06-01T12:00:00Z", "end_at": "2021-06-30T12:00:00Z", "seats": 550, "city": 4}}, {"model": "afisha.eventparticipant", "pk": 1, "fields": {"user": 2, "event": 1}}, {"model": "afisha.eventparticipant", "pk": 2, "fields": {"user": 6, "event": 1}}]
+[
+    {
+        "model": "admin.logentry",
+        "pk": 1,
+        "fields": {
+            "action_time": "2021-05-22T19:07:13.118Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "1",
+            "object_repr": "Москва",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 2,
+        "fields": {
+            "action_time": "2021-05-22T19:07:18.299Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "1",
+            "object_repr": "Москва",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"\\u041f\\u0440\\u0438\\u043e\\u0440\\u0438\\u0442\\u0435\\u0442 \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 3,
+        "fields": {
+            "action_time": "2021-05-22T19:07:34.370Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "2",
+            "object_repr": "Санкт-Петербург",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 4,
+        "fields": {
+            "action_time": "2021-05-22T19:07:42.514Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "3",
+            "object_repr": "Чебоксары",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 5,
+        "fields": {
+            "action_time": "2021-05-22T19:07:50.243Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "4",
+            "object_repr": "Железногорск",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 6,
+        "fields": {
+            "action_time": "2021-05-22T19:07:55.575Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "5",
+            "object_repr": "Казань",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 7,
+        "fields": {
+            "action_time": "2021-05-22T19:08:18.267Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "6",
+            "object_repr": "Астрахань",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 8,
+        "fields": {
+            "action_time": "2021-05-22T19:08:24.059Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "7",
+            "object_repr": "Волгоград",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 9,
+        "fields": {
+            "action_time": "2021-05-22T19:13:09.658Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "1",
+            "object_repr": "admin",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"Role\", \"City\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 10,
+        "fields": {
+            "action_time": "2021-05-22T19:14:22.750Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "2",
+            "object_repr": "moderator_regional",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 11,
+        "fields": {
+            "action_time": "2021-05-22T19:15:54.842Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "2",
+            "object_repr": "moderator_regional",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Email address\", \"Staff status\"]}}, {\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 12,
+        "fields": {
+            "action_time": "2021-05-22T19:16:08.594Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "2",
+            "object_repr": "moderator_regional",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 13,
+        "fields": {
+            "action_time": "2021-05-22T19:16:43.784Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "3",
+            "object_repr": "moderator_general",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 14,
+        "fields": {
+            "action_time": "2021-05-22T19:16:52.383Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "3",
+            "object_repr": "moderator_general",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 15,
+        "fields": {
+            "action_time": "2021-05-22T19:18:56.346Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "3",
+            "object_repr": "moderator_general",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Staff status\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 16,
+        "fields": {
+            "action_time": "2021-05-22T19:20:29.454Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "3",
+            "object_repr": "moderator_general",
+            "action_flag": 2,
+            "change_message": "[]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 17,
+        "fields": {
+            "action_time": "2021-05-22T19:21:01.898Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "4",
+            "object_repr": "moderator_regional1",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 18,
+        "fields": {
+            "action_time": "2021-05-22T19:21:08.547Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "4",
+            "object_repr": "moderator_regional1",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Staff status\"]}}, {\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 19,
+        "fields": {
+            "action_time": "2021-05-22T19:21:38.267Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "5",
+            "object_repr": "moderator_regional2",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 20,
+        "fields": {
+            "action_time": "2021-05-22T19:21:57.153Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "5",
+            "object_repr": "moderator_regional2",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Staff status\"]}}, {\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 21,
+        "fields": {
+            "action_time": "2021-05-22T19:23:13.524Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "6",
+            "object_repr": "mentor",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 22,
+        "fields": {
+            "action_time": "2021-05-22T19:23:53.505Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "6",
+            "object_repr": "mentor",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 23,
+        "fields": {
+            "action_time": "2021-05-22T19:24:32.619Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "7",
+            "object_repr": "mentor2",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 24,
+        "fields": {
+            "action_time": "2021-05-22T19:24:53.088Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "7",
+            "object_repr": "mentor2",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 25,
+        "fields": {
+            "action_time": "2021-05-22T19:25:05.750Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "3",
+            "object_repr": "moderator_general",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"Role\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 26,
+        "fields": {
+            "action_time": "2021-05-22T19:25:13.428Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "2",
+            "object_repr": "moderator_regional",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"Role\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 27,
+        "fields": {
+            "action_time": "2021-05-22T19:25:24.212Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "4",
+            "object_repr": "moderator_regional1",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"Role\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 28,
+        "fields": {
+            "action_time": "2021-05-22T19:25:36.462Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "4",
+            "object_repr": "moderator_regional1",
+            "action_flag": 2,
+            "change_message": "[]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 29,
+        "fields": {
+            "action_time": "2021-05-22T19:25:43.729Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "5",
+            "object_repr": "moderator_regional2",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"Role\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 30,
+        "fields": {
+            "action_time": "2021-05-22T19:26:34.131Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "8",
+            "object_repr": "mentor3",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 31,
+        "fields": {
+            "action_time": "2021-05-22T19:26:43.895Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "8",
+            "object_repr": "mentor3",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"name\": \"\\u041f\\u0440\\u043e\\u0444\\u0438\\u043b\\u044c\", \"object\": \"\\u0414\\u043e\\u043f\\u043e\\u043b\\u043d\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\", \"fields\": [\"City\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 32,
+        "fields": {
+            "action_time": "2021-05-22T20:17:50.678Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "1",
+            "object_repr": "Субботний meet up: учимся проходить интевью",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 33,
+        "fields": {
+            "action_time": "2021-05-22T20:23:03.566Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "2",
+            "object_repr": "Фестиваль электротранспорта Electrofest",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 34,
+        "fields": {
+            "action_time": "2021-05-22T20:27:33.083Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "3",
+            "object_repr": "Выставка «Клод Моне. Гений импрессионизма»",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 35,
+        "fields": {
+            "action_time": "2021-05-22T20:29:03.630Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "4",
+            "object_repr": "Выставка «Стефано Бомбардьери. Мальчик и слон»",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 36,
+        "fields": {
+            "action_time": "2021-05-22T20:30:06.798Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "5",
+            "object_repr": "Музей Эмоций",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 37,
+        "fields": {
+            "action_time": "2021-05-22T20:30:15.523Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "5",
+            "object_repr": "Музей Эмоций",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"City\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 38,
+        "fields": {
+            "action_time": "2021-05-22T20:32:51.619Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "6",
+            "object_repr": "Вечер одноактных балетов. «Не дай мне уйти», «Барокко»",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 39,
+        "fields": {
+            "action_time": "2021-05-22T20:33:59.315Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "7",
+            "object_repr": "инверсия",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 40,
+        "fields": {
+            "action_time": "2021-05-22T20:36:35.893Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "8",
+            "object_repr": "Юбилейный концерт коллектива «Уяв»",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 41,
+        "fields": {
+            "action_time": "2021-05-22T20:39:40.367Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "9",
+            "object_repr": "Выставка работ участников  девятого городского конкурса",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 42,
+        "fields": {
+            "action_time": "2021-05-22T20:40:38.469Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "10",
+            "object_repr": "III городской открытый творческий фестиваль",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 43,
+        "fields": {
+            "action_time": "2021-05-22T20:41:57.014Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "11",
+            "object_repr": "«Семья – гордость моя!»",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 44,
+        "fields": {
+            "action_time": "2021-05-22T20:42:35.375Z",
+            "user": 1,
+            "content_type": 10,
+            "object_id": "1",
+            "object_repr": "EventParticipant object (1)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 45,
+        "fields": {
+            "action_time": "2021-05-22T20:42:44.760Z",
+            "user": 1,
+            "content_type": 10,
+            "object_id": "1",
+            "object_repr": "EventParticipant object (1)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Event\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 46,
+        "fields": {
+            "action_time": "2021-05-22T20:42:53.360Z",
+            "user": 1,
+            "content_type": 10,
+            "object_id": "1",
+            "object_repr": "EventParticipant object (1)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"User\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 47,
+        "fields": {
+            "action_time": "2021-05-22T20:43:01.320Z",
+            "user": 1,
+            "content_type": 10,
+            "object_id": "1",
+            "object_repr": "EventParticipant object (1)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"User\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 48,
+        "fields": {
+            "action_time": "2021-05-22T20:43:08.553Z",
+            "user": 1,
+            "content_type": 10,
+            "object_id": "1",
+            "object_repr": "EventParticipant object (1)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"User\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 49,
+        "fields": {
+            "action_time": "2021-05-22T20:44:03.777Z",
+            "user": 1,
+            "content_type": 10,
+            "object_id": "2",
+            "object_repr": "EventParticipant object (2)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 1,
+        "fields": {
+            "name": "Can add log entry",
+            "content_type": 1,
+            "codename": "add_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 2,
+        "fields": {
+            "name": "Can change log entry",
+            "content_type": 1,
+            "codename": "change_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 3,
+        "fields": {
+            "name": "Can delete log entry",
+            "content_type": 1,
+            "codename": "delete_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 4,
+        "fields": {
+            "name": "Can view log entry",
+            "content_type": 1,
+            "codename": "view_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 5,
+        "fields": {
+            "name": "Can add permission",
+            "content_type": 2,
+            "codename": "add_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 6,
+        "fields": {
+            "name": "Can change permission",
+            "content_type": 2,
+            "codename": "change_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 7,
+        "fields": {
+            "name": "Can delete permission",
+            "content_type": 2,
+            "codename": "delete_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 8,
+        "fields": {
+            "name": "Can view permission",
+            "content_type": 2,
+            "codename": "view_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 9,
+        "fields": {
+            "name": "Can add group",
+            "content_type": 3,
+            "codename": "add_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 10,
+        "fields": {
+            "name": "Can change group",
+            "content_type": 3,
+            "codename": "change_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 11,
+        "fields": {
+            "name": "Can delete group",
+            "content_type": 3,
+            "codename": "delete_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 12,
+        "fields": {
+            "name": "Can view group",
+            "content_type": 3,
+            "codename": "view_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 13,
+        "fields": {
+            "name": "Can add user",
+            "content_type": 4,
+            "codename": "add_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 14,
+        "fields": {
+            "name": "Can change user",
+            "content_type": 4,
+            "codename": "change_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 15,
+        "fields": {
+            "name": "Can delete user",
+            "content_type": 4,
+            "codename": "delete_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 16,
+        "fields": {
+            "name": "Can view user",
+            "content_type": 4,
+            "codename": "view_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 17,
+        "fields": {
+            "name": "Can add content type",
+            "content_type": 5,
+            "codename": "add_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 18,
+        "fields": {
+            "name": "Can change content type",
+            "content_type": 5,
+            "codename": "change_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 19,
+        "fields": {
+            "name": "Can delete content type",
+            "content_type": 5,
+            "codename": "delete_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 20,
+        "fields": {
+            "name": "Can view content type",
+            "content_type": 5,
+            "codename": "view_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 21,
+        "fields": {
+            "name": "Can add session",
+            "content_type": 6,
+            "codename": "add_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 22,
+        "fields": {
+            "name": "Can change session",
+            "content_type": 6,
+            "codename": "change_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 23,
+        "fields": {
+            "name": "Can delete session",
+            "content_type": 6,
+            "codename": "delete_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 24,
+        "fields": {
+            "name": "Can view session",
+            "content_type": 6,
+            "codename": "view_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 25,
+        "fields": {
+            "name": "Can add Профиль",
+            "content_type": 7,
+            "codename": "add_profile"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 26,
+        "fields": {
+            "name": "Can change Профиль",
+            "content_type": 7,
+            "codename": "change_profile"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 27,
+        "fields": {
+            "name": "Can delete Профиль",
+            "content_type": 7,
+            "codename": "delete_profile"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 28,
+        "fields": {
+            "name": "Can view Профиль",
+            "content_type": 7,
+            "codename": "view_profile"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 29,
+        "fields": {
+            "name": "Can add Город",
+            "content_type": 8,
+            "codename": "add_city"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 30,
+        "fields": {
+            "name": "Can change Город",
+            "content_type": 8,
+            "codename": "change_city"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 31,
+        "fields": {
+            "name": "Can delete Город",
+            "content_type": 8,
+            "codename": "delete_city"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 32,
+        "fields": {
+            "name": "Can view Город",
+            "content_type": 8,
+            "codename": "view_city"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 33,
+        "fields": {
+            "name": "Can add Событие",
+            "content_type": 9,
+            "codename": "add_event"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 34,
+        "fields": {
+            "name": "Can change Событие",
+            "content_type": 9,
+            "codename": "change_event"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 35,
+        "fields": {
+            "name": "Can delete Событие",
+            "content_type": 9,
+            "codename": "delete_event"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 36,
+        "fields": {
+            "name": "Can view Событие",
+            "content_type": 9,
+            "codename": "view_event"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 37,
+        "fields": {
+            "name": "Can add Участник",
+            "content_type": 10,
+            "codename": "add_eventparticipant"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 38,
+        "fields": {
+            "name": "Can change Участник",
+            "content_type": 10,
+            "codename": "change_eventparticipant"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 39,
+        "fields": {
+            "name": "Can delete Участник",
+            "content_type": 10,
+            "codename": "delete_eventparticipant"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 40,
+        "fields": {
+            "name": "Can view Участник",
+            "content_type": 10,
+            "codename": "view_eventparticipant"
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$260000$OAD0EmB9Y2sVneFJxOuust$LcjilHqlTL9PYkwjYpb7VWeYIcjZ9l/jXywiU2VNn/Y=",
+            "last_login": "2021-05-22T19:05:25.899Z",
+            "is_superuser": true,
+            "username": "admin",
+            "first_name": "",
+            "last_name": "",
+            "email": "admin@admin.ru",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2021-05-21T05:10:25.024Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$260000$dbohHfOpEl9uCzmPp18lLd$+n4oz0T1lUB4RDopalflN8B5kGCdBdOe6j2NV/xKCkU=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "moderator_regional",
+            "first_name": "",
+            "last_name": "",
+            "email": "chel@chel.ru",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2021-05-22T19:14:22Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$260000$qTjwY0tBGrSf6A9X2Dv6Y9$ZQkv342buRmwijQXdxpGVdW+GA+uiakoUrqTLo0cwyk=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "moderator_general",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2021-05-22T19:16:43Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 4,
+        "fields": {
+            "password": "pbkdf2_sha256$260000$9k0EMJY6eEiRj7d4mWAVgl$dKu5+5Rmyv+YfFfrFazHlc3clQDMTBZiMztfBlWotDI=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "moderator_regional1",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2021-05-22T19:21:01Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 5,
+        "fields": {
+            "password": "pbkdf2_sha256$260000$Xqwedvxp2MjgVoa0QqOyFP$GjOemruSO4cHYVyX6YB3rePRz+vhxMh95K/R8gOSf9w=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "moderator_regional2",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2021-05-22T19:21:38Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 6,
+        "fields": {
+            "password": "pbkdf2_sha256$260000$V1uQ1CL6Tt8AJZnXKofrZ4$5YMMBQO5QOxG7xi4xyxGW5NF4D2sB7NSzt+AoM949zc=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "mentor",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2021-05-22T19:23:13Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 7,
+        "fields": {
+            "password": "pbkdf2_sha256$260000$JUpjwA2ADlUAdx8EDnZFUw$NYNhNNFfIWFWpgoTG2wsWFId0GI4S3w4ouKVrhLmCd0=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "mentor2",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2021-05-22T19:24:32Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 8,
+        "fields": {
+            "password": "pbkdf2_sha256$260000$7K0l2nqDzFI8WmNhF6bqKG$dAurNK6iPze7o9NqLhvioXhTvD7iCKrrp30YPxHsrOc=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "mentor3",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2021-05-22T19:26:33Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 1,
+        "fields": {
+            "app_label": "admin",
+            "model": "logentry"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 2,
+        "fields": {
+            "app_label": "auth",
+            "model": "permission"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 3,
+        "fields": {
+            "app_label": "auth",
+            "model": "group"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 4,
+        "fields": {
+            "app_label": "auth",
+            "model": "user"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 5,
+        "fields": {
+            "app_label": "contenttypes",
+            "model": "contenttype"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 6,
+        "fields": {
+            "app_label": "sessions",
+            "model": "session"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 7,
+        "fields": {
+            "app_label": "users",
+            "model": "profile"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 8,
+        "fields": {
+            "app_label": "common",
+            "model": "city"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 9,
+        "fields": {
+            "app_label": "afisha",
+            "model": "event"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 10,
+        "fields": {
+            "app_label": "afisha",
+            "model": "eventparticipant"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "n5x1rbhnne054o86d2fbmcem6cicdnvj",
+        "fields": {
+            "session_data": ".eJxVjDsOwjAQBe_iGll24k9CSZ8zWLveNQ4gW4qTCnF3EikFtG9m3lsE2NYctsZLmElchRaX3w0hPrkcgB5Q7lXGWtZlRnko8qRNTpX4dTvdv4MMLe-11WnwTvVEluzoY9LorcEelNEJCZU3g9NOMyfYeYowOobUsY1ooLPi8wXkBThl:1lkWw9:CIiyna1JQ4M78puEuC0xJEYh8Q8IyiQ3zZLjJijcGO0",
+            "expire_date": "2021-06-05T19:05:25.904Z"
+        }
+    },
+    {
+        "model": "users.profile",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "city": 1,
+            "role": "admin"
+        }
+    },
+    {
+        "model": "users.profile",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "city": 3,
+            "role": "moderator_regional"
+        }
+    },
+    {
+        "model": "users.profile",
+        "pk": 3,
+        "fields": {
+            "user": 3,
+            "city": 1,
+            "role": "moderator_general"
+        }
+    },
+    {
+        "model": "users.profile",
+        "pk": 4,
+        "fields": {
+            "user": 4,
+            "city": 4,
+            "role": "moderator_regional"
+        }
+    },
+    {
+        "model": "users.profile",
+        "pk": 5,
+        "fields": {
+            "user": 5,
+            "city": 5,
+            "role": "moderator_regional"
+        }
+    },
+    {
+        "model": "users.profile",
+        "pk": 6,
+        "fields": {
+            "user": 6,
+            "city": 1,
+            "role": "mentor"
+        }
+    },
+    {
+        "model": "users.profile",
+        "pk": 7,
+        "fields": {
+            "user": 7,
+            "city": 3,
+            "role": "mentor"
+        }
+    },
+    {
+        "model": "users.profile",
+        "pk": 8,
+        "fields": {
+            "user": 8,
+            "city": 4,
+            "role": "mentor"
+        }
+    },
+    {
+        "model": "common.city",
+        "pk": 1,
+        "fields": {
+            "name": "Москва",
+            "is_primary": true
+        }
+    },
+    {
+        "model": "common.city",
+        "pk": 2,
+        "fields": {
+            "name": "Санкт-Петербург",
+            "is_primary": true
+        }
+    },
+    {
+        "model": "common.city",
+        "pk": 3,
+        "fields": {
+            "name": "Чебоксары",
+            "is_primary": false
+        }
+    },
+    {
+        "model": "common.city",
+        "pk": 4,
+        "fields": {
+            "name": "Железногорск",
+            "is_primary": false
+        }
+    },
+    {
+        "model": "common.city",
+        "pk": 5,
+        "fields": {
+            "name": "Казань",
+            "is_primary": false
+        }
+    },
+    {
+        "model": "common.city",
+        "pk": 6,
+        "fields": {
+            "name": "Астрахань",
+            "is_primary": false
+        }
+    },
+    {
+        "model": "common.city",
+        "pk": 7,
+        "fields": {
+            "name": "Волгоград",
+            "is_primary": false
+        }
+    },
+    {
+        "model": "afisha.event",
+        "pk": 1,
+        "fields": {
+            "address": "Садовническая наб., д. 77 стр. 1 (офис компании Ernst&Young",
+            "contact": "Александра, +7 926 356-78-90",
+            "title": "Субботний meet up: учимся проходить интевью",
+            "description": "Наконец-то наступила весна и мы пережили эту долгую зиму! И возможно, что внутренних сил и ресурса сейчас не так много, а до окончания учебного года ещё целых несколько месяцев. Поэтому приглашаем вас на встречу нашего ресурсного клуба \\\"Наставник PRO\\\", которую мы хотим посвятить теме поиска моральных сил, смыслов и внутреннего ресурса для общения и взаимодействия с нашими подопечными.",
+            "start_at": "2021-05-01T06:00:00Z",
+            "end_at": "2021-05-17T00:00:00Z",
+            "seats": 10,
+            "city": 1
+        }
+    },
+    {
+        "model": "afisha.event",
+        "pk": 2,
+        "fields": {
+            "address": "станция МЦД-2 «Курьяново",
+            "contact": "+74-305924525",
+            "title": "Фестиваль электротранспорта Electrofest",
+            "description": "В 2021 году уже не получится просто взять и закрыть глаза на проблемы экологии. Электротранспорт становится всё популярнее, а главное, доступнее: уже никого не удивит, если сосед, например, поедет на работу на электросамокате. Большой электрический праздник для ценителей и профи пройдёт в конце мая в центре технических видов спорта «Москва».\r\n\r\nИсточник: https://kudago.com/msk/event/festival-festival-elektrotransporta-electrofest/",
+            "start_at": "2021-05-10T00:00:00Z",
+            "end_at": "2021-05-22T12:00:00Z",
+            "seats": 3,
+            "city": 1
+        }
+    },
+    {
+        "model": "afisha.event",
+        "pk": 3,
+        "fields": {
+            "address": "Сад имени Баумана",
+            "contact": "+70-025882",
+            "title": "Выставка «Клод Моне. Гений импрессионизма»",
+            "description": "Клод Моне принёс в живопись свет и воздух, а его художественные принципы дали начало импрессионизму. Увидеть работы мэтра можно на выставке в саду имени Баумана.",
+            "start_at": "2021-05-10T00:00:00Z",
+            "end_at": "2021-06-05T18:00:00Z",
+            "seats": 100,
+            "city": 1
+        }
+    },
+    {
+        "model": "afisha.event",
+        "pk": 4,
+        "fields": {
+            "address": "Василеостровская, Приморская, Спортивная",
+            "contact": "+708-52627092",
+            "title": "Выставка «Стефано Бомбардьери. Мальчик и слон»",
+            "description": "Музей Эрарта приглашает взглянуть на работы итальянского скульптора Стефано Бомбардьери, посмотреть на мир детскими глазами, а заодно — задуматься о фундаментальных вопросах бытия.\r\n\r\nИсточник: https://kudago.com/spb/event/vyistavka-stefano-bombarderi-malchik-i-slon/",
+            "start_at": "2021-05-25T20:28:50Z",
+            "end_at": "2021-07-09T20:28:56Z",
+            "seats": 50,
+            "city": 2
+        }
+    },
+    {
+        "model": "afisha.event",
+        "pk": 5,
+        "fields": {
+            "address": "ул. Итальянская, д. 1 (перекресток с наб. канала Грибоедова)",
+            "contact": "+7092-02342",
+            "title": "Музей Эмоций",
+            "description": "Создатель музея, художник Алексей Сергиенко, уверен: искусство должно вызывать чувства. Арт-объекты, видео и инсталляции — всё, что вы увидите в Музее Эмоций, заставляет посетителей проживать определённые душевные состояния и помогает изучать собственные эмоциональные реакции.\r\n\r\nИсточник: https://kudago.com/spb/place/interesnoe-mesto-muzej-emotsij/",
+            "start_at": "2021-06-05T20:29:51Z",
+            "end_at": "2021-06-30T20:29:58Z",
+            "seats": 30,
+            "city": 2
+        }
+    },
+    {
+        "model": "afisha.event",
+        "pk": 6,
+        "fields": {
+            "address": "Чувашский Государственный Театр Оперы и Балета Московский пр-кт, д 1",
+            "contact": "+99234241",
+            "title": "Вечер одноактных балетов. «Не дай мне уйти», «Барокко»",
+            "description": "Жителей столицы ждут потрясающие премьеры: одноактные балеты \"Не дай мне уйти\" и \"Барокко\". Эти постановки готовят два совершенно разных по стилю, но одинаково талантливых балетмейстера-постановщика. Солист Большого театра - заслуженный артист России Андрей Меркурьев является неизменных гостем балетного фестиваля. В этом году, впервые на нашей сцене, он выступит в качестве хореографа. И, конечно, фестиваль не может обойтись без премьерного спектакля художественного руководителя балетной труппы - лауреата международных конкурсов Данила Салимбаева",
+            "start_at": "2021-05-11T00:00:00Z",
+            "end_at": "2021-05-22T00:00:00Z",
+            "seats": 300,
+            "city": 3
+        }
+    },
+    {
+        "model": "afisha.event",
+        "pk": 7,
+        "fields": {
+            "address": "Чебоксары, ул. Водопроводная 9/77",
+            "contact": "+720412094",
+            "title": "инверсия",
+            "description": "ИНВЕРСИЯ - оффлайн мероприятие, которое в ускоренном игровом формате поможет тебе разобраться, что такое социальные проекты, как их развивать, как набирать команду и находить ресурсы для реализации проектов",
+            "start_at": "2021-05-12T06:00:00Z",
+            "end_at": "2021-05-18T12:00:00Z",
+            "seats": 100,
+            "city": 3
+        }
+    },
+    {
+        "model": "afisha.event",
+        "pk": 8,
+        "fields": {
+            "address": "ДК «Ухсая»",
+            "contact": "8(8352) 23-04-66",
+            "title": "Юбилейный концерт коллектива «Уяв»",
+            "description": "Юбиляры приглашают дорогих гостей на праздничный концерт, где так же примут участие лучшие творческие коллективы города Чебоксары и Чувашской Республики! Руководитель – Козлова Зинаида Алексеевна, заслуженный работник культуры Российской Федерации и Чувашской Республики, Лауреат премии Правительства России «Душа России». Погрузиться в мир музыкально-песенного и обрядового фольклора можно будет 25 мая в 18:30 в ДК «Ухсая». Вас ждет праздник души и сердца, посвященный 35-летию заслуженного коллектива народного творчества Российской Федерации, народного фольклорного ансамбля «Уяв»! Концертная программа обещает быть насыщенной и яркой! Участники праздника подарят зрителям незабываемые впечатления и позитивные эмоции!",
+            "start_at": "2021-06-01T12:00:00Z",
+            "end_at": "2021-06-06T18:00:00Z",
+            "seats": 80,
+            "city": 3
+        }
+    },
+    {
+        "model": "afisha.event",
+        "pk": 9,
+        "fields": {
+            "address": "Культурный центр «АРТ»",
+            "contact": "+7325235346",
+            "title": "Выставка работ участников  девятого городского конкурса",
+            "description": "Выставка работ участников\r\n\r\nдевятого городского конкурса\r\n\r\nдетского патриотического рисунка\r\n\r\n«Правнуки Победы - 2021»,\r\n\r\nпосвященного 76-й годовщине Победы\r\n\r\nв Великой Отечественной войне,\r\n\r\nсреди воспитанников муниципальных\r\n\r\nдошкольных образовательных учреждений",
+            "start_at": "2021-05-13T06:00:00Z",
+            "end_at": "2021-05-27T12:00:00Z",
+            "seats": 423,
+            "city": 4
+        }
+    },
+    {
+        "model": "afisha.event",
+        "pk": 10,
+        "fields": {
+            "address": "Летняя площадка культурного центра «Горница»",
+            "contact": "+87543479",
+            "title": "III городской открытый творческий фестиваль",
+            "description": "III городской открытый творческий фестиваль\r\n\r\n«Живая нить русского слова»,\r\n\r\nпосвященный Дню славянской письменности и культуры",
+            "start_at": "2021-06-02T06:00:00Z",
+            "end_at": "2021-06-06T06:00:00Z",
+            "seats": 130,
+            "city": 4
+        }
+    },
+    {
+        "model": "afisha.event",
+        "pk": 11,
+        "fields": {
+            "address": "Парк культуры и отдыха им.Никитина  (площадка  у фонтана «Радуга»)",
+            "contact": "+7298423-05",
+            "title": "«Семья – гордость моя!»",
+            "description": "«Семья – гордость моя!»\r\n\r\nконцертно-развлекательная программа, посвященная\r\n\r\nМеждународному дню семьи,\r\n\r\nдля детей",
+            "start_at": "2021-06-01T12:00:00Z",
+            "end_at": "2021-06-30T12:00:00Z",
+            "seats": 550,
+            "city": 4
+        }
+    },
+    {
+        "model": "afisha.eventparticipant",
+        "pk": 1,
+        "fields": {
+            "user": 2,
+            "event": 1
+        }
+    },
+    {
+        "model": "afisha.eventparticipant",
+        "pk": 2,
+        "fields": {
+            "user": 6,
+            "event": 1
+        }
+    }
+]

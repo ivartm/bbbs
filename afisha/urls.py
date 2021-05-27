@@ -5,8 +5,10 @@ from afisha.views import EventParticipantViewSet, EventViewSet
 
 router = DefaultRouter()
 router.register(
+    # "afisha",
     "event-participants",
     EventParticipantViewSet,
+    # EventViewSet,
     basename="event-participants",
 )
 

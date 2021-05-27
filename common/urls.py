@@ -1,22 +1,20 @@
 from django.urls import path, include
 
 from .views import CityAPIView, MyCityApiView
+from rest_framework.routers import DefaultRouter
 
+
+router = DefaultRouter()
+router.register(
+    "my-city",
+    MyCityApiView,
+    basename="user-city",
+)
 
 extra_patterns = [
     path('cities/', CityAPIView.as_view(), name='cities'),
-    path(
-        'cities/my-city/',
-        MyCityApiView.as_view({'get': 'list'}),
-        name='user_city'
-    ),
-    path(
-        'cities/my-city/<int:pk>',
-        MyCityApiView.as_view({'put': 'update'}),
-        name='update_user_city'
-    )
+    path("cities/", include(router.urls)),
 ]
-
 
 urlpatterns = [
     path('v1/', include(extra_patterns)),
