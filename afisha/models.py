@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import UniqueConstraint
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 from common.models import City
 
@@ -51,7 +52,11 @@ class Event(models.Model):
     def clean(self):
         if self.start_at > self.end_at:
             raise ValidationError({
-                'end_at': 'Проверьте дату'})
+                "end_at": "Время начала должно быть меньше времени окончания"})
+        if self.start_at < timezone.now():
+            raise ValidationError({
+                "start_at": "Время начала не может быть меньше текущего"
+            })
 
 
 class EventParticipant(models.Model):
