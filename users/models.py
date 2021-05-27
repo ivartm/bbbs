@@ -34,7 +34,7 @@ class Profile(models.Model):
         verbose_name = 'Профиль'
 
     def __str__(self):
-        return 'Дополнительная информация'
+        return f'Дополнительная информация пользователя {self.user.username}'
 
     @receiver(post_save, sender=User)
     def create_and_update_user_profile(sender, instance, created, **kwargs):
