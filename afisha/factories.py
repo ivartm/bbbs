@@ -19,7 +19,9 @@ class EventFactory(factory.django.DjangoModelFactory):
     contact = factory.LazyAttribute(
         lambda x: f"{fake.name()}, {fake.phone_number()}"
     )
-    title = factory.Faker("sentence", nb_words=3)
+    title = factory.Sequence(lambda t: f"{fake.sentence(nb_words=3)}_{t}")
+
+    # title = factory.Faker("sentence", nb_words=3)
     description = factory.Faker("text")
     startAt = factory.Faker(
         "date_time_this_year",
