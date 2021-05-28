@@ -1,4 +1,4 @@
-name: codestyle on every push
+name: Verify codestyle on push
 
 on: 
   push

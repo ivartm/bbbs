@@ -23,7 +23,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("text")
     startAt = factory.Faker(
         "date_time_this_year",
-        before_now=True,
+        before_now=False,
         after_now=True,
         tzinfo=pytz.UTC,
     )

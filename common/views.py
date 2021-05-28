@@ -1,8 +1,5 @@
 from rest_framework.generics import ListAPIView
-from rest_framework.mixins import (
-    ListModelMixin,
-    UpdateModelMixin
-)
+from rest_framework.mixins import ListModelMixin, UpdateModelMixin
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import GenericViewSet
@@ -13,7 +10,7 @@ from users.models import Profile
 
 
 class CityAPIView(ListAPIView):
-    queryset = City.objects.all().order_by('-isPrimary', 'name')
+    queryset = City.objects.all().order_by("-isPrimary", "name")
     serializer_class = CitySerializer
     permission_classes = [AllowAny]
 
