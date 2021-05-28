@@ -12,10 +12,10 @@ router.register(
 )
 
 extra_patterns = [
-    path('cities/', CityAPIView.as_view(), name='cities'),
+    path("cities/", CityAPIView.as_view(), name="cities"),
     path("cities/", include(router.urls)),
 ]
 
 urlpatterns = [
-    path('v1/', include(extra_patterns)),
+    path("v1/", include(extra_patterns)),
 ]
