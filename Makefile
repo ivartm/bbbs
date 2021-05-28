@@ -1,24 +1,25 @@
 runserver:
-	python manage.py runserver --settings=config.settings.dev
+	python manage.py runserver
 
 build-static:
 	python manage.py collectstatic --noinput
 
 migrate:
-	python manage.py makemigrations --settings=config.settings.dev
-	python manage.py migrate --settings=config.settings.dev
+	python manage.py makemigrations
+	python manage.py migrate
 
 fill-db:
-	python manage.py makemigrations --settings=config.settings.dev
-	python manage.py migrate --settings=config.settings.dev
-	python manage.py createsuperuser --settings=config.settings.dev
-	python manage.py loaddata --settings=config.settings.dev fixtures.json
+	python manage.py makemigrations
+	python manage.py migrate
+	python manage.py loaddata fixtures_by_factory_boy.json
+	python manage.py createsuperuser
 
 createsuperuser:
-	python manage.py createsuperuser --settings=config.settings.dev
+	python manage.py createsuperuser
 
 shell:
-	python manage.py shell_plus --settings=config.settings.dev
+	python manage.py shell_plus
 
-runtest:
-	python manage.py test --settings=config.settings.dev
+configurelocaly:
+	python -m pip install --upgrade pip
+	pip install -r requirements/local.txt

@@ -212,27 +212,3 @@ class ViewAfishaTests(APITestCase):
                 "на мероприятие в другом городе."
             ),
         )
-
-    # def test_booked_event_has_label_booked_true(self):
-    #     user = self.mentor
-    #     event = EventFactory.create_batch(
-    #         50,
-    #         city=user.profile.city,
-    #     )
-
-    #     client = self.return_authorized_user_client(user)
-    #     response = client.get(
-    #             path=self.path_events,
-    #         )
-
-    #     pprint(response.data[0])
-    #     pprint(response.data[1])
-    #     self.assertContains(
-    #         response,
-    #         status_code=200,
-    #         text="Извините, но мероприятие не в Вашем городе.",
-    #         msg_prefix=(
-    #             f"Проверьте, что пользователь не может зарегистрироваться "
-    #             f"на мероприятие в другом городе."
-    #         ),
-    #     )
