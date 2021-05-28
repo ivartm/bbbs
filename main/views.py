@@ -7,7 +7,6 @@ from rest_framework.views import APIView
 from afisha.models import Event
 from afisha.serializers import EventSerializer
 from main.models import TEMP_DATA
-from django.shortcuts import get_list_or_404
 
 
 class MainView(APIView):
