@@ -4,57 +4,27 @@ from django.db import models
 class City(models.Model):
     KALININGRAD = "Europe/Kaliningrad"
     MOSCOW = "Europe/Moscow"
-    KIROV = "Europe/Kirov"
-    VOLGOGRAD = "Europe/Volgograd"
-    ASTRAKHAN = "Europe/Astrakhan"
-    SARATOV = "Europe/Saratov"
-    ULYANOVSK = "Europe/Ulyanovsk"
     SAMARA = "Europe/Samara"
     YEKATERINBURG = "Asia/Yekaterinburg"
     OMSK = "Asia/Omsk"
-    NOVOSIBIRSK = "Asia/Novosibirsk"
-    BARNAUL = "Asia/Barnaul"
-    TOMSK = "Asia/Tomsk"
-    NOVOKUZNETSK = "Asia/Novokuznetsk"
     KRASNOYARSK = "Asia/Krasnoyarsk"
     IRKUTSK = "Asia/Irkutsk"
-    CHITA = "Asia/Chita"
     YAKUTSK = "Asia/Yakutsk"
-    KHANDYGA = "Asia/Khandyga"
     VLADIVOSTOK = "Asia/Vladivostok"
-    UST_NERA = "Asia/Ust-Nera"
-    MAGADAN = "Asia/Magadan"
-    SAKHALIN = "Asia/Sakhalin"
     SREDNEKOLYMSK = "Asia/Srednekolymsk"
     KAMCHATKA = "Asia/Kamchatka"
-    ANADYR = "Asia/Anadyr"
     TIMEZONE_CHOICES = [
-        (KALININGRAD, "Калининград"),
-        (MOSCOW, "Москва"),
-        (KIROV, "Киров"),
-        (VOLGOGRAD, "Волгоград"),
-        (ASTRAKHAN, "Астрахань"),
-        (SARATOV, "Саратов"),
-        (ULYANOVSK, "Ульяновск"),
-        (SAMARA, "Самара"),
-        (YEKATERINBURG, "Екатеринбург"),
-        (OMSK, "Омск"),
-        (NOVOSIBIRSK, "Новосибирск"),
-        (BARNAUL, "Барнаул"),
-        (TOMSK, "Томск"),
-        (NOVOKUZNETSK, "Новокузнецк"),
-        (KRASNOYARSK, "Красноярск"),
-        (IRKUTSK, "Иркутск"),
-        (CHITA, "Чита"),
-        (YAKUTSK, "Якутск"),
-        (KHANDYGA, "Хандыга"),
-        (VLADIVOSTOK, "Владивосток"),
-        (UST_NERA, "Усть-Нера"),
-        (MAGADAN, "Магадан"),
-        (SAKHALIN, "Сахалин"),
-        (SREDNEKOLYMSK, "Среднеколымск"),
-        (KAMCHATKA, "Камчатка"),
-        (ANADYR, "Анадырь"),
+        (KALININGRAD, "Калининградское время GMT-1"),
+        (MOSCOW, "Московское время GMT+0"),
+        (SAMARA, "Самарское время GMT+1"),
+        (YEKATERINBURG, "Екатеринбургское время GMT+2"),
+        (OMSK, "Омское время GMT+3"),
+        (KRASNOYARSK, "Красноярское время GMT+4"),
+        (IRKUTSK, "Иркутское время GMT+5"),
+        (YAKUTSK, "Якутское время GMT+6"),
+        (VLADIVOSTOK, "Владивостокское время GMT+7"),
+        (SREDNEKOLYMSK, "Среднеколымское время GMT+8"),
+        (KAMCHATKA, "Камчатское время GMT+9"),
     ]
     name = models.CharField(
         max_length=30,
