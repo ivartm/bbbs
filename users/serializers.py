@@ -11,13 +11,9 @@ class TokenSerializer(serializers.Serializer):
         username = data["username"]
         password = data["password"]
         if username is None:
-            raise serializers.ValidationError(
-                "Введите имя пользователя."
-            )
+            raise serializers.ValidationError("Введите имя пользователя.")
         if password is None:
-            raise serializers.ValidationError(
-                "Введите пароль."
-            )
+            raise serializers.ValidationError("Введите пароль.")
 
         user = authenticate(username=username, password=password)
         if user is None:
@@ -26,9 +22,7 @@ class TokenSerializer(serializers.Serializer):
             )
 
         if not user.is_active:
-            raise serializers.ValidationError(
-                "Пользователь заблокирован."
-            )
+            raise serializers.ValidationError("Пользователь заблокирован.")
         if not user.profile.is_mentor:
             raise serializers.ValidationError("Ошибка прав доступа.")
 
@@ -36,7 +30,6 @@ class TokenSerializer(serializers.Serializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Profile
         fields = ["id", "user", "city"]

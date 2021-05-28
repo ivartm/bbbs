@@ -11,4 +11,7 @@ class CityFactory(factory.django.DjangoModelFactory):
         ]
 
     name = factory.Faker("city")
-    isPrimary = factory.Faker("boolean", chance_of_getting_true=10)
+    isPrimary = factory.Faker(
+        "boolean",
+        chance_of_getting_true=20,
+    )

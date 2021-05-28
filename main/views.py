@@ -15,7 +15,7 @@ class MainView(APIView):
     def get(self, request):
         context = {}
         event = get_list_or_404(Event, startAt__gt=timezone.now())[0]
-        event_serializer = EventSerializer(event, context={'request': request})
-        context['event'] = {**event_serializer.data}
+        event_serializer = EventSerializer(event, context={"request": request})
+        context["event"] = {**event_serializer.data}
         context.update(**TEMP_DATA)
         return Response(context)

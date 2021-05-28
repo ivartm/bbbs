@@ -5,10 +5,9 @@ from users.models import Profile
 
 
 class CitySerializer(ModelSerializer):
-
     class Meta:
         model = City
-        fields = '__all__'
+        fields = "__all__"
 
 
 class MyCitySerializer(ModelSerializer):
