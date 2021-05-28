@@ -44,33 +44,33 @@ class StaticURLTests(APITestCase):
         return authorized_client
 
     def test_events_unauthorized_client(self):
-        client = self.unauthorized_client
-        response = client.get(self.path_events)
+        client = StaticURLTests.unauthorized_client
+        response = client.get(StaticURLTests.path_events)
         self.assertEqual(
             response.status_code,
             401,
             msg=(
                 f"Проверьте что неавторизованный пользователь не имеет "
-                f"доступ к '{self.path_events}'."
+                f"доступ к '{StaticURLTests.path_events}'."
             ),
         )
 
     def test_events_participants_unauthorized_client(self):
-        client = self.unauthorized_client
-        response = client.get(self.path_events_participants)
+        client = StaticURLTests.unauthorized_client
+        response = client.get(StaticURLTests.path_events_participants)
         self.assertEqual(
             response.status_code,
             401,
             msg=(
                 f"Проверьте что неавторизованный пользователь не имеет доступ "
-                f"к '{self.path_events_participants}'."
+                f"к '{StaticURLTests.path_events_participants}'."
             ),
         )
 
     def test_events(self):
-        for user in self.users:
+        for user in StaticURLTests.users:
             client = self.return_authorized_user_client(user=user)
-            response = client.get(self.path_events)
+            response = client.get(StaticURLTests.path_events)
             self.assertEqual(
                 response.status_code,
                 200,
@@ -78,14 +78,14 @@ class StaticURLTests(APITestCase):
                     f"Проверьте что пользователь с ролью "
                     f"'{user.profile.role}' "
                     f"имеет доступ к "
-                    f"'{self.path_events_participants}'."
+                    f"'{StaticURLTests.path_events_participants}'."
                 ),
             )
 
     def test_event_participants(self):
-        for user in self.users:
+        for user in StaticURLTests.users:
             client = self.return_authorized_user_client(user=user)
-            response = client.get(self.path_events_participants)
+            response = client.get(StaticURLTests.path_events_participants)
             self.assertEqual(
                 response.status_code,
                 200,
@@ -93,12 +93,12 @@ class StaticURLTests(APITestCase):
                     f"Проверьте что пользователь с ролью "
                     f"'{user.profile.role}' "
                     f"имеет доступ к "
-                    f"'{self.path_events_participants}'."
+                    f"'{StaticURLTests.path_events_participants}'."
                 ),
             )
 
     def test_page_not_found(self):
-        client = self.unauthorized_client
+        client = StaticURLTests.unauthorized_client
         response = client.get("/the_page_that_doesnt_exist/")
         self.assertEqual(
             response.status_code,
