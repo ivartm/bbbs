@@ -12,7 +12,9 @@ User = get_user_model()
 class Event(models.Model):
     address = models.CharField(max_length=200, verbose_name="Адрес")
     contact = models.CharField(max_length=200, verbose_name="Контакт")
-    title = models.CharField(max_length=200, verbose_name="Название")
+    title = models.CharField(
+        max_length=200, verbose_name="Название", unique=True
+    )
     description = models.TextField(verbose_name="Дополнительная информация")
     startAt = models.DateTimeField(verbose_name="Начало")
     endAt = models.DateTimeField(verbose_name="Окончание")
@@ -35,15 +37,15 @@ class Event(models.Model):
     def clean(self):
         if self.startAt > self.endAt:
             raise ValidationError(
-                {"end_at": "Проверьте дату: не может быть меньше даты начала"}
+                {"endAt": "Проверьте дату: не может быть меньше даты начала"}
             )
         if self.startAt < timezone.now():
             raise ValidationError(
-                {"start_at": "Проверьте дату: не может быть меньше текущей"}
+                {"startAt": "Проверьте дату: не может быть меньше текущей"}
             )
-        if self.startAt < timezone.now():
+        if self.endAt < timezone.now():
             raise ValidationError(
-                {"start_at": "Время начала не может быть меньше текущего"}
+                {"endAt": "Проверьте дату: не может быть меньше текущей"}
             )
         if self.seats < 1:
             raise ValidationError(
