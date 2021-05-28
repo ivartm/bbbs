@@ -1,3 +1,4 @@
+![example workflow](https://github.com/ivartm/bbbs/actions/workflows/codestyle.yml/badge.svg)
 # bbbs
 Бэкенд для проекта Старшие Братья Старшие Сестры https://www.nastavniki.org/
 
