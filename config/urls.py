@@ -4,8 +4,9 @@ from config.settings.dev import DEBUG
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
-    SpectacularSwaggerView
+    SpectacularSwaggerView,
 )
+
 extra_patterns = [
     path("", include("users.urls")),
     path("", include("main.urls")),
@@ -20,21 +21,17 @@ urlpatterns = [
 
 urlpatterns += [
     # YOUR PATTERNS
-    path(
-        'api/schema/',
-        SpectacularAPIView.as_view(),
-        name='schema'
-    ),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # Optional UI:
     path(
-        'api/schema/swagger-ui/',
-        SpectacularSwaggerView.as_view(url_name='schema'),
-        name='swagger-ui'
+        "api/schema/swagger-ui/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
     ),
     path(
-        'api/schema/redoc/',
-        SpectacularRedocView.as_view(url_name='schema'),
-        name='redoc'
+        "api/schema/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
     ),
 ]
 

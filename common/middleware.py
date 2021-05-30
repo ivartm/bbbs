@@ -10,9 +10,7 @@ def set_timezone(get_response):
         if request.user.is_authenticated:
             if request.user.profile.city == None:  # Noqa
                 city, created = City.objects.get_or_create(
-                    name='Москва',
-                    isPrimary=True,
-                    timeZone="Europe/Moscow"
+                    name="Москва", isPrimary=True, timeZone="Europe/Moscow"
                 )
                 Profile.objects.filter(user=request.user).update(city=city)
             timezone.activate(
