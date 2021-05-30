@@ -14,13 +14,15 @@ from afisha.serializers import EventParticipantSerializer, EventSerializer
 from users.models import Profile
 
 
-class CrudToEventParticipantViewSet(
-    CreateModelMixin, ListModelMixin, DestroyModelMixin, GenericViewSet
+class CreateListDestroyMixin(
+    CreateModelMixin,
+    ListModelMixin,
+    DestroyModelMixin,
 ):
     pass
 
 
-class EventParticipantViewSet(CrudToEventParticipantViewSet):
+class EventParticipantViewSet(CreateListDestroyMixin, GenericViewSet):
     serializer_class = EventParticipantSerializer
     permission_classes = [IsAuthenticated]
     search_fields = [
@@ -36,7 +38,7 @@ class EventParticipantViewSet(CrudToEventParticipantViewSet):
         serializer.save(user=self.request.user)
 
 
-class EventViewSet(generics.ListAPIView):
+class EventAPIView(generics.ListAPIView):
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
 
