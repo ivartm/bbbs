@@ -19,7 +19,7 @@ class EventAdmin(admin.ModelAdmin):
         "seats",
     )
     empty_value_display = "-пусто-"
-    search_fields = ('title', )
+    search_fields = ("title",)
 
     def get_queryset(self, request):
         if request.user.profile.is_moderator_reg:

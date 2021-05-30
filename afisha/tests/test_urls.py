@@ -1,9 +1,8 @@
-from rest_framework.test import APIClient
-from rest_framework.test import APITestCase
 from django.urls import reverse
+from rest_framework.test import APIClient, APITestCase
 
-from users.factories import UserFactory
 from common.factories import CityFactory
+from users.factories import UserFactory
 
 
 class StaticURLTests(APITestCase):

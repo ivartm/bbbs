@@ -1,14 +1,14 @@
-import pytz
 from datetime import datetime
-from rest_framework.test import APIClient
-from rest_framework.test import APITestCase
+
+import pytz
 from django.urls import reverse
+from rest_framework.test import APIClient, APITestCase
 
 from common.factories import CityFactory
 from users.factories import UserFactory
-from afisha.factories import EventFactory, EventParticipantFactory
 
-from afisha.models import EventParticipant
+from ..factories import EventFactory, EventParticipantFactory
+from ..models import EventParticipant
 
 
 class ViewAfishaTests(APITestCase):
@@ -52,7 +52,7 @@ class ViewAfishaTests(APITestCase):
 
     def test_user_can_list_available_events_in_his_city(self):
         """Test should be rewritten to support pagination."""
-        city = CityFactory(name="Вермунт")
+        city = CityFactory(name="Вермонт")
         user = UserFactory(profile__city=city)
         client = self.return_authorized_user_client(user)
         EventFactory.create_batch(50, city=city)
@@ -134,7 +134,7 @@ class ViewAfishaTests(APITestCase):
                     ),
                 )
 
-    def test_user_cant_book_on_event_in_past(self):
+    def test_user_cant_book_event_in_past(self):
         for user in ViewAfishaTests.users:
             with self.subTest(user=user):
                 event = EventFactory.create(
