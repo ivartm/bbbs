@@ -37,15 +37,21 @@ class Event(models.Model):
     def clean(self):
         if self.startAt > self.endAt:
             raise ValidationError(
-                {"endAt": "Проверьте дату: не может быть меньше даты начала"}
+                {
+                    "endAt": (
+                        "Проверьте дату окончания мероприятия: "
+                        "не может быть меньше даты начала"
+                    )
+                }
             )
         if self.startAt < timezone.now():
             raise ValidationError(
-                {"startAt": "Проверьте дату: не может быть меньше текущей"}
-            )
-        if self.endAt < timezone.now():
-            raise ValidationError(
-                {"endAt": "Проверьте дату: не может быть меньше текущей"}
+                {
+                    "startAt": (
+                        "Проверьте дату начала мероприятия: "
+                        "не может быть меньше текущей"
+                    )
+                }
             )
         if self.seats < 1:
             raise ValidationError(
