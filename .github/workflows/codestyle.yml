@@ -1,4 +1,4 @@
-name: Verify codestyle on push
+name: pep8 codestyle
 
 on: 
   push

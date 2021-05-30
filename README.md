@@ -73,5 +73,5 @@ make shell
 # Запуск тестов
 
 ```shell
-make shell
+pytest
 ```
