@@ -9,10 +9,12 @@ def set_timezone(get_response):
     def middleware(request):
         if request.user.is_authenticated:
             if request.user.profile.city == None:  # Noqa
-                profile = Profile.objects.get(user=request.user)
-                city = City.objects.get(name="Москва")
-                profile.city = city
-                profile.save()
+                city, created = City.objects.get_or_create(
+                    name='Москва',
+                    isPrimary=True,
+                    timeZone="Europe/Moscow"
+                )
+                Profile.objects.filter(user=request.user).update(city=city)
             timezone.activate(
                 pytz.timezone(request.user.profile.city.timeZone)
             )
