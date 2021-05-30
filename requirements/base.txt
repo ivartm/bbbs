@@ -38,3 +38,4 @@ toml==0.10.2
 uritemplate==3.0.1
 urllib3==1.26.4
 drf-spectacular==0.16.0
+
