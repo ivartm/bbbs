@@ -1,4 +1,5 @@
 from django.db.models import Count
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.mixins import (
     CreateModelMixin,
@@ -40,10 +41,10 @@ class EventViewSet(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        profile = Profile.objects.get(user_id=self.request.user.id)
+        profile = get_object_or_404(Profile, user_id=self.request.user.id)
         queryset = (
-            Event.objects.filter(city_id=profile.city.id)
-            .annotate(taken_seats=(Count("eventparticipant")))
-            .order_by("start_at")
+            Event.objects.filter(city=profile.city)
+            .annotate(taken_seats=(Count("event_participants")))
+            .order_by("startAt")
         )
         return queryset
