@@ -10,19 +10,19 @@ class StaticURLTests(APITestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.city = CityFactory(name="Воркута")
-        cls.mentor = UserFactory(
+        cls.mentor = UserFactory.create(
             profile__role="mentor",
             profile__city=cls.city,
         )
-        cls.moderator_reg = UserFactory(
+        cls.moderator_reg = UserFactory.create(
             profile__role="moderator_reg",
             profile__city=cls.city,
         )
-        cls.moderator_gen = UserFactory(
+        cls.moderator_gen = UserFactory.create(
             profile__role="moderator_gen",
             profile__city=cls.city,
         )
-        cls.admin = UserFactory(
+        cls.admin = UserFactory.create(
             profile__role="admin",
             profile__city=cls.city,
         )
@@ -32,7 +32,9 @@ class StaticURLTests(APITestCase):
             cls.moderator_gen,
             cls.admin,
         ]
-        cls.unauthorized_client = APIClient()
+        cls.unauthorized_client = APIClient(
+
+        )
 
         cls.path_events_participants = reverse("event-participants-list")
         cls.path_events = reverse("events")

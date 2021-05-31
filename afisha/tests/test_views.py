@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import json
 import pytz
 from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase
@@ -16,20 +17,20 @@ class ViewAfishaTests(APITestCase):
     def setUpClass(cls) -> None:
         super().setUpClass()
 
-        cls.city = CityFactory(name="Воркута")
-        cls.mentor = UserFactory(
+        cls.city = CityFactory.create(name="Воркута")
+        cls.mentor = UserFactory.create(
             profile__role="mentor",
             profile__city=cls.city,
         )
-        cls.moderator_reg = UserFactory(
+        cls.moderator_reg = UserFactory.create(
             profile__role="moderator_reg",
             profile__city=cls.city,
         )
-        cls.moderator_gen = UserFactory(
+        cls.moderator_gen = UserFactory.create(
             profile__role="moderator_gen",
             profile__city=cls.city,
         )
-        cls.admin = UserFactory(
+        cls.admin = UserFactory.create(
             profile__role="admin",
             profile__city=cls.city,
         )
@@ -139,8 +140,8 @@ class ViewAfishaTests(APITestCase):
             with self.subTest(user=user):
                 event = EventFactory.create(
                     city=user.profile.city,
-                    startAt=datetime(2020, 10, 27, 12, 0, 0, tzinfo=pytz.utc),
-                    endAt=datetime(2020, 11, 27, 12, 0, 0, tzinfo=pytz.utc),
+                    startAt=datetime(2019, 1, 1, tzinfo=pytz.utc),
+                    endAt=datetime(2020, 1, 1, tzinfo=pytz.utc),
                 )
 
                 client = self.return_authorized_user_client(user)
@@ -167,8 +168,9 @@ class ViewAfishaTests(APITestCase):
             with self.subTest(user=user):
                 event = EventFactory.create(
                     city=user.profile.city,
+                    seats=10,
                 )
-                EventParticipantFactory(
+                EventParticipantFactory.create(
                     user=user,
                     event=event,
                 )
@@ -188,7 +190,8 @@ class ViewAfishaTests(APITestCase):
                     msg_prefix=(
                         f"Проверьте, что пользователь c ролью "
                         f"'{user.profile.role}'не может зарегистрироваться "
-                        f"на мероприятие дважды."
+                        f"на мероприятие дважды. Вернулось ошибка: "
+                        f"{json.loads(response.content)}"
                     ),
                 )
 
@@ -216,5 +219,48 @@ class ViewAfishaTests(APITestCase):
                         f"Проверьте, что пользователь c ролью "
                         f"'{user.profile.role}'не может зарегистрироваться "
                         f"на мероприятие в другом городе."
+                    ),
+                )
+
+    def test_user_can_unbook_event(self):
+        for user in ViewAfishaTests.users:
+            with self.subTest(user=user):
+                event = EventFactory.create(
+                    city=user.profile.city,
+                )
+                EventParticipantFactory.create(
+                    user=user,
+                    event=event,
+                )
+                path = reverse(
+                    "event-participants-detail",
+                    args=[event.id]
+                )
+
+                client = self.return_authorized_user_client(user)
+                response = client.delete(
+                    path=path,
+                    format="json",
+                )
+                is_booked = EventParticipant.objects.filter(
+                    user=user,
+                    event=event,
+                ).exists()
+
+                self.assertFalse(
+                    is_booked,
+                    msg=(
+                        f"Проверьте, что зарегистрированный пользователь "
+                        f"с ролью '{user.profile.role}'"
+                        f" может отписаться от мероприятия."
+                    )
+                )
+
+                self.assertEqual(
+                    response.status_code,
+                    204,
+                    msg=(
+                        "Проверьте, что при удачной отписке от мероприятия "
+                        "возвращается код 204"
                     ),
                 )
