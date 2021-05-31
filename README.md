@@ -1,4 +1,7 @@
-![example workflow](https://github.com/ivartm/bbbs/actions/workflows/codestyle.yml/badge.svg)
+![pep8 codestyle](https://github.com/ivartm/bbbs/actions/workflows/codestyle.yml/badge.svg)
+
+[![afisha app tests](https://github.com/ivartm/bbbs/actions/workflows/tests.yml/badge.svg)](https://github.com/ivartm/bbbs/actions/workflows/tests.yml)
+
 # bbbs
 Бэкенд для проекта Старшие Братья Старшие Сестры https://www.nastavniki.org/
 
@@ -70,11 +73,11 @@ make shell
 # Запуск тестов
 
 ```shell
-make shell
+pytest
 ```
-
 # Просмотр автодокументации по API
 
 .../api/schema/
 .../api/schema/swagger-ui/,
 .../api/schema/redoc/,
+

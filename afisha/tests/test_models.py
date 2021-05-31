@@ -13,13 +13,13 @@ class EventModelTest(TestCase):
     def setUpClass(cls) -> None:
         super().setUpClass()
 
-        cls.city = CityFactory()
+        cls.city = CityFactory.create()
         cls.tomorrow = timezone.now() + timedelta(days=1)
         cls.future = timezone.now() + timedelta(days=60)
         cls.past = timezone.now() - timedelta(days=10)
 
     def test_event_endat_cant_be_less_startat(self):
-        event = EventFactory(
+        event = EventFactory.create(
             startAt=EventModelTest.future,
             endAt=EventModelTest.tomorrow,
         )
@@ -34,7 +34,7 @@ class EventModelTest(TestCase):
             event.full_clean()
 
     def test_event_startat_cant_be_less_today(self):
-        event = EventFactory(
+        event = EventFactory.create(
             startAt=EventModelTest.past,
         )
 
@@ -48,7 +48,7 @@ class EventModelTest(TestCase):
             event.full_clean()
 
     def test_event_seats_must_more_than_one(self):
-        event = EventFactory(
+        event = EventFactory.create(
             seats=0,
         )
 

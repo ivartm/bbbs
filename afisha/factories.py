@@ -12,6 +12,8 @@ fake = Faker(["ru-RU"])
 
 
 class EventFactory(factory.django.DjangoModelFactory):
+    """Rely on City objects. They should be in DB prior run."""
+
     class Meta:
         model = Event
 
@@ -19,7 +21,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     contact = factory.LazyAttribute(
         lambda x: f"{fake.name()}, {fake.phone_number()}"
     )
-    title = factory.Sequence(lambda t: f"{fake.sentence(nb_words=3)}_{t}")
+    title = factory.Sequence(lambda t: f"{fake.sentence(nb_words=3)} {t}")
     description = factory.Faker("text")
     startAt = factory.Faker(
         "date_time_this_year",
@@ -40,7 +42,7 @@ class EventFactory(factory.django.DjangoModelFactory):
 
 
 class EventParticipantFactory(factory.django.DjangoModelFactory):
-    """This factory create itself User and Profile fixtures."""
+    """This factory without params creates User and Profile objects itself."""
 
     class Meta:
         model = EventParticipant
