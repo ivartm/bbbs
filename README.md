@@ -72,3 +72,9 @@ make shell
 ```shell
 make shell
 ```
+
+# Просмотр автодокументации по API
+
+.../api/schema/
+.../api/schema/swagger-ui/,
+.../api/schema/redoc/,
