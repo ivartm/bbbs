@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Exists, OuterRef
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.mixins import (
@@ -8,10 +8,10 @@ from rest_framework.mixins import (
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
+from users.models import Profile
 
 from afisha.models import Event, EventParticipant
 from afisha.serializers import EventParticipantSerializer, EventSerializer
-from users.models import Profile
 
 
 class CreateListDestroyMixin(
@@ -44,9 +44,14 @@ class EventAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         profile = get_object_or_404(Profile, user_id=self.request.user.id)
+        subquery = EventParticipant.objects.filter(
+            user=profile.user, event=OuterRef("pk")
+        )
         queryset = (
             Event.objects.filter(city=profile.city)
             .annotate(taken_seats=(Count("event_participants")))
+            .annotate(booked=Exists(subquery))
             .order_by("startAt")
         )
+
         return queryset
