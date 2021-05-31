@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.contrib.admin import register
+from users.utils import StaffRequiredAdminMixin
 
 from afisha.models import Event, EventParticipant
-from users.utils import StaffRequiredAdminMixin
 
 
 @register(Event)
