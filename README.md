@@ -77,7 +77,8 @@ pytest
 ```
 # Просмотр автодокументации по API
 
+```shell
 .../api/schema/
 .../api/schema/swagger-ui/,
 .../api/schema/redoc/,
-
+```
