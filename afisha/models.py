@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import UniqueConstraint
+from django.utils import timezone
 
 from common.models import City
 
@@ -8,59 +10,68 @@ User = get_user_model()
 
 
 class Event(models.Model):
-    address = models.CharField(
-        max_length=200,
-        verbose_name="Адрес"
-    )
-    contact = models.CharField(
-        max_length=200,
-        verbose_name="Контакт"
-    )
+    address = models.CharField(max_length=200, verbose_name="Адрес")
+    contact = models.CharField(max_length=200, verbose_name="Контакт")
     title = models.CharField(
-        max_length=200,
-        verbose_name="Название"
+        max_length=200, verbose_name="Название", unique=True
     )
-    description = models.TextField(
-        verbose_name="Дополнительная информация"
-    )
-    start_at = models.DateTimeField(
-        verbose_name="Начало"
-    )
-    end_at = models.DateTimeField(
-        verbose_name="Окончание"
-    )
-    seats = models.IntegerField(
-        verbose_name="Свободные места"
-    )
+    description = models.TextField(verbose_name="Дополнительная информация")
+    startAt = models.DateTimeField(verbose_name="Начало")
+    endAt = models.DateTimeField(verbose_name="Окончание")
+    seats = models.PositiveIntegerField(verbose_name="Свободные места")
     city = models.ForeignKey(
         City,
-        related_name="event",
+        related_name="events",
         on_delete=models.RESTRICT,
-        verbose_name="Город"
+        verbose_name="Город",
     )
 
     def __str__(self):
         return self.title
 
     class Meta:
-        ordering = ["start_at"]
+        ordering = ["startAt"]
         verbose_name = "Мероприятие"
         verbose_name_plural = "Мероприятия"
+
+    def clean(self):
+        if self.startAt > self.endAt:
+            raise ValidationError(
+                {
+                    "endAt": (
+                        "Проверьте дату окончания мероприятия: "
+                        "не может быть меньше даты начала"
+                    )
+                }
+            )
+        if self.startAt < timezone.now():
+            raise ValidationError(
+                {
+                    "startAt": (
+                        "Проверьте дату начала мероприятия: "
+                        "не может быть меньше текущей"
+                    )
+                }
+            )
+        if self.seats < 1:
+            raise ValidationError(
+                {"seats": "Число мест должно быть больше нуля"}
+            )
 
 
 class EventParticipant(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="eventparticipant",
+        related_name="event_participants",
         null=True,
-        verbose_name="Участник"
+        verbose_name="Участник",
     )
     event = models.ForeignKey(
         Event,
         on_delete=models.RESTRICT,
-        related_name="eventparticipant",
-        verbose_name="Мероприятие"
+        related_name="event_participants",
+        verbose_name="Мероприятие",
     )
 
     class Meta:

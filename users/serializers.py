@@ -1,49 +1,35 @@
 from rest_framework import serializers
-from common.serializers import CitySerializer
-from django.contrib.auth.models import User
 from users.models import Profile
 from django.contrib.auth import authenticate
 
 
-class TokenSerializer(serializers.ModelSerializer):
+class TokenSerializer(serializers.Serializer):
     username = serializers.CharField(write_only=True)
     password = serializers.CharField(write_only=True)
-
-    class Meta:
-        model = User
-        fields = ["username", "password"]
 
     def validate(self, data):
         username = data["username"]
         password = data["password"]
         if username is None:
-            raise serializers.ValidationError(
-                "An username is required to log in."
-            )
+            raise serializers.ValidationError("Введите имя пользователя.")
         if password is None:
-            raise serializers.ValidationError(
-                "A password is required to log in."
-            )
+            raise serializers.ValidationError("Введите пароль.")
 
         user = authenticate(username=username, password=password)
         if user is None:
             raise serializers.ValidationError(
-                "A user with this username and password was not found."
+                "Пользователь с таким логином или паролем не найден."
             )
 
         if not user.is_active:
-            raise serializers.ValidationError(
-                "This user has been deactivated."
-            )
+            raise serializers.ValidationError("Пользователь заблокирован.")
         if not user.profile.is_mentor:
-            raise serializers.ValidationError("Ошибка прав доступа")
+            raise serializers.ValidationError("Ошибка прав доступа.")
 
-        return data
+        return user
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    city = CitySerializer(read_only=True)
-
     class Meta:
         model = Profile
         fields = ["id", "user", "city"]

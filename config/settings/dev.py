@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from .base import *
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -22,3 +24,5 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+INSTALLED_APPS += ["django_extensions", ]

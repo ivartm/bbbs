@@ -1,20 +1,14 @@
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from rest_framework import serializers
+from users.models import Profile
 
 from afisha.models import Event, EventParticipant
-from users.models import Profile
 
 
 class EventSerializer(serializers.ModelSerializer):
-    booked = serializers.SerializerMethodField("is_booked")
-    taken_seats = serializers.IntegerField(read_only=True)
-
-    def is_booked(self, instanse):
-        user = self.context["request"].user
-        if EventParticipant.objects.filter(
-            event=Event.objects.get(id=instanse.id), user=user
-        ).exists():
-            return True
-        return False
+    booked = serializers.IntegerField(read_only=True)
+    takenSeats = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Event
@@ -28,25 +22,30 @@ class EventParticipantSerializer(serializers.ModelSerializer):
         lookup_field = "event"
 
     def validate(self, data):
-        event = data["event"]
-        request = self.context["request"]
+        event = data.get("event")
+        request = self.context.get("request")
         user = request.user
-        profile = Profile.objects.get(user=user)
-        taken_seats = EventParticipant.objects.filter(event=event).count()
+        profile = get_object_or_404(Profile, user=user)
+        takenSeats = event.event_participants.count()
         seats = event.seats
+        end_event = event.endAt
         if request.method == "POST":
             if event.city != profile.city:
                 raise serializers.ValidationError(
-                    {"message": "Извините, но мероприятие не в Вашем городе"}
+                    {"message": "Извините, но мероприятие не в Вашем городе."}
                 )
-            if taken_seats > seats:
+            if end_event < timezone.now():
                 raise serializers.ValidationError(
-                    {"message": "Извините, мест больше нет"}
+                    {"message": "Мероприятие уже закончилось."}
+                )
+            if takenSeats >= seats:
+                raise serializers.ValidationError(
+                    {"message": "Извините, мест больше нет."}
                 )
             if EventParticipant.objects.filter(
                 user=user, event=event
             ).exists():
                 raise serializers.ValidationError(
-                    {"message": "Вы уже зарегистрированы на это мероприятие"}
+                    {"message": "Вы уже зарегистрированы на это мероприятие."}
                 )
         return data

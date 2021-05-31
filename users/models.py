@@ -1,40 +1,36 @@
-from django.db import models
-from common.models import City
 from django.contrib.auth.models import User
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from common.models import City
 
 
 class Profile(models.Model):
     class Role(models.TextChoices):
-        MENTOR = 'mentor'
-        MODERATOR_REG = 'moderator_regional'
-        MODERATOR_GEN = 'moderator_general'
-        ADMIN = 'admin'
+        MENTOR = "mentor"
+        MODERATOR_REG = "moderator_regional"
+        MODERATOR_GEN = "moderator_general"
+        ADMIN = "admin"
 
     user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name='profile'
+        User, on_delete=models.CASCADE, related_name="profile"
     )
     city = models.ForeignKey(
-        City,
-        on_delete=models.SET_NULL,
-        null=True,
-        verbose_name="Город"
+        City, on_delete=models.SET_NULL, null=True, verbose_name="Город"
     )
     role = models.CharField(
         max_length=20,
         choices=Role.choices,
         default=Role.MENTOR,
-        verbose_name="Роль"
+        verbose_name="Роль",
     )
 
     class Meta:
-        verbose_name = 'Профиль'
+        verbose_name = "Профиль"
 
     def __str__(self):
-        return 'Дополнительная информация'
+        return f"Дополнительная информация пользователя {self.user.username}"
 
     @receiver(post_save, sender=User)
     def create_and_update_user_profile(sender, instance, created, **kwargs):

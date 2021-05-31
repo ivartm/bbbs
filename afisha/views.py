@@ -1,4 +1,5 @@
-from django.db.models import Count
+from django.db.models import Count, Exists, OuterRef
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.mixins import (
     CreateModelMixin,
@@ -7,19 +8,21 @@ from rest_framework.mixins import (
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
+from users.models import Profile
 
 from afisha.models import Event, EventParticipant
 from afisha.serializers import EventParticipantSerializer, EventSerializer
-from users.models import Profile
 
 
-class CrudToEventParticipantViewSet(
-    CreateModelMixin, ListModelMixin, DestroyModelMixin, GenericViewSet
+class CreateListDestroyMixin(
+    CreateModelMixin,
+    ListModelMixin,
+    DestroyModelMixin,
 ):
     pass
 
 
-class EventParticipantViewSet(CrudToEventParticipantViewSet):
+class EventParticipantViewSet(CreateListDestroyMixin, GenericViewSet):
     serializer_class = EventParticipantSerializer
     permission_classes = [IsAuthenticated]
     search_fields = [
@@ -35,15 +38,20 @@ class EventParticipantViewSet(CrudToEventParticipantViewSet):
         serializer.save(user=self.request.user)
 
 
-class EventViewSet(generics.ListAPIView):
+class EventAPIView(generics.ListAPIView):
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        profile = Profile.objects.get(user_id=self.request.user.id)
-        queryset = (
-            Event.objects.filter(city_id=profile.city.id)
-            .annotate(taken_seats=(Count("eventparticipant")))
-            .order_by("start_at")
+        profile = get_object_or_404(Profile, user_id=self.request.user.id)
+        subquery = EventParticipant.objects.filter(
+            user=profile.user, event=OuterRef("pk")
         )
+        queryset = (
+            Event.objects.filter(city=profile.city)
+            .annotate(taken_seats=(Count("event_participants")))
+            .annotate(booked=Exists(subquery))
+            .order_by("startAt")
+        )
+
         return queryset

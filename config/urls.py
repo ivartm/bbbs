@@ -1,14 +1,43 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import TokenRefreshView
+from config.settings.dev import DEBUG
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 
+extra_patterns = [
+    path("", include("users.urls")),
+    path("", include("main.urls")),
+    path("", include("common.urls")),
+    path("", include("afisha.urls")),
+]
 
 urlpatterns = [
-    path('api/v1/token/refresh/',
-         TokenRefreshView.as_view(), name='token_refresh'),
-    path('admin/', admin.site.urls),
-    path('api/', include('users.urls')),
-    path('api/', include('main.urls')),
-    path('api/', include('common.urls')),
-    path('api/', include('afisha.urls')),
+    path("admin/", admin.site.urls),
+    path("api/", include(extra_patterns)),
 ]
+
+urlpatterns += [
+    # YOUR PATTERNS
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    # Optional UI:
+    path(
+        "api/schema/swagger-ui/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+    path(
+        "api/schema/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
+]
+
+if DEBUG:
+    import debug_toolbar
+
+    urlpatterns += [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ]
