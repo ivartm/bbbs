@@ -2,16 +2,17 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _
 
 from common.models import City
 
 
 class Profile(models.Model):
     class Role(models.TextChoices):
-        MENTOR = "mentor"
-        MODERATOR_REG = "moderator_regional"
-        MODERATOR_GEN = "moderator_general"
-        ADMIN = "admin"
+        MENTOR = "Наставник", _("Наставник")
+        MODERATOR_REG = "Модератор(региональный)", _("Модератор(региональный)")
+        MODERATOR_GEN = "Модератор(общий)", _("Модератор(общий)")
+        ADMIN = "Администратор", _("Администратор")
 
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="profile"
@@ -20,7 +21,7 @@ class Profile(models.Model):
         City, on_delete=models.SET_NULL, null=True, verbose_name="Город"
     )
     role = models.CharField(
-        max_length=20,
+        max_length=25,
         choices=Role.choices,
         default=Role.MENTOR,
         verbose_name="Роль",
