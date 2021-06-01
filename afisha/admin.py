@@ -18,6 +18,7 @@ class EventAdmin(admin.ModelAdmin):
         "endAt",
         "seats",
     )
+    list_filter = ('city', 'startAt',)
     empty_value_display = "-пусто-"
     search_fields = ("title",)
 
