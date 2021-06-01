@@ -11,14 +11,17 @@ class EventAdmin(admin.ModelAdmin):
         "id",
         "city",
         "address",
-        "cqqDSContact",
+        "contact",
         "title",
         "description",
         "startAt",
         "endAt",
         "seats",
     )
-    list_filter = ('city', 'startAt',)
+    list_filter = (
+        "city",
+        "startAt",
+    )
     empty_value_display = "-пусто-"
     search_fields = ("title",)
 
