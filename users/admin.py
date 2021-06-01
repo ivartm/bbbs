@@ -1,4 +1,6 @@
 from django.utils.translation import gettext_lazy as _
+
+from users.mixins import DynamicLookupMixin
 from users.models import Profile
 from users.utils import StaffRequiredAdminMixin
 from django.contrib.auth.models import User, Group
@@ -18,16 +20,23 @@ class ProfileInline(StaffRequiredAdminMixin, admin.StackedInline):
     )
 
 
-class UserAdmin(StaffRequiredAdminMixin, UserAdmin):
+class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
     inlines = (ProfileInline,)
     list_display = (
         "id",
         "username",
         "is_active",
         "is_staff",
-        "user_role",
-        "user_city",
+        "profile__role",
+        "profile__city",
     )
+    list_filter = (
+        "is_active",
+        "profile__role",
+        "profile__city",
+    )
+    profile__role_short_description = "роль"
+    profile__city_short_description = "город"
     list_display_links = ("username",)
     fieldsets = (
         (None, {"fields": ("username", "password")}),
@@ -54,6 +63,13 @@ class UserAdmin(StaffRequiredAdminMixin, UserAdmin):
             )
             return fieldsets
         return super().get_fieldsets(request, obj)
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields[
+            "username"
+        ].help_text = "В качестве имени укажите email пользователя"
+        return form
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
