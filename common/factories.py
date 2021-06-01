@@ -11,6 +11,7 @@ class CityFactory(factory.django.DjangoModelFactory):
         ]
 
     name = factory.Faker("city")
+    timeZone = factory.Iterator(City.TIMEZONE_CHOICES, getter=lambda tz: tz[0])
     isPrimary = factory.Faker(
         "boolean",
         chance_of_getting_true=20,
