@@ -71,14 +71,13 @@ class ViewAfishaTests(APITestCase):
             ),
         )
 
-    def test_allowed_user_type_can_book_event(self):
+    def test_allowed_user_can_book_event(self):
         for user in ViewAfishaTests.users:
             with self.subTest(user=user):
                 event = EventFactory.create(
                     city=user.profile.city,
                     seats=40,
                 )
-                count_event_participant = EventParticipant.objects.count()
 
                 client = self.return_authorized_user_client(user)
                 data = {"event": event.id}
@@ -87,22 +86,58 @@ class ViewAfishaTests(APITestCase):
                     data=data,
                     format="json",
                 )
+                event_participate_record = EventParticipant.objects.get(
+                    user=user,
+                    event=event
+                )
+                expected_data = {
+                    "id": event_participate_record.id,
+                    "event": event.id,
+                }
 
                 self.assertEqual(
                     response.status_code,
                     201,
                     msg=(
-                        f"Проверьте, что зарегистрированный пользователь "
-                        f"с ролью '{user.profile.role}'"
-                        f" может зарегистрироваться на событие."
+                        "Проверьте, что при успешной регистрации "
+                        "возвращается статус 201."
+                    ),
+                )
+                self.assertEqual(
+                    response.data,
+                    expected_data,
+                    msg=(
+                        "Проверьте, что возвращается правильный JSON."
                     ),
                 )
 
-                self.assertEqual(
-                    response.data,
-                    {"id": count_event_participant + 1, "event": event.id},
-                    msg=("Проверьте, что возвращается правильный json"),
-                )
+    def test_booked_event_has_true_flag(self):
+        """Test should be rewritten when filters become supported in API."""
+        user = ViewAfishaTests.mentor
+        event = EventFactory.create(
+            city=user.profile.city
+        )
+        EventParticipantFactory.create(
+            event=event,
+            user=user,
+        )
+
+        client = self.return_authorized_user_client(user)
+        response = client.get(
+            path=ViewAfishaTests.path_events,
+            format="json",
+        )
+        response_record_dict = response.json()[0]
+
+        self.assertEqual(
+            "True",
+            str(response_record_dict.get('booked')),
+            msg=(
+                "Проверьте, что у мероприятий на которые "
+                "пользователь подписан возвращается флаг "
+                "booked': True."
+            ),
+        )
 
     def test_user_cant_book_event_with_empty_seats(self):
         for user in ViewAfishaTests.users:

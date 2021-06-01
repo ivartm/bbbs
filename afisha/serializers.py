@@ -7,7 +7,7 @@ from afisha.models import Event, EventParticipant
 
 
 class EventSerializer(serializers.ModelSerializer):
-    booked = serializers.IntegerField(read_only=True)
+    booked = serializers.BooleanField(read_only=True)
     takenSeats = serializers.IntegerField(read_only=True)
 
     class Meta:
