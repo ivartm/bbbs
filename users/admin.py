@@ -30,9 +30,13 @@ class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
         "profile__role",
         "profile__city",
     )
-    list_filter = ('is_active', 'profile__role', 'profile__city',)
-    profile__role_short_description = 'роль'
-    profile__city_short_description = 'город'
+    list_filter = (
+        "is_active",
+        "profile__role",
+        "profile__city",
+    )
+    profile__role_short_description = "роль"
+    profile__city_short_description = "город"
     list_display_links = ("username",)
     fieldsets = (
         (None, {"fields": ("username", "password")}),
@@ -62,9 +66,9 @@ class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
-        form.base_fields["username"].help_text = (
-            'В качестве имени укажите email пользователя'
-        )
+        form.base_fields[
+            "username"
+        ].help_text = "В качестве имени укажите email пользователя"
         return form
 
     def get_inline_instances(self, request, obj=None):

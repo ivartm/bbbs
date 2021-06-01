@@ -11,7 +11,7 @@ class EventAdmin(admin.ModelAdmin):
         "id",
         "city",
         "address",
-        "contact",
+        "cqqDSContact",
         "title",
         "description",
         "startAt",
