@@ -14,11 +14,11 @@ class ProfileInline(StaffRequiredAdminMixin, admin.StackedInline):
     can_delete = False
     verbose_name_plural = "Profile"
     fk_name = "user"
-    filter_horizontal = ('region',)
+    filter_horizontal = ("region",)
     fields = (
         "role",
         "city",
-        "region"
+        "region",
     )
 
     def get_fields(self, request, obj=None):

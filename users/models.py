@@ -20,7 +20,12 @@ class Profile(models.Model):
     city = models.ForeignKey(
         City, on_delete=models.SET_NULL, null=True, verbose_name="Город"
     )
-    region = models.ManyToManyField(City, blank=True, related_name="region", verbose_name="Обслуживаемые города")
+    region = models.ManyToManyField(
+        City,
+        blank=True,
+        related_name="region",
+        verbose_name="Обслуживаемые города",
+    )
     role = models.CharField(
         max_length=25,
         choices=Role.choices,

@@ -29,7 +29,11 @@ class EventAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         if request.user.profile.is_moderator_reg:
-            return Event.objects.filter(city__in=City.objects.filter(name=request.user.profile.region.name))
+            return Event.objects.filter(
+                city__in=City.objects.filter(
+                    name=request.user.profile.region.name
+                )
+            )
         return Event.objects.all()
 
     def get_form(self, request, obj=None, **kwargs):
