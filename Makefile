@@ -11,8 +11,8 @@ migrate:
 fill-db:
 	python manage.py makemigrations
 	python manage.py migrate
-	python manage.py loaddata fixtures_by_factory_boy.json
-	python manage.py createcustomsuperuser
+	# python manage.py loaddata fixtures_by_factory_boy.json
+	python manage.py createsuperuser
 
 createsuperuser:
 	python manage.py createsuperuser

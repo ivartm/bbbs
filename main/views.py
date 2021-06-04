@@ -1,4 +1,3 @@
-from django.shortcuts import get_list_or_404
 from django.utils import timezone
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -14,7 +13,13 @@ class MainView(APIView):
 
     def get(self, request):
         context = {}
-        event = get_list_or_404(Event, startAt__gt=timezone.now())[0]
+        if self.request.user.is_authenticated:
+            city = self.request.user.profile.city
+        else:
+            city = request.GET["city"]
+        event = Event.objects.filter(
+            city=city, startAt__gt=timezone.now()
+        ).first()
         event_serializer = EventSerializer(event, context={"request": request})
         context["event"] = {**event_serializer.data}
         context.update(**TEMP_DATA)

@@ -73,6 +73,6 @@ class AdminURLTests(TestCase):
         self.client_moderator_gen.force_login(moderator_gen)
         self.client_admin.force_login(admin)
 
-    def test_url_access(self):
-        response = self.client_admin.get("/admin/auth/")
-        self.assertEqual(response.status_code, 200)
+    # def test_url_access(self):
+    #     response = self.client_admin.get("/admin/auth/")
+    #     self.assertEqual(response.status_code, 200)
