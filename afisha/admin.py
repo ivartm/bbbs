@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import register
+
+from common.models import City
 from users.utils import StaffRequiredAdminMixin
 
 from afisha.models import Event, EventParticipant
@@ -27,14 +29,17 @@ class EventAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         if request.user.profile.is_moderator_reg:
-            return Event.objects.filter(city=request.user.profile.city)
+            return Event.objects.filter(
+                city__in=City.objects.filter(
+                    name=request.user.profile.region.name
+                )
+            )
         return Event.objects.all()
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         if request.user.profile.is_moderator_reg:
-            form.base_fields["city"].disabled = True
-        form.base_fields["city"].initial = request.user.profile.city
+            form.base_fields["city"].queryset = request.user.profile.region
         return form
 
     def has_add_permission(self, request):

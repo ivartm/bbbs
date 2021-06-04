@@ -14,14 +14,26 @@ class ProfileInline(StaffRequiredAdminMixin, admin.StackedInline):
     can_delete = False
     verbose_name_plural = "Profile"
     fk_name = "user"
+    filter_horizontal = ("region",)
     fields = (
         "role",
         "city",
+        "region",
     )
+
+    def get_fields(self, request, obj=None):
+        if obj.profile.is_moderator_reg:
+            return super().get_fields(self, request)
+        fields = (
+            "role",
+            "city",
+        )
+        return fields
 
 
 class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
     inlines = (ProfileInline,)
+
     list_display = (
         "id",
         "username",
@@ -69,6 +81,11 @@ class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
         form.base_fields[
             "username"
         ].help_text = "В качестве имени укажите email пользователя"
+        if obj is None:
+            return form
+        if not request.user.is_superuser:
+            form.base_fields["is_superuser"].disabled = True
+            form.base_fields["is_staff"].disabled = True
         return form
 
     def get_inline_instances(self, request, obj=None):
@@ -81,6 +98,14 @@ class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
 
     def user_city(self, obj):
         return obj.profile.city
+
+    def save_model(self, request, obj, form, change):
+        if change:
+            if obj.profile.is_mentor:
+                obj.is_staff = False
+            else:
+                obj.is_staff = True
+        super().save_model(request, obj, form, change)
 
 
 admin.site.unregister(Group)
