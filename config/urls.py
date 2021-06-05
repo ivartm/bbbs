@@ -1,17 +1,16 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
+from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
+                                   SpectacularSwaggerView)
+
 from config.settings.dev import DEBUG
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularRedocView,
-    SpectacularSwaggerView,
-)
 
 extra_patterns = [
     path("", include("users.urls")),
     path("", include("main.urls")),
     path("", include("common.urls")),
     path("", include("afisha.urls")),
+    path("", include("places.urls")),
 ]
 
 urlpatterns = [
