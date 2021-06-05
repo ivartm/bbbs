@@ -23,3 +23,8 @@ class MyCityApiView(ListModelMixin, UpdateModelMixin, GenericViewSet):
         user = self.request.user
         queryset = Profile.objects.filter(user=user)
         return queryset
+
+
+class TagList(generics.ListAPIView):
+    queryset = Tag.objects.all().order_by('-name')
+    serializer_class = TagSerializer

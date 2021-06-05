@@ -13,6 +13,7 @@ router.register(
 
 extra_patterns = [
     path("cities/", CityAPIView.as_view(), name="cities"),
+    path("tags/", TagList.as_view()),
     path("cities/", include(router.urls)),
 ]
 
