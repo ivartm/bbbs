@@ -60,6 +60,7 @@ class Place(models.Model):
         blank=True,
         upload_to="places/",
     )
+    
     class Meta:
         verbose_name = "Место - куда пойти?"
         verbose_name_plural = "Места - куда пойти?"
