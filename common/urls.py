@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from .views import CityAPIView, MyCityApiView
+from .views import CityAPIView, MyCityApiView, TagList
 from rest_framework.routers import DefaultRouter
 
 

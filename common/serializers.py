@@ -17,7 +17,7 @@ class MyCitySerializer(ModelSerializer):
         lookup_field = "city"
 
 
-class TagSerializer(serializers.ModelSerializer):
+class TagSerializer(ModelSerializer):
     class Meta:
         model = Tag
-        fields = serializers.ALL_FIELDS
+        fields = "__all__"

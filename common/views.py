@@ -4,8 +4,8 @@ from rest_framework.mixins import ListModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import GenericViewSet
 
-from common.models import City
-from common.serializers import CitySerializer, MyCitySerializer
+from common.models import City, Tag
+from common.serializers import CitySerializer, MyCitySerializer, TagSerializer
 from users.models import Profile
 
 
@@ -25,6 +25,6 @@ class MyCityApiView(ListModelMixin, UpdateModelMixin, GenericViewSet):
         return queryset
 
 
-class TagList(generics.ListAPIView):
+class TagList(ListAPIView):
     queryset = Tag.objects.all().order_by('-name')
     serializer_class = TagSerializer
