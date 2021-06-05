@@ -55,7 +55,7 @@ class Profile(models.Model):
             )
             if created:
                 obj.save()
-            Profile.objects.create(user=instance, city=obj)
+            Profile.objects.create(user=instance, city=obj, role=Profile.Role.ADMIN)
         if not instance.profile.region.exists() \
                 and instance.profile.is_moderator_reg:
             instance.profile.region.add(instance.profile.city)
