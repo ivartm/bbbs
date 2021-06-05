@@ -30,8 +30,7 @@ class EventAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         if request.user.profile.is_moderator_reg:
             return Event.objects.filter(
-                city__in=City.objects.filter(
-                    region=request.user.profile)
+                city__in=City.objects.filter(region=request.user.profile)
             )
         return Event.objects.all()
 
