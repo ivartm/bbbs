@@ -31,8 +31,7 @@ class EventAdmin(admin.ModelAdmin):
         if request.user.profile.is_moderator_reg:
             return Event.objects.filter(
                 city__in=City.objects.filter(
-                    name=request.user.profile.region.name
-                )
+                    region=request.user.profile)
             )
         return Event.objects.all()
 
