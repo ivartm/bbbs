@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+from rights.models import Right
+from rights.serializers import RightSerializer
+
+
+class RightsList(generics.ListAPIView):
+    queryset = Right.objects.all()
+    serializer_class = RightSerializer
