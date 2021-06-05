@@ -52,7 +52,7 @@ class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
     list_display_links = ("username",)
     fieldsets = (
         (None, {"fields": ("username", "email", "password")}),
-        (_("Personal info"), {"fields": ('first_name', 'last_name')}),
+        (_("Personal info"), {"fields": ("first_name", "last_name")}),
         (
             _("Permissions"),
             {
@@ -67,21 +67,30 @@ class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2')}
-         ),
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("username", "email", "password1", "password2"),
+            },
+        ),
     )
 
     def get_fieldsets(self, request, obj=None):
         if not (request.user.is_superuser or request.user.profile.is_admin):
             fieldsets = (
                 (None, {"fields": ("username", "email")}),
-                (_("Personal info"), {"fields": ('first_name', 'last_name')}),
-                (_("Permissions"), {"fields": (
-                    "is_active",
-                    "is_staff",
-                    "is_superuser",)})
+                (_("Personal info"), {"fields": ("first_name", "last_name")}),
+                (
+                    _("Permissions"),
+                    {
+                        "fields": (
+                            "is_active",
+                            "is_staff",
+                            "is_superuser",
+                        )
+                    },
+                ),
             )
             return fieldsets
         return super().get_fieldsets(request, obj)
@@ -90,8 +99,7 @@ class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
         form = super().get_form(request, obj, **kwargs)
         if obj is None:
             return form
-        if request.user.profile.is_admin\
-                and not request.user.is_superuser:
+        if request.user.profile.is_admin and not request.user.is_superuser:
             form.base_fields["is_superuser"].disabled = True
         return form
 

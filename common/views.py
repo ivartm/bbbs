@@ -26,5 +26,5 @@ class MyCityApiView(ListModelMixin, UpdateModelMixin, GenericViewSet):
 
 
 class TagList(ListAPIView):
-    queryset = Tag.objects.all().order_by('-name')
+    queryset = Tag.objects.all().order_by("-name")
     serializer_class = TagSerializer
