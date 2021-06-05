@@ -52,6 +52,8 @@ class Place(models.Model):
     tag = models.ManyToManyField(
         Tag,
         verbose_name="Тег",
+        null=True,
+        blank=True,
     )
     imageUrl = models.ImageField(
         verbose_name="Фото",

@@ -3,7 +3,12 @@ from django.db import models
 
 
 class Question(models.Model):
-    tag = models.ManyToManyField(Tag, related_name="tags")
+    tag = models.ManyToManyField(
+        Tag,
+        related_name="tags",
+        null=True,
+        blank=True,
+    )
     question = models.CharField(max_length=500, unique=True)
     answer = models.TextField(verbose_name="Ответ на вопрос")
 
