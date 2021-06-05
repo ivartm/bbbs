@@ -11,6 +11,7 @@ extra_patterns = [
     path("", include("common.urls")),
     path("", include("afisha.urls")),
     path("", include("places.urls")),
+    path("", include("questions.urls")),
 ]
 
 urlpatterns = [

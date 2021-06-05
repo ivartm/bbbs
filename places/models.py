@@ -1,7 +1,6 @@
+from common.models import Tag
 from django.db import models
 from django.utils.translation import gettext_lazy
-
-from common.models import Tag
 
 
 class Place(models.Model):
