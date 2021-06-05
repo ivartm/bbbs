@@ -1,9 +1,9 @@
-from rest_framework import generics
+from rest_framework.generics import ListCreateAPIView
 
 from .models import Place
 from .serializers import PlaceSerializer
 
 
-class PlaceList(generics.ListCreateAPIView):
+class PlaceList(ListCreateAPIView):
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
