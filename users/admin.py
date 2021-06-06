@@ -51,8 +51,8 @@ class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
     profile__city_short_description = "город"
     list_display_links = ("username",)
     fieldsets = (
-        (None, {"fields": ("username", "password")}),
-        (_("Personal info"), {"fields": ("email",)}),
+        (None, {"fields": ("username", "email", "password")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name")}),
         (
             _("Permissions"),
             {
@@ -66,26 +66,41 @@ class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("username", "email", "password1", "password2"),
+            },
+        ),
+    )
 
     def get_fieldsets(self, request, obj=None):
         if not (request.user.is_superuser or request.user.profile.is_admin):
             fieldsets = (
-                (None, {"fields": ("username",)}),
-                (_("Personal info"), {"fields": ("email",)}),
+                (None, {"fields": ("username", "email")}),
+                (_("Personal info"), {"fields": ("first_name", "last_name")}),
+                (
+                    _("Permissions"),
+                    {
+                        "fields": (
+                            "is_active",
+                            "is_staff",
+                            "is_superuser",
+                        )
+                    },
+                ),
             )
             return fieldsets
         return super().get_fieldsets(request, obj)
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
-        form.base_fields[
-            "username"
-        ].help_text = "В качестве имени укажите email пользователя"
         if obj is None:
             return form
-        if not request.user.is_superuser:
+        if request.user.profile.is_admin and not request.user.is_superuser:
             form.base_fields["is_superuser"].disabled = True
-            form.base_fields["is_staff"].disabled = True
         return form
 
     def get_inline_instances(self, request, obj=None):
@@ -101,7 +116,7 @@ class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
 
     def save_model(self, request, obj, form, change):
         if change:
-            if obj.profile.is_mentor:
+            if obj.profile.is_mentor and not obj.is_superuser:
                 obj.is_staff = False
             else:
                 obj.is_staff = True

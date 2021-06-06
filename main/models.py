@@ -1,35 +1,31 @@
+from django.db import models
+from places.models import Place
+from questions.models import Question
+
+
+class Main(models.Model):
+    place = models.OneToOneField(Place, on_delete=models.RESTRICT)
+    questions = models.ManyToManyField(
+        Question,
+    )
+    # history = models.OneToOneField(History, on_delete=models.RESTRICT)
+    # articles = models.ManyToManyField(Article, )
+    # movies = models.ManyToManyField(Movie,)
+    # video = models.OneToOneField(Video, on_delete=models.RESTRICT)
+
+    class Meta:
+        verbose_name = "Главная страница"
+        verbose_name_plural = "Главная страница"
+
+    def __str__(self):
+        return "Редактировать"
+
+
 TEMP_DATA = {
     "history": {
         "id": 21,
         "imageUrl": "https://picsum.photos/870/520",
         "title": "История Марины и Алины",
-    },
-    "place": {
-        "chosen": True,
-        "id": 31,
-        "title": "Сплав на байдарках в две строки",
-        "name": "усадьба Архангельское в две строки",
-        "info": "Девока, 10 лет. Активный отдых",
-        "description": (
-            "Аннотация статьи в несколько абзацев. В тот момент, "
-            "как ребёнок научился говорить, и не одно слово, "
-            "а задавать бесконечное количество вопросов, "
-            "жизнь меняется. Вы будете не понимать друг друга,  "
-            "потом понимать чуть лучше и, Аннотация статьи в "
-            "несколько абзацев. В тот момент, как ребёнок "
-            "научился говорить, и не одно слово, а задавать "
-            "бесконечное количество вопросов, жизнь меняется. Вы "
-            "будете не понимать друг друга,  потом понимать чуть "
-            "лучше и,\nАннотация статьи в несколько абзацев. В "
-            "тот момент, как ребёнок научился говорить, и не одно "
-            "слово, а задавать бесконечное количество вопросов, "
-            "жизнь меняется. Вы будете не по Аннотация статьи в "
-            "несколько абзацев. В тот момент, как ребёнок "
-            "научился говорить, и не одно слово, а задавать "
-            "бесконечное количество вопросов, жизнь меняется."
-        ),
-        "imageUrl": "https://picsum.photos/1125/394",
-        "link": "https://www.moscowzoo.ru/",
     },
     "articles": [
         {
@@ -138,46 +134,4 @@ TEMP_DATA = {
         "imageUrl": "https://picsum.photos/1199/675",
         "duration": 134,
     },
-    "questions": [
-        {
-            "id": 71,
-            "tags": [
-                {
-                    "id": 771,
-                    "name": "рубрика",
-                    "slug": "rubric",
-                }
-            ],
-            "title": "Я боюсь, что ребёнок ко мне слишком сильно привяжется. "
-            "Что делать?",
-        },
-        {
-            "id": 72,
-            "tags": [
-                {
-                    "id": 771,
-                    "name": "рубрика",
-                    "slug": "rubric",
-                }
-            ],
-            "title": (
-                "Возможно ли продлить срок участия в программе, если и я "
-                "и мой «младший» хотим остаться в программе?"
-            ),
-        },
-        {
-            "id": 73,
-            "tags": [
-                {
-                    "id": 771,
-                    "name": "рубрика",
-                    "slug": "rubric",
-                }
-            ],
-            "title": (
-                "Что делать если Ваш младший решил закрыть пару, т.к. "
-                "слишком занят с учебой и друзьями?"
-            ),
-        },
-    ],
 }

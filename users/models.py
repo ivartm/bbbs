@@ -7,6 +7,11 @@ from django.utils.translation import gettext_lazy as _
 from common.models import City
 
 
+User._meta.get_field("email")._unique = True
+User._meta.get_field("email").blank = False
+User._meta.get_field("email").null = False
+
+
 class Profile(models.Model):
     class Role(models.TextChoices):
         MENTOR = "Наставник", _("Наставник")
@@ -18,13 +23,14 @@ class Profile(models.Model):
         User, on_delete=models.CASCADE, related_name="profile"
     )
     city = models.ForeignKey(
-        City, on_delete=models.SET_NULL, null=True, verbose_name="Город"
+        City, on_delete=models.RESTRICT, verbose_name="Город"
     )
     region = models.ManyToManyField(
         City,
         blank=True,
         related_name="region",
         verbose_name="Обслуживаемые города",
+        related_query_name="region",
     )
     role = models.CharField(
         max_length=25,
@@ -42,8 +48,19 @@ class Profile(models.Model):
     @receiver(post_save, sender=User)
     def create_and_update_user_profile(sender, instance, created, **kwargs):
         if created:
-            Profile.objects.create(user=instance)
-        if not instance.profile.region.exists():
+            obj, created = City.objects.get_or_create(
+                name="Москва",
+                defaults={"name": "Москва", "isPrimary": True},
+            )
+            if created:
+                obj.save()
+            Profile.objects.create(user=instance, city=obj)
+            if instance.is_superuser:
+                instance.profile.role = Profile.Role.ADMIN
+        if (
+            not instance.profile.region.exists()
+            and instance.profile.is_moderator_reg
+        ):
             instance.profile.region.add(instance.profile.city)
         instance.profile.save()
 
