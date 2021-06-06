@@ -1,10 +1,30 @@
+import pytz
 from django.contrib import admin
 from django.contrib.admin import register
 
+from afisha.models import Event, EventParticipant
 from common.models import City
 from users.utils import StaffRequiredAdminMixin
 
-from afisha.models import Event, EventParticipant
+
+class CitySelectFilter(admin.SimpleListFilter):
+    title = "Города"
+    parameter_name = "city_name"
+
+    def lookups(self, request, model_admin):
+        list_of_cities = []
+        if request.user.profile.is_moderator_reg:
+            queryset = City.objects.filter(region=request.user.profile)
+        else:
+            queryset = City.objects.all()
+        for city in queryset:
+            list_of_cities.append((str(city.id), city.name))
+        return sorted(list_of_cities, key=lambda tp: tp[1])
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(city_id=self.value())
+        return queryset
 
 
 @register(Event)
@@ -21,7 +41,7 @@ class EventAdmin(admin.ModelAdmin):
         "seats",
     )
     list_filter = (
-        "city",
+        CitySelectFilter,
         "startAt",
     )
     empty_value_display = "-пусто-"
@@ -30,17 +50,30 @@ class EventAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         if request.user.profile.is_moderator_reg:
             return Event.objects.filter(
-                city__in=City.objects.filter(
-                    name=request.user.profile.region.name
-                )
+                city__in=City.objects.filter(region=request.user.profile)
             )
-        return Event.objects.all()
+
+        else:
+            return Event.objects.all()
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         if request.user.profile.is_moderator_reg:
             form.base_fields["city"].queryset = request.user.profile.region
+        form.base_fields[
+            "startAt"
+        ].help_text = "Время и дата указываются в формате местного времени"
+        form.base_fields[
+            "endAt"
+        ].help_text = "Время и дата указываются в формате местного времени"
         return form
+
+    def save_model(self, request, obj, form, change):
+        if request.user.profile.city != obj.city:
+            current_timezone = City.objects.get(name=obj.city).timeZone
+            startAt = obj.startAt.astimezone(pytz.timezone(current_timezone))
+            obj.startAt = startAt
+        super().save_model(request, obj, form, change)
 
     def has_add_permission(self, request):
         return not request.user.is_anonymous

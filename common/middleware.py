@@ -5,7 +5,7 @@ from django.utils import timezone
 def set_timezone(get_response):
     def middleware(request):
         if request.user.is_authenticated:
-            if request.user.is_superuser:
+            if request.user.is_superuser and request.user.profile.city is None:
                 timezone.activate(pytz.timezone("UTC"))
             else:
                 timezone.activate(
