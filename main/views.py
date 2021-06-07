@@ -20,7 +20,7 @@ class MainView(APIView):
             city = self.request.user.profile.city
         else:
             # city = request.GET["city"]
-            city = City.objects.get(name="Москва")
+            city, created = City.objects.get_or_create(name="Москва")
         event = Event.objects.filter(
             city=city, startAt__gt=timezone.now()
         ).first()

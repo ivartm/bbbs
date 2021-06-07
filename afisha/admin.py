@@ -1,4 +1,3 @@
-import pytz
 from django.contrib import admin
 from django.contrib.admin import register
 
@@ -67,13 +66,6 @@ class EventAdmin(admin.ModelAdmin):
             "endAt"
         ].help_text = "Время и дата указываются в формате местного времени"
         return form
-
-    def save_model(self, request, obj, form, change):
-        if request.user.profile.city != obj.city:
-            current_timezone = City.objects.get(name=obj.city).timeZone
-            startAt = obj.startAt.astimezone(pytz.timezone(current_timezone))
-            obj.startAt = startAt
-        super().save_model(request, obj, form, change)
 
     def has_add_permission(self, request):
         return not request.user.is_anonymous

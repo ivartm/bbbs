@@ -43,9 +43,7 @@ class StaticURLTests(APITestCase):
 
     def test_main_unauthorized_client(self):
         client = StaticURLTests.unauthorized_client
-        response = client.get(
-            StaticURLTests.path_main + "?city=10"
-        )  # Noqa временно
+        response = client.get(StaticURLTests.path_main)
         self.assertEqual(
             response.status_code,
             200,

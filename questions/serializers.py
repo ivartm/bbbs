@@ -1,7 +1,12 @@
 from rest_framework import serializers
 
-from questions.models import Question
-from common.serializers import TagSerializer
+from questions.models import Question, Tag
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = "__all__"
 
 
 class QuestionSerializer(serializers.ModelSerializer):
