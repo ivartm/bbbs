@@ -1,7 +1,14 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import SimpleRouter
+from questions.views import QuestionsList, QuestionsTagList
 
-from .views import QuestionsList
+
+router = SimpleRouter()
+
+
+router.register('questions-tags', QuestionsTagList, basename='questions-tags')
+router.register('questions', QuestionsList, basename='questions')
 
 urlpatterns = [
-    path("v1/question/", QuestionsList.as_view(), name="question_page"),
+    path("v1/", include(router.urls)),
 ]
