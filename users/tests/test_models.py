@@ -2,12 +2,14 @@ from django.contrib.admin import AdminSite
 from django.test import TestCase
 
 from afisha.models import User
+from common.models import City
 from users.admin import UserAdmin
 from users.models import Profile
 
 USERNAME = 'user@mail.ru'
 USERNAME_SUPERUSER = 'superr@mail.ru'
 NEW_USERNAME = 'new_user@mail.ru'
+CITY = 'Москва'
 
 
 class OurRequest(object):
@@ -18,6 +20,10 @@ class OurRequest(object):
 class UsersCreateTests(TestCase):
 
     def setUp(self):
+        self.city = City.objects.create(
+            name=CITY,
+            isPrimary=1
+        )
         self.user = User.objects.create_user(
             username=USERNAME,
             email=USERNAME,
@@ -46,12 +52,14 @@ class UsersCreateTests(TestCase):
             form=UserAdmin.form,
             change=False
         )
-        user = User.objects.get(username=NEW_USERNAME)
-        self.assertEqual(user.username, NEW_USERNAME)
-        self.assertEqual(user.profile.role, Profile.Role.MENTOR)
-        self.assertTrue(user.is_active)
-        self.assertFalse(user.is_staff)
-        self.assertFalse(user.is_superuser)
+        user_new = User.objects.get(username=NEW_USERNAME)
+        user_new.profile.city=self.city
+        self.assertEqual(user_new.username, NEW_USERNAME)
+        self.assertEqual(user_new.profile.role, Profile.Role.MENTOR)
+        self.assertEqual(user_new.profile.city, self.city)
+        self.assertTrue(user_new.is_active)
+        self.assertFalse(user_new.is_staff)
+        self.assertFalse(user_new.is_superuser)
 
     def test_create_admin(self):
         """Test for changing role (admin) on the admin site."""
