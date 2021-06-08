@@ -82,16 +82,15 @@ class URLTests(TestCase):
 
     def test_token_refresh(self):
         """Test api token refresh"""
-        user = self.user
         data = {
-                "username": USERNAME,
-                "password": PASSWORD,
-            }
+            "username": USERNAME,
+            "password": PASSWORD,
+        }
         response = self.client.post(TOKEN_URL, data, format='json')
         refresh = response.data["refresh"]
         data = {
-                "refresh": refresh,
-            }
+            "refresh": refresh,
+        }
         response = self.client.post(REFRESH_URL, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)

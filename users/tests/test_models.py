@@ -53,7 +53,7 @@ class UsersCreateTests(TestCase):
             change=False
         )
         user_new = User.objects.get(username=NEW_USERNAME)
-        user_new.profile.city=self.city
+        user_new.profile.city = self.city
         self.assertEqual(user_new.username, NEW_USERNAME)
         self.assertEqual(user_new.profile.role, Profile.Role.MENTOR)
         self.assertEqual(user_new.profile.city, self.city)
