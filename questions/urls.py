@@ -1,14 +1,12 @@
-from django.urls import path, include
-from rest_framework.routers import SimpleRouter
+from django.urls import include, path
+
 from questions.views import QuestionsList, QuestionsTagList
 
-
-router = SimpleRouter()
-
-
-router.register('questions-tags', QuestionsTagList, basename='questions-tags')
-router.register('questions', QuestionsList, basename='questions')
+extra_patterns = [
+    path("questions/", QuestionsList.as_view(), name="questions"),
+    path("questions-tags/", QuestionsTagList.as_view(), name="questions-tags"),
+]
 
 urlpatterns = [
-    path("v1/", include(router.urls)),
+    path("v1/", include(extra_patterns)),
 ]
