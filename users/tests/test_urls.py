@@ -33,9 +33,6 @@ class URLTests(TestCase):
         cls.userAdminSite = UserAdmin(model=User, admin_site=AdminSite())
 
     def setUp(self):
-        # Создаем неавторизованного клиента
-        self.guest_client = Client()
-        # Создаем авторизованного клиента
         self.authorized_client = Client()
         self.user = User.objects.create_user(
             username=USERNAME,
