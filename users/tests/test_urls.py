@@ -3,6 +3,7 @@ from django.contrib.sites.models import Site
 from django.test import Client, TestCase
 from django.urls import reverse
 from rest_framework import status
+from rest_framework.test import APIClient
 
 from users.admin import UserAdmin
 from users.models import Profile, User
@@ -40,6 +41,11 @@ class URLTests(TestCase):
             password=PASSWORD,
         )
         self.authorized_client.force_login(self.user)
+
+    def return_authorized_user_client(self, user):
+        authorized_client = APIClient()
+        authorized_client.force_authenticate(user=user)
+        return authorized_client
 
     def test_api_token_for_mentor(self):
         """Test api token/ for mentor"""
@@ -91,3 +97,16 @@ class URLTests(TestCase):
         response = self.client.post(REFRESH_URL, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)
+
+    def test_profile_get(self):
+        """Test api get profile"""
+        user = self.user
+        expected_data = {
+            'id': 1,
+            'user': user.id,
+            'city': user.profile.city.id
+        }
+        client = self.return_authorized_user_client(user=user)
+        response = client.get(PROFILE_URL)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, expected_data)
