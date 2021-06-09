@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from afisha.views import EventParticipantViewSet, EventAPIView
+from afisha.views import EventAPIView, EventParticipantViewSet
 
 router = DefaultRouter()
 router.register(

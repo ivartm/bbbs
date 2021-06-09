@@ -11,9 +11,11 @@ class QuestionAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
     list_filter = ("tag", "pubDate")
     search_fields = ("question",)
     empty_value_display = "Без тегов"
+    ordering = ("answer", "-pubDate")
 
 
 @register(Tag)
 class TagAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
     list_display = ("name", "slug")
     search_fields = ("name",)
+    ordering = ("name",)

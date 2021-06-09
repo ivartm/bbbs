@@ -7,7 +7,7 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = "__all__"
-        lookup_field = "slug"
+        lookup_field = "name"
 
 
 class QuestionSerializer(serializers.ModelSerializer):

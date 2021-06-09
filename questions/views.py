@@ -13,7 +13,7 @@ class QuestionsList(ListCreateAPIView):
     serializer_class = QuestionSerializer
     permission_classes = [AllowAny]
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ("tag",)
+    filter_fields = ("tag", "tag__name")
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -28,6 +28,6 @@ class QuestionsList(ListCreateAPIView):
 
 
 class QuestionsTagList(ListAPIView):
-    queryset = Tag.objects.all().order_by("-name")
+    queryset = Tag.objects.all().order_by("name")
     serializer_class = TagSerializer
     permission_classes = [AllowAny]
