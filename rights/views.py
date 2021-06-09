@@ -1,9 +1,18 @@
-from rest_framework.generics import ListAPIView
+from django_filters import rest_framework as filters
+from rest_framework import generics
 
-from rights.models import Right
-from rights.serializers import RightSerializer
+from rights.filters import RightFilter
+from rights.models import Right, RightTag
+from rights.serializers import RightSerializer, RightTagSerializer
 
 
-class RightList(ListAPIView):
+class RightTagList(generics.ListAPIView):
+    queryset = RightTag.objects.all()
+    serializer_class = RightTagSerializer
+
+
+class RightList(generics.ListAPIView):
     queryset = Right.objects.all()
     serializer_class = RightSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = RightFilter
