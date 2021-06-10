@@ -1,9 +1,9 @@
 from django.db import models
 
-from questions.management.slug_transliteration import slugify
+from common.utils import slugify
 
 
-class Tag(models.Model):
+class QuestionTag(models.Model):
     name = models.CharField(
         verbose_name="Название тега", max_length=50, unique=True
     )
@@ -26,7 +26,7 @@ class Tag(models.Model):
 
 class Question(models.Model):
     tag = models.ManyToManyField(
-        Tag,
+        QuestionTag,
         verbose_name="Тэги",
         related_name="tags",
         related_query_name="tags",

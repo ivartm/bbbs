@@ -1,17 +1,17 @@
 from rest_framework import serializers
 
-from questions.models import Question, Tag
+from questions.models import Question, QuestionTag
 
 
-class TagSerializer(serializers.ModelSerializer):
+class QuestionTagSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Tag
+        model = QuestionTag
         fields = "__all__"
         lookup_field = "name"
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    tag = TagSerializer(many=True, read_only=True)
+    tag = QuestionTagSerializer(many=True, read_only=True)
     answer = serializers.CharField(read_only=True)
     pubDate = serializers.DateTimeField(read_only=True)
 

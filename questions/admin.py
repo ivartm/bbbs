@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import register
 
-from questions.models import Question, Tag
+from questions.models import Question, QuestionTag
 from users.utils import StaffRequiredAdminMixin
 
 
@@ -14,7 +14,7 @@ class QuestionAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
     ordering = ("answer", "-pubDate")
 
 
-@register(Tag)
+@register(QuestionTag)
 class TagAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
     list_display = ("name", "slug")
     search_fields = ("name",)
