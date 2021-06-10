@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from common.models import City, Tag
+from common.models import City
 from users.models import Profile
 
 
@@ -15,9 +15,3 @@ class MyCitySerializer(ModelSerializer):
         model = Profile
         fields = "id", "city"
         lookup_field = "city"
-
-
-class TagSerializer(ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = "__all__"

@@ -1,4 +1,4 @@
-from common.models import Tag
+# from common.models import Tag
 from django.db import models
 
 
@@ -8,7 +8,7 @@ class Right(models.Model):
     text = models.TextField()
     color = models.CharField(max_length=50)
     image = models.ImageField(blank=True)
-    tag = models.ManyToManyField(Tag)
+    # tag = models.ManyToManyField(Tag)
 
     def __str__(self):
         return self.title

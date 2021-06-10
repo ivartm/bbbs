@@ -1,4 +1,4 @@
-from common.models import Tag
+# from common.models import Tag
 from django.db import models
 from django.utils.translation import gettext_lazy
 
@@ -49,12 +49,11 @@ class Place(models.Model):
         null=True,
         blank=True,
     )
-    tag = models.ManyToManyField(
-        Tag,
-        verbose_name="Тег",
-        null=True,
-        blank=True,
-    )
+    # tag = models.ManyToManyField(
+    #     Tag,
+    #     verbose_name="Тег",
+    #     blank=True,
+    # )
     imageUrl = models.ImageField(
         verbose_name="Фото",
         help_text="Добавить фото",

@@ -22,7 +22,7 @@ class PlaceSerializer(serializers.ModelSerializer):
             "age",
             "gender",
             "activity_type",
-            "tag",
+            # "tag",
         )
 
     def get_gender(self, obj):

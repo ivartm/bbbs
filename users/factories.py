@@ -34,9 +34,22 @@ class UserFactory(factory.django.DjangoModelFactory):
         ]
 
     username = factory.Sequence(lambda n: "user_%d" % n)
+    password = "Bbbs2021!"
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
     email = factory.LazyAttribute(lambda obj: f"{obj.username}@bbbs.com")
     profile = factory.RelatedFactory(
         ProfileFactory, factory_related_name="user"
     )
+
+    @classmethod
+    def _create(cls, model_class, *args, **kwargs):
+        """Override the default ``_create`` with our custom call.
+
+        The method has been taken from factory_boy manual. Without it
+        password for users is being created without has and doesn't work
+        right.
+        """
+
+        manager = cls._get_manager(model_class)
+        return manager.create_user(*args, **kwargs)
