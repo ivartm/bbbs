@@ -1,6 +1,17 @@
-# from common.models import Tag
 from django.db import models
 from django.utils.translation import gettext_lazy
+
+
+class PlaceTag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=50, unique=True)
+
+    class Meta:
+        verbose_name = "Тег"
+        verbose_name_plural = "Теги"
+
+    def __str__(self):
+        return self.name
 
 
 class Place(models.Model):
@@ -33,7 +44,7 @@ class Place(models.Model):
         blank=True,
     )
     age = models.PositiveSmallIntegerField(
-        verbose_name="Возраст",
+        verbose_name="Возраст", blank=True, null=True
     )
     activity_type = models.PositiveSmallIntegerField(
         verbose_name="Тип отдыха",
@@ -49,11 +60,7 @@ class Place(models.Model):
         null=True,
         blank=True,
     )
-    # tag = models.ManyToManyField(
-    #     Tag,
-    #     verbose_name="Тег",
-    #     blank=True,
-    # )
+    tag = models.ManyToManyField(PlaceTag, related_name="tags", blank=True)
     imageUrl = models.ImageField(
         verbose_name="Фото",
         help_text="Добавить фото",
@@ -68,6 +75,9 @@ class Place(models.Model):
 
     def __str__(self):
         return self.title
+
+    def list_tags(self):
+        return self.tag.values_list("name")
 
     def get_gender(self, gender_code):
         return self.Genders(gender_code).label
