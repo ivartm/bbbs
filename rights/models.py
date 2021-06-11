@@ -1,10 +1,17 @@
 from colorfield.fields import ColorField
 from django.db import models
 
+from common.utils import slugify
+
 
 class RightTag(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    slug = models.SlugField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Тег (права детей)"

@@ -1,20 +1,22 @@
 # from datetime import timedelta
 
-from enum import unique
+# from enum import unique
 import factory
 import pytz
 from faker import Faker
-import random
 
-from questions.management.slug_transliteration import slugify
+# import random
+
+# from questions.management.slug_transliteration import slugify
 from questions.models import Question, Tag
+
 # from common.models import City
 # from users.factories import UserFactory
 
 fake = Faker(["ru-RU"])
 
 
-class TagFactory(factory.django.DjangoModelFactory):
+class QuestionTagFactory(factory.django.DjangoModelFactory):
     """Create Tag objects."""
 
     class Meta:
@@ -52,7 +54,7 @@ class QuestionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Question
 
-    tag = factory.RelatedFactory(TagFactory)
+    tag = factory.RelatedFactory(QuestionTagFactory)
     question = factory.Sequence(lambda n: fake.unique.sentence(nb_words=7))
     answer = factory.Faker("text")
     pubDate = factory.Faker(

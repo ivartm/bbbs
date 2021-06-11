@@ -19,4 +19,3 @@ class RightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Right
         fields = "__all__"
-        extra_kwargs = {"url": {"lookup_field": "slug"}}
