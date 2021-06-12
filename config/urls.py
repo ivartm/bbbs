@@ -45,3 +45,7 @@ if DEBUG:
     urlpatterns += [
         path("__debug__/", include(debug_toolbar.urls)),
     ]
+
+admin.site.site_header = "Панель администраторов"
+admin.site.site_title = "Наставники.про"
+admin.site.index_title = "Добро пожаловать на портал Наставники.про"

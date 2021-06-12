@@ -1,7 +1,12 @@
-from django.urls import path
+from django.urls import include, path
 
-from .views import QuestionsList
+from questions.views import QuestionsList, QuestionsTagList
+
+extra_patterns = [
+    path("questions/", QuestionsList.as_view(), name="questions"),
+    path("questions-tags/", QuestionsTagList.as_view(), name="questions-tags"),
+]
 
 urlpatterns = [
-    path("v1/question/", QuestionsList.as_view(), name="question_page"),
+    path("v1/", include(extra_patterns)),
 ]

@@ -11,7 +11,11 @@ router.register(
 )
 
 
+afisha_urls = [
+    path("events/", EventAPIView.as_view(), name="events"),
+    path("", include(router.urls)),
+]
+
 urlpatterns = [
-    path("v1/afisha/events/", EventAPIView.as_view(), name="events"),
-    path("v1/afisha/", include(router.urls)),
+    path("v1/afisha/", include(afisha_urls)),
 ]
