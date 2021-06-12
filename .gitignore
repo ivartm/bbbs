@@ -133,6 +133,8 @@ dmypy.json
 # VsCode settings
 .vscode/
 
-#mac_os settings
+# mac_os settings
 .DS_Store
-old.settings.py
+
+# Media folder
+media/

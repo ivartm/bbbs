@@ -7,7 +7,7 @@ from questions.models import Question, QuestionTag
 fake = Faker(["ru-RU"])
 
 
-class TagFactory(factory.django.DjangoModelFactory):
+class QuestionTagFactory(factory.django.DjangoModelFactory):
     """Create Tag objects."""
 
     class Meta:

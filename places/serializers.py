@@ -1,9 +1,15 @@
 from rest_framework import serializers
 
-from .models import Place
+from .models import Place, PlaceTag
 
 
-class InfoField(serializers.Field):
+class PlaceTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlaceTag
+        fields = "__all__"
+
+
+class InfoField(serializers.ReadOnlyField):
     def to_representation(self, place):
         display = ""
         if place.gender:
@@ -13,8 +19,9 @@ class InfoField(serializers.Field):
         return display
 
 
-class PlaceSerializer(serializers.ModelSerializer):
+class PlaceSerializerRead(serializers.ModelSerializer):
     info = InfoField(source="*")
+    tag = PlaceTagSerializer(many=True)
 
     class Meta:
         model = Place
@@ -22,8 +29,17 @@ class PlaceSerializer(serializers.ModelSerializer):
             "age",
             "gender",
             "activity_type",
-            # "tag",
         )
 
     def get_gender(self, obj):
         return obj.get_gender_display()
+
+
+class PlaceSerializerWrite(serializers.ModelSerializer):
+    tag = serializers.SlugRelatedField(
+        many=True, queryset=PlaceTag.objects.all(), slug_field="slug"
+    )
+
+    class Meta:
+        model = Place
+        exclude = ("id",)

@@ -4,11 +4,14 @@ from django.contrib.admin import register
 from afisha.filters import CitySelectFilter
 from afisha.models import Event, EventParticipant
 from common.models import City
-from users.utils import StaffRequiredAdminMixin
+from users.utils import (
+    AdminOnlyPermissionsMixin,
+    AdminAndModersPermissionsMixin,
+)
 
 
 @register(Event)
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(AdminAndModersPermissionsMixin, admin.ModelAdmin):
     list_display = (
         "id",
         "city",
@@ -48,23 +51,8 @@ class EventAdmin(admin.ModelAdmin):
         ].help_text = "Время и дата указываются в формате местного времени"
         return form
 
-    def has_add_permission(self, request):
-        return not request.user.is_anonymous
-
-    def has_view_permission(self, request, obj=None):
-        return not request.user.is_anonymous
-
-    def has_change_permission(self, request, obj=None):
-        return not request.user.is_anonymous
-
-    def has_delete_permission(self, request, obj=None):
-        return not request.user.is_anonymous
-
-    def has_module_permission(self, request):
-        return not request.user.is_anonymous
-
 
 @register(EventParticipant)
-class EventParticipantAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
+class EventParticipantAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
     list_display = ("user", "event")
     empty_value_display = "-пусто-"

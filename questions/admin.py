@@ -2,11 +2,11 @@ from django.contrib import admin
 from django.contrib.admin import register
 
 from questions.models import Question, QuestionTag
-from users.utils import StaffRequiredAdminMixin
+from users.utils import AdminOnlyPermissionsMixin
 
 
 @register(Question)
-class QuestionAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
+class QuestionAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
     list_display = ("question", "answer", "pubDate")
     list_filter = ("tags", "pubDate")
     search_fields = ("question",)
@@ -15,7 +15,7 @@ class QuestionAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
 
 
 @register(QuestionTag)
-class TagAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
-    list_display = ("id", "name", "slug")
+class TagAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
+    list_display = ("name", "slug")
     search_fields = ("name",)
     ordering = ("name",)

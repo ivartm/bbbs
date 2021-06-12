@@ -42,7 +42,7 @@ class EventFactory(factory.django.DjangoModelFactory):
 
 
 class EventParticipantFactory(factory.django.DjangoModelFactory):
-    """This factory without params creates User and Profile objects itself."""
+    """Creates User and Profile objects itself."""
 
     class Meta:
         model = EventParticipant

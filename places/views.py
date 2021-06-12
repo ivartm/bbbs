@@ -1,9 +1,25 @@
-from rest_framework.generics import ListCreateAPIView
-
-from .models import Place
-from .serializers import PlaceSerializer
+from rest_framework.generics import ListAPIView
+from rest_framework.viewsets import ModelViewSet
 
 
-class PlaceList(ListCreateAPIView):
+from places.models import Place, PlaceTag
+from places.serializers import (
+    PlaceSerializerRead,
+    PlaceTagSerializer,
+    PlaceSerializerWrite,
+)
+
+
+class PlacesTagList(ListAPIView):
+    queryset = PlaceTag.objects.all().order_by("name")
+    serializer_class = PlaceTagSerializer
+
+
+class PlacesViewSet(ModelViewSet):
     queryset = Place.objects.all()
-    serializer_class = PlaceSerializer
+    http_method_names = ["get", "post"]
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return PlaceSerializerWrite
+        return PlaceSerializerRead
