@@ -1,6 +1,6 @@
+import json
 from datetime import datetime
 
-import json
 import pytz
 from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase

@@ -8,7 +8,7 @@ from users.utils import StaffRequiredAdminMixin
 @register(Question)
 class QuestionAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
     list_display = ("question", "answer", "pubDate")
-    list_filter = ("tag", "pubDate")
+    list_filter = ("tags", "pubDate")
     search_fields = ("question",)
     empty_value_display = "Без тегов"
     ordering = ("answer", "-pubDate")
@@ -16,6 +16,6 @@ class QuestionAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
 
 @register(QuestionTag)
 class TagAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
-    list_display = ("name", "slug")
+    list_display = ("id", "name", "slug")
     search_fields = ("name",)
     ordering = ("name",)

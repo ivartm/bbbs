@@ -8,10 +8,10 @@ from rest_framework.mixins import (
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
-from users.models import Profile
 
 from afisha.models import Event, EventParticipant
 from afisha.serializers import EventParticipantSerializer, EventSerializer
+from users.models import Profile
 
 
 class CreateListDestroyMixin(

@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import serializers
-from users.models import Profile
 
 from afisha.models import Event, EventParticipant
+from users.models import Profile
 
 
 class EventSerializer(serializers.ModelSerializer):
