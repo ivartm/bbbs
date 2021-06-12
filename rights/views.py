@@ -12,7 +12,7 @@ class RightTagList(generics.ListAPIView):
 
 
 class RightList(generics.ListAPIView):
-    queryset = Right.objects.all()
+    queryset = Right.objects.all().prefetch_related("tag")
     serializer_class = RightSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = RightFilter
