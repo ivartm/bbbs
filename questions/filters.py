@@ -5,11 +5,11 @@ from .models import Question, QuestionTag
 
 class QuestionFilter(filters.FilterSet):
     tag = filters.ModelMultipleChoiceFilter(
-        field_name="tag__slug",
+        field_name="tags__slug",
         queryset=QuestionTag.objects.all(),
         to_field_name="slug",
     )
 
     class Meta:
         model = Question
-        fields = ["tag"]
+        fields = ["tags"]

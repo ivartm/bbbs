@@ -4,9 +4,9 @@ from rest_framework.generics import ListAPIView, ListCreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
+from questions.filters import QuestionFilter
 from questions.models import Question, QuestionTag
 from questions.serializers import QuestionSerializer, QuestionTagSerializer
-from questions.filters import QuestionFilter
 
 
 class QuestionsList(ListCreateAPIView):
@@ -14,7 +14,6 @@ class QuestionsList(ListCreateAPIView):
     serializer_class = QuestionSerializer
     permission_classes = [AllowAny]
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ("tag", "tag__slug")
     filterset_class = QuestionFilter
 
     def create(self, request, *args, **kwargs):

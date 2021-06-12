@@ -8,7 +8,7 @@ from users.utils import AdminOnlyPermissionsMixin
 @register(Question)
 class QuestionAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
     list_display = ("question", "answer", "pubDate")
-    list_filter = ("tag", "pubDate")
+    list_filter = ("tags", "pubDate")
     search_fields = ("question",)
     empty_value_display = "Без тегов"
     ordering = ("answer", "-pubDate")

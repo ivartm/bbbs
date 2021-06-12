@@ -26,7 +26,7 @@ make shell
 ```
 
 ```python
-from afisha.fixtures import make_fixtures
+from common.fixtures import make_fixtures
 make_fixtures()
 ````
 
