@@ -7,7 +7,7 @@ from common.factories import CityFactory
 from questions.factories import (
     QuestionFactory,
     QuestionFactoryWithoutAnswer,
-    TagFactory,
+    TagFactory
 )
 from questions.models import QuestionTag
 
