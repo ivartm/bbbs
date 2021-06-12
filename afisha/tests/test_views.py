@@ -8,8 +8,8 @@ from rest_framework.test import APIClient, APITestCase
 from common.factories import CityFactory
 from users.factories import UserFactory
 
-from ..factories import EventFactory, EventParticipantFactory
-from ..models import EventParticipant
+from afisha.factories import EventFactory, EventParticipantFactory
+from afisha.models import EventParticipant
 
 
 class ViewAfishaTests(APITestCase):
@@ -51,20 +51,41 @@ class ViewAfishaTests(APITestCase):
         authorized_client.force_authenticate(user=user)
         return authorized_client
 
+    def test_response_is_paginated(self):
+        """Just look for 'next', 'previous', 'result' keys in response."""
+        user = ViewAfishaTests.mentor
+        EventFactory.create_batch(50, city=user.profile.city)
+        client = self.return_authorized_user_client(user)
+
+        response_data = client.get(
+            path=self.path_events,
+        ).data
+
+        self.assertTrue("next" in response_data)
+        self.assertTrue("previous" in response_data)
+        self.assertTrue("results" in response_data)
+
     def test_mentor_can_list_available_events_in_his_city(self):
-        """Test should be rewritten to support pagination."""
+        """Looks for amount recodes in response.
+
+        The test assumes that pages size is less or equal 10.
+        """
+
         city = CityFactory(name="Вермонт")
+        other_city = ViewAfishaTests.city
         user = UserFactory(profile__city=city)
         client = self.return_authorized_user_client(user)
-        EventFactory.create_batch(50, city=city)
+        EventFactory.create_batch(10, city=city)
+        EventFactory.create_batch(100, city=other_city)
 
         response = client.get(
             path=self.path_events,
         )
+        results = response.data.get("results")
 
         self.assertEqual(
-            len(response.data),
-            50,
+            len(results),
+            10,
             msg=(
                 "Проверьте что пользователь видит все доступные события "
                 "в городе"
@@ -72,6 +93,7 @@ class ViewAfishaTests(APITestCase):
         )
 
     def test_mentor_can_book_event(self):
+        """Looks for status code and returned JSON in response"""
         user = ViewAfishaTests.mentor
         event = EventFactory.create(
             city=user.profile.city,
@@ -85,14 +107,6 @@ class ViewAfishaTests(APITestCase):
             data=data,
             format="json",
         )
-        event_participate_record = EventParticipant.objects.get(
-            user=user,
-            event=event
-        )
-        expected_data = {
-            "id": event_participate_record.id,
-            "event": event.id,
-        }
 
         self.assertEqual(
             response.status_code,
@@ -102,35 +116,41 @@ class ViewAfishaTests(APITestCase):
                 "возвращается статус 201."
             ),
         )
+
+        event_participate_record = EventParticipant.objects.get(
+            user=user, event=event
+        )
+        expected_data = {
+            "id": event_participate_record.id,
+            "event": event.id,
+        }
         self.assertEqual(
             response.data,
             expected_data,
-            msg=(
-                "Проверьте, что возвращается правильный JSON."
-            ),
+            msg=("Проверьте, что возвращается правильный JSON."),
         )
 
     def test_booked_event_has_true_flag(self):
-        """Test should be rewritten when filters become supported in API."""
+        """Looks fot "booked" string in response record."""
         user = ViewAfishaTests.mentor
-        event = EventFactory.create(
-            city=user.profile.city
-        )
+        event = EventFactory.create(city=user.profile.city)
         EventParticipantFactory.create(
             event=event,
             user=user,
         )
 
         client = self.return_authorized_user_client(user)
-        response = client.get(
+        response_data = client.get(
             path=ViewAfishaTests.path_events,
             format="json",
-        )
-        response_record_dict = response.json()[0]
+        ).data
+
+        results = response_data.get("results")
+        record_dict = results[0]
 
         self.assertEqual(
             "True",
-            str(response_record_dict.get('booked')),
+            str(record_dict.get("booked")),
             msg=(
                 "Проверьте, что у мероприятий на которые "
                 "пользователь подписан возвращается флаг "
@@ -261,10 +281,7 @@ class ViewAfishaTests(APITestCase):
             user=user,
             event=event,
         )
-        path = reverse(
-            "event-participants-detail",
-            args=[event.id]
-        )
+        path = reverse("event-participants-detail", args=[event.id])
 
         client = self.return_authorized_user_client(user)
         response = client.delete(
@@ -282,7 +299,7 @@ class ViewAfishaTests(APITestCase):
                 f"Проверьте, что зарегистрированный пользователь "
                 f"с ролью '{user.profile.role}'"
                 f" может отписаться от мероприятия."
-            )
+            ),
         )
 
         self.assertEqual(
@@ -295,26 +312,27 @@ class ViewAfishaTests(APITestCase):
         )
 
     def test_mentor_sees_events_in_the_his_own_city_only(self):
-        other_city = CityFactory.create()
-        EventFactory.create(city=other_city)
-        user = ViewAfishaTests.mentor
-        other_city_user = UserFactory.create(profile__city=other_city)
-        client_user = self.return_authorized_user_client(user)
-        client_other_city_user = self.return_authorized_user_client(
-            other_city_user,
-        )
+        """Looks for amount records in responses for different users.
 
-        list_expected_len_zero = client_user.get(
-            ViewAfishaTests.path_events,
-            format="json",
-        ).json()
-        list_expected_len_equals_one = client_other_city_user.get(
-            ViewAfishaTests.path_events,
-            format="json",
-        ).json()
+        user = don't have any records in his city. We expect zero records.
+        users_other_city = has to have 10 records.
+
+        The test assumes that page size is more than 10 records.
+        """
+
+        other_city = CityFactory.create()
+        user = ViewAfishaTests.mentor
+        user_other_city = UserFactory.create(profile__city=other_city)
+        EventFactory.create_batch(10, city=other_city)
+
+        client_user = self.return_authorized_user_client(user)
+        response_data = client_user.get(
+            ViewAfishaTests.path_events, format="json"
+        ).data
+        dict_expected_len_zero = response_data.get("results")
 
         self.assertEqual(
-            len(list_expected_len_zero),
+            len(dict_expected_len_zero),
             0,
             msg=(
                 "Убедитесь, что пользователю не возвращаются мероприятия "
@@ -322,11 +340,17 @@ class ViewAfishaTests(APITestCase):
             ),
         )
 
+        client_other_user = self.return_authorized_user_client(user_other_city)
+        response_data = client_other_user.get(
+            ViewAfishaTests.path_events, format="json"
+        ).data
+        dict_expected_len_equals_ten = response_data.get("results")
+
         self.assertEqual(
-            len(list_expected_len_equals_one),
-            1,
+            len(dict_expected_len_equals_ten),
+            10,
             msg=(
                 "Убедитесь, что пользователю показывается мероприятие в его "
                 "городе."
-            )
+            ),
         )

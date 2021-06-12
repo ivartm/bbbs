@@ -32,9 +32,7 @@ class StaticURLTests(APITestCase):
             cls.moderator_gen,
             cls.admin,
         ]
-        cls.unauthorized_client = APIClient(
-
-        )
+        cls.unauthorized_client = APIClient()
 
         cls.path_events_participants = reverse("event-participants-list")
         cls.path_events = reverse("events")
