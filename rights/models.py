@@ -1,5 +1,7 @@
 from colorfield.fields import ColorField
+from django.contrib import admin
 from django.db import models
+from django.utils.html import format_html
 
 from common.utils import slugify
 
@@ -14,6 +16,7 @@ class RightTag(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
+        ordering = ["name", "slug"]
         verbose_name = "Тег (права детей)"
         verbose_name_plural = "Теги (права детей)"
 
@@ -49,9 +52,27 @@ class Right(models.Model):
         related_name="tags",
     )
 
-    class Meta:
-        verbose_name = "Право ребенка"
-        verbose_name_plural = "Права детей"
-
     def __str__(self):
         return self.title
+
+    @property
+    @admin.display(
+        description="Цвет блока",
+    )
+    def colored_circle(self):
+        return format_html(
+            "<span style='"
+            "height: 25px;"
+            "width: 25px;"
+            "border: 1px solid grey;"
+            "border-radius: 50%;"
+            "display: inline-block;"
+            "background-color: {};'>"
+            "</span>",
+            self.color,
+        )
+
+    class Meta:
+        ordering = ["title", "id"]
+        verbose_name = "Право ребенка"
+        verbose_name_plural = "Права детей"

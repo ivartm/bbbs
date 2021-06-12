@@ -35,8 +35,8 @@ class AdminAndModerMixin:
         if user_obj.is_anonymous:
             return False
         if (
-            user_obj.profile.is_admin
-            or user_obj.is_superuser
+            user_obj.is_superuser
+            or user_obj.profile.is_admin
             or user_obj.profile.is_moderator_gen
         ):
             return True
