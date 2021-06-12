@@ -5,6 +5,8 @@ from django.utils.html import format_html
 
 from common.utils import slugify
 
+from common.utils import slugify
+
 
 class RightTag(models.Model):
     name = models.CharField(max_length=50, unique=True)
