@@ -111,7 +111,7 @@ make shell
 ```shell
 pytest
 ```
-# Просмотр автодокументации по API 
+# Просмотр автодокументации по API
 
 ```shell
 .../api/schema/

@@ -1,6 +1,6 @@
 name: pep8 codestyle
 
-on: 
+on:
   push
 
 jobs:
@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set up Python 
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
@@ -23,6 +23,6 @@ jobs:
         pip install -r requirements/dev.txt
     - name: Lint with flake8
       run: flake8 .
-    
+
     - name: Codestyle by black
       run: black --check .
