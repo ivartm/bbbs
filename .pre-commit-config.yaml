@@ -9,3 +9,17 @@ repos:
     - id: check-yaml
     - id: check-added-large-files
     - id: check-merge-conflict
+- repo: local
+  hooks:
+    - id: export-dev-requirements
+      name: Export DEV requirements.txt
+      language: system
+      pass_filenames: false
+      entry: poetry export --without-hashes --dev --output requirements/dev.txt
+      files: ^(pyproject.toml|poetry.lock)$
+    - id: export-prod-requirements
+      name: Export PROD requirements.txt
+      language: system
+      pass_filenames: false
+      entry: poetry export --without-hashes --output requirements/prod.txt
+      files: ^(pyproject.toml|poetry.lock)$
