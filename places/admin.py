@@ -1,9 +1,13 @@
 from django.contrib import admin
 
 from .models import Place, PlaceTag
+from users.utils import (
+    AdminAndModerGenPermissionsMixin,
+    AdminOnlyPermissionsMixin,
+)
 
 
-class PlaceAdmin(admin.ModelAdmin):
+class PlaceAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     list_display = (
         "id",
         "title",
@@ -18,5 +22,9 @@ class PlaceAdmin(admin.ModelAdmin):
     filter_horizontal = ("tag",)
 
 
+class PlaceTagAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
+    pass
+
+
 admin.site.register(Place, PlaceAdmin)
-admin.site.register(PlaceTag)
+admin.site.register(PlaceTag, PlaceTagAdmin)

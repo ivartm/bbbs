@@ -2,14 +2,14 @@ from django.utils.translation import gettext_lazy as _
 
 from users.mixins import DynamicLookupMixin
 from users.models import Profile
-from users.utils import StaffRequiredAdminMixin
+from users.utils import AdminOnlyPermissionsMixin
 from django.contrib.auth.models import User, Group
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 
-class ProfileInline(StaffRequiredAdminMixin, admin.StackedInline):
+class ProfileInline(AdminOnlyPermissionsMixin, admin.StackedInline):
     model = Profile
     can_delete = False
     verbose_name_plural = "Profile"
@@ -31,7 +31,7 @@ class ProfileInline(StaffRequiredAdminMixin, admin.StackedInline):
         return fields
 
 
-class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
+class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
     inlines = (ProfileInline,)
 
     list_display = (
@@ -121,6 +121,14 @@ class UserAdmin(StaffRequiredAdminMixin, DynamicLookupMixin, UserAdmin):
             else:
                 obj.is_staff = True
         super().save_model(request, obj, form, change)
+
+    def has_view_permission(self, request, obj=None):
+        if not request.user.is_anonymous:
+            return (
+                request.user.profile.is_admin
+                or request.user.profile.is_moderator_gen
+            )
+        return self.check_perm(request.user)
 
 
 admin.site.unregister(Group)
