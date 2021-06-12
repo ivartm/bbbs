@@ -54,8 +54,6 @@ class EventModelTest(TestCase):
 
         with self.assertRaisesMessage(
             expected_exception=ValidationError,
-            expected_message=(
-                "Число мест должно быть больше нуля"
-            ),
+            expected_message=("Число мест должно быть больше нуля"),
         ):
             event.full_clean()
