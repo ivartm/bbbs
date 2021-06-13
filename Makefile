@@ -8,10 +8,16 @@ migrate:
 	python manage.py makemigrations
 	python manage.py migrate
 
-fill-db:
+fill-sqlite:
 	python manage.py makemigrations
 	python manage.py migrate
 	python manage.py loaddata fixtures.json
+	python manage.py createsuperuser
+
+fill-pg:
+	python manage.py makemigrations
+	python manage.py migrate
+	python manage.py loaddata fixtures_docker.json
 	python manage.py createsuperuser
 
 createsuperuser:
@@ -23,6 +29,7 @@ shell:
 configurelocaly:
 	poetry shell
 	poetry install --no-root
+	pre-commit install
 
 gen-secretkey:
 	python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'

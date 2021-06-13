@@ -15,7 +15,7 @@ services:
       - ./.envs/.local/.postgres
 
   django:
-    image: klyaxa/bbbs:v1.2021.06.13
+    image: bbbs:v01.2021.06.13
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
@@ -29,7 +29,7 @@ services:
       - ./.envs/.local/.postgres
 
   nginx:
-    image: nginx:1.19.3
+    image: nginx:1.21.0
     restart: always
     ports:
       - "80:80"
