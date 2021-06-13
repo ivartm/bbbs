@@ -1,7 +1,6 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.mixins import ListModelMixin, UpdateModelMixin
-
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
 from common.models import City

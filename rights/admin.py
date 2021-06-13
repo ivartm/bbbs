@@ -1,10 +1,10 @@
 from django.contrib import admin
 
 from rights.models import Right, RightTag
-from users.utils import AdminAndModerMixin
+from users.utils import AdminAndModerGenPermissionsMixin
 
 
-class RightAdmin(admin.ModelAdmin, AdminAndModerMixin):
+class RightAdmin(admin.ModelAdmin, AdminAndModerGenPermissionsMixin):
     list_display = [
         "title",
         "description",
@@ -20,7 +20,7 @@ class RightAdmin(admin.ModelAdmin, AdminAndModerMixin):
     ]
 
 
-class RightTagAdmin(admin.ModelAdmin, AdminAndModerMixin):
+class RightTagAdmin(admin.ModelAdmin, AdminAndModerGenPermissionsMixin):
     list_display = [
         "name",
         "slug",

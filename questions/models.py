@@ -25,7 +25,7 @@ class QuestionTag(models.Model):
 
 
 class Question(models.Model):
-    tag = models.ManyToManyField(
+    tags = models.ManyToManyField(
         QuestionTag,
         verbose_name="Тэги",
         related_name="tags",

@@ -1,11 +1,16 @@
-from rights.factories import RightFactory, RightTagFactory
-import factory
 import random
 
-# from afisha.factories import EventParticipantFactory
-from common.factories import CityFactory
+import factory
 
-# from questions.factories import QuestionTagFactory, QuestionFactory
+from afisha.factories import EventParticipantFactory
+from common.factories import CityFactory
+from questions.factories import (
+    QuestionFactory,
+    QuestionFactoryWithoutAnswer,
+    TagFactory,
+)
+from questions.models import QuestionTag
+from rights.factories import RightFactory, RightTagFactory
 
 CITIES = [
     "Волгоград",
@@ -27,9 +32,17 @@ def make_fixtures():
         for city_name in CITIES:
             CityFactory(name=city_name)
 
-        # EventParticipantFactory.create_batch(20)
-        # QuestionTagFactory.create_batch(15)
-        # QuestionFactory.create_batch(50)
+        TagFactory.create_batch(15)
+        EventParticipantFactory.create_batch(200)
+        # make Questions with tags
+        tag_list = list(QuestionTag.objects.all())
+        for _ in range(30):
+            random_tag = random.randint(0, 14)
+            QuestionFactory.create(tags=[tag_list[random_tag]])
+        # make Questions without tags
+        QuestionFactory.create_batch(5)
+        # make Questions without tags and answers
+        QuestionFactoryWithoutAnswer.create_batch(5)
 
         RightTagFactory.create_batch(50)
         for _ in range(50):
