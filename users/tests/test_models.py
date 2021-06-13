@@ -6,10 +6,10 @@ from common.models import City
 from users.admin import UserAdmin
 from users.models import Profile
 
-USERNAME = 'user@mail.ru'
-USERNAME_SUPERUSER = 'superr@mail.ru'
-NEW_USERNAME = 'new_user@mail.ru'
-CITY = 'Москва'
+USERNAME = "user@mail.ru"
+USERNAME_SUPERUSER = "superr@mail.ru"
+NEW_USERNAME = "new_user@mail.ru"
+CITY = "Москва"
 
 
 class OurRequest(object):
@@ -18,12 +18,8 @@ class OurRequest(object):
 
 
 class UsersCreateTests(TestCase):
-
     def setUp(self):
-        self.city = City.objects.create(
-            name=CITY,
-            isPrimary=1
-        )
+        self.city = City.objects.create(name=CITY, isPrimary=1)
         self.user = User.objects.create_user(
             username=USERNAME,
             email=USERNAME,
@@ -50,7 +46,7 @@ class UsersCreateTests(TestCase):
             obj=User(username=NEW_USERNAME, email=NEW_USERNAME),
             request=OurRequest(user=user),
             form=UserAdmin.form,
-            change=False
+            change=False,
         )
         user_new = User.objects.get(username=NEW_USERNAME)
         user_new.profile.city = self.city
@@ -71,7 +67,7 @@ class UsersCreateTests(TestCase):
             obj=user,
             request=OurRequest(user=user),
             form=UserAdmin.form,
-            change=True
+            change=True,
         )
         self.assertEqual(user.username, USERNAME)
         self.assertEqual(user.profile.role, Profile.Role.ADMIN)
@@ -88,7 +84,7 @@ class UsersCreateTests(TestCase):
             obj=user,
             request=OurRequest(user=user),
             form=UserAdmin.form,
-            change=True
+            change=True,
         )
         self.assertEqual(user.username, USERNAME)
         self.assertTrue(user.is_active)
@@ -105,7 +101,7 @@ class UsersCreateTests(TestCase):
             obj=user,
             request=OurRequest(user=user),
             form=UserAdmin.form,
-            change=True
+            change=True,
         )
         self.assertEqual(user.username, USERNAME)
         self.assertTrue(user.is_active)
@@ -122,7 +118,7 @@ class UsersCreateTests(TestCase):
             obj=user,
             request=OurRequest(user=user),
             form=UserAdmin.form,
-            change=True
+            change=True,
         )
         self.assertEqual(user.username, USERNAME)
         self.assertTrue(user.is_active)

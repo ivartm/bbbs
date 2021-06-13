@@ -11,7 +11,7 @@ migrate:
 fill-db:
 	python manage.py makemigrations
 	python manage.py migrate
-	python manage.py loaddata fixtures_by_factory_boy.json
+	python manage.py loaddata fixtures.json
 	python manage.py createsuperuser
 
 createsuperuser:
@@ -21,5 +21,5 @@ shell:
 	python manage.py shell_plus
 
 configurelocaly:
-	python -m pip install --upgrade pip
-	pip install -r requirements/local.txt
+	poetry shell
+	poetry install --no-root

@@ -5,21 +5,77 @@
 # bbbs
 Бэкенд для проекта Старшие Братья Старшие Сестры https://www.nastavniki.org/
 
-По умолчанию проект запускается с локальными настройками в confg.settings.local
 
-Установки для запуска в локальном окружении:
+#### Технологии и требования
+Python 3.9+
+Django
+Django REST Framework
+Poetry
+*дополнить*
+
+### Установка локально в DEV окружении
+Установкой локального окружения и зависимости занимается [poetry](https://python-poetry.org/docs/).
+
 ```shell
-python -m pip install --upgrade pip
-pip install -r requirements/local.txt
+git clone git@github.com:ivartm/bbbs.git
+cd bbbs
+poetry shell
+poetry install --no-root
+pre-commit install
 ```
+
+### Добавление пакета и зависимостей
+Детальное описание в [документации poetry](https://python-poetry.org/docs/cli/)
+
+Если кратко, то добавить пакет в список зависимостей для Production
+```shell
+poetry add {название пакета}
+```
+
+Установка пакета в окружение разработки:
+```shell
+poetry add --dev {название пакета}
+```
+
+### Pre-commit хуки
+Настроена интеграций с pre-commit для проверки кода и более простой интеграции с CI/CD.
+
+Выполняются:
+
+- проверка кода flake8
+- проверка кода black
+- если есть изменения в **poetry.lock** или **pyproject.toml**, то обновляются файлы с зависимостями в **requirements**. Добавляйте изменения в коммит
+
+Выполнить pre-commit хуки локально:
+```shell
+pre-commit run ----all-files
+```
+
+Обновить версии репозиториев с pre-commit хуками:
+```shell
+pre-commit autoupdate
+```
+
+
+### Настройки проекта settings
+Разделены на 3 ветки **prod.py, dev.py, local.py**, находятся в **config/settings** Корневые настройки в **base.py**
+
+Хорошая практика при разработке использовать local.py
+После окончания тестирования переносить в dev, prod, base в зависимости от значимости.
+
+### Запуск проекта
+По умолчанию проект запускается с локальными настройками в confg.settings.local
 
 Запуск с определенной конфигурацией:
 ./manage.py runserver --settings=config.settings.dev
 
 ### Создание фикстур
 
+Всё что ниже ждёт обновления
+>
 Создает предустановленные города
 Создает 200 записей участников на мероприятия (в процессе создания создает события и пользователей)
+
 
 ```shell
 make shell
@@ -75,7 +131,7 @@ make shell
 ```shell
 pytest
 ```
-# Просмотр автодокументации по API 
+# Просмотр автодокументации по API
 
 ```shell
 .../api/schema/

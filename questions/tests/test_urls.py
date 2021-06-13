@@ -32,9 +32,7 @@ class StaticURLTests(APITestCase):
             cls.moderator_gen,
             cls.admin,
         ]
-        cls.unauthorized_client = APIClient(
-
-        )
+        cls.unauthorized_client = APIClient()
 
         cls.path_questions = reverse("questions")
         cls.path_questions_tags = reverse("questions-tags")

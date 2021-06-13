@@ -8,13 +8,13 @@ from rest_framework.test import APIClient
 from users.admin import UserAdmin
 from users.models import Profile, User
 
-TOKEN_URL = reverse('token')
-REFRESH_URL = reverse('token_refresh')
-PROFILE_URL = reverse('profile')
-USERNAME = 'user@mail.ru'
-PASSWORD = 'test'
-SITE_NAME = 'Site'
-DOMAIN = '127.0.0.1:8000'
+TOKEN_URL = reverse("token")
+REFRESH_URL = reverse("token_refresh")
+PROFILE_URL = reverse("profile")
+USERNAME = "user@mail.ru"
+PASSWORD = "test"
+SITE_NAME = "Site"
+DOMAIN = "127.0.0.1:8000"
 
 
 class OurRequest(object):
@@ -26,10 +26,7 @@ class URLTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.site = Site(
-            id=1, name=SITE_NAME,
-            domain=DOMAIN
-        )
+        cls.site = Site(id=1, name=SITE_NAME, domain=DOMAIN)
         cls.site.save()
         cls.userAdminSite = UserAdmin(model=User, admin_site=AdminSite())
 
@@ -53,7 +50,7 @@ class URLTests(TestCase):
             "username": USERNAME,
             "password": PASSWORD,
         }
-        response = self.client.post(TOKEN_URL, data, format='json')
+        response = self.client.post(TOKEN_URL, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIn("refresh", response.data)
         self.assertIn("access", response.data)
@@ -73,13 +70,13 @@ class URLTests(TestCase):
                 obj=user,
                 request=OurRequest(user=user),
                 form=UserAdmin.form,
-                change=True
+                change=True,
             )
             data = {
                 "username": USERNAME,
                 "password": PASSWORD,
             }
-            response = self.client.post(TOKEN_URL, data, format='json')
+            response = self.client.post(TOKEN_URL, data, format="json")
             self.assertEqual(user.profile.role, role)
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -89,12 +86,12 @@ class URLTests(TestCase):
             "username": USERNAME,
             "password": PASSWORD,
         }
-        response = self.client.post(TOKEN_URL, data, format='json')
+        response = self.client.post(TOKEN_URL, data, format="json")
         refresh = response.data["refresh"]
         data = {
             "refresh": refresh,
         }
-        response = self.client.post(REFRESH_URL, data, format='json')
+        response = self.client.post(REFRESH_URL, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)
 
@@ -102,9 +99,9 @@ class URLTests(TestCase):
         """Test api get profile"""
         user = self.user
         expected_data = {
-            'id': 1,
-            'user': user.id,
-            'city': user.profile.city.id
+            "id": 1,
+            "user": user.id,
+            "city": user.profile.city.id,
         }
         client = self.return_authorized_user_client(user=user)
         response = client.get(PROFILE_URL)

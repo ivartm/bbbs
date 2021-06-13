@@ -29,9 +29,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = User
-        django_get_or_create = [
-            "username",
-        ]
+        django_get_or_create = ["username", "email"]
 
     username = factory.Sequence(lambda n: "user_%d" % n)
     password = "Bbbs2021!"
