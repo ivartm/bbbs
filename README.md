@@ -7,20 +7,21 @@
 
 
 #### Технологии и требования
+Python 3.9+
 Django
 Django REST Framework
 Poetry
 *дополнить*
 
-### Установка локально
-Установите [poetry](https://python-poetry.org/docs/)
-Установкой локального окружения и зависимости занимается poetry
+### Установка локально в DEV окружении
+Установкой локального окружения и зависимости занимается [poetry](https://python-poetry.org/docs/).
 
 ```shell
 git clone git@github.com:ivartm/bbbs.git
 cd bbbs
 poetry shell
 poetry install --no-root
+pre-commit install
 ```
 
 ### Добавление пакета и зависимостей
@@ -36,11 +37,30 @@ poetry add {название пакета}
 poetry add --dev {название пакета}
 ```
 
-### Настройки проекта
-Разделены на 3 ветки **prod, dev, local**, находят в config/settings
-Корневые настройки в base.txt, добавляйте пакеты и настройки с разумно.
+### Pre-commit хуки
+Настроена интеграций с pre-commit для проверки кода и более простой интеграции с CI/CD.
 
-Хорошая практика при разработке своей ветки использовать local.txt
+Выполняются:
+
+- проверка кода flake8
+- проверка кода black
+- если есть изменения в **poetry.lock** или **pyproject.toml**, то обновляются файлы с зависимостями в **requirements**. Добавляйте изменения в коммит
+
+Выполнить pre-commit хуки локально:
+```shell
+pre-commit run ----all-files
+```
+
+Обновить версии репозиториев с pre-commit хуками:
+```shell
+pre-commit autoupdate
+```
+
+
+### Настройки проекта settings
+Разделены на 3 ветки **prod.py, dev.py, local.py**, находятся в **config/settings** Корневые настройки в **base.py**
+
+Хорошая практика при разработке использовать local.py
 После окончания тестирования переносить в dev, prod, base в зависимости от значимости.
 
 ### Запуск проекта
