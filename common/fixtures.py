@@ -7,6 +7,7 @@ from common.factories import CityFactory
 from questions.factories import (
     QuestionFactory,
     QuestionFactoryWithoutAnswer,
+    QuestionTagFactory,
 )
 from questions.models import QuestionTag
 from rights.factories import RightFactory, RightTagFactory
@@ -31,7 +32,8 @@ def make_fixtures():
         for city_name in CITIES:
             CityFactory(name=city_name)
 
-        EventParticipantFactory.create_batch(20)
+        QuestionTagFactory.create_batch(15)
+        EventParticipantFactory.create_batch(200)
         # make Questions with tags
         tag_list = list(QuestionTag.objects.all())
         for _ in range(30):
