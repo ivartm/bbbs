@@ -67,36 +67,36 @@ class StaticURLTests(APITestCase):
         )
 
     def test_questions(self):
-        for man in range(len(self.users)):
-            user = StaticURLTests.users[man]
-            client = self.return_authorized_user_client(user=user)
-            response = client.get(StaticURLTests.path_questions)
-            self.assertEqual(
-                response.status_code,
-                200,
-                msg=(
-                    f"Проверьте что пользователь с ролью "
-                    f"'{user.profile.role}' "
-                    f"имеет доступ к "
-                    f"'{StaticURLTests.path_questions}'."
-                ),
-            )
+        for user in self.users:
+            with self.subTest(user=user):
+                client = self.return_authorized_user_client(user)
+                response = client.get(StaticURLTests.path_questions)
+                self.assertEqual(
+                    response.status_code,
+                    200,
+                    msg=(
+                        f"Проверьте что пользователь с ролью "
+                        f"'{user.profile.role}' "
+                        f"имеет доступ к "
+                        f"'{StaticURLTests.path_questions}'."
+                    ),
+                )
 
     def test_questions_tags(self):
-        for man in range(len(self.users)):
-            user = StaticURLTests.users[man]
-            client = self.return_authorized_user_client(user=user)
-            response = client.get(StaticURLTests.path_questions_tags)
-            self.assertEqual(
-                response.status_code,
-                200,
-                msg=(
-                    f"Проверьте что пользователь с ролью "
-                    f"'{user.profile.role}' "
-                    f"имеет доступ к "
-                    f"'{StaticURLTests.path_questions_tags}'."
-                ),
-            )
+        for user in self.users:
+            with self.subTest(user=user):
+                client = self.return_authorized_user_client(user)
+                response = client.get(StaticURLTests.path_questions_tags)
+                self.assertEqual(
+                    response.status_code,
+                    200,
+                    msg=(
+                        f"Проверьте что пользователь с ролью "
+                        f"'{user.profile.role}' "
+                        f"имеет доступ к "
+                        f"'{StaticURLTests.path_questions_tags}'."
+                    ),
+                )
 
     def test_page_not_found(self):
         client = StaticURLTests.unauthorized_client

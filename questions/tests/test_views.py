@@ -3,7 +3,8 @@ from rest_framework.test import APIClient, APITestCase
 
 from common.factories import CityFactory
 from questions.factories import QuestionFactoryWithoutAnswer
-from questions.tests.test_urls import StaticURLTests
+
+# from questions.tests.test_urls import StaticURLTests
 from users.factories import UserFactory
 
 
@@ -29,18 +30,26 @@ class ViewQuestionsTests(APITestCase):
             profile__role="admin",
             profile__city=cls.city,
         )
-        cls.users = [
+        cls.unauthorized_client = APIClient()
+
+        cls.authorized_users = [
             cls.mentor,
             cls.moderator_reg,
             cls.moderator_gen,
             cls.admin,
         ]
 
+        cls.all_users = [
+            cls.mentor,
+            cls.moderator_reg,
+            cls.moderator_gen,
+            cls.admin,
+            cls.unauthorized_client,
+        ]
+
         cls.valid_question = "Very exciting question about the project."
         cls.empty_question = ""
         cls.short_question = "Short question."
-
-        cls.unauthorized_client = APIClient()
 
         cls.path_questions = reverse("questions")
 
@@ -55,7 +64,7 @@ class ViewQuestionsTests(APITestCase):
         response = client.post(
             path=ViewQuestionsTests.path_questions, data=data, format="json"
         )
-        expected_data = {"Success": "Спасибо! Мы приняли ваш вопрос."}
+        expected_data = {"Success": "Спасибо! Мы приняли Ваш вопрос."}
         self.assertEqual(
             response.status_code,
             201,
@@ -71,85 +80,88 @@ class ViewQuestionsTests(APITestCase):
         )
 
     def test_authorized_user_can_ask_question(self):
-        for man in range(len(self.users)):
-            user = StaticURLTests.users[man]
-            client = self.return_authorized_user_client(user=user)
-            data = {"question": self.valid_question + str(man)}
-            response = client.post(
-                path=ViewQuestionsTests.path_questions,
-                data=data,
-                format="json",
-            )
-            expected_data = {"Success": "Спасибо! Мы приняли ваш вопрос."}
-            self.assertEqual(
-                response.status_code,
-                201,
-                msg=(
-                    f"Проверьте у пользователя с ролью "
-                    f"'{user.profile.role}' "
-                    f"возвращается статус 201."
-                ),
-            )
-            self.assertEqual(
-                response.data,
-                expected_data,
-                msg=("Проверьте, что возвращается правильный JSON."),
-            )
+        for user in self.authorized_users:
+            with self.subTest(user=user):
+                client = self.return_authorized_user_client(user)
+                data = {"question": self.valid_question + str(user)}
+                response = client.post(
+                    path=ViewQuestionsTests.path_questions,
+                    data=data,
+                    format="json",
+                )
+                expected_data = {"Success": "Спасибо! Мы приняли Ваш вопрос."}
+                self.assertEqual(
+                    response.status_code,
+                    201,
+                    msg=(
+                        f"Проверьте у пользователя с ролью "
+                        f"'{user.profile.role}' "
+                        f"возвращается статус 201."
+                    ),
+                )
+                self.assertEqual(
+                    response.data,
+                    expected_data,
+                    msg=("Проверьте, что возвращается правильный JSON."),
+                )
 
     def test_duplicate_question(self):
-        user = ViewQuestionsTests.mentor
-        question = QuestionFactoryWithoutAnswer.create()
-        client = self.return_authorized_user_client(user)
-        data = data = {"question": question.question}
-        response = client.post(
-            path=ViewQuestionsTests.path_questions,
-            data=data,
-            format="json",
-        )
-        self.assertContains(
-            response,
-            status_code=400,
-            text="Такой вопрос уже задавали",
-            msg_prefix=(
-                "Проверьте, что пользователь не может задать вопрос,"
-                "который уже есть в базе."
-            ),
-        )
+        for user in self.all_users:
+            with self.subTest(user=user):
+                question = QuestionFactoryWithoutAnswer.create()
+                client = self.return_authorized_user_client(user)
+                data = data = {"question": question.question}
+                response = client.post(
+                    path=ViewQuestionsTests.path_questions,
+                    data=data,
+                    format="json",
+                )
+                self.assertContains(
+                    response,
+                    status_code=400,
+                    text="Такой вопрос уже задавали",
+                    msg_prefix=(
+                        "Проверьте, что пользователь не может задать вопрос, "
+                        "который уже есть в базе."
+                    ),
+                )
 
     def test_empty_question(self):
-        user = ViewQuestionsTests.mentor
-        client = self.return_authorized_user_client(user)
-        data = data = {"question": self.empty_question}
-        response = client.post(
-            path=ViewQuestionsTests.path_questions,
-            data=data,
-            format="json",
-        )
-        self.assertContains(
-            response,
-            status_code=400,
-            text="Пожалуйста, введите вопрос",
-            msg_prefix=(
-                "Проверьте, что пользователь не может"
-                "отправить запрос без вопроса."
-            ),
-        )
+        for user in self.all_users:
+            with self.subTest(user=user):
+                client = self.return_authorized_user_client(user)
+                data = data = {"question": self.empty_question}
+                response = client.post(
+                    path=ViewQuestionsTests.path_questions,
+                    data=data,
+                    format="json",
+                )
+                self.assertContains(
+                    response,
+                    status_code=400,
+                    text="Пожалуйста, введите вопрос",
+                    msg_prefix=(
+                        "Проверьте, что пользователь не может "
+                        "отправить запрос без вопроса."
+                    ),
+                )
 
     def test_short_question(self):
-        user = ViewQuestionsTests.mentor
-        client = self.return_authorized_user_client(user)
-        data = data = {"question": self.short_question}
-        response = client.post(
-            path=ViewQuestionsTests.path_questions,
-            data=data,
-            format="json",
-        )
-        self.assertContains(
-            response,
-            status_code=400,
-            text="Задайте более развёрнутый вопрос",
-            msg_prefix=(
-                "Проверьте, что пользователь не может"
-                "задать очень короткий вопрос."
-            ),
-        )
+        for user in self.all_users:
+            with self.subTest(user=user):
+                client = self.return_authorized_user_client(user)
+                data = data = {"question": self.short_question}
+                response = client.post(
+                    path=ViewQuestionsTests.path_questions,
+                    data=data,
+                    format="json",
+                )
+                self.assertContains(
+                    response,
+                    status_code=400,
+                    text="Задайте более развёрнутый вопрос",
+                    msg_prefix=(
+                        "Проверьте, что пользователь не может "
+                        "задать очень короткий вопрос."
+                    ),
+                )

@@ -47,7 +47,7 @@ def make_fixtures():
         QuestionTagFactory.create_batch(15)
         # make Questions with tags
         for _ in range(30):
-            num_tags = random.randint(0, 14)
+            num_tags = random.randint(1, 15)
             QuestionFactory.create(tags=num_tags)
         # make Questions without tags
         QuestionFactory.create_batch(5)
