@@ -4,7 +4,7 @@ from rights.models import Right, RightTag
 from users.utils import AdminAndModerGenPermissionsMixin
 
 
-class RightAdmin(admin.ModelAdmin, AdminAndModerGenPermissionsMixin):
+class RightAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     list_display = [
         "title",
         "description",
@@ -20,7 +20,7 @@ class RightAdmin(admin.ModelAdmin, AdminAndModerGenPermissionsMixin):
     ]
 
 
-class RightTagAdmin(admin.ModelAdmin, AdminAndModerGenPermissionsMixin):
+class RightTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     list_display = [
         "name",
         "slug",
