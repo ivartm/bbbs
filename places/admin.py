@@ -20,6 +20,8 @@ class PlaceAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     )
     list_display_links = ("id", "title")
     filter_horizontal = ("tag",)
+    list_filter = ("age", "gender", "activity_type")
+    search_fields = ("title",)
 
 
 class PlaceTagAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
