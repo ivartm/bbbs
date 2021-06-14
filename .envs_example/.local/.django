@@ -1,0 +1,6 @@
+# General
+# ------------------------------------------------------------------------------
+DJANGO_SETTINGS_MODULE=config.settings.prod
+DJANGO_SECRET_KEY=LRfaD70fWLnwhBLfDEXPUawv2kkj1V650aP6RIArEx8eWvroQ5rCYi0RkJOjsWmw
+DJANGO_ALLOWED_HOSTS=bbbs.ru
+DB_ENGINE=django.db.backends.postgresql

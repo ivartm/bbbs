@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import (
@@ -6,7 +7,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
-from config.settings.dev import DEBUG
+DEBUG = settings.DEBUG
 
 extra_patterns = [
     path("", include("users.urls")),

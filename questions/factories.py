@@ -35,9 +35,15 @@ class QuestionFactory(factory.django.DjangoModelFactory):
     def tags(self, created, extracted, **kwargs):
         if not created:
             return
-        if extracted:
-            for tag in extracted:
-                self.tags.add(tag)
+
+        at_least = 1
+        how_many = extracted or at_least
+
+        tags_count = QuestionTag.objects.count()
+        how_many = min(tags_count, how_many)
+
+        tags = QuestionTag.objects.order_by("?")[:how_many]
+        self.tags.add(*tags)
 
 
 class QuestionFactoryWithoutAnswer(factory.django.DjangoModelFactory):
