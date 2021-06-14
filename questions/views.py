@@ -22,7 +22,7 @@ class QuestionsList(ListCreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(
-            {"Success": "Спасибо! Мы приняли ваш вопрос."},
+            {"Success": "Спасибо! Мы приняли Ваш вопрос."},
             status=status.HTTP_201_CREATED,
             headers=headers,
         )
