@@ -142,3 +142,5 @@ media/
 
 # Static
 staticfiles/
+
+.envs/
