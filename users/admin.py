@@ -128,7 +128,7 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
                 request.user.profile.is_admin
                 or request.user.profile.is_moderator_gen
             )
-        return self.check_perm(request.user)
+        return False
 
 
 admin.site.unregister(Group)

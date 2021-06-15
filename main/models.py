@@ -4,10 +4,10 @@ from questions.models import Question
 
 
 class Main(models.Model):
-    place = models.OneToOneField(Place, on_delete=models.RESTRICT)
-    questions = models.ManyToManyField(
-        Question,
+    place = models.OneToOneField(
+        Place, on_delete=models.RESTRICT, verbose_name="Место - куда пойти?"
     )
+    questions = models.ManyToManyField(Question, verbose_name="Вопросы")
     # history = models.OneToOneField(History, on_delete=models.RESTRICT)
     # articles = models.ManyToManyField(Article, )
     # movies = models.ManyToManyField(Movie,)

@@ -10,7 +10,6 @@ from questions.factories import (
     QuestionTagFactory,
 )
 from users.factories import UserFactory
-from questions.models import QuestionTag
 from rights.factories import RightFactory, RightTagFactory
 
 CITIES = [
@@ -47,10 +46,9 @@ def make_fixtures():
 
         QuestionTagFactory.create_batch(15)
         # make Questions with tags
-        tag_list = list(QuestionTag.objects.all())
         for _ in range(30):
-            random_tag = random.randint(0, 14)
-            QuestionFactory.create(tags=[tag_list[random_tag]])
+            num_tags = random.randint(1, 15)
+            QuestionFactory.create(tags=num_tags)
         # make Questions without tags
         QuestionFactory.create_batch(5)
         # make Questions without tags and answers

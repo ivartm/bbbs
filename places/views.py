@@ -16,7 +16,7 @@ class PlacesTagList(ListAPIView):
 
 
 class PlacesViewSet(ModelViewSet):
-    queryset = Place.objects.all()
+    queryset = Place.objects.all().prefetch_related("tag")
     http_method_names = ["get", "post"]
 
     def get_serializer_class(self):
