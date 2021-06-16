@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from afisha.models import Event
-from main.models import Main
 from afisha.serializers import EventSerializer
+from common.models import City
+from main.models import TEMP_DATA, Main
 from main.serializers import MainSerializer
-from main.models import TEMP_DATA
 
 
 class MainView(APIView):
@@ -18,7 +18,13 @@ class MainView(APIView):
         if self.request.user.is_authenticated:
             city = self.request.user.profile.city
         else:
-            city = request.GET["city"]
+            obj, created = City.objects.get_or_create(
+                name="Москва",
+                defaults={"name": "Москва", "isPrimary": True},
+            )
+            if created:
+                obj.save()
+            city = obj
         event = Event.objects.filter(
             city=city, startAt__gt=timezone.now()
         ).first()

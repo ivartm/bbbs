@@ -1,4 +1,5 @@
 from django.db import models
+
 from places.models import Place
 from questions.models import Question
 

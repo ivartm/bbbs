@@ -1,5 +1,6 @@
-from main.models import Main
 from rest_framework import serializers
+
+from main.models import Main
 from places.serializers import PlaceSerializerRead
 from questions.serializers import QuestionSerializer
 

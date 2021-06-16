@@ -9,8 +9,8 @@ from questions.factories import (
     QuestionFactoryWithoutAnswer,
     QuestionTagFactory,
 )
-from users.factories import UserFactory
 from rights.factories import RightFactory, RightTagFactory
+from users.factories import UserFactory
 
 CITIES = [
     "Волгоград",
