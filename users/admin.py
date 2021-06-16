@@ -1,12 +1,11 @@
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group, User
 from django.utils.translation import gettext_lazy as _
 
 from users.mixins import DynamicLookupMixin
 from users.models import Profile
 from users.utils import AdminOnlyPermissionsMixin
-from django.contrib.auth.models import User, Group
-
-from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 
 
 class ProfileInline(AdminOnlyPermissionsMixin, admin.StackedInline):

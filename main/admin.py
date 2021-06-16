@@ -1,9 +1,10 @@
 from django.contrib import admin
+from django.contrib.admin import register
 
 from main.models import Main
-from django.contrib.admin import register
-from .forms import MainAdminForm
 from users.utils import AdminOnlyPermissionsMixin
+
+from .forms import MainAdminForm
 
 
 @register(Main)

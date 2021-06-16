@@ -1,10 +1,11 @@
 from django.contrib import admin
 
-from .models import Place, PlaceTag
 from users.utils import (
     AdminAndModerGenPermissionsMixin,
     AdminOnlyPermissionsMixin,
 )
+
+from .models import Place, PlaceTag
 
 
 class PlaceAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):

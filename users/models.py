@@ -6,7 +6,6 @@ from django.utils.translation import gettext_lazy as _
 
 from common.models import City
 
-
 User._meta.get_field("email")._unique = True
 User._meta.get_field("email").blank = False
 User._meta.get_field("email").null = False

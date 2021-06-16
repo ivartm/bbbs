@@ -1,12 +1,11 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import ModelViewSet
 
-
 from places.models import Place, PlaceTag
 from places.serializers import (
     PlaceSerializerRead,
-    PlaceTagSerializer,
     PlaceSerializerWrite,
+    PlaceTagSerializer,
 )
 
 
