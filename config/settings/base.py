@@ -41,6 +41,7 @@ THIRD_PARTY_APPS = [
     "colorfield",
     "django_filters",
     "rest_framework",
+    "corsheaders",
     "drf_yasg",
 ]
 LOCAL_APPS = [
@@ -67,6 +68,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 
@@ -167,3 +170,14 @@ MEDIA_URL = "/media/"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# CORS
+# ------------------------------------------------------------------------------
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHITELIST = (
+    "localhost:3000",
+    "http://localhost:3000"
+
+)
