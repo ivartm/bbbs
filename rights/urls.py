@@ -5,7 +5,7 @@ from .views import RightList, RightTagList
 
 rights_urls = [
     path("rights/", RightList.as_view(), name="rights"),
-    path("right-tags/", RightTagList.as_view(), name="righttags"),
+    path("rights/tags/", RightTagList.as_view(), name="right-tags"),
 ]
 
 urlpatterns = [
