@@ -14,9 +14,6 @@ services:
       - ./.envs/.prod/.postgres
   django:
     image: klyaxa/bbbs-backend:latest
-    build:
-      context: .
-      dockerfile: ./compose/production/django/Dockerfile
     restart: always
     volumes:
       - static_value:/code/staticfiles/
