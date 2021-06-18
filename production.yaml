@@ -13,7 +13,7 @@ services:
     env_file:
       - ./.envs/.prod/.postgres
   django:
-    image: bbbs:v01.2021.06.13
+    image: klyaxa/bbbs-backend:latest
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
@@ -31,6 +31,7 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - static_value:/var/html/static/

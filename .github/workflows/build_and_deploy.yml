@@ -5,7 +5,8 @@ on:
     branches:
       - main
 jobs:
-  tests:
+
+  run_tests:
     name: Testing PEP8 and pytest
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +37,8 @@ jobs:
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    needs: tests
+    needs: run_tests
+    environment: production_environment
     steps:
       -
         name: Set up Docker Buildx
@@ -58,17 +60,18 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
+    environment: production_environment
     steps:
       -
         name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
+          username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ${{ github.event.repository.name }}
-            export COMPOSE_FILE=production.yaml
+            export COMPOSE_FILE=${{ secrets.COMPOSE_FILE }}
             docker pull ${{ secrets.DOCKER_USERNAME }}/bbbs-backend:latest
             docker-compose down
             docker-compose up -d --build
