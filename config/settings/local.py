@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 from .base import *  # noqa
 from .base import env
 
@@ -46,9 +44,4 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": ROOT_DIR / "db.sqlite3",
     }
-}
-
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }

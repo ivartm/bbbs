@@ -1,7 +1,7 @@
 """
 Base settings to build other settings files upon.
 """
-
+from datetime import timedelta
 from pathlib import Path
 
 import environ
@@ -123,6 +123,10 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 20,
 }
 
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
 
 AUTHENTICATION_BACKENDS = ["users.backends.UserOrEmailBackend"]
 
@@ -141,7 +145,7 @@ USE_TZ = True
 
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {
-        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
+        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"},
     },
     "USE_SESSION_AUTH": False,
     "JSON_EDITOR": True,
@@ -176,8 +180,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # ------------------------------------------------------------------------------
 CORS_ORIGIN_ALLOW_ALL = False
 
-CORS_ORIGIN_WHITELIST = (
-    "localhost:3000",
+CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000"
-
-)
+]
