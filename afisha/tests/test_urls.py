@@ -32,9 +32,7 @@ class StaticURLTests(APITestCase):
             cls.moderator_gen,
             cls.admin,
         ]
-        cls.unauthorized_client = APIClient(
-
-        )
+        cls.unauthorized_client = APIClient()
 
         cls.path_events_participants = reverse("event-participants-list")
         cls.path_events = reverse("events")
@@ -69,34 +67,34 @@ class StaticURLTests(APITestCase):
         )
 
     def test_events(self):
-        for user in StaticURLTests.users:
-            client = self.return_authorized_user_client(user=user)
-            response = client.get(StaticURLTests.path_events)
-            self.assertEqual(
-                response.status_code,
-                200,
-                msg=(
-                    f"Проверьте что пользователь с ролью "
-                    f"'{user.profile.role}' "
-                    f"имеет доступ к "
-                    f"'{StaticURLTests.path_events_participants}'."
-                ),
-            )
+        user = StaticURLTests.mentor
+        client = self.return_authorized_user_client(user=user)
+        response = client.get(StaticURLTests.path_events)
+        self.assertEqual(
+            response.status_code,
+            200,
+            msg=(
+                f"Проверьте что пользователь с ролью "
+                f"'{user.profile.role}' "
+                f"имеет доступ к "
+                f"'{StaticURLTests.path_events_participants}'."
+            ),
+        )
 
     def test_event_participants(self):
-        for user in StaticURLTests.users:
-            client = self.return_authorized_user_client(user=user)
-            response = client.get(StaticURLTests.path_events_participants)
-            self.assertEqual(
-                response.status_code,
-                200,
-                msg=(
-                    f"Проверьте что пользователь с ролью "
-                    f"'{user.profile.role}' "
-                    f"имеет доступ к "
-                    f"'{StaticURLTests.path_events_participants}'."
-                ),
-            )
+        user = StaticURLTests.mentor
+        client = self.return_authorized_user_client(user=user)
+        response = client.get(StaticURLTests.path_events_participants)
+        self.assertEqual(
+            response.status_code,
+            200,
+            msg=(
+                f"Проверьте что пользователь с ролью "
+                f"'{user.profile.role}' "
+                f"имеет доступ к "
+                f"'{StaticURLTests.path_events_participants}'."
+            ),
+        )
 
     def test_page_not_found(self):
         client = StaticURLTests.unauthorized_client

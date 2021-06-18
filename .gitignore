@@ -111,6 +111,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.envs/
 
 # Spyder project settings
 .spyderproject
@@ -133,6 +134,13 @@ dmypy.json
 # VsCode settings
 .vscode/
 
-#mac_os settings
+# mac_os settings
 .DS_Store
-old.settings.py
+
+# Media folder
+media/
+
+# Static
+staticfiles/
+
+.envs/

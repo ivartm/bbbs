@@ -1,13 +1,13 @@
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import serializers
-from users.models import Profile
 
 from afisha.models import Event, EventParticipant
+from users.models import Profile
 
 
 class EventSerializer(serializers.ModelSerializer):
-    booked = serializers.IntegerField(read_only=True)
+    booked = serializers.BooleanField(read_only=True)
     takenSeats = serializers.IntegerField(read_only=True)
 
     class Meta:

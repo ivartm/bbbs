@@ -2,25 +2,37 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _
 
 from common.models import City
+
+User._meta.get_field("email")._unique = True
+User._meta.get_field("email").blank = False
+User._meta.get_field("email").null = False
 
 
 class Profile(models.Model):
     class Role(models.TextChoices):
-        MENTOR = "mentor"
-        MODERATOR_REG = "moderator_regional"
-        MODERATOR_GEN = "moderator_general"
-        ADMIN = "admin"
+        MENTOR = "Наставник", _("Наставник")
+        MODERATOR_REG = "Модератор(региональный)", _("Модератор(региональный)")
+        MODERATOR_GEN = "Модератор(общий)", _("Модератор(общий)")
+        ADMIN = "Администратор", _("Администратор")
 
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="profile"
     )
     city = models.ForeignKey(
-        City, on_delete=models.SET_NULL, null=True, verbose_name="Город"
+        City, on_delete=models.RESTRICT, verbose_name="Город"
+    )
+    region = models.ManyToManyField(
+        City,
+        blank=True,
+        related_name="region",
+        verbose_name="Обслуживаемые города",
+        related_query_name="region",
     )
     role = models.CharField(
-        max_length=20,
+        max_length=25,
         choices=Role.choices,
         default=Role.MENTOR,
         verbose_name="Роль",
@@ -35,7 +47,20 @@ class Profile(models.Model):
     @receiver(post_save, sender=User)
     def create_and_update_user_profile(sender, instance, created, **kwargs):
         if created:
-            Profile.objects.create(user=instance)
+            obj, created = City.objects.get_or_create(
+                name="Москва",
+                defaults={"name": "Москва", "isPrimary": True},
+            )
+            if created:
+                obj.save()
+            Profile.objects.create(user=instance, city=obj)
+            if instance.is_superuser:
+                instance.profile.role = Profile.Role.ADMIN
+        if (
+            not instance.profile.region.exists()
+            and instance.profile.is_moderator_reg
+        ):
+            instance.profile.region.add(instance.profile.city)
         instance.profile.save()
 
     @property

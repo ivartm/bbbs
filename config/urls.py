@@ -1,17 +1,20 @@
+from django.conf import settings
 from django.contrib import admin
-from django.urls import path, include
-from config.settings.dev import DEBUG
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularRedocView,
-    SpectacularSwaggerView,
-)
+from django.urls import include, path
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
+
+DEBUG = settings.DEBUG
 
 extra_patterns = [
     path("", include("users.urls")),
     path("", include("main.urls")),
     path("", include("common.urls")),
     path("", include("afisha.urls")),
+    path("", include("places.urls")),
+    path("", include("questions.urls")),
+    path("", include("rights.urls")),
 ]
 
 urlpatterns = [
@@ -19,19 +22,32 @@ urlpatterns = [
     path("api/", include(extra_patterns)),
 ]
 
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="bbbs API",
+        default_version="v1",
+        contact=openapi.Contact(email="contact@snippets.local"),
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
+)
+
 urlpatterns += [
-    # YOUR PATTERNS
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    # Optional UI:
     path(
-        "api/schema/swagger-ui/",
-        SpectacularSwaggerView.as_view(url_name="schema"),
-        name="swagger-ui",
+        "swagger<str:format>",
+        schema_view.without_ui(cache_timeout=0),
+        name="schema-json",
     ),
     path(
-        "api/schema/redoc/",
-        SpectacularRedocView.as_view(url_name="schema"),
-        name="redoc",
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    path(
+        "redoc/",
+        schema_view.with_ui("redoc", cache_timeout=0),
+        name="schema-redoc",
     ),
 ]
 
@@ -41,3 +57,7 @@ if DEBUG:
     urlpatterns += [
         path("__debug__/", include(debug_toolbar.urls)),
     ]
+
+admin.site.site_header = "Панель администраторов"
+admin.site.site_title = "Наставники.про"
+admin.site.index_title = "Добро пожаловать на портал Наставники.про"

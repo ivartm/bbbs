@@ -1,10 +1,12 @@
 from django.contrib import admin
-from users.utils import StaffRequiredAdminMixin
+
+from users.utils import AdminOnlyPermissionsMixin
+
 from .models import City
 
 
-class CityAdmin(StaffRequiredAdminMixin, admin.ModelAdmin):
-    list_display = ("id", "name", "isPrimary", "timeZone")
+class CityAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
+    list_display = ("id", "name", "isPrimary")
     list_display_links = ("name",)
     search_fields = ("name",)
     list_filter = ("isPrimary",)

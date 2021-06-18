@@ -83,3 +83,9 @@ class EventParticipant(models.Model):
         ordering = ["-event"]
         verbose_name = "Участник"
         verbose_name_plural = "Участники"
+
+    def clean(self):
+        if self.user.profile.city != self.event.city:
+            raise ValidationError(
+                "Нельзя зарегистрировать участника на событие в другом городе!"
+            )

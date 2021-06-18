@@ -1,8 +1,8 @@
 from django.urls import path
 from django.urls.conf import include
-from .views import ProfileView
-from .views import TokenAPI
 from rest_framework_simplejwt.views import TokenRefreshView
+
+from .views import ProfileView, TokenAPI
 
 extra_patterns = [
     path("token/", TokenAPI.as_view(), name="token"),
