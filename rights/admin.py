@@ -11,7 +11,7 @@ class RightAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
         "colored_circle",
     ]
     list_filter = [
-        "tag",
+        "tags",
     ]
     search_fields = [
         "title",

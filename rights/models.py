@@ -46,10 +46,10 @@ class Right(models.Model):
         help_text="Добавить фото",
         upload_to="rights/",
     )
-    tag = models.ManyToManyField(
+    tags = models.ManyToManyField(
         "RightTag",
         blank=True,
-        related_name="tags",
+        related_name="righttags",
     )
 
     def __str__(self):
