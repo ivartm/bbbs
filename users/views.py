@@ -1,4 +1,6 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, permissions, status
+from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -12,6 +14,8 @@ from users.utils import get_tokens_for_user
 class TokenAPI(APIView):
     permission_classes = [permissions.AllowAny]
 
+    @swagger_auto_schema(methods=["post"], request_body=TokenSerializer)
+    @action(detail=False, methods=["post"])
     def post(self, request):
         serializer = TokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
