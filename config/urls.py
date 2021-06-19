@@ -4,6 +4,7 @@ from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
+from django.conf.urls.static import static
 
 DEBUG = settings.DEBUG
 
@@ -20,7 +21,7 @@ extra_patterns = [
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(extra_patterns)),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 schema_view = get_schema_view(
