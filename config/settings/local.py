@@ -10,7 +10,7 @@ DEBUG = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env(
     "DJANGO_SECRET_KEY",
-    default="!!!SET DJANGO_SECRET_KEY!!!",
+    default="#q%&^pa6-rznu1%4q=z29mlh2u@vs%w)^4n#88=ro45ualp)u!",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
@@ -41,7 +41,11 @@ INSTALLED_APPS += ["django_extensions"]  # noqa: F405
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": ROOT_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env("POSTGRES_DB", default="bbbs"),
+        "USER": env("POSTGRES_USER", default="bbbs"),
+        "PASSWORD": env("POSTGRES_PASSWORD", default="pg_password"),
+        "HOST": env("POSTGRES_HOST", default="localhost"),
+        "PORT": env("POSTGRES_PORT", default="5432"),
     }
 }

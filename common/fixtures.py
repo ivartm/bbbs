@@ -1,4 +1,5 @@
 import random
+from django.contrib.auth import get_user_model
 
 import factory
 
@@ -12,6 +13,10 @@ from questions.factories import (
 from rights.factories import RightFactory, RightTagFactory
 from users.factories import UserFactory
 
+
+User = get_user_model()
+
+
 CITIES = [
     "Волгоград",
     "Астрахань",
@@ -22,12 +27,23 @@ CITIES = [
     "Москва",
 ]
 
+ADMIN_USERNAME = "bbbs"
+ADMIN_PASSWORD = "Bbbs2021!"
+ADMIN_EMAIL = "admin@bbbs.ru"
+
 
 def make_fixtures():
     """Fixtures for the models
 
     City, User, Profile, Event, EventParticipant, QuestionTag, Question
     """
+
+    User.objects.create_superuser(
+        username=ADMIN_USERNAME,
+        email=ADMIN_EMAIL,
+        password=ADMIN_PASSWORD,
+    )
+
     with factory.Faker.override_default_locale("ru_RU"):
         for city_name in CITIES:
             CityFactory(name=city_name)

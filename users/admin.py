@@ -70,13 +70,18 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
             None,
             {
                 "classes": ("wide",),
-                "fields": ("username", "email", "password1", "password2"),
+                "fields": (
+                    "username",
+                    "email",
+                    "password1",
+                    "password2",
+                ),
             },
         ),
     )
 
     def get_fieldsets(self, request, obj=None):
-        if not (request.user.is_superuser or request.user.profile.is_admin):
+        if request.user.profile.is_moderator_gen:
             fieldsets = (
                 (None, {"fields": ("username", "email")}),
                 (_("Personal info"), {"fields": ("first_name", "last_name")}),
@@ -98,8 +103,9 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
         form = super().get_form(request, obj, **kwargs)
         if obj is None:
             return form
-        if request.user.profile.is_admin and not request.user.is_superuser:
+        if not request.user.is_superuser:
             form.base_fields["is_superuser"].disabled = True
+            form.base_fields["is_staff"].disabled = True
         return form
 
     def get_inline_instances(self, request, obj=None):
