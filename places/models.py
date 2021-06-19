@@ -2,6 +2,10 @@ from django.db import models
 from django.utils.translation import gettext_lazy
 
 
+def get_upload_path(instance, filename):
+    return "places/{}/{}".format(instance.id, filename)
+
+
 class PlaceTag(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=50, unique=True)
@@ -60,13 +64,15 @@ class Place(models.Model):
         null=True,
         blank=True,
     )
-    tag = models.ManyToManyField(PlaceTag, related_name="tags", blank=True)
+    tag = models.ManyToManyField(
+        PlaceTag, related_name="tags", blank=True, verbose_name="Теги"
+    )
     imageUrl = models.ImageField(
         verbose_name="Фото",
         help_text="Добавить фото",
         null=True,
         blank=True,
-        upload_to="places/",
+        upload_to=get_upload_path,
     )
 
     class Meta:
