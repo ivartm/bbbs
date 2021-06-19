@@ -57,4 +57,4 @@ class RightFactory(factory.django.DjangoModelFactory):
         how_many = min(tags_count, how_many)
 
         tags = RightTag.objects.order_by("?")[:how_many]
-        self.tag.add(*tags)
+        self.tags.add(*tags)
