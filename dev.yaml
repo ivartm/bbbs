@@ -2,8 +2,6 @@ version: '3.8'
 
 volumes:
   postgres_data:
-  static_value:
-  media_value:
 
 services:
   postgres:
@@ -14,24 +12,24 @@ services:
     environment:
       POSTGRES_USER: bbbs
       POSTGRES_PASSWORD: pg_password
-    # env_file:
-    #   - ./.envs/.local/.postgres
   django:
     image: bbbs:latest
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
-    command: make run-in-docker
+    command:
+      - /bin/bash
+      - -c
+      - |
+        python manage.py makemigrations
+        python manage.py migrate
+        python manage.py runserver 0.0.0.0:8000
+        python manage.py loaddata fixtures_docker.json
     volumes:
-      - static_value:/code/staticfiles/
-      - media_value:/code/media
       - .:/code/
     ports:
       - "8000:8000"
     depends_on:
       - postgres
-    # env_file:
-    #   - ./.envs/.local/.django
-    #   - ./.envs/.local/.postgres
     environment:
       DJANGO_SETTINGS_MODULE: config.settings.dev
