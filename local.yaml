@@ -2,8 +2,6 @@ version: '3.8'
 
 volumes:
   postgres_data:
-  static_value:
-  media_value:
 
 services:
   postgres:
@@ -11,22 +9,8 @@ services:
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ./.envs/.local/.postgres
-  django:
-    image: bbbs:v01.2021.06.13
-    build:
-      context: .
-      dockerfile: ./compose/local/django/Dockerfile
-    command: make run-in-docker
-    volumes:
-      - static_value:/code/staticfiles/
-      - media_value:/code/media
-      - .:/code/
     ports:
-      - "8000:8000"
-    depends_on:
-      - postgres
-    env_file:
-      - ./.envs/.local/.django
-      - ./.envs/.local/.postgres
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: bbbs
+      POSTGRES_PASSWORD: pg_password

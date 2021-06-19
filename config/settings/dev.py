@@ -1,5 +1,3 @@
-import os
-
 from .base import *
 
 # GENERAL
@@ -16,11 +14,11 @@ ALLOWED_HOSTS = ["*"]
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("POSTGRES_DB"),
-        "USER": os.environ.get("POSTGRES_USER"),
-        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
-        "HOST": os.environ.get("POSTGRES_HOST"),
-        "PORT": os.environ.get("POSTGRES_PORT"),
+        "NAME": env("POSTGRES_DB", default="bbbs"),
+        "USER": env("POSTGRES_USER", default="bbbs"),
+        "PASSWORD": env("POSTGRES_PASSWORD", default="pg_password"),
+        "HOST": env("POSTGRES_HOST", default="postgres"),
+        "PORT": env("POSTGRES_PORT", default="5432"),
     }
 }
 
