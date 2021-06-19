@@ -10,7 +10,7 @@ migrate:
 
 fill-sqlite:
 	python manage.py makemigrations
-	python manage.py migrate
+	python manage.py migratgee
 	python manage.py loaddata fixtures.json
 	python manage.py createsuperuser
 

@@ -1,22 +1,18 @@
 from django.db import models
 from django.utils.translation import gettext_lazy
 
-from common.utils import slugify
+
+def get_upload_path(instance, filename):
+    return "places/{}/{}".format(instance.id, filename)
 
 
 class PlaceTag(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=50, unique=True)
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
     class Meta:
-        ordering = ["name", "slug"]
-        verbose_name = "Тег (места: куда пойти?)"
-        verbose_name_plural = "Теги (места: куда пойти?)"
+        verbose_name = "Тег"
+        verbose_name_plural = "Теги"
 
     def __str__(self):
         return self.name
@@ -68,13 +64,15 @@ class Place(models.Model):
         null=True,
         blank=True,
     )
-    tag = models.ManyToManyField(PlaceTag, related_name="tags", blank=True)
+    tag = models.ManyToManyField(
+        PlaceTag, related_name="tags", blank=True, verbose_name="Теги"
+    )
     imageUrl = models.ImageField(
         verbose_name="Фото",
         help_text="Добавить фото",
         null=True,
         blank=True,
-        upload_to="places/",
+        upload_to=get_upload_path,
     )
 
     class Meta:
