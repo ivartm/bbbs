@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy
 
+from common.utils import slugify
+
 
 def get_upload_path(instance, filename):
     return "places/{}/{}".format(instance.id, filename)
@@ -16,6 +18,10 @@ class PlaceTag(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 
 class Place(models.Model):
