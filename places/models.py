@@ -1,14 +1,22 @@
 from django.db import models
 from django.utils.translation import gettext_lazy
 
+from common.utils import slugify
+
 
 class PlaceTag(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=50, unique=True)
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
     class Meta:
-        verbose_name = "Тег"
-        verbose_name_plural = "Теги"
+        ordering = ["name", "slug"]
+        verbose_name = "Тег (места: куда пойти?)"
+        verbose_name_plural = "Теги (места: куда пойти?)"
 
     def __str__(self):
         return self.name
