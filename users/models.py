@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from common.models import City
 
+
 User._meta.get_field("email")._unique = True
 User._meta.get_field("email").blank = False
 User._meta.get_field("email").null = False
@@ -44,37 +45,67 @@ class Profile(models.Model):
     def __str__(self):
         return f"Дополнительная информация пользователя {self.user.username}"
 
+    def save(self, *args, **kwargs):
+        """Two custom things: adds regions if necessary and sync roles.
+
+        1. Add region to moderator_reg if it empty.
+        2. Sync Profile role with User role when saving.
+        """
+
+        super().save(*args, **kwargs)
+
+        if self.is_moderator_gen and not self.region.exists():
+            self.region.add(self.city)
+
+        if self.is_mentor:
+            self.user.is_staff = False
+            self.user.is_superuser = False
+        if self.is_moderator_reg or self.is_moderator_gen:
+            self.user.is_staff = True
+            self.user.is_superuser = False
+        if self.is_admin:
+            self.user.is_staff = True
+            self.user.is_superuser = True
+        self.user.save()
+
     @receiver(post_save, sender=User)
     def create_and_update_user_profile(sender, instance, created, **kwargs):
+        """Should be analyzed and documented or possibly rewritten.
+
+        Creates Profile object when new user was created. Do nothing if user
+        was updated.
+        """
+
         if created:
-            obj, created = City.objects.get_or_create(
+            obj, city_created = City.objects.get_or_create(
                 name="Москва",
                 defaults={"name": "Москва", "isPrimary": True},
             )
-            if created:
+            if city_created:
                 obj.save()
-            Profile.objects.create(user=instance, city=obj)
+
+            role = Profile.Role.MENTOR
             if instance.is_superuser:
-                instance.profile.role = Profile.Role.ADMIN
-        if (
-            not instance.profile.region.exists()
-            and instance.profile.is_moderator_reg
-        ):
-            instance.profile.region.add(instance.profile.city)
-        instance.profile.save()
+                role = Profile.Role.ADMIN
+
+            Profile.objects.create(
+                user=instance,
+                role=role,
+                city=obj,
+            )
 
     @property
     def is_admin(self):
-        return self.Role.ADMIN == self.role
+        return self.role == self.Role.ADMIN
 
     @property
     def is_moderator_reg(self):
-        return self.Role.MODERATOR_REG == self.role
+        return self.role == self.Role.MODERATOR_REG
 
     @property
     def is_moderator_gen(self):
-        return self.Role.MODERATOR_GEN == self.role
+        return self.role == self.Role.MODERATOR_GEN
 
     @property
     def is_mentor(self):
-        return self.Role.MENTOR == self.role
+        return self.role == self.Role.MENTOR

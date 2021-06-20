@@ -17,20 +17,20 @@ class ViewAfishaTests(APITestCase):
     def setUpClass(cls) -> None:
         super().setUpClass()
 
-        cls.city = CityFactory.create(name="Воркута")
-        cls.mentor = UserFactory.create(
+        cls.city = CityFactory(name="Воркута")
+        cls.mentor = UserFactory(
             profile__role="mentor",
             profile__city=cls.city,
         )
-        cls.moderator_reg = UserFactory.create(
+        cls.moderator_reg = UserFactory(
             profile__role="moderator_reg",
             profile__city=cls.city,
         )
-        cls.moderator_gen = UserFactory.create(
+        cls.moderator_gen = UserFactory(
             profile__role="moderator_gen",
             profile__city=cls.city,
         )
-        cls.admin = UserFactory.create(
+        cls.admin = UserFactory(
             profile__role="admin",
             profile__city=cls.city,
         )
@@ -95,7 +95,7 @@ class ViewAfishaTests(APITestCase):
     def test_mentor_can_book_event(self):
         """Looks for status code and returned JSON in response"""
         user = ViewAfishaTests.mentor
-        event = EventFactory.create(
+        event = EventFactory(
             city=user.profile.city,
             seats=40,
         )
@@ -133,8 +133,8 @@ class ViewAfishaTests(APITestCase):
     def test_booked_event_has_true_flag(self):
         """Looks fot "booked" string in response record."""
         user = ViewAfishaTests.mentor
-        event = EventFactory.create(city=user.profile.city)
-        EventParticipantFactory.create(
+        event = EventFactory(city=user.profile.city)
+        EventParticipantFactory(
             event=event,
             user=user,
         )
@@ -160,7 +160,7 @@ class ViewAfishaTests(APITestCase):
 
     def test_mentor_cant_book_event_with_empty_seats(self):
         user = ViewAfishaTests.mentor
-        event = EventFactory.create(
+        event = EventFactory(
             city=user.profile.city,
             seats=40,
         )
@@ -190,7 +190,7 @@ class ViewAfishaTests(APITestCase):
 
     def test_mentor_cant_book_event_in_past(self):
         user = ViewAfishaTests.mentor
-        event = EventFactory.create(
+        event = EventFactory(
             city=user.profile.city,
             startAt=datetime(2019, 1, 1, tzinfo=pytz.utc),
             endAt=datetime(2020, 1, 1, tzinfo=pytz.utc),
@@ -217,11 +217,11 @@ class ViewAfishaTests(APITestCase):
 
     def test_mentor_cant_book_same_event_twice(self):
         user = ViewAfishaTests.mentor
-        event = EventFactory.create(
+        event = EventFactory(
             city=user.profile.city,
             seats=10,
         )
-        EventParticipantFactory.create(
+        EventParticipantFactory(
             user=user,
             event=event,
         )
@@ -249,7 +249,7 @@ class ViewAfishaTests(APITestCase):
     def test_mentor_cant_book_event_in_other_city(self):
         user = ViewAfishaTests.mentor
         other_city = CityFactory()
-        event = EventFactory.create(
+        event = EventFactory(
             city=other_city,
         )
 
@@ -274,10 +274,10 @@ class ViewAfishaTests(APITestCase):
 
     def test_mentor_can_unbook_event(self):
         user = ViewAfishaTests.mentor
-        event = EventFactory.create(
+        event = EventFactory(
             city=user.profile.city,
         )
-        EventParticipantFactory.create(
+        EventParticipantFactory(
             user=user,
             event=event,
         )
@@ -320,9 +320,9 @@ class ViewAfishaTests(APITestCase):
         The test assumes that page size is more than 10 records.
         """
 
-        other_city = CityFactory.create()
+        other_city = CityFactory()
         user = ViewAfishaTests.mentor
-        user_other_city = UserFactory.create(profile__city=other_city)
+        user_other_city = UserFactory(profile__city=other_city)
         EventFactory.create_batch(10, city=other_city)
 
         client_user = self.return_authorized_user_client(user)
