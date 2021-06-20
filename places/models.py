@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy
 
 
 def get_upload_path(instance, filename):
-    return "places/{}/{}".format(instance.id, filename)
+    return "places/{}/{}".format(instance.pk, filename)
 
 
 class PlaceTag(models.Model):
