@@ -1,14 +1,11 @@
-from django.contrib.admin import AdminSite
-from django.contrib.sites.models import Site
-from django.test import Client, TestCase
+from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
 from common.factories import CityFactory
-from users.admin import UserAdmin
 from users.factories import UserFactory
-from users.models import User
+from users.models import Profile
 
 TOKEN_URL = reverse("token")
 REFRESH_URL = reverse("token_refresh")
@@ -28,45 +25,34 @@ class URLTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.site = Site(id=1, name=SITE_NAME, domain=DOMAIN)
-        cls.site.save()
-        cls.userAdminSite = UserAdmin(model=User, admin_site=AdminSite())
-
-        # maybe unnecessary code. Wrote it to fix two test
-        cls.unauthorized_client = APIClient()
-        cls.city = CityFactory(name="Воркута")
+        cls.city = CityFactory(name="Мельбурн INC")
         cls.mentor = UserFactory(
-            profile__role="mentor",
+            profile__role=Profile.Role.MENTOR,
             profile__city=cls.city,
+            password=PASSWORD,
         )
         cls.moderator_reg = UserFactory(
-            profile__role="moderator_reg",
+            profile__role=Profile.Role.MODERATOR_REG,
             profile__city=cls.city,
+            password=PASSWORD,
         )
         cls.moderator_gen = UserFactory(
-            profile__role="moderator_gen",
+            profile__role=Profile.Role.MODERATOR_GEN,
             profile__city=cls.city,
+            password=PASSWORD,
         )
         cls.admin = UserFactory(
-            profile__role="admin",
+            profile__role=Profile.Role.ADMIN,
             profile__city=cls.city,
+            password=PASSWORD,
         )
-        cls.users = [
-            cls.mentor,
+        cls.staff_users = [
             cls.moderator_reg,
             cls.moderator_gen,
             cls.admin,
         ]
-         # maybe unnecessary code. Wrote it to fix two test
-
-    def setUp(self):
-        self.authorized_client = Client()
-        self.user = User.objects.create_user(
-            username=USERNAME,
-            email=USERNAME,
-            password=PASSWORD,
-        )
-        self.authorized_client.force_login(self.user)
+        cls.users = cls.staff_users + [cls.mentor]
+        cls.unauthorized_client = APIClient()
 
     def return_authorized_user_client(self, user):
         authorized_client = APIClient()
@@ -75,12 +61,23 @@ class URLTests(TestCase):
 
     def test_api_token_for_mentor(self):
         """Test api token/ for mentor"""
+        client = URLTests.unauthorized_client
+        user = URLTests.mentor
+
         data = {
-            "username": USERNAME,
+            "username": user.username,
             "password": PASSWORD,
         }
-        response = self.client.post(TOKEN_URL, data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        response = client.post(TOKEN_URL, data, format="json")
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_201_CREATED,
+            msg=(
+                f"response = {response.content} \n"
+                f"user_role = {user.profile.role}"
+            ),
+        )
         self.assertIn("refresh", response.data)
         self.assertIn("access", response.data)
 
@@ -88,11 +85,11 @@ class URLTests(TestCase):
         """Test api token/ for not mentor"""
         client = URLTests.unauthorized_client
 
-        for user in URLTests.users:
+        for user in URLTests.staff_users:
             with self.subTest(user=user):
                 data = {
                     "username": user.username,
-                    "password": "Bbbs2021!",
+                    "password": PASSWORD,
                 }
                 response = client.post(TOKEN_URL, data, format="json")
 
@@ -107,49 +104,21 @@ class URLTests(TestCase):
                     ),
                 )
 
-    # def test_api_token_for_not_mentor(self):
-    #     """Test api token/ for not mentor"""
-    #     userAdminSite = self.userAdminSite
-    #     user = self.user
-    #     roles = [
-    #         Profile.Role.ADMIN,
-    #         Profile.Role.MODERATOR_REG,
-    #         Profile.Role.MODERATOR_GEN,
-    #     ]
-    #     for role in roles:
-    #         user.profile.role = role
-    #         userAdminSite.save_model(
-    #             obj=user,
-    #             request=OurRequest(user=user),
-    #             form=UserAdmin.form,
-    #             change=True,
-    #         )
-    #         data = {
-    #             "username": USERNAME,
-    #             "password": PASSWORD,
-    #         }
-    #         response = self.client.post(TOKEN_URL, data, format="json")
-    #         self.assertEqual(user.profile.role, role)
-    #         self.assertEqual(
-    #             response.status_code,
-    #             status.HTTP_400_BAD_REQUEST,
-    #             msg=(
-    #                 f"Ошибка с ролью {role}, \n"
-    #                 f"Ответ: {response.content}"
-    #             )
-    #         )
-
     def test_token_refresh(self):
         """Test api token refresh"""
+        client = URLTests.unauthorized_client
+        user = URLTests.mentor
         data = {
-            "username": USERNAME,
+            "username": user.username,
             "password": PASSWORD,
         }
-        response = self.client.post(TOKEN_URL, data, format="json")
+
+        response = client.post(TOKEN_URL, data, format="json")
         refresh = response.data["refresh"]
         data = {
             "refresh": refresh,
         }
+
         response = self.client.post(REFRESH_URL, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)

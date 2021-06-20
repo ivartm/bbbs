@@ -101,11 +101,7 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        qs = (
-            qs
-            .select_related("profile")
-            .select_related("profile__city")
-        )
+        qs = qs.select_related("profile").select_related("profile__city")
         return qs
 
     def get_form(self, request, obj=None, **kwargs):

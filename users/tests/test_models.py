@@ -1,10 +1,13 @@
 from django.contrib.admin import AdminSite
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from afisha.models import User
 from common.models import City
 from users.admin import UserAdmin
 from users.models import Profile
+
+User = get_user_model()
+
 
 USERNAME = "user@mail.ru"
 USERNAME_SUPERUSER = "superr@mail.ru"
@@ -42,7 +45,7 @@ class UsersCreateTests(TestCase):
     def test_create_user(self):
         """Test for creating a user on the admin site."""
         user = self.user_superuser
-        
+
         userAdminSite = self.userAdminSite
         userAdminSite.save_model(
             obj=User(username=NEW_USERNAME, email=NEW_USERNAME),
@@ -72,7 +75,7 @@ class UsersCreateTests(TestCase):
             form=UserAdmin.form,
             change=True,
         )
-        user.profile.save() # В тестах как будто не сохраняем форму с профилем
+        user.profile.save()  # В тестах как будто не сохраняем форму с профилем
 
         self.assertEqual(user.username, USERNAME)
         self.assertEqual(user.profile.role, Profile.Role.ADMIN)
@@ -92,7 +95,7 @@ class UsersCreateTests(TestCase):
             form=UserAdmin.form,
             change=True,
         )
-        user.profile.save() # В тестах как будто не сохраняем форму с профилем
+        user.profile.save()  # В тестах как будто не сохраняем форму с профилем
 
         self.assertEqual(user.username, USERNAME)
         self.assertTrue(user.is_active)
@@ -112,7 +115,7 @@ class UsersCreateTests(TestCase):
             form=UserAdmin.form,
             change=True,
         )
-        user.profile.save() # В тестах как будто не сохраняем форму с профилем
+        user.profile.save()  # В тестах как будто не сохраняем форму с профилем
 
         self.assertEqual(user.username, USERNAME)
         self.assertTrue(user.is_active)

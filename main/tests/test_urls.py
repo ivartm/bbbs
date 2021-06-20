@@ -5,6 +5,7 @@ from rest_framework.test import APIClient, APITestCase
 
 from common.factories import CityFactory
 from users.factories import UserFactory
+from users.models import Profile
 
 
 class StaticURLTests(APITestCase):
@@ -12,20 +13,20 @@ class StaticURLTests(APITestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.city = CityFactory.create(name="SomeCity")
-        cls.mentor = UserFactory.create(
-            profile__role="mentor",
+        cls.mentor = UserFactory(
+            profile__role=Profile.Role.MENTOR,
             profile__city=cls.city,
         )
-        cls.moderator_reg = UserFactory.create(
-            profile__role="moderator_reg",
+        cls.moderator_reg = UserFactory(
+            profile__role=Profile.Role.MODERATOR_REG,
             profile__city=cls.city,
         )
-        cls.moderator_gen = UserFactory.create(
-            profile__role="moderator_gen",
+        cls.moderator_gen = UserFactory(
+            profile__role=Profile.Role.MODERATOR_GEN,
             profile__city=cls.city,
         )
-        cls.admin = UserFactory.create(
-            profile__role="admin",
+        cls.admin = UserFactory(
+            profile__role=Profile.Role.ADMIN,
             profile__city=cls.city,
         )
         cls.users = [
