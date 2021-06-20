@@ -128,15 +128,6 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
     def user_city(self, obj):
         return obj.profile.city
 
-    def save_model(self, request, obj, form, change):
-        """Should be deleted. All the logic in models."""
-        if change:
-            if obj.profile.is_mentor and not obj.is_superuser:
-                obj.is_staff = False
-            else:
-                obj.is_staff = True
-        super().save_model(request, obj, form, change)
-
     def has_view_permission(self, request, obj=None):
         if not request.user.is_anonymous:
             return (

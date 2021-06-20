@@ -60,7 +60,7 @@ class Profile(models.Model):
         if self.is_mentor:
             self.user.is_staff = False
             self.user.is_superuser = False
-        if self.is_moderator_reg or self.is_moderator_reg:
+        if self.is_moderator_reg or self.is_moderator_gen:
             self.user.is_staff = True
             self.user.is_superuser = False
         if self.is_admin:
