@@ -57,10 +57,14 @@ class Profile(models.Model):
         if self.is_moderator_gen and not self.region.exists():
             self.region.add(self.city)
 
-        self.user.is_staff = False
-        if not self.is_mentor:
+        if self.is_mentor:
+            self.user.is_staff = False
+            self.user.is_superuser = False
+        if self.is_moderator_reg or self.is_moderator_reg:
             self.user.is_staff = True
+            self.user.is_superuser = False
         if self.is_admin:
+            self.user.is_staff = True
             self.user.is_superuser = True
         self.user.save()
 
@@ -80,10 +84,15 @@ class Profile(models.Model):
             if city_created:
                 obj.save()
 
-            Profile.objects.create(user=instance, city=obj)
-
+            role = Profile.Role.MENTOR
             if instance.is_superuser:
-                instance.profile.role = Profile.Role.ADMIN
+                role = Profile.Role.ADMIN
+
+            Profile.objects.create(
+                user=instance,
+                role=role,
+                city=obj,
+            )
 
     @property
     def is_admin(self):
