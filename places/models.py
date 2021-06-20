@@ -33,12 +33,10 @@ class Place(models.Model):
         default=False,
     )
     title = models.CharField(
-        verbose_name="Название",
-        max_length=200,
+        verbose_name="Название", max_length=200, null=False, blank=False
     )
     address = models.CharField(
-        verbose_name="Адрес",
-        max_length=200,
+        verbose_name="Адрес", max_length=200, null=False, blank=False
     )
     gender = models.CharField(
         verbose_name="Пол",
@@ -48,7 +46,7 @@ class Place(models.Model):
         blank=True,
     )
     age = models.PositiveSmallIntegerField(
-        verbose_name="Возраст", blank=True, null=True
+        verbose_name="Возраст", null=False, blank=False
     )
     activity_type = models.PositiveSmallIntegerField(
         verbose_name="Тип отдыха",
@@ -78,6 +76,7 @@ class Place(models.Model):
     class Meta:
         verbose_name = "Место - куда пойти?"
         verbose_name_plural = "Места - куда пойти?"
+        ordering = ["-pk"]
 
     def __str__(self):
         return self.title

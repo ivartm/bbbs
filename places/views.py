@@ -1,5 +1,5 @@
-from rest_framework.generics import ListAPIView
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import generics, status
+from rest_framework.response import Response
 
 from places.models import Place, PlaceTag
 from places.serializers import (
@@ -9,16 +9,22 @@ from places.serializers import (
 )
 
 
-class PlacesTagList(ListAPIView):
+class PlacesTagAPIView(generics.ListAPIView):
     queryset = PlaceTag.objects.all().order_by("name")
     serializer_class = PlaceTagSerializer
 
 
-class PlacesViewSet(ModelViewSet):
+class PlacesAPIView(generics.ListCreateAPIView):
     queryset = Place.objects.all().prefetch_related("tag")
-    http_method_names = ["get", "post"]
+    serializer_class = PlaceSerializerRead
 
-    def get_serializer_class(self):
-        if self.action == "create":
-            return PlaceSerializerWrite
-        return PlaceSerializerRead
+    def create(self, request, *args, **kwargs):
+        serializer = PlaceSerializerWrite(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            {"Success": "Спасибо! Мы приняли Вашу рекомендацию."},
+            status=status.HTTP_201_CREATED,
+            headers=headers,
+        )
