@@ -126,6 +126,7 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ROTATE_REFRESH_TOKENS": True,
 }
 
 AUTHENTICATION_BACKENDS = ["users.backends.UserOrEmailBackend"]

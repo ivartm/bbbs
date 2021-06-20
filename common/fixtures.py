@@ -4,6 +4,7 @@ import factory
 
 from afisha.factories import EventFactory
 from common.factories import CityFactory
+from places.factories import PlaceFactory, PlacesTagFactory
 from questions.factories import (
     QuestionFactory,
     QuestionFactoryWithoutAnswer,
@@ -49,7 +50,14 @@ def make_fixtures():
         for _ in range(30):
             num_tags = random.randint(1, 15)
             QuestionFactory.create(tags=num_tags)
+
         # make Questions without tags
         QuestionFactory.create_batch(5)
         # make Questions without tags and answers
         QuestionFactoryWithoutAnswer.create_batch(5)
+
+        PlacesTagFactory.create_batch(15)
+
+        for _ in range(30):
+            num_tags = random.randint(1, 15)
+            PlaceFactory.create(num_tags=num_tags)
