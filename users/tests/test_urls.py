@@ -129,7 +129,11 @@ class URLTests(TestCase):
         expected_data = {
             "id": user.profile.id,
             "user": user.id,
-            "city": user.profile.city.id,
+            "city": {
+                "id": user.profile.city.id,
+                "name": user.profile.city.name,
+                "isPrimary": user.profile.city.isPrimary,
+            },
         }
         client = self.return_authorized_user_client(user=user)
 
