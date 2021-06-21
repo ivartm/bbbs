@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 
+from common.serializers import CitySerializer
 from users.models import Profile
 
 
@@ -31,6 +32,8 @@ class TokenSerializer(serializers.Serializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    city = CitySerializer()
+
     class Meta:
         model = Profile
         fields = ["id", "user", "city"]
