@@ -12,8 +12,10 @@ class RightTagSerializer(serializers.ModelSerializer):
 
 
 class RightSerializer(serializers.ModelSerializer):
-    tag = serializers.SlugRelatedField(
-        many=True, read_only=True, slug_field="slug"
+    tags = serializers.SlugRelatedField(
+        slug_field="slug",
+        many=True,
+        read_only=True,
     )
 
     class Meta:
