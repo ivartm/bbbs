@@ -32,7 +32,9 @@ class MainView(APIView):
         booked = event_participants.filter(user_id=request.user.id)
 
         main_page = Main.objects.first()
-        main_serializer = MainSerializer(main_page)
+        main_serializer = MainSerializer(
+            main_page, context={"request": request}
+        )
         event_serializer = EventSerializer(event, context={"request": request})
         context["event"] = {
             **event_serializer.data,
