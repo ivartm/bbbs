@@ -8,16 +8,18 @@ migrate:
 	python manage.py makemigrations
 	python manage.py migrate
 
-fill-sqlite:
+filldb:
 	python manage.py makemigrations
 	python manage.py migrate
-	python manage.py loaddata fixtures.json
-	python manage.py createsuperuser
+	python manage.py filldb
+	python manage.py migrate
 
-fill-pg:
+filldb-with-superuser:
+
 	python manage.py makemigrations
 	python manage.py migrate
-	python manage.py loaddata fixtures_docker.json
+	python manage.py filldb
+	python manage.py migrate
 	python manage.py createsuperuser
 
 createsuperuser:
