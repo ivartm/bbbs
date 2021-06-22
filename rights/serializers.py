@@ -12,7 +12,8 @@ class RightTagSerializer(serializers.ModelSerializer):
 
 
 class RightSerializer(serializers.ModelSerializer):
-    tags = serializers.SlugRelatedField(
+    tag = serializers.SlugRelatedField(
+        source="tags",
         slug_field="slug",
         many=True,
         read_only=True,
@@ -20,4 +21,4 @@ class RightSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Right
-        fields = "__all__"
+        exclude = ["tags"]
