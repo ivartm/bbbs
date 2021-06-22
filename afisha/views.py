@@ -49,7 +49,7 @@ class EventAPIView(generics.ListAPIView):
         )
         queryset = (
             Event.objects.filter(city=profile.city)
-            .annotate(taken_seats=(Count("event_participants")))
+            .annotate(takenSeats=(Count("event_participants")))
             .annotate(booked=Exists(subquery))
             .order_by("startAt")
         )

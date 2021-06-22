@@ -203,35 +203,35 @@ class Command(BaseCommand):
                     for city_name in CITIES:
                         CityFactory(name=city_name)
 
-                CityFactory.create_batch(10)
+                    CityFactory.create_batch(10)
 
-                EventFactory.create_batch(200)
+                    EventFactory.create_batch(200)
 
-                RightTagFactory.create_batch(10)
+                    RightTagFactory.create_batch(10)
 
-                for _ in range(20):
-                    num_tags = random.randint(1, 5)
-                    RightFactory(num_tags=num_tags)
+                    for _ in range(20):
+                        num_tags = random.randint(1, 5)
+                        RightFactory(num_tags=num_tags)
 
-                for _ in range(30):
-                    num_events = random.randint(0, 5)
-                    UserFactory(num_events=num_events)
+                    for _ in range(30):
+                        num_events = random.randint(0, 5)
+                        UserFactory(num_events=num_events)
 
-                QuestionTagFactory.create_batch(15)
+                    QuestionTagFactory.create_batch(15)
 
-                for _ in range(30):
-                    num_tags = random.randint(1, 15)
-                    QuestionFactory.create(tags=num_tags)
+                    for _ in range(30):
+                        num_tags = random.randint(1, 15)
+                        QuestionFactory.create(tags=num_tags)
 
-                QuestionFactory.create_batch(5)
+                    QuestionFactory.create_batch(5)
 
-                QuestionFactoryWithoutAnswer.create_batch(5)
+                    QuestionFactoryWithoutAnswer.create_batch(5)
 
-                PlacesTagFactory.create_batch(15)
+                    PlacesTagFactory.create_batch(15)
 
-                for _ in range(30):
-                    num_tags = random.randint(1, 15)
-                    PlaceFactory.create(num_tags=num_tags)
+                    for _ in range(30):
+                        num_tags = random.randint(1, 15)
+                        PlaceFactory.create(num_tags=num_tags)
 
                 self.stdout.write(
                     self.style.SUCCESS("The database is filled with test data")
