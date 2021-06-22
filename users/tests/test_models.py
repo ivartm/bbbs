@@ -1,10 +1,13 @@
 from django.contrib.admin import AdminSite
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from afisha.models import User
 from common.models import City
 from users.admin import UserAdmin
 from users.models import Profile
+
+User = get_user_model()
+
 
 USERNAME = "user@mail.ru"
 USERNAME_SUPERUSER = "superr@mail.ru"
@@ -32,6 +35,7 @@ class UsersCreateTests(TestCase):
     def test_create_superuser(self):
         """Test create superuser."""
         user = self.user_superuser
+
         self.assertEqual(user.username, USERNAME_SUPERUSER)
         self.assertTrue(user.is_active)
         self.assertTrue(user.is_staff)
@@ -41,6 +45,7 @@ class UsersCreateTests(TestCase):
     def test_create_user(self):
         """Test for creating a user on the admin site."""
         user = self.user_superuser
+
         userAdminSite = self.userAdminSite
         userAdminSite.save_model(
             obj=User(username=NEW_USERNAME, email=NEW_USERNAME),
@@ -61,6 +66,7 @@ class UsersCreateTests(TestCase):
         """Test for changing role (admin) on the admin site."""
         userAdminSite = UserAdmin(model=User, admin_site=AdminSite())
         user = self.user
+
         self.assertEqual(user.profile.role, Profile.Role.MENTOR)
         user.profile.role = Profile.Role.ADMIN
         userAdminSite.save_model(
@@ -69,23 +75,28 @@ class UsersCreateTests(TestCase):
             form=UserAdmin.form,
             change=True,
         )
+        user.profile.save()  # В тестах как будто не сохраняем форму с профилем
+
         self.assertEqual(user.username, USERNAME)
         self.assertEqual(user.profile.role, Profile.Role.ADMIN)
         self.assertTrue(user.is_active)
         self.assertTrue(user.is_staff)
-        self.assertFalse(user.is_superuser)
+        self.assertTrue(user.is_superuser)
 
     def test_create_moderator_general(self):
         """Test for changing role (moderator general) on the admin site"""
         user = self.user
         userAdminSite = self.userAdminSite
         user.profile.role = Profile.Role.MODERATOR_GEN
+
         userAdminSite.save_model(
             obj=user,
             request=OurRequest(user=user),
             form=UserAdmin.form,
             change=True,
         )
+        user.profile.save()  # В тестах как будто не сохраняем форму с профилем
+
         self.assertEqual(user.username, USERNAME)
         self.assertTrue(user.is_active)
         self.assertTrue(user.is_staff)
@@ -97,12 +108,15 @@ class UsersCreateTests(TestCase):
         user = self.user
         userAdminSite = self.userAdminSite
         user.profile.role = Profile.Role.MODERATOR_REG
+
         userAdminSite.save_model(
             obj=user,
             request=OurRequest(user=user),
             form=UserAdmin.form,
             change=True,
         )
+        user.profile.save()  # В тестах как будто не сохраняем форму с профилем
+
         self.assertEqual(user.username, USERNAME)
         self.assertTrue(user.is_active)
         self.assertTrue(user.is_staff)
@@ -114,6 +128,7 @@ class UsersCreateTests(TestCase):
         user = self.user
         userAdminSite = self.userAdminSite
         user.profile.role = Profile.Role.MENTOR
+
         userAdminSite.save_model(
             obj=user,
             request=OurRequest(user=user),

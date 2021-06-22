@@ -4,9 +4,7 @@ on:
   push:
     branches:
       - main
-      - develop
 jobs:
-
   run_tests:
     name: Testing PEP8 and pytest
     runs-on: ubuntu-latest

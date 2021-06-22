@@ -1,10 +1,10 @@
 import random
-from django.contrib.auth import get_user_model
 
 import factory
 
 from afisha.factories import EventFactory
 from common.factories import CityFactory
+from places.factories import PlaceFactory, PlacesTagFactory
 from questions.factories import (
     QuestionFactory,
     QuestionFactoryWithoutAnswer,
@@ -12,10 +12,6 @@ from questions.factories import (
 )
 from rights.factories import RightFactory, RightTagFactory
 from users.factories import UserFactory
-
-
-User = get_user_model()
-
 
 CITIES = [
     "Волгоград",
@@ -27,23 +23,12 @@ CITIES = [
     "Москва",
 ]
 
-ADMIN_USERNAME = "bbbs"
-ADMIN_PASSWORD = "Bbbs2021!"
-ADMIN_EMAIL = "admin@bbbs.ru"
-
 
 def make_fixtures():
     """Fixtures for the models
 
     City, User, Profile, Event, EventParticipant, QuestionTag, Question
     """
-
-    User.objects.create_superuser(
-        username=ADMIN_USERNAME,
-        email=ADMIN_EMAIL,
-        password=ADMIN_PASSWORD,
-    )
-
     with factory.Faker.override_default_locale("ru_RU"):
         for city_name in CITIES:
             CityFactory(name=city_name)
@@ -58,14 +43,25 @@ def make_fixtures():
 
         for _ in range(30):
             num_events = random.randint(0, 5)
-            UserFactory(num_events=num_events)
+            UserFactory.create(num_events=num_events)
 
         QuestionTagFactory.create_batch(15)
         # make Questions with tags
         for _ in range(30):
             num_tags = random.randint(1, 15)
             QuestionFactory.create(tags=num_tags)
+
         # make Questions without tags
         QuestionFactory.create_batch(5)
         # make Questions without tags and answers
         QuestionFactoryWithoutAnswer.create_batch(5)
+
+        PlacesTagFactory.create_batch(15)
+
+        for _ in range(30):
+            num_tags = random.randint(1, 15)
+            PlaceFactory.create(num_tags=num_tags)
+
+
+if __name__ == "__main__":
+    make_fixtures()
