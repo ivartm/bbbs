@@ -43,7 +43,7 @@ def make_fixtures():
 
         for _ in range(30):
             num_events = random.randint(0, 5)
-            UserFactory(num_events=num_events)
+            UserFactory.create(num_events=num_events)
 
         QuestionTagFactory.create_batch(15)
         # make Questions with tags
@@ -61,3 +61,7 @@ def make_fixtures():
         for _ in range(30):
             num_tags = random.randint(1, 15)
             PlaceFactory.create(num_tags=num_tags)
+
+
+if __name__ == "__main__":
+    make_fixtures()
