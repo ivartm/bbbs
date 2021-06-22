@@ -48,7 +48,7 @@ class Right(models.Model):
     )
     tags = models.ManyToManyField(
         "RightTag",
-        blank=True,
+        blank=False,
         related_name="righttags",
     )
 
