@@ -1,8 +1,5 @@
 import random
 
-
-# from django.conf import settings
-
 import factory
 
 from afisha.factories import EventFactory

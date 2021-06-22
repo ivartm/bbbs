@@ -7,7 +7,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from users.models import Profile
-from users.serializers import ProfileSerializer, TokenSerializer
+from users.serializers import (
+    ProfileSerializerRead,
+    ProfileSerializerWrite,
+    TokenSerializer,
+)
 from users.utils import get_tokens_for_user
 
 
@@ -24,11 +28,29 @@ class TokenAPI(APIView):
         return Response(token, status=status.HTTP_201_CREATED)
 
 
-class ProfileView(generics.RetrieveUpdateAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+class ProfileView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = ProfileSerializerWrite
 
     def get_object(self):
         obj = get_object_or_404(Profile, user=self.request.user)
         return obj
+
+    def get(self, *args):
+        queryset = self.get_object()
+        serializer = ProfileSerializerRead(queryset)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request):
+        client = self.get_object()
+        serializer = ProfileSerializerWrite(
+            client, data=request.data, partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                data=serializer.data, status=status.HTTP_201_CREATED
+            )
+        return Response(
+            data="Неверные данные", status=status.HTTP_400_BAD_REQUEST
+        )
