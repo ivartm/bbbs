@@ -46,7 +46,6 @@ class PlaceSerializerWrite(serializers.ModelSerializer):
         many=True,
         queryset=PlaceTag.objects.all(),
         slug_field="slug",
-        required=False,
     )
 
     class Meta:

@@ -63,7 +63,7 @@ class Place(models.Model):
         blank=True,
     )
     tag = models.ManyToManyField(
-        PlaceTag, related_name="tags", blank=True, verbose_name="Теги"
+        PlaceTag, related_name="tags", blank=False, verbose_name="Теги"
     )
     imageUrl = models.ImageField(
         verbose_name="Фото",

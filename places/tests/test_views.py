@@ -201,12 +201,14 @@ class ViewPlacesTests(APITestCase):
     def test_places_post_authorized_client(self):
         user = ViewPlacesTests.mentor
         client = self.return_authorized_user_client(user)
+        tag = PlacesTagFactory(name="test", slug="test")
         place = {
             "age": 10,
             "activity_type": 1,
             "title": "123",
             "address": "1234",
             "description": "1235",
+            "tag": {tag.slug},
         }
         response = client.post(
             path=ViewPlacesTests.path_places,
