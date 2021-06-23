@@ -19,7 +19,9 @@ class PlacesAPIView(generics.ListCreateAPIView):
     serializer_class = PlaceSerializerRead
 
     def create(self, request, *args, **kwargs):
-        serializer = PlaceSerializerWrite(data=request.data)
+        serializer = PlaceSerializerWrite(
+            data=request.data, context={"request": request}
+        )
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)

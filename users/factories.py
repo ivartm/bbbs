@@ -13,7 +13,12 @@ fake = Faker(["ru-RU"])
 
 @factory.django.mute_signals(signals.post_save)
 class ProfileFactory(factory.django.DjangoModelFactory):
-    """Please review factory_boy docs why decoratory is required here."""
+    """Creates profile itself or could be called as RelatedFactory.
+
+    Rely on City objects, be sure at least one city is present.
+    Please review factory_boy docs why "mute_signals" decorator is
+    required here.
+    """
 
     class Meta:
         model = Profile
@@ -30,8 +35,9 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = User
+        django_get_or_create = ["username"]
 
-    username = factory.Sequence(lambda n: "user_%d" % n)
+    username = factory.Sequence(lambda n: "user_%d" % (User.objects.count()))
     password = "Bbbs2021!"
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
@@ -45,7 +51,7 @@ class UserFactory(factory.django.DjangoModelFactory):
         """Override the default ``_create`` with our custom call.
 
         The method has been taken from factory_boy manual. Without it
-        password for users is being created without has and doesn't work
+        password for users is being created without HASH and doesn't work
         right.
         """
 

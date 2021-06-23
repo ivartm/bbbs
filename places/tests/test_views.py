@@ -55,11 +55,12 @@ class ViewPlacesTests(APITestCase):
         return authorized_client
 
     def test_places_get_response_status_code(self):
-        unuathorized_client = ViewPlacesTests.unauthorized_client
+        unauthorized_client = ViewPlacesTests.unauthorized_client
+        response = unauthorized_client.get(ViewPlacesTests.path_places)
+        self.assertEqual(response.status_code, 200)
+
         user = ViewPlacesTests.mentor
         client = self.return_authorized_user_client(user)
-        response = unuathorized_client.get(ViewPlacesTests.path_places)
-        self.assertEqual(response.status_code, 200)
         response = client.get(ViewPlacesTests.path_places)
         self.assertEqual(response.status_code, 200)
 
@@ -200,12 +201,14 @@ class ViewPlacesTests(APITestCase):
     def test_places_post_authorized_client(self):
         user = ViewPlacesTests.mentor
         client = self.return_authorized_user_client(user)
+        tag = PlacesTagFactory(name="test", slug="test")
         place = {
             "age": 10,
             "activity_type": 1,
             "title": "123",
             "address": "1234",
             "description": "1235",
+            "tag": {tag.slug},
         }
         response = client.post(
             path=ViewPlacesTests.path_places,
@@ -215,7 +218,7 @@ class ViewPlacesTests(APITestCase):
         self.assertEqual(
             response.status_code,
             201,
-            msg="Проверьте отправленые данные, не все поля заполнены",
+            msg="Проверьте отправленные данные, не все поля заполнены",
         )
 
     def test_places_post_empty_data(self):

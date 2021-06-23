@@ -22,6 +22,7 @@ class InfoField(serializers.ReadOnlyField):
 class PlaceSerializerRead(serializers.ModelSerializer):
     info = InfoField(source="*")
     tag = PlaceTagSerializer(many=True)
+    imageUrl = serializers.SerializerMethodField()
 
     class Meta:
         model = Place
@@ -34,13 +35,17 @@ class PlaceSerializerRead(serializers.ModelSerializer):
     def get_gender(self, obj):
         return obj.get_gender_display()
 
+    def get_imageUrl(self, obj):
+        if obj.imageUrl:
+            return self.context["request"].build_absolute_uri(obj.imageUrl.url)
+        return None
+
 
 class PlaceSerializerWrite(serializers.ModelSerializer):
     tag = serializers.SlugRelatedField(
         many=True,
         queryset=PlaceTag.objects.all(),
         slug_field="slug",
-        required=False,
     )
 
     class Meta:
