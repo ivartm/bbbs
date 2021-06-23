@@ -14,18 +14,16 @@ USERNAME = "user@mail.ru"
 PASSWORD = "test"
 SITE_NAME = "Site"
 DOMAIN = "127.0.0.1:8000"
-
-
-class OurRequest(object):
-    def __init__(self, user=None):
-        self.user = user
+CITY_NAME = "Мельбурн"
+CITY_NEW_NAME = "Нью-йорк"
 
 
 class URLTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.city = CityFactory(name="Мельбурн INC")
+        cls.city = CityFactory(name=CITY_NAME)
+        cls.city_new = CityFactory(name=CITY_NEW_NAME)
         cls.mentor = UserFactory(
             profile__role=Profile.Role.MENTOR,
             profile__city=cls.city,
@@ -137,3 +135,47 @@ class URLTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, expected_data)
+
+    def test_profile_patch(self):
+        """Test api patch profile (change city)"""
+        user = URLTests.mentor
+        data = {
+            "id": user.profile.id,
+            "user": user.id,
+            "city": self.city_new.id,
+        }
+        client = self.return_authorized_user_client(user=user)
+
+        response = client.patch(PROFILE_URL, data=data)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_profile_put(self):
+        """Test api put profile (change city)"""
+        user = URLTests.mentor
+        data = {
+            "id": user.profile.id,
+            "user": user.id,
+            "city": self.city_new.id,
+        }
+        client = self.return_authorized_user_client(user=user)
+
+        response = client.put(PROFILE_URL, data=data)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_profile_delete(self):
+        """Test api delete profile"""
+        user = URLTests.mentor
+        data = {
+            "id": user.profile.id,
+        }
+        client = self.return_authorized_user_client(user=user)
+
+        response = client.delete(PROFILE_URL, data=data)
+
+        self.assertEqual(
+            response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED
+        )
