@@ -31,16 +31,12 @@ class TokenSerializer(serializers.Serializer):
         return user
 
 
-class ProfileSerializerRead(serializers.ModelSerializer):
-    city = CitySerializer()
-
-    class Meta:
-        model = Profile
-        fields = ["id", "user", "city"]
-
-
 class ProfileSerializerWrite(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ["id", "user", "city"]
         read_only_fields = ("user",)
+
+
+class ProfileSerializerRead(ProfileSerializerWrite):
+    city = CitySerializer()

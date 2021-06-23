@@ -5,8 +5,8 @@ from afisha.filters import CitySelectFilter
 from afisha.models import Event, EventParticipant
 from common.models import City
 from users.utils import (
-    AdminOnlyPermissionsMixin,
     AdminAndModersPermissionsMixin,
+    AdminOnlyPermissionsMixin,
 )
 
 
