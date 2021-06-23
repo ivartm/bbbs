@@ -37,7 +37,6 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
         "id",
         "username",
         "is_active",
-        "is_superuser",
         "is_staff",
         "profile__role",
         "profile__city",
@@ -81,6 +80,11 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
         ),
     )
 
+    def get_readonly_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            return super().get_readonly_fields(request, obj)
+        return "is_superuser"
+
     def get_fieldsets(self, request, obj=None):
         if request.user.profile.is_moderator_gen:
             fieldsets = (
@@ -92,7 +96,6 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
                         "fields": (
                             "is_active",
                             "is_staff",
-                            "is_superuser",
                         )
                     },
                 ),

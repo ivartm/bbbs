@@ -5,11 +5,10 @@ import pytz
 from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase
 
-from common.factories import CityFactory
-from users.factories import UserFactory
-
 from afisha.factories import EventFactory, EventParticipantFactory
 from afisha.models import EventParticipant
+from common.factories import CityFactory
+from users.factories import UserFactory
 
 
 class ViewAfishaTests(APITestCase):
