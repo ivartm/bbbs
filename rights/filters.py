@@ -12,4 +12,4 @@ class RightFilter(filters.FilterSet):
 
     class Meta:
         model = Right
-        fields = ["tags"]
+        fields = ["tag"]

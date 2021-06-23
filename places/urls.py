@@ -1,14 +1,10 @@
 from django.urls import include, path
-from rest_framework.routers import DefaultRouter
 
-from .views import PlacesTagList, PlacesViewSet
-
-router = DefaultRouter()
-router.register("places", PlacesViewSet, basename="places")
+from .views import PlacesAPIView, PlacesTagAPIView
 
 extra_patterns = [
-    path("places/tags/", PlacesTagList.as_view(), name="places-tags"),
-    path("", include(router.urls)),
+    path("places/tags/", PlacesTagAPIView.as_view(), name="places-tags"),
+    path("places/", PlacesAPIView.as_view(), name="places"),
 ]
 
 urlpatterns = [

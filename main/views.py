@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 
-from afisha.models import Event
+from afisha.models import Event, EventParticipant
 from afisha.serializers import EventSerializer
 from common.models import City
 from common.filters import CityAuthFilterBackend
@@ -32,11 +32,19 @@ class MainView(ListAPIView):
         event = Event.objects.filter(
             city=city, startAt__gt=timezone.now()
         ).first()
-        event = Event.objects.last()
+        event_participants = EventParticipant.objects.filter(event=event)
+        booked = event_participants.filter(user_id=request.user.id)
+
         main_page = Main.objects.first()
-        main_serializer = MainSerializer(main_page)
+        main_serializer = MainSerializer(
+            main_page, context={"request": request}
+        )
         event_serializer = EventSerializer(event, context={"request": request})
-        context["event"] = {**event_serializer.data}
+        context["event"] = {
+            **event_serializer.data,
+            "booked": booked.exists(),
+            "takenSeats": event_participants.count(),
+        }
         context.update(main_serializer.data)
         context.update(**TEMP_DATA)
         return Response(context)

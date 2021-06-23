@@ -280,6 +280,6 @@ pytest
 # Просмотр автодокументации по API
 
 ```shell
-.../schema/
+.../swagger/
 .../redoc/,
 ```

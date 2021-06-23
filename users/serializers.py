@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 
+from common.serializers import CitySerializer
 from users.models import Profile
 
 
@@ -30,7 +31,16 @@ class TokenSerializer(serializers.Serializer):
         return user
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class ProfileSerializerRead(serializers.ModelSerializer):
+    city = CitySerializer()
+
     class Meta:
         model = Profile
         fields = ["id", "user", "city"]
+
+
+class ProfileSerializerWrite(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ["id", "user", "city"]
+        read_only_fields = ("user",)
