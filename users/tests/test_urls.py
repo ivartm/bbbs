@@ -152,7 +152,7 @@ class URLTests(TestCase):
 
         response = client.patch(PROFILE_URL, data=data)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data, data)
 
     def test_profile_put(self):
@@ -167,8 +167,9 @@ class URLTests(TestCase):
 
         response = client.put(PROFILE_URL, data=data)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, data)
+        self.assertEqual(
+            response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED
+        )
 
     def test_profile_delete(self):
         """Test api delete profile"""
