@@ -151,9 +151,17 @@ class URLTests(TestCase):
         client = self.return_authorized_user_client(user=user)
 
         response = client.patch(PROFILE_URL, data=data)
-
+        data_response = {
+            "id": user.profile.id,
+            "user": user.id,
+            "city": {
+                "id": self.city_new.id,
+                "name": self.city_new.name,
+                "isPrimary": self.city_new.isPrimary,
+            },
+        }
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data, data)
+        self.assertEqual(response.data, data_response)
 
     def test_profile_put(self):
         """Test api put profile (change city)"""
