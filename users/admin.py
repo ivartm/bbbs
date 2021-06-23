@@ -80,6 +80,11 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
         ),
     )
 
+    def get_readonly_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            return super().get_readonly_fields(request, obj)
+        return "is_superuser"
+
     def get_fieldsets(self, request, obj=None):
         if request.user.profile.is_moderator_gen:
             fieldsets = (
@@ -91,7 +96,6 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
                         "fields": (
                             "is_active",
                             "is_staff",
-                            "is_superuser",
                         )
                     },
                 ),
@@ -103,15 +107,6 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
         qs = super().get_queryset(request)
         qs = qs.select_related("profile").select_related("profile__city")
         return qs
-
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        if obj is None:
-            return form
-        if not request.user.is_superuser:
-            form.base_fields["is_superuser"].disabled = True
-            form.base_fields["is_staff"].disabled = True
-        return form
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
