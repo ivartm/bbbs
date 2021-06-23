@@ -27,6 +27,9 @@ class QuestionSerializer(serializers.ModelSerializer):
             )
         return {"question": question}
 
+    def create(self, validated_data):
+        return Question.objects.create(**validated_data)
+
     def validate(self, data):
         question = data.get("question")
         request = self.context.get("request")
