@@ -39,7 +39,7 @@ class AllFactories:
     def create_right(self, arg):
         for _ in range(arg):
             num_tags = random.randint(1, 5)
-            RightFactory(num_tags=num_tags)
+            RightFactory(tags__num=num_tags)
 
     def create_user(self, arg):
         for _ in range(arg):
@@ -211,7 +211,7 @@ class Command(BaseCommand):
 
                     for _ in range(20):
                         num_tags = random.randint(1, 5)
-                        RightFactory(num_tags=num_tags)
+                        RightFactory(tags__num=num_tags)
 
                     for _ in range(30):
                         num_events = random.randint(0, 5)

@@ -39,7 +39,7 @@ def make_fixtures():
         RightTagFactory.create_batch(10)
         for _ in range(20):
             num_tags = random.randint(1, 5)
-            RightFactory(num_tags=num_tags)
+            RightFactory(tags__num=num_tags)
 
         for _ in range(30):
             num_events = random.randint(0, 5)

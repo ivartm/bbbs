@@ -14,7 +14,7 @@ class UrlRightsAppTests(APITestCase):
         cls.path_rights = reverse("rights")
         cls.path_righttags = reverse("right-tags")
         cls.tag = RightTagFactory(name="?Петровна?")
-        cls.right = RightFactory(num_tags=2)
+        cls.right = RightFactory(tags__num=2)
 
         cls.city = CityFactory(name="Билибино")
         cls.mentor = UserFactory()
