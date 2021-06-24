@@ -48,6 +48,7 @@ class ProfileView(generics.RetrieveAPIView):
         )
         if serializer.is_valid():
             serializer.save()
+            serializer = ProfileSerializerRead(client)
             return Response(
                 data=serializer.data, status=status.HTTP_201_CREATED
             )

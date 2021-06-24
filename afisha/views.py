@@ -1,5 +1,6 @@
 from django.db.models import Count, Exists, OuterRef
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from rest_framework import generics
 from rest_framework.mixins import (
     CreateModelMixin,
@@ -48,7 +49,7 @@ class EventAPIView(generics.ListAPIView):
             user=profile.user, event=OuterRef("pk")
         )
         queryset = (
-            Event.objects.filter(city=profile.city)
+            Event.objects.filter(city=profile.city, endAt__gt=timezone.now())
             .annotate(takenSeats=(Count("event_participants")))
             .annotate(booked=Exists(subquery))
             .order_by("startAt")
