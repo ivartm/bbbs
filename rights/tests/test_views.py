@@ -26,18 +26,10 @@ class ViewRightTests(APITestCase):
         authorized_client.force_authenticate(user=user)
         return authorized_client
 
-    def test_rights_get_response_status_code(self):
-        """Mentor has access to Right list."""
-        user = ViewRightTests.mentor
-        client = self.return_authorized_user_client(user)
-        response = client.get(ViewRightTests.path_rights)
-        self.assertEqual(response.status_code, 200)
-
     def test_response_is_paginated(self):
         """Just look for 'next', 'previous', 'result' keys in response."""
-        user = ViewRightTests.mentor
+        client = ViewRightTests.unauthorized_client
         RightFactory.create_batch(200)
-        client = self.return_authorized_user_client(user)
 
         response_data = client.get(path=self.path_rights).data
 
@@ -47,8 +39,7 @@ class ViewRightTests(APITestCase):
 
     def test_rights_has_correct_fields(self):
         """Result has all expected fields."""
-        user = ViewRightTests.mentor
-        client = self.return_authorized_user_client(user=user)
+        client = ViewRightTests.unauthorized_client
         fields = [
             "id",
             "tag",
@@ -66,8 +57,7 @@ class ViewRightTests(APITestCase):
 
     def test_rights_has_no_more_than_expected_fields(self):
         """Result has no more than expected fields."""
-        user = ViewRightTests.mentor
-        client = self.return_authorized_user_client(user=user)
+        client = ViewRightTests.unauthorized_client
         expected_fields = [
             "id",
             "tag",
@@ -85,3 +75,25 @@ class ViewRightTests(APITestCase):
                     field in expected_fields,
                     msg=f"В в возвращенном объекте неожидаемое поле {field}",
                 )
+
+    def test_rights_filtering_by_two_tags_returns_right(self):
+        """Create 20 Right obj with 2 tags and count it response."""
+        tag_1 = RightTagFactory(name="Tag1")
+        tag_2 = RightTagFactory(name="Tag2")
+        tag_3 = RightTagFactory(name="Tag3")
+        RightFactory.create_batch(20, num_tags__tags=[tag_1, tag_2])
+        RightFactory.create_batch(20, num_tags__tags=[tag_3])
+        query_part_url = "?tag=tag1&tag=tag2"
+
+        client = ViewRightTests.unauthorized_client
+        response = client.get(ViewRightTests.path_rights + query_part_url).data
+        count = response.get("count")
+
+        self.assertEqual(
+            count,
+            20,
+            msg=(
+                "Убедитесь, что фильтрация по тегам возвращает только "
+                "объекты c заданными тегами."
+            ),
+        )
