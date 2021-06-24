@@ -9,7 +9,9 @@ fake = Faker(["ru_RU"])
 class RightTagFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = RightTag
-        django_get_or_create = ["name"]
+        django_get_or_create = [
+            "name",
+        ]
 
     name = factory.Faker("word")
 
@@ -22,16 +24,35 @@ class RightFactory(factory.django.DjangoModelFactory):
         they are created before use
 
     Keyword arguments:
+
         - "num_tags" if passed creates object with amount of "num_tags" tags.
-        But not more than tags in db.
+        But not more than tags in db. The factory assumes that RightTag table
+        is small otherwise it could take enormous time to order_by("?").
 
-    The factory assumes that RightTag table is small otherwise it could take
-    enormous time to order_by("?")
+        - "num_tags__tags" expects list of RightTags objects and pass it to
+        object during creation.
 
+    Examples:
+        ========================
+        RightFactory(num_tags=2)
+        =========================
+        Creates Right obj with 2 random tags (if there are 2 or more tags
+        in DB).
+
+        =========================
+        tag_1 = RightTagFactory(...)
+        tag_2 = RightTagFactory(...)
+        tags = [tag_1, tag_2]
+        RightFactory(num_tags__tags=*tags)
+        =========================
+        Creates Right obj with exact tag1 and tag2
     """
 
     class Meta:
         model = Right
+        django_get_or_create = [
+            "title",
+        ]
 
     title = factory.Sequence(lambda t: f"{fake.word()} {t}")
     description = factory.Faker("sentence", nb_words=6, variable_nb_words=True)
@@ -48,6 +69,11 @@ class RightFactory(factory.django.DjangoModelFactory):
     @factory.post_generation
     def num_tags(self, create, extracted, **kwargs):
         if not create:
+            return
+
+        if kwargs.get("tags"):
+            tags = kwargs["tags"]
+            self.tags.add(*tags)
             return
 
         at_least = 1
