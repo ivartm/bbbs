@@ -18,6 +18,7 @@ class RightAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
         "description",
         "text",
     ]
+    filter_horizontal = ("tags",)
 
 
 class RightTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):

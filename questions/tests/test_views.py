@@ -6,6 +6,7 @@ from questions.factories import QuestionFactoryWithoutAnswer
 
 from users.factories import UserFactory
 from users.models import Profile
+from questions.models import Question
 
 
 class ViewQuestionsTests(APITestCase):
@@ -64,7 +65,14 @@ class ViewQuestionsTests(APITestCase):
         response = client.post(
             path=ViewQuestionsTests.path_questions, data=data, format="json"
         )
-        expected_data = {"Success": "Спасибо! Мы приняли Ваш вопрос."}
+        question = Question.objects.get(question=data["question"])
+        expected_data = {
+            "id": question.id,
+            "tag": [],
+            "answer": question.answer,
+            "pubDate": question.pubDate.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+            "question": question.question,
+        }
         self.assertEqual(
             response.status_code,
             201,
@@ -89,7 +97,16 @@ class ViewQuestionsTests(APITestCase):
                     data=data,
                     format="json",
                 )
-                expected_data = {"Success": "Спасибо! Мы приняли Ваш вопрос."}
+                question = Question.objects.get(question=data["question"])
+                expected_data = {
+                    "id": question.id,
+                    "tag": [],
+                    "answer": question.answer,
+                    "pubDate": question.pubDate.strftime(
+                        "%Y-%m-%dT%H:%M:%S.%fZ"
+                    ),
+                    "question": question.question,
+                }
                 self.assertEqual(
                     response.status_code,
                     201,

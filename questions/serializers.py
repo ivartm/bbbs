@@ -11,13 +11,18 @@ class QuestionTagSerializer(serializers.ModelSerializer):
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    tags = QuestionTagSerializer(many=True, read_only=True)
+    tag = serializers.SlugRelatedField(
+        source="tags",
+        slug_field="slug",
+        many=True,
+        read_only=True,
+    )
     answer = serializers.CharField(read_only=True)
     pubDate = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Question
-        fields = serializers.ALL_FIELDS
+        exclude = ["tags"]
 
     def to_internal_value(self, data):
         question = data.get("question")
@@ -26,6 +31,9 @@ class QuestionSerializer(serializers.ModelSerializer):
                 {"question": "Такой вопрос уже задавали"}
             )
         return {"question": question}
+
+    def create(self, validated_data):
+        return Question.objects.create(**validated_data)
 
     def validate(self, data):
         question = data.get("question")

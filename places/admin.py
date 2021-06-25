@@ -23,7 +23,7 @@ class PlaceAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     )
     readonly_fields = ("image_change_preview",)
     list_display_links = ("id", "title")
-    filter_horizontal = ("tag",)
+    filter_horizontal = ("tags",)
     list_filter = ("age", "gender", "activity_type")
     search_fields = ("title",)
 
@@ -49,7 +49,17 @@ class PlaceAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
 
 
 class PlaceTagAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
-    pass
+    list_display = [
+        "name",
+        "slug",
+    ]
+    search_fields = [
+        "name",
+        "slug",
+    ]
+    prepopulated_fields = {
+        "slug": ["name"],
+    }
 
 
 admin.site.register(Place, PlaceAdmin)

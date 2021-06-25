@@ -16,7 +16,7 @@ class PlaceModelTest(TestCase):
             description="1235",
             age=10,
         )
-        place.tag.add(tag)
+        place.tags.add(tag)
         cls.place = place
 
     def test_place_activity_type_required_field(self):
@@ -61,7 +61,7 @@ class PlaceModelTest(TestCase):
 
     def test_place_tag_required_field(self):
         place = self.place
-        place.tag.clear()
+        place.tags.clear()
         with self.assertRaises(
             ValidationError, msg="Поле tag должно быть обязательным"
         ):

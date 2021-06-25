@@ -32,7 +32,7 @@ class EventParticipantViewSet(CreateListDestroyMixin, GenericViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = EventParticipant.objects.filter(user=user)
+        queryset = EventParticipant.objects.filter(user=user).order_by("id")
         return queryset
 
     def perform_create(self, serializer):
