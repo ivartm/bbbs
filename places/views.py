@@ -11,12 +11,12 @@ from common.filters import PlaceFilter
 
 
 class PlacesTagAPIView(generics.ListAPIView):
-    queryset = PlaceTag.objects.all().order_by("name")
+    queryset = PlaceTag.objects.all().order_by("id")
     serializer_class = PlaceTagSerializer
 
 
 class PlacesAPIView(generics.ListCreateAPIView):
-    queryset = Place.objects.all().prefetch_related("tags")
+    queryset = Place.objects.all().prefetch_related("tags").order_by("id")
     serializer_class = PlaceSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = (DjangoFilterBackend,)

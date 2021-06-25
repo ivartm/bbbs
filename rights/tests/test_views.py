@@ -13,7 +13,7 @@ class ViewRightTests(APITestCase):
 
         cls.tag1 = RightTagFactory(name="!Шляпа!")
         cls.tag2 = RightTagFactory(name="?Петровна?")
-        cls.right = RightFactory(num_tags=2)
+        cls.right = RightFactory(tags__num=2)
 
         cls.city = CityFactory(name="Билибино")
         cls.mentor = UserFactory()
@@ -81,8 +81,8 @@ class ViewRightTests(APITestCase):
         tag_1 = RightTagFactory(name="Tag1")
         tag_2 = RightTagFactory(name="Tag2")
         tag_3 = RightTagFactory(name="Tag3")
-        RightFactory.create_batch(20, num_tags__tags=[tag_1, tag_2])
-        RightFactory.create_batch(20, num_tags__tags=[tag_3])
+        RightFactory.create_batch(20, tags=[tag_1, tag_2])
+        RightFactory.create_batch(20, tags=[tag_3])
         query_part_url = "?tag=tag1&tag=tag2"
 
         client = ViewRightTests.unauthorized_client

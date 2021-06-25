@@ -25,16 +25,16 @@ class RightFactory(factory.django.DjangoModelFactory):
 
     Keyword arguments:
 
-        - "num_tags" if passed creates object with amount of "num_tags" tags.
+        - "tags__num" if passed creates object with amount of "num_tags" tags.
         But not more than tags in db. The factory assumes that RightTag table
         is small otherwise it could take enormous time to order_by("?").
 
-        - "num_tags__tags" expects list of RightTags objects and pass it to
+        - "tags" expects list of RightTags objects and pass it to
         object during creation.
 
     Examples:
         ========================
-        RightFactory(num_tags=2)
+        RightFactory(tags__num=2)
         =========================
         Creates Right obj with 2 random tags (if there are 2 or more tags
         in DB).
@@ -43,7 +43,7 @@ class RightFactory(factory.django.DjangoModelFactory):
         tag_1 = RightTagFactory(...)
         tag_2 = RightTagFactory(...)
         tags = [tag_1, tag_2]
-        RightFactory(num_tags__tags=*tags)
+        RightFactory(tags=*tags)
         =========================
         Creates Right obj with exact tag1 and tag2
     """
@@ -67,17 +67,18 @@ class RightFactory(factory.django.DjangoModelFactory):
     )
 
     @factory.post_generation
-    def num_tags(self, create, extracted, **kwargs):
+    def tags(self, create, extracted, **kwargs):
         if not create:
             return
 
-        if kwargs.get("tags"):
-            tags = kwargs["tags"]
+        if extracted:
+            tags = extracted
             self.tags.add(*tags)
             return
 
         at_least = 1
-        how_many = extracted or at_least
+        num = kwargs.get("num", None)
+        how_many = num or at_least
 
         tags_count = RightTag.objects.count()
         how_many = min(tags_count, how_many)

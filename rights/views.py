@@ -7,12 +7,12 @@ from rights.serializers import RightSerializer, RightTagSerializer
 
 
 class RightTagList(generics.ListAPIView):
-    queryset = RightTag.objects.all()
+    queryset = RightTag.objects.all().order_by("id")
     serializer_class = RightTagSerializer
 
 
 class RightList(generics.ListAPIView):
-    queryset = Right.objects.all().prefetch_related("tags")
+    queryset = Right.objects.all().prefetch_related("tags").order_by("id")
     serializer_class = RightSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = RightFilter
