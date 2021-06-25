@@ -39,7 +39,7 @@ class AllFactories:
     def create_right(self, arg):
         for _ in range(arg):
             num_tags = random.randint(1, 5)
-            RightFactory(num_tags=num_tags)
+            RightFactory(tags__num=num_tags)
 
     def create_user(self, arg):
         for _ in range(arg):
@@ -65,7 +65,7 @@ class AllFactories:
 
     def create_place(self, arg):
         for _ in range(arg):
-            num_tags = random.randint(1, 15)
+            num_tags = random.randint(1, 5)
             PlaceFactory.create(num_tags=num_tags)
 
 
@@ -211,7 +211,7 @@ class Command(BaseCommand):
 
                     for _ in range(20):
                         num_tags = random.randint(1, 5)
-                        RightFactory(num_tags=num_tags)
+                        RightFactory(tags__num=num_tags)
 
                     for _ in range(30):
                         num_events = random.randint(0, 5)
@@ -220,7 +220,7 @@ class Command(BaseCommand):
                     QuestionTagFactory.create_batch(15)
 
                     for _ in range(30):
-                        num_tags = random.randint(1, 15)
+                        num_tags = random.randint(1, 5)
                         QuestionFactory.create(tags=num_tags)
 
                     QuestionFactory.create_batch(5)
@@ -230,7 +230,7 @@ class Command(BaseCommand):
                     PlacesTagFactory.create_batch(15)
 
                     for _ in range(30):
-                        num_tags = random.randint(1, 15)
+                        num_tags = random.randint(1, 5)
                         PlaceFactory.create(num_tags=num_tags)
 
                 self.stdout.write(

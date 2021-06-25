@@ -32,7 +32,7 @@ class EventParticipantViewSet(CreateListDestroyMixin, GenericViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = EventParticipant.objects.filter(user=user)
+        queryset = EventParticipant.objects.filter(user=user).order_by("id")
         return queryset
 
     def perform_create(self, serializer):
@@ -49,7 +49,7 @@ class EventAPIView(generics.ListAPIView):
             user=profile.user, event=OuterRef("pk")
         )
         queryset = (
-            Event.objects.filter(city=profile.city, startAt__gt=timezone.now())
+            Event.objects.filter(city=profile.city, endAt__gt=timezone.now())
             .annotate(takenSeats=(Count("event_participants")))
             .annotate(booked=Exists(subquery))
             .order_by("startAt")

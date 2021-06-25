@@ -1,21 +1,39 @@
 from django.contrib import admin
-from django.contrib.admin import register
 
 from questions.models import Question, QuestionTag
-from users.utils import AdminOnlyPermissionsMixin
+from users.utils import AdminAndModerGenPermissionsMixin
 
 
-@register(Question)
-class QuestionAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
-    list_display = ("question", "answer", "pubDate")
-    list_filter = ("tags", "pubDate")
-    search_fields = ("question",)
-    empty_value_display = "Без тегов"
-    ordering = ("answer", "-pubDate")
+class QuestionAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
+    list_display = ["question", "answer", "pubDate"]
+    list_filter = [
+        "tags",
+        "pubDate",
+    ]
+    search_fields = [
+        "question",
+    ]
+    filter_horizontal = ("tags",)
+    ordering = [
+        "answer",
+        "-pubDate",
+    ]
 
 
-@register(QuestionTag)
-class TagAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
-    list_display = ("name", "slug")
-    search_fields = ("name",)
+class QuestionTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
+    list_display = [
+        "name",
+        "slug",
+    ]
+    search_fields = [
+        "name",
+        "slug",
+    ]
+    prepopulated_fields = {
+        "slug": ["name"],
+    }
     ordering = ("name",)
+
+
+admin.site.register(Question, QuestionAdmin)
+admin.site.register(QuestionTag, QuestionTagAdmin)

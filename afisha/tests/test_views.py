@@ -1,14 +1,18 @@
 import json
 from datetime import datetime
+from freezegun import freeze_time
 
 import pytz
 from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase
 
 from afisha.factories import EventFactory, EventParticipantFactory
-from afisha.models import EventParticipant
+from afisha.models import Event, EventParticipant
 from common.factories import CityFactory
 from users.factories import UserFactory
+
+EVENTS_URL = reverse("events")
+EVENTS_PATS_URL = reverse("event-participants-list")
 
 
 class ViewAfishaTests(APITestCase):
@@ -42,9 +46,6 @@ class ViewAfishaTests(APITestCase):
 
         cls.unauthorized_client = APIClient()
 
-        cls.path_events_participants = reverse("event-participants-list")
-        cls.path_events = reverse("events")
-
     def return_authorized_user_client(self, user):
         authorized_client = APIClient()
         authorized_client.force_authenticate(user=user)
@@ -56,9 +57,7 @@ class ViewAfishaTests(APITestCase):
         EventFactory.create_batch(50, city=user.profile.city)
         client = self.return_authorized_user_client(user)
 
-        response_data = client.get(
-            path=self.path_events,
-        ).data
+        response_data = client.get(path=EVENTS_URL).data
 
         self.assertTrue("next" in response_data)
         self.assertTrue("previous" in response_data)
@@ -77,10 +76,8 @@ class ViewAfishaTests(APITestCase):
         EventFactory.create_batch(10, city=city)
         EventFactory.create_batch(100, city=other_city)
 
-        response = client.get(
-            path=self.path_events,
-        )
-        results = response.data.get("results")
+        response_data = client.get(path=EVENTS_URL).data
+        results = response_data.get("results")
 
         self.assertEqual(
             len(results),
@@ -101,11 +98,7 @@ class ViewAfishaTests(APITestCase):
 
         client = self.return_authorized_user_client(user)
         data = {"event": event.id}
-        response = client.post(
-            path=ViewAfishaTests.path_events_participants,
-            data=data,
-            format="json",
-        )
+        response = client.post(path=EVENTS_PATS_URL, data=data, format="json")
 
         self.assertEqual(
             response.status_code,
@@ -139,10 +132,7 @@ class ViewAfishaTests(APITestCase):
         )
 
         client = self.return_authorized_user_client(user)
-        response_data = client.get(
-            path=ViewAfishaTests.path_events,
-            format="json",
-        ).data
+        response_data = client.get(path=EVENTS_URL, format="json").data
 
         results = response_data.get("results")
         record_dict = results[0]
@@ -170,11 +160,7 @@ class ViewAfishaTests(APITestCase):
 
         client = self.return_authorized_user_client(user)
         data = {"event": event.id}
-        response = client.post(
-            path=ViewAfishaTests.path_events_participants,
-            data=data,
-            format="json",
-        )
+        response = client.post(path=EVENTS_PATS_URL, data=data, format="json")
 
         self.assertContains(
             response,
@@ -197,11 +183,7 @@ class ViewAfishaTests(APITestCase):
 
         client = self.return_authorized_user_client(user)
         data = {"event": event.id}
-        response = client.post(
-            path=ViewAfishaTests.path_events_participants,
-            data=data,
-            format="json",
-        )
+        response = client.post(path=EVENTS_PATS_URL, data=data, format="json")
 
         self.assertContains(
             response,
@@ -227,11 +209,7 @@ class ViewAfishaTests(APITestCase):
 
         client = self.return_authorized_user_client(user)
         data = {"event": event.id}
-        response = client.post(
-            path=ViewAfishaTests.path_events_participants,
-            data=data,
-            format="json",
-        )
+        response = client.post(path=EVENTS_PATS_URL, data=data, format="json")
 
         self.assertContains(
             response,
@@ -254,11 +232,7 @@ class ViewAfishaTests(APITestCase):
 
         client = self.return_authorized_user_client(user)
         data = {"event": event.id}
-        response = client.post(
-            path=ViewAfishaTests.path_events_participants,
-            data=data,
-            format="json",
-        )
+        response = client.post(path=EVENTS_PATS_URL, data=data, format="json")
 
         self.assertContains(
             response,
@@ -325,13 +299,11 @@ class ViewAfishaTests(APITestCase):
         EventFactory.create_batch(10, city=other_city)
 
         client_user = self.return_authorized_user_client(user)
-        response_data = client_user.get(
-            ViewAfishaTests.path_events, format="json"
-        ).data
-        dict_expected_len_zero = response_data.get("results")
+        response_data = client_user.get(EVENTS_URL, format="json").data
+        count = response_data.get("count")
 
         self.assertEqual(
-            len(dict_expected_len_zero),
+            count,
             0,
             msg=(
                 "Убедитесь, что пользователю не возвращаются мероприятия "
@@ -340,16 +312,68 @@ class ViewAfishaTests(APITestCase):
         )
 
         client_other_user = self.return_authorized_user_client(user_other_city)
-        response_data = client_other_user.get(
-            ViewAfishaTests.path_events, format="json"
-        ).data
-        dict_expected_len_equals_ten = response_data.get("results")
+        response_data = client_other_user.get(EVENTS_URL, format="json").data
+        count = response_data.get("count")
 
         self.assertEqual(
-            len(dict_expected_len_equals_ten),
+            count,
             10,
             msg=(
                 "Убедитесь, что пользователю показывается мероприятие в его "
                 "городе."
             ),
         )
+
+    def test_finished_events_doesnt_appear_in_events_list(self):
+        """Creates event in past and looked for it today."""
+        user = ViewAfishaTests.mentor
+        client_user = self.return_authorized_user_client(user)
+        with freeze_time("2010-01-01"):
+            EventFactory(
+                city=user.profile.city,
+                startAt=datetime(2011, 1, 1, tzinfo=pytz.utc),
+                endAt=datetime(2012, 1, 1, tzinfo=pytz.utc),
+            )
+            num_events = Event.objects.count()
+            self.assertEqual(
+                num_events,
+                1,
+                msg="Убедитесь, что тест смог создать событие в прошлом",
+            )
+
+        response_data = client_user.get(EVENTS_URL, format="json").data
+        num_events = response_data.get("count")
+
+        self.assertEqual(
+            num_events,
+            0,
+            msg="Убедитесь, что события в прошедшие события не показываются",
+        )
+
+    def test_started_but_not_finished_event_appears_in_events_list(self):
+        """Looks for not finished event in /events."""
+        user = ViewAfishaTests.mentor
+        client_user = self.return_authorized_user_client(user)
+        with freeze_time("2020-01-01"):
+            EventFactory(
+                city=user.profile.city,
+                startAt=datetime(2020, 2, 1, tzinfo=pytz.utc),
+                endAt=datetime(2020, 12, 1, tzinfo=pytz.utc),
+            )
+            num_events = Event.objects.count()
+            self.assertEqual(
+                num_events,
+                1,
+                msg="Убедитесь, что тест смог создать событие в прошлом",
+            )
+        with freeze_time("2020-05-01"):
+            response_data = client_user.get(EVENTS_URL, format="json").data
+            num_events = response_data.get("count")
+            self.assertEqual(
+                num_events,
+                1,
+                msg=(
+                    "Убедитесь, что начавшееся, но не "
+                    "закончившееся событие показывается в списке."
+                ),
+            )

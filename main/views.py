@@ -1,30 +1,32 @@
 from django.utils import timezone
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 
 from afisha.models import Event, EventParticipant
 from afisha.serializers import EventSerializer
 from common.models import City
 from main.models import TEMP_DATA, Main
 from main.serializers import MainSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+from common.exceptions import CityNotSelected
 
 
-class MainView(APIView):
+class MainView(ListAPIView):
     permission_classes = [AllowAny]
+    filter_backends = (DjangoFilterBackend,)
 
     def get(self, request):
         context = {}
         if self.request.user.is_authenticated:
             city = self.request.user.profile.city
         else:
-            obj, created = City.objects.get_or_create(
-                name="Москва",
-                defaults={"name": "Москва", "isPrimary": True},
-            )
-            if created:
-                obj.save()
-            city = obj
+            if self.request.query_params.get("city") is None:
+                raise CityNotSelected
+            else:
+                city, created = City.objects.get_or_create(
+                    name=self.request.query_params.get("city")
+                )
         event = Event.objects.filter(
             city=city, startAt__gt=timezone.now()
         ).first()

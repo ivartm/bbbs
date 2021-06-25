@@ -8,29 +8,28 @@ class QuestionTag(models.Model):
         verbose_name="Название тега", max_length=50, unique=True
     )
     slug = models.SlugField(
-        verbose_name="Адрес тега", max_length=50, unique=True, editable=False
+        verbose_name="Адрес тега", max_length=50, unique=True
     )
-
-    class Meta:
-        ordering = ("-name",)
-        verbose_name = "Тег"
-        verbose_name_plural = "Теги"
-
-    def __str__(self):
-        return self.name
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ("-name",)
+        verbose_name = "Тег (вопросы)"
+        verbose_name_plural = "Теги (вопросы)"
+
+    def __str__(self):
+        return self.name
 
 
 class Question(models.Model):
     tags = models.ManyToManyField(
         QuestionTag,
         verbose_name="Тэги",
-        related_name="tags",
-        related_query_name="tags",
-        blank=True,
+        related_name="questiontags",
+        blank=False,
     )
     question = models.CharField(
         verbose_name="Вопрос", max_length=500, unique=True
