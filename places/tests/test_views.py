@@ -127,7 +127,7 @@ class ViewPlacesTests(APITestCase):
         self.assertEqual(response["previous"], None)
 
         results = response.get("results")[0]
-        obj = Place.objects.get(pk=30)
+        obj = Place.objects.get(pk=1)
         self.assertEqual(results["id"], obj.pk)
         # Поле инфо проверю отдельным методом
         # Теги тоже
@@ -145,11 +145,11 @@ class ViewPlacesTests(APITestCase):
         client = self.return_authorized_user_client(user)
 
         PlaceFactory.create_batch(3)
-        obj_non_gender = Place.objects.get(pk=1)
+        obj_non_gender = Place.objects.get(pk=3)
         obj_non_gender.gender = None
         obj_non_gender.save()
 
-        obj = Place.objects.get(pk=3)
+        obj = Place.objects.get(pk=1)
         response = client.get(ViewPlacesTests.path_places).data
         results = response["results"]
         self.assertEqual(
