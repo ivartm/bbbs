@@ -1,11 +1,11 @@
-# from django_filters import rest_framework as filters
-from django_filters.rest_framework import FilterSet, ModelMultipleChoiceFilter
-from rest_framework.filters import BaseFilterBackend
-from questions.models import Question, QuestionTag
+from django_filters import rest_framework as filters
+from questions.models import QuestionTag, Question
+from rights.models import RightTag, Right
+from places.models import PlaceTag, Place
 
 
-class QuestionFilter(FilterSet):
-    tag = ModelMultipleChoiceFilter(
+class QuestionFilter(filters.FilterSet):
+    tag = filters.ModelMultipleChoiceFilter(
         field_name="tags__slug",
         queryset=QuestionTag.objects.all(),
         to_field_name="slug",
@@ -16,14 +16,25 @@ class QuestionFilter(FilterSet):
         fields = ["tags"]
 
 
-class CityAuthFilterBackend(BaseFilterBackend):
-    """
-    Filter that only allows users to see their own objects.
-    """
+class RightFilter(filters.FilterSet):
+    tag = filters.ModelMultipleChoiceFilter(
+        field_name="tags__slug",
+        queryset=RightTag.objects.all(),
+        to_field_name="slug",
+    )
 
-    def filter_queryset(self, request, queryset, view):
-        if self.request.user.is_authenticated:
-            city = self.request.user.profile.city
-        else:
-            city = self.request.query_params.get("city")
-        return queryset.filter(city=city)
+    class Meta:
+        model = Right
+        fields = ["tag"]
+
+
+class PlaceFilter(filters.FilterSet):
+    tag = filters.ModelMultipleChoiceFilter(
+        field_name="tags__slug",
+        queryset=PlaceTag.objects.all(),
+        to_field_name="slug",
+    )
+
+    class Meta:
+        model = Place
+        fields = ["tag"]

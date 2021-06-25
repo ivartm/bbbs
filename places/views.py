@@ -1,12 +1,13 @@
-from rest_framework import generics, status
-from rest_framework.response import Response
+from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from places.models import Place, PlaceTag
 from places.serializers import (
-    PlaceSerializerRead,
-    PlaceSerializerWrite,
+    PlaceSerializer,
     PlaceTagSerializer,
 )
+from common.filters import PlaceFilter
 
 
 class PlacesTagAPIView(generics.ListAPIView):
@@ -15,18 +16,8 @@ class PlacesTagAPIView(generics.ListAPIView):
 
 
 class PlacesAPIView(generics.ListCreateAPIView):
-    queryset = Place.objects.all().prefetch_related("tag")
-    serializer_class = PlaceSerializerRead
-
-    def create(self, request, *args, **kwargs):
-        serializer = PlaceSerializerWrite(
-            data=request.data, context={"request": request}
-        )
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            {"Success": "Спасибо! Мы приняли Вашу рекомендацию."},
-            status=status.HTTP_201_CREATED,
-            headers=headers,
-        )
+    queryset = Place.objects.all().prefetch_related("tags")
+    serializer_class = PlaceSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = PlaceFilter

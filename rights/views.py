@@ -1,7 +1,7 @@
 from django_filters import rest_framework as filters
 from rest_framework import generics
 
-from rights.filters import RightFilter
+from common.filters import RightFilter
 from rights.models import Right, RightTag
 from rights.serializers import RightSerializer, RightTagSerializer
 

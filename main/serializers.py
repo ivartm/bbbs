@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
 from main.models import Main
-from places.serializers import PlaceSerializerRead
+from places.serializers import PlaceSerializer
 from questions.serializers import QuestionSerializer
 
 
 class MainSerializer(serializers.ModelSerializer):
-    place = PlaceSerializerRead()
+    place = PlaceSerializer()
     questions = QuestionSerializer(many=True)
 
     class Meta:

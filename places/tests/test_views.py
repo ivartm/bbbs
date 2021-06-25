@@ -174,13 +174,11 @@ class ViewPlacesTests(APITestCase):
         tag = PlacesTagFactory(name="test", slug="test")
         PlaceFactory.create_batch(1)
         obj = Place.objects.get(pk=1)
-        obj.tag.add(tag)
+        obj.tags.add(tag)
         obj.save()
         response = client.get(ViewPlacesTests.path_places).data
         results = response["results"][0]["tag"][0]
-        self.assertTrue("id" in results)
-        self.assertTrue("name" in results)
-        self.assertTrue("slug" in results)
+        self.assertTrue(str(tag) in results)
 
     def test_places_post_unauthorized_client(self):
         client = ViewPlacesTests.unauthorized_client
@@ -208,7 +206,7 @@ class ViewPlacesTests(APITestCase):
             "title": "123",
             "address": "1234",
             "description": "1235",
-            "tag": {tag.slug},
+            "tags": {tag.slug},
         }
         response = client.post(
             path=ViewPlacesTests.path_places,
