@@ -9,7 +9,6 @@ from common.models import City
 from main.models import TEMP_DATA, Main
 from main.serializers import MainSerializer
 from django_filters.rest_framework import DjangoFilterBackend
-from common.exceptions import CityNotSelected
 
 
 class MainView(ListAPIView):
@@ -17,16 +16,12 @@ class MainView(ListAPIView):
     filter_backends = (DjangoFilterBackend,)
 
     def get(self, request):
-        context = {}
         if self.request.user.is_authenticated:
             city = self.request.user.profile.city
         else:
-            if self.request.query_params.get("city") is None:
-                raise CityNotSelected
-            else:
-                city, created = City.objects.get_or_create(
-                    name=self.request.query_params.get("city")
-                )
+            city, created = City.objects.get_or_create(name="Москва")
+
+        context = {}
         event = Event.objects.filter(
             city=city, startAt__gt=timezone.now()
         ).first()
