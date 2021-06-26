@@ -56,18 +56,14 @@ class Profile(models.Model):
         if self.is_moderator_reg and not self.region.exists():
             self.region.add(self.city)
 
+        # if user is superuser don't do anything with is_staff attribute
+        if self.user.is_superuser:
+            return
+
         if self.is_mentor:
             self.user.is_staff = False
-            # отсюда и до else можно убрать
-            self.user.is_superuser = False
-        if self.is_moderator_reg or self.is_moderator_gen:
+        else:
             self.user.is_staff = True
-            self.user.is_superuser = False
-        if self.is_admin:
-            self.user.is_staff = True
-            self.user.is_superuser = True
-        # else:
-        #     self.user.is_staff = True
         self.user.save()
 
     @receiver(post_save, sender=User)
@@ -86,13 +82,8 @@ class Profile(models.Model):
             if city_created:
                 obj.save()
 
-            role = Profile.Role.MENTOR
-            if instance.is_superuser:
-                role = Profile.Role.ADMIN
-
             Profile.objects.create(
                 user=instance,
-                role=role,
                 city=obj,
             )
 
