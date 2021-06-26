@@ -38,7 +38,7 @@ class UsersCreateTests(TestCase):
         self.assertTrue(user.is_active)
         self.assertTrue(user.is_staff)
         self.assertTrue(user.is_superuser)
-        self.assertEqual(user.profile.role, Profile.Role.ADMIN)
+        self.assertEqual(user.profile.role, Profile.Role.MENTOR)
 
     def test_create_user(self):
         """Test for creating user."""
@@ -64,7 +64,7 @@ class UsersCreateTests(TestCase):
         self.assertEqual(user.profile.role, Profile.Role.ADMIN)
         self.assertTrue(user.is_active)
         self.assertTrue(user.is_staff)
-        self.assertTrue(user.is_superuser)
+        self.assertFalse(user.is_superuser)
 
     def test_create_moderator_general(self):
         """Test for changing role (moderator general) and city"""
@@ -100,13 +100,13 @@ class UsersCreateTests(TestCase):
 
     def test_create_mentor(self):
         """Test for changing role (mentor) and city."""
-        user = self.user_superuser
+        user = self.user
         user.profile.role = Profile.Role.MENTOR
         user.profile.city = self.city_2
         user.profile.save()
 
         self.assertEqual(user.profile.city, self.city_2)
-        self.assertEqual(user.username, USERNAME_SUPERUSER)
+        self.assertEqual(user.username, USERNAME)
         self.assertTrue(user.is_active)
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
