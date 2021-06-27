@@ -56,3 +56,7 @@ class EventAdmin(AdminAndModersPermissionsMixin, admin.ModelAdmin):
 class EventParticipantAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
     list_display = ("user", "event")
     empty_value_display = "-пусто-"
+    list_select_related = (
+        "user",
+        "event",
+    )
