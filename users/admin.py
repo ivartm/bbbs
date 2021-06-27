@@ -46,6 +46,10 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
         "profile__role",
         "profile__city",
     )
+    list_select_related = (
+        "profile",
+        "profile__city",
+    )
     profile__role_short_description = "роль"
     profile__city_short_description = "город"
     list_display_links = ("username",)
@@ -102,11 +106,6 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
             )
             return fieldsets
         return super().get_fieldsets(request, obj)
-
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        qs = qs.select_related("profile").select_related("profile__city")
-        return qs
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
