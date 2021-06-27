@@ -1,3 +1,4 @@
+from django.db.models import Count, Exists, OuterRef
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -7,6 +8,33 @@ from django.utils import timezone
 from common.models import City
 
 User = get_user_model()
+
+
+class EventQuerySet(models.QuerySet):
+    def with_takenseats(self):
+        return self.annotate(takenSeats=(Count("event_participants")))
+
+    def not_finished_events(self):
+        return self.filter(endAt__gt=timezone.now())
+
+    def with_booked(self, user: User):
+        subquery = EventParticipant.objects.filter(
+            user=user,
+            event=OuterRef("pk"),
+        )
+        qs = self.annotate(booked=Exists(subquery))
+        return qs
+
+    def city_afisha(self, city: City):
+        qs = self.with_takenseats()
+        qs = qs.not_finished_events()
+        qs = qs.filter(city=city)
+        return qs
+
+    def user_afisha(self, user: User):
+        qs = self.city_afisha(city=user.profile.city)
+        qs = qs.with_booked(user=user)
+        return qs
 
 
 class Event(models.Model):
@@ -25,6 +53,9 @@ class Event(models.Model):
         on_delete=models.RESTRICT,
         verbose_name="Город",
     )
+
+    objects = models.Manager()
+    afisha_objects = EventQuerySet.as_manager()
 
     def __str__(self):
         return self.title

@@ -1,6 +1,6 @@
 import factory
 from django.contrib.auth import get_user_model
-from django.db.models import Count, Exists, F, OuterRef, signals
+from django.db.models import F, signals
 from faker import Faker
 
 from afisha.models import Event, EventParticipant
@@ -73,25 +73,14 @@ class UserFactory(factory.django.DjangoModelFactory):
         if extracted is None:
             return
 
-        subquery = EventParticipant.objects.filter(
-            user=self.profile.user, event=OuterRef("pk")
-        )
+        user_afisha = Event.afisha_objects.user_afisha(user=self)
+        not_booked_events = user_afisha.filter(booked=False)
+        events_with_seat = not_booked_events.filter(takenSeats__lt=F("seats"))
 
-        events_in_city = Event.objects.filter(city=self.profile.city)
-        events_user_not_booked = events_in_city.annotate(
-            booked=Exists(subquery)
-        ).filter(booked=False)
-        events_with_taken_seats = events_user_not_booked.annotate(
-            taken_seats=(Count("event_participants"))
-        )
-        events_with_free_seats = events_with_taken_seats.filter(
-            taken_seats__lt=F("seats")
-        )
-
-        events_count = events_with_free_seats.count()
+        events_count = events_with_seat.count()
         how_many = min(events_count, extracted)
 
-        events_to_book = events_with_free_seats.order_by("?")[:how_many]
+        events_to_book = events_with_seat.order_by("?")[:how_many]
 
         for event in events_to_book:
             EventParticipant.objects.create(user=self, event=event)
