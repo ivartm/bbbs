@@ -21,7 +21,7 @@ class MainView(ListAPIView):
             city, created = City.objects.get_or_create(name="Москва")
 
         main = Main.objects.first()
-        event = Event.afisha_objects.city_afisha(city=city).first()
+        event = Event.afisha_objects.not_started_city_afisha(city=city).first()
         booked = (
             request.user.is_authenticated
             and EventParticipant.objects.filter(
