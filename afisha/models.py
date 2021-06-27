@@ -17,6 +17,9 @@ class EventQuerySet(models.QuerySet):
     def not_finished_events(self):
         return self.filter(endAt__gt=timezone.now())
 
+    def not_started_events(self):
+        return self.filter(startAt__gt=timezone.now())
+
     def with_booked(self, user: User):
         subquery = EventParticipant.objects.filter(
             user=user,
@@ -25,14 +28,25 @@ class EventQuerySet(models.QuerySet):
         qs = self.annotate(booked=Exists(subquery))
         return qs
 
-    def city_afisha(self, city: City):
+    def not_finished_city_afisha(self, city: City):
         qs = self.with_takenseats()
         qs = qs.not_finished_events()
         qs = qs.filter(city=city)
         return qs
 
-    def user_afisha(self, user: User):
-        qs = self.city_afisha(city=user.profile.city)
+    def not_started_city_afisha(self, city: City):
+        qs = self.with_takenseats()
+        qs = qs.not_started_events()
+        qs = qs.filter(city=city)
+        return qs
+
+    def not_finished_user_afisha(self, user: User):
+        qs = self.not_finished_city_afisha(city=user.profile.city)
+        qs = qs.with_booked(user=user)
+        return qs
+
+    def not_started_user_afisha(self, user: User):
+        qs = self.not_started_city_afisha(city=user.profile.city)
         qs = qs.with_booked(user=user)
         return qs
 
