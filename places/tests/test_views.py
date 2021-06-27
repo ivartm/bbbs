@@ -121,10 +121,6 @@ class ViewPlacesTests(APITestCase):
         PlaceFactory.create_batch(30)
         response = client.get(ViewPlacesTests.path_places).data
         self.assertEqual(response["count"], 30)
-        self.assertEqual(
-            response["next"], "http://testserver/api/v1/places/?page=2"
-        )
-        self.assertEqual(response["previous"], None)
 
         results = response.get("results")[0]
         obj = Place.objects.get(pk=1)
