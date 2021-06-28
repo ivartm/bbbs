@@ -1,7 +1,7 @@
 from django.urls import path
 from django.urls.conf import include
 
-from .views import RightList, RightTagList
+from rights.views import RightList, RightTagList
 
 rights_urls = [
     path("rights/", RightList.as_view(), name="rights"),

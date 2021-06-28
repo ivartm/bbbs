@@ -14,6 +14,7 @@ from questions.factories import (
 )
 from rights.factories import RightFactory, RightTagFactory
 from users.factories import UserFactory
+from entertainment.factories import GuideFactory
 
 CITIES = [
     "Волгоград",
@@ -68,6 +69,9 @@ class AllFactories:
             num_tags = random.randint(1, 5)
             PlaceFactory.create(num_tags=num_tags)
 
+    def create_guide(self, arg):
+        GuideFactory.create_batch(arg)
+
 
 allfactories = AllFactories()
 
@@ -83,6 +87,7 @@ OPTIONS_AND_FINCTIONS = {
     "questionnoanswer": allfactories.create_questionnoanswer,
     "placetag": allfactories.create_placetag,
     "place": allfactories.create_place,
+    "guide": allfactories.create_guide,
 }
 
 
@@ -178,6 +183,13 @@ class Command(BaseCommand):
             ),
             required=False,
         )
+        parser.add_argument(
+            "--guide",
+            nargs=1,
+            type=int,
+            help=("Creates Guide objects"),
+            required=False,
+        )
 
     def handle(self, *args, **options):  # noqa
 
@@ -232,6 +244,8 @@ class Command(BaseCommand):
                     for _ in range(30):
                         num_tags = random.randint(1, 5)
                         PlaceFactory.create(num_tags=num_tags)
+
+                    GuideFactory.create_batch(50)
 
                 self.stdout.write(
                     self.style.SUCCESS("The database is filled with test data")
