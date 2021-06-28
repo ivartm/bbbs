@@ -16,6 +16,7 @@ extra_patterns = [
     path("", include("places.urls")),
     path("", include("questions.urls")),
     path("", include("rights.urls")),
+    path("", include("entertainment.urls")),
 ]
 
 urlpatterns = [

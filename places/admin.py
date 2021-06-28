@@ -6,7 +6,7 @@ from users.utils import (
     AdminOnlyPermissionsMixin,
 )
 
-from .models import Place, PlaceTag
+from places.models import Place, PlaceTag
 
 
 class PlaceAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
