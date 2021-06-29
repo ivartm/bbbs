@@ -1,14 +1,14 @@
 from rest_framework import serializers
 
 from entertainment.models import (
-    Guide,
-    MovieTag,
-    Movie,
-    VideoTag,
-    Video,
-    BookTag,
-    Book,
     Article,
+    Book,
+    BookTag,
+    Guide,
+    Movie,
+    MovieTag,
+    Video,
+    VideoTag,
 )
 
 
@@ -49,6 +49,8 @@ class BookTagSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
+    tags = BookTagSerializer(many=True)
+
     class Meta:
         model = Book
         fields = "__all__"

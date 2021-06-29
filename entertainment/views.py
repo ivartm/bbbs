@@ -2,31 +2,33 @@ from rest_framework import generics
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.viewsets import GenericViewSet
 
-
 from entertainment.models import (
-    Guide,
-    MovieTag,
-    Movie,
-    VideoTag,
-    Video,
-    BookTag,
-    Book,
     Article,
+    Book,
+    BookTag,
+    Guide,
+    Movie,
+    MovieTag,
+    Video,
+    VideoTag,
 )
-from entertainment.serializers import (
-    GuideSerializer,
-    MovieTagSerializer,
-    MovieSerializer,
-    VideoTagSerializer,
-    VideoSerializer,
-    BookTagSerializer,
-    BookSerializer,
+from entertainment.serializers import (  # EntertainmentSerializer,
     ArticleSerializer,
-    # EntertainmentSerializer,
+    BookSerializer,
+    BookTagSerializer,
+    GuideSerializer,
+    MovieSerializer,
+    MovieTagSerializer,
+    VideoSerializer,
+    VideoTagSerializer,
 )
 
 
 class ListDetailApiView(ListModelMixin, RetrieveModelMixin, GenericViewSet):
+    pass
+
+
+class ListViewSet(ListModelMixin, GenericViewSet):
     pass
 
 
@@ -64,12 +66,12 @@ class VideosView(ListDetailApiView):
         return queryset
 
 
-class BooksTagsView(ListDetailApiView):
+class BooksTagsView(ListViewSet):
     queryset = BookTag.objects.all().order_by("id")
     serializer_class = BookTagSerializer
 
 
-class BooksView(ListDetailApiView):
+class BooksView(ListViewSet):
     serializer_class = BookSerializer
 
     def get_queryset(self):

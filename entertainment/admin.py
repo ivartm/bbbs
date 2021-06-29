@@ -1,18 +1,17 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from users.utils import AdminAndModerGenPermissionsMixin
-
 from entertainment.models import (
-    Guide,
-    MovieTag,
-    Movie,
-    VideoTag,
-    Video,
-    BookTag,
-    Book,
     Article,
+    Book,
+    BookTag,
+    Guide,
+    Movie,
+    MovieTag,
+    Video,
+    VideoTag,
 )
+from users.utils import AdminAndModerGenPermissionsMixin
 
 
 class GuideAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
