@@ -1,13 +1,13 @@
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView
 
 from afisha.models import Event, EventParticipant
 from afisha.serializers import EventSerializer
 from common.models import City
 from main.models import TEMP_DATA, Main
 from main.serializers import MainSerializer
-from django_filters.rest_framework import DjangoFilterBackend
 
 
 class MainView(ListAPIView):

@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
                 ('activity_type', models.PositiveSmallIntegerField(choices=[(0, 'Активный'), (1, 'Развлекательный'), (2, 'Познавательный')], verbose_name='Тип отдыха')),
                 ('description', models.TextField(help_text='Поделитесь впечатлениями о проведенном времени', verbose_name='Комментарий')),
                 ('link', models.URLField(blank=True, help_text='Введите адрес сайта', null=True, verbose_name='Сайт')),
-                ('imageUrl', models.ImageField(blank=True, help_text='Добавить фото', null=True, upload_to=places.models.get_upload_path, verbose_name='Фото')),
+                ('imageUrl', models.ImageField(blank=True, help_text='Добавить фото', upload_to='places/', null=True, verbose_name='Фото')),
                 ('tag', models.ManyToManyField(related_name='tags', to='places.PlaceTag', verbose_name='Теги')),
             ],
             options={
