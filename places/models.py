@@ -4,10 +4,6 @@ from django.utils.translation import gettext_lazy
 from common.utils import slugify
 
 
-def get_upload_path(instance, filename):
-    return "places/{}/{}".format(instance.pk, filename)
-
-
 class PlaceTag(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=50, unique=True)
@@ -77,7 +73,7 @@ class Place(models.Model):
         help_text="Добавить фото",
         null=True,
         blank=True,
-        upload_to=get_upload_path,
+        upload_to="places/",
     )
 
     class Meta:
