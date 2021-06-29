@@ -8,6 +8,26 @@ from questions.models import Question, QuestionTag
 from rights.models import Right, RightTag
 
 
+class CityRequiredFilterBackend(filters.DjangoFilterBackend):
+    """Mandatory filter by city.
+
+    Takes city from request.user for authorized users.
+    Takes it from query param for anonymous users.
+    """
+
+    def filter_queryset(self, request, queryset, view):
+        if request.user.is_authenticated:
+            city = request.user.profile.city
+        else:
+            city_id = request.query_params.get("city")
+            if not city_id:
+                raise CityNotSelected
+            city = get_object_or_404(City, id=city_id)
+
+        queryset = queryset.filter(city=city)
+        return super().filter_queryset(request, queryset, view)
+
+
 class QuestionFilter(filters.FilterSet):
     tag = filters.ModelMultipleChoiceFilter(
         field_name="tags__slug",
@@ -42,18 +62,3 @@ class PlaceFilter(filters.FilterSet):
     class Meta:
         model = Place
         fields = ["tag"]
-
-
-class CityRequiredFilterBackend(filters.DjangoFilterBackend):
-    """Requires city to filter. Takes it from user or query for anonimouses."""
-
-    def filter_queryset(self, request, queryset, view):
-        if request.user.is_authenticated:
-            city = request.user.profile.city
-        else:
-            city_id = request.query_params.get("city")
-            if not city_id:
-                raise CityNotSelected
-            city = get_object_or_404(City, id=city_id)
-
-        return queryset.filter(city=city)

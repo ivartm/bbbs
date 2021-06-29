@@ -38,18 +38,18 @@ def make_fixtures():
 
         RightTagFactory.create_batch(10)
         for _ in range(20):
-            num_tags = random.randint(1, 5)
-            RightFactory(tags__num=num_tags)
+            amount = random.randint(1, 5)
+            RightFactory(tags__num=amount)
 
         for _ in range(30):
-            num_events = random.randint(0, 5)
-            UserFactory.create(num_events=num_events)
+            amount = random.randint(0, 5)
+            UserFactory.create(num_events=amount)
 
         QuestionTagFactory.create_batch(15)
         # make Questions with tags
         for _ in range(30):
-            num_tags = random.randint(1, 15)
-            QuestionFactory.create(tags=num_tags)
+            amount = random.randint(1, 15)
+            QuestionFactory.create(tags=amount)
 
         # make Questions without tags
         QuestionFactory.create_batch(5)
@@ -59,8 +59,8 @@ def make_fixtures():
         PlacesTagFactory.create_batch(15)
 
         for _ in range(30):
-            num_tags = random.randint(1, 15)
-            PlaceFactory.create(num_tags=num_tags)
+            amount = random.randint(1, 15)
+            PlaceFactory.create(tags__num=amount)
 
 
 if __name__ == "__main__":

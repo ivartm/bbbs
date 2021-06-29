@@ -67,7 +67,7 @@ class AllFactories:
     def create_place(self, arg):
         for _ in range(arg):
             num_tags = random.randint(1, 5)
-            PlaceFactory.create(num_tags=num_tags)
+            PlaceFactory.create(tags__num=num_tags)
 
     def create_guide(self, arg):
         GuideFactory.create_batch(arg)
@@ -243,7 +243,7 @@ class Command(BaseCommand):
 
                     for _ in range(30):
                         num_tags = random.randint(1, 5)
-                        PlaceFactory.create(num_tags=num_tags)
+                        PlaceFactory.create(tags__num=num_tags)
 
                     GuideFactory.create_batch(50)
 
