@@ -77,7 +77,7 @@ class ViewRightTests(APITestCase):
                 )
 
     def test_rights_filtering_by_two_tags_returns_right(self):
-        """Create 20 Right obj with 2 tags and count it response."""
+        """Create 20 Right obj with 2 tags and count them in response."""
         tag_1 = RightTagFactory(name="Tag1")
         tag_2 = RightTagFactory(name="Tag2")
         tag_3 = RightTagFactory(name="Tag3")

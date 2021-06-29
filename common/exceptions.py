@@ -1,6 +1,10 @@
 from rest_framework.exceptions import APIException
+from rest_framework import status
 
 
 class CityNotSelected(APIException):
-    status_code = 500
-    default_detail = "Пожалуйста, выберите город."
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    default_detail = (
+        "Запросы от неавторизованных пользователей должны содержать query "
+        "параметр города (city)"
+    )

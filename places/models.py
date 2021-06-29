@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy
 
+from common.models import City
 from common.utils import slugify
 
 
@@ -44,6 +45,12 @@ class Place(models.Model):
     )
     address = models.CharField(
         verbose_name="Адрес", max_length=200, null=False, blank=False
+    )
+    city = models.ForeignKey(
+        City,
+        related_name="places",
+        on_delete=models.CASCADE,
+        verbose_name="Город",
     )
     gender = models.CharField(
         verbose_name="Пол",

@@ -3,6 +3,7 @@ import random
 import factory
 from faker import Faker
 
+from common.models import City
 from places.models import Place, PlaceTag
 
 fake = Faker(["ru_RU"])
@@ -37,6 +38,7 @@ class PlaceFactory(factory.django.DjangoModelFactory):
 
     chosen = factory.LazyFunction(lambda: random.choice([True, False]))
     title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=7))
+    city = factory.Iterator(City.objects.all())
     address = factory.Faker("address")
     gender = factory.LazyFunction(
         lambda: random.choice(Place.Genders.choices)[0]
