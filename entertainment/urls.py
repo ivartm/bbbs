@@ -3,19 +3,19 @@ from django.urls.conf import include
 from rest_framework.routers import DefaultRouter
 
 from entertainment.views import (
+    ArticlesView,
+    BooksTagsView,
+    BooksView,
+    EntertainmentList,
     GuidesView,
     MoviesTagsView,
     MoviesView,
     VideosTagsView,
     VideosView,
-    BooksTagsView,
-    BooksView,
-    ArticlesView,
-    EntertainmentList,
 )
 
 router = DefaultRouter()
-router.register("guide", GuidesView, basename="guides")
+router.register("guides", GuidesView, basename="guides")
 router.register(r"movies/tags", MoviesTagsView, basename="movies-tags")
 router.register("movies", MoviesView, basename="movies")
 router.register(r"videos/tags", VideosTagsView, basename="videos-tags")
