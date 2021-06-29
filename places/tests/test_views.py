@@ -48,26 +48,17 @@ class ViewPlacesTests(APITestCase):
         ]
 
         cls.path_places = reverse("places")
+        cls.path_query_places = cls.path_places + f"?city={cls.city.id}"
 
     def return_authorized_user_client(self, user):
         authorized_client = APIClient()
         authorized_client.force_authenticate(user=user)
         return authorized_client
 
-    def test_places_get_response_status_code(self):
-        unauthorized_client = ViewPlacesTests.unauthorized_client
-        response = unauthorized_client.get(ViewPlacesTests.path_places)
-        self.assertEqual(response.status_code, 200)
-
-        user = ViewPlacesTests.mentor
-        client = self.return_authorized_user_client(user)
-        response = client.get(ViewPlacesTests.path_places)
-        self.assertEqual(response.status_code, 200)
-
     def test_places_correct_fields_unauthorized_client(self):
         client = ViewPlacesTests.unauthorized_client
         PlaceFactory.create_batch(10)
-        response = client.get(ViewPlacesTests.path_places).data
+        response = client.get(ViewPlacesTests.path_query_places).data
         self.assertTrue("count" in response)
         self.assertTrue("next" in response)
         self.assertTrue("previous" in response)
@@ -79,6 +70,7 @@ class ViewPlacesTests(APITestCase):
             "tag",
             "chosen",
             "title",
+            "city",
             "address",
             "description",
             "link",
@@ -106,6 +98,7 @@ class ViewPlacesTests(APITestCase):
             "chosen",
             "title",
             "address",
+            "city",
             "description",
             "link",
             "imageUrl",
@@ -121,10 +114,6 @@ class ViewPlacesTests(APITestCase):
         PlaceFactory.create_batch(30)
         response = client.get(ViewPlacesTests.path_places).data
         self.assertEqual(response["count"], 30)
-        self.assertEqual(
-            response["next"], "http://testserver/api/v1/places/?page=2"
-        )
-        self.assertEqual(response["previous"], None)
 
         results = response.get("results")[0]
         obj = Place.objects.get(pk=1)
@@ -134,6 +123,7 @@ class ViewPlacesTests(APITestCase):
         self.assertEqual(results["chosen"], obj.chosen)
         self.assertEqual(results["title"], obj.title)
         self.assertEqual(results["address"], obj.address)
+        self.assertEqual(results["city"], obj.city.id)
         self.assertEqual(results["description"], obj.description)
         self.assertEqual(results["link"], obj.link)
         self.assertEqual(
@@ -187,6 +177,7 @@ class ViewPlacesTests(APITestCase):
             "chosen": False,
             "title": "123",
             "address": "1234",
+            "city": ViewPlacesTests.city.id,
             "description": "1235",
         }
         response = client.post(
@@ -205,6 +196,7 @@ class ViewPlacesTests(APITestCase):
             "activity_type": 1,
             "title": "123",
             "address": "1234",
+            "city": ViewPlacesTests.city.id,
             "description": "1235",
             "tags": {tag.slug},
         }

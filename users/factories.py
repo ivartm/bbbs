@@ -73,7 +73,7 @@ class UserFactory(factory.django.DjangoModelFactory):
         if extracted is None:
             return
 
-        user_afisha = Event.afisha_objects.user_afisha(user=self)
+        user_afisha = Event.afisha_objects.not_finished_user_afisha(user=self)
         not_booked_events = user_afisha.filter(booked=False)
         events_with_seat = not_booked_events.filter(takenSeats__lt=F("seats"))
 

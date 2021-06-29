@@ -6,7 +6,7 @@ from users.utils import (
     AdminOnlyPermissionsMixin,
 )
 
-from .models import Place, PlaceTag
+from places.models import Place, PlaceTag
 
 
 class PlaceAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
@@ -17,6 +17,7 @@ class PlaceAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
         "age",
         "gender",
         "activity_type",
+        "city",
         "address",
         "link",
         "image_list_preview",
@@ -24,7 +25,7 @@ class PlaceAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     readonly_fields = ("image_change_preview",)
     list_display_links = ("id", "title")
     filter_horizontal = ("tags",)
-    list_filter = ("age", "gender", "activity_type")
+    list_filter = ("age", "gender", "activity_type", "city")
     search_fields = ("title",)
 
     def image_change_preview(self, obj):
