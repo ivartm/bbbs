@@ -22,7 +22,6 @@ class InfoField(serializers.ReadOnlyField):
 class PlaceSerializer(serializers.ModelSerializer):
     info = InfoField(source="*")
     tags = PlaceTagSerializer(many=True, read_only=True)
-    imageUrl = serializers.SerializerMethodField()
 
     class Meta:
         model = Place

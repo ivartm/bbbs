@@ -1,5 +1,3 @@
-import unittest
-
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
@@ -102,7 +100,6 @@ class FilterTests(APITestCase):
             ),
         )
 
-    @unittest.skip("The test fails. Set to skip for temporary")
     def test_authorized_user_city_and_tag_filter(self):
         """Authorized user: result is filtered either by city and tags.
 
@@ -134,7 +131,6 @@ class FilterTests(APITestCase):
             ),
         )
 
-    @unittest.skip("The test fails. Set to skip for temporary")
     def test_unauthorized_user_city_and_tag_filter(self):
         """Unauthorized user: result is filtered either by city and tags.
 

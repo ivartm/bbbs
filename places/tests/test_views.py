@@ -1,5 +1,3 @@
-import unittest
-
 from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase
 
@@ -110,7 +108,6 @@ class ViewPlacesTests(APITestCase):
             with self.subTest(field=field):
                 self.assertTrue(field in results, msg=f"Нет поля {field}")
 
-    @unittest.skip("The test fails. Set to skip for temporary")
     def test_places_list_context(self):
         user = ViewPlacesTests.mentor
         client = self.return_authorized_user_client(user)
@@ -124,7 +121,6 @@ class ViewPlacesTests(APITestCase):
         # Поле инфо проверю отдельным методом
         # Теги тоже
         self.assertEqual(results["chosen"], obj.chosen)
-        self.assertEqual(results["published"], obj.published)
         self.assertEqual(results["title"], obj.title)
         self.assertEqual(results["address"], obj.address)
         self.assertEqual(results["city"], obj.city.id)
@@ -134,7 +130,6 @@ class ViewPlacesTests(APITestCase):
             results["imageUrl"], "http://testserver/media/" + str(obj.imageUrl)
         )
 
-    @unittest.skip("The test fails. Set to skip for temporary")
     def test_places_info_field_context(self):
         user = ViewPlacesTests.mentor
         client = self.return_authorized_user_client(user)
@@ -163,7 +158,6 @@ class ViewPlacesTests(APITestCase):
             ),
         )
 
-    @unittest.skip("The test fails. Set to skip for temporary")
     def test_places_tag_field_correct(self):
         user = ViewPlacesTests.mentor
         client = self.return_authorized_user_client(user)
@@ -173,7 +167,7 @@ class ViewPlacesTests(APITestCase):
         obj.tags.add(tag)
         obj.save()
         response = client.get(ViewPlacesTests.path_places).data
-        results = response["results"][0]["tags"]["name"]
+        results = response["results"][0]["tags"][0]["name"]
         self.assertTrue(str(tag) in results)
 
     def test_places_post_unauthorized_client(self):
