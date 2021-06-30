@@ -5,10 +5,13 @@ from django.utils.translation import gettext_lazy as _
 
 from users.mixins import DynamicLookupMixin
 from users.models import Profile
-from users.utils import AdminOnlyPermissionsMixin
+from users.utils import (
+    AdminAndModerGenPermissionsMixin,
+    AdminOnlyPermissionsMixin,
+)
 
 
-class ProfileInline(AdminOnlyPermissionsMixin, admin.StackedInline):
+class ProfileInline(AdminAndModerGenPermissionsMixin, admin.StackedInline):
     model = Profile
     can_delete = False
     verbose_name_plural = "Profile"

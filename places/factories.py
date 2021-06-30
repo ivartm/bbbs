@@ -53,6 +53,7 @@ class PlaceFactory(factory.django.DjangoModelFactory):
         model = Place
 
     chosen = factory.LazyFunction(lambda: random.choice([True, False]))
+    published = True
     title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=7))
     city = factory.Iterator(City.objects.all())
     address = factory.Faker("address")

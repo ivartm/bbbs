@@ -42,7 +42,7 @@ class ViewRightTests(APITestCase):
         client = ViewRightTests.unauthorized_client
         fields = [
             "id",
-            "tag",
+            "tags",
             "title",
             "description",
             "text",
@@ -60,7 +60,7 @@ class ViewRightTests(APITestCase):
         client = ViewRightTests.unauthorized_client
         expected_fields = [
             "id",
-            "tag",
+            "tags",
             "title",
             "description",
             "text",

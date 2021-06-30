@@ -68,7 +68,7 @@ class ViewQuestionsTests(APITestCase):
         question = Question.objects.get(question=data["question"])
         expected_data = {
             "id": question.id,
-            "tag": [],
+            "tags": [],
             "answer": question.answer,
             "pubDate": question.pubDate.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             "question": question.question,
@@ -100,7 +100,7 @@ class ViewQuestionsTests(APITestCase):
                 question = Question.objects.get(question=data["question"])
                 expected_data = {
                     "id": question.id,
-                    "tag": [],
+                    "tags": [],
                     "answer": question.answer,
                     "pubDate": question.pubDate.strftime(
                         "%Y-%m-%dT%H:%M:%S.%fZ"

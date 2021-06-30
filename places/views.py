@@ -12,7 +12,11 @@ class PlacesTagAPIView(generics.ListAPIView):
 
 
 class PlacesAPIView(generics.ListCreateAPIView):
-    queryset = Place.objects.all().prefetch_related("tags").order_by("id")
+    queryset = (
+        Place.objects.filter(published=True)
+        .prefetch_related("tags")
+        .order_by("id")
+    )
     serializer_class = PlaceSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [CityRequiredFilterBackend]
