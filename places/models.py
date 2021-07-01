@@ -36,6 +36,10 @@ class Place(models.Model):
         verbose_name="Выбор наставника",
         default=False,
     )
+    published = models.BooleanField(
+        verbose_name="Отображение на странице",
+        default=False,
+    )
     title = models.CharField(
         verbose_name="Название", max_length=200, null=False, blank=False
     )
@@ -86,7 +90,7 @@ class Place(models.Model):
     class Meta:
         verbose_name = "Место - куда пойти?"
         verbose_name_plural = "Места - куда пойти?"
-        ordering = ["-pk"]
+        ordering = ("id",)
 
     def __str__(self):
         return self.title

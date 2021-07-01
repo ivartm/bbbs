@@ -4,10 +4,7 @@ from django.contrib.admin import register
 from afisha.filters import CitySelectFilter
 from afisha.models import Event, EventParticipant
 from common.models import City
-from users.utils import (
-    AdminAndModersPermissionsMixin,
-    AdminOnlyPermissionsMixin,
-)
+from users.utils import AdminAndModersPermissionsMixin
 
 
 @register(Event)
@@ -53,7 +50,7 @@ class EventAdmin(AdminAndModersPermissionsMixin, admin.ModelAdmin):
 
 
 @register(EventParticipant)
-class EventParticipantAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
+class EventParticipantAdmin(AdminAndModersPermissionsMixin, admin.ModelAdmin):
     list_display = ("user", "event")
     empty_value_display = "-пусто-"
     list_select_related = (
