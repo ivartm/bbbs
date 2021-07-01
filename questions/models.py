@@ -1,6 +1,6 @@
 from django.db import models
 
-from common.utils import slugify
+from common.utils.slugify import slugify
 
 
 class QuestionTag(models.Model):

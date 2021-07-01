@@ -286,6 +286,14 @@ python-jose = ["python-jose (==3.0.0)"]
 test = ["cryptography", "pytest-cov", "pytest-django", "pytest-xdist", "pytest", "tox"]
 
 [[package]]
+name = "drf-friendly-errors-egt"
+version = "0.15.0"
+description = "Extension for displaying serializer validation errors in Django Rest Framework"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "drf-yasg"
 version = "1.20.0"
 description = "Automated generation of real Swagger/OpenAPI 2.0 schemas from Django Rest Framework code."
@@ -930,7 +938,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "fa5f41fc9f73239eed4fa423b8959be51cb5e9a01dd2f778f4af993b00df94cf"
+content-hash = "c9b56e69e158691c346d4e99f561df483c567f1113ac2a32f0a798c89c413c5c"
 
 [metadata.files]
 appdirs = [
@@ -1085,6 +1093,10 @@ djangorestframework = [
 djangorestframework-simplejwt = [
     {file = "djangorestframework_simplejwt-4.7.1-py3-none-any.whl", hash = "sha256:3242f35aaab0db6e2a5636a0ccfc49ff06943809ec063d1356253d1bf28b80a3"},
     {file = "djangorestframework_simplejwt-4.7.1.tar.gz", hash = "sha256:c0e9b617da337becb55e67935eb992fad84f861418e7ab5fb3e77a3fd18d4137"},
+]
+drf-friendly-errors-egt = [
+    {file = "drf-friendly-errors-egt-0.15.0.tar.gz", hash = "sha256:1da33cf67a204654b19504aece7d16af50f3343c14a27d165688a52ff0ace1cb"},
+    {file = "drf_friendly_errors_egt-0.15.0-py2.py3-none-any.whl", hash = "sha256:6a5f8294ebd3727dca53344298f3153efe37f28cb94d0204563bdc87eb5645bb"},
 ]
 drf-yasg = [
     {file = "drf-yasg-1.20.0.tar.gz", hash = "sha256:d50f197c7f02545d0b736df88c6d5cf874f8fea2507ad85ad7de6ae5bf2d9e5a"},

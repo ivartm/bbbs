@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy
 
 from common.models import City
-from common.utils import slugify
+from common.utils.slugify import slugify
 
 
 class PlaceTag(models.Model):
