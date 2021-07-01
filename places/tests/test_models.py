@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
+from common.models import City
 from places.models import Place, PlaceTag
 
 
@@ -8,11 +9,13 @@ class PlaceModelTest(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
+        cls.city = City.objects.create(name="Учтюпинск")
         tag = PlaceTag.objects.create(name="test", slug="test")
         place = Place.objects.create(
             activity_type=1,
             title="123",
             address="1234",
+            city=cls.city,
             description="1235",
             age=10,
         )

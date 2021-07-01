@@ -48,26 +48,17 @@ class ViewPlacesTests(APITestCase):
         ]
 
         cls.path_places = reverse("places")
+        cls.path_query_places = cls.path_places + f"?city={cls.city.id}"
 
     def return_authorized_user_client(self, user):
         authorized_client = APIClient()
         authorized_client.force_authenticate(user=user)
         return authorized_client
 
-    def test_places_get_response_status_code(self):
-        unauthorized_client = ViewPlacesTests.unauthorized_client
-        response = unauthorized_client.get(ViewPlacesTests.path_places)
-        self.assertEqual(response.status_code, 200)
-
-        user = ViewPlacesTests.mentor
-        client = self.return_authorized_user_client(user)
-        response = client.get(ViewPlacesTests.path_places)
-        self.assertEqual(response.status_code, 200)
-
     def test_places_correct_fields_unauthorized_client(self):
         client = ViewPlacesTests.unauthorized_client
         PlaceFactory.create_batch(10)
-        response = client.get(ViewPlacesTests.path_places).data
+        response = client.get(ViewPlacesTests.path_query_places).data
         self.assertTrue("count" in response)
         self.assertTrue("next" in response)
         self.assertTrue("previous" in response)
@@ -76,9 +67,10 @@ class ViewPlacesTests(APITestCase):
         fields = [
             "id",
             "info",
-            "tag",
+            "tags",
             "chosen",
             "title",
+            "city",
             "address",
             "description",
             "link",
@@ -102,10 +94,11 @@ class ViewPlacesTests(APITestCase):
         fields = [
             "id",
             "info",
-            "tag",
+            "tags",
             "chosen",
             "title",
             "address",
+            "city",
             "description",
             "link",
             "imageUrl",
@@ -130,6 +123,7 @@ class ViewPlacesTests(APITestCase):
         self.assertEqual(results["chosen"], obj.chosen)
         self.assertEqual(results["title"], obj.title)
         self.assertEqual(results["address"], obj.address)
+        self.assertEqual(results["city"], obj.city.id)
         self.assertEqual(results["description"], obj.description)
         self.assertEqual(results["link"], obj.link)
         self.assertEqual(
@@ -141,22 +135,22 @@ class ViewPlacesTests(APITestCase):
         client = self.return_authorized_user_client(user)
 
         PlaceFactory.create_batch(3)
-        obj_non_gender = Place.objects.get(pk=3)
+        obj_non_gender = Place.objects.get(id=1)
         obj_non_gender.gender = None
         obj_non_gender.save()
 
-        obj = Place.objects.get(pk=1)
+        obj = Place.objects.get(id=3)
         response = client.get(ViewPlacesTests.path_places).data
         results = response["results"]
         self.assertEqual(
-            results[2]["info"],
+            results[0]["info"],
             "{} лет. {} отдых".format(
                 str(obj_non_gender.age),
                 obj_non_gender.get_activity_type(obj_non_gender.activity_type),
             ),
         )
         self.assertEqual(
-            results[0]["info"],
+            results[2]["info"],
             "{}, {} лет. {} отдых".format(
                 obj.get_gender(obj.gender),
                 str(obj.age),
@@ -173,7 +167,7 @@ class ViewPlacesTests(APITestCase):
         obj.tags.add(tag)
         obj.save()
         response = client.get(ViewPlacesTests.path_places).data
-        results = response["results"][0]["tag"][0]
+        results = response["results"][0]["tags"][0]["name"]
         self.assertTrue(str(tag) in results)
 
     def test_places_post_unauthorized_client(self):
@@ -183,6 +177,7 @@ class ViewPlacesTests(APITestCase):
             "chosen": False,
             "title": "123",
             "address": "1234",
+            "city": ViewPlacesTests.city.id,
             "description": "1235",
         }
         response = client.post(
@@ -201,6 +196,7 @@ class ViewPlacesTests(APITestCase):
             "activity_type": 1,
             "title": "123",
             "address": "1234",
+            "city": ViewPlacesTests.city.id,
             "description": "1235",
             "tags": {tag.slug},
         }

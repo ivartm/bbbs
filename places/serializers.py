@@ -21,28 +21,14 @@ class InfoField(serializers.ReadOnlyField):
 
 class PlaceSerializer(serializers.ModelSerializer):
     info = InfoField(source="*")
-    tag = serializers.SlugRelatedField(
-        source="tags",
-        slug_field="slug",
-        many=True,
-        read_only=True,
-    )
-    imageUrl = serializers.SerializerMethodField()
+    tags = PlaceTagSerializer(many=True, read_only=True)
 
     class Meta:
         model = Place
-        exclude = (
-            "tags",
-            "gender",
-        )
+        exclude = ("gender", "published")
 
     def create(self, validated_data):
         return Place.objects.create(**validated_data)
 
     def get_gender(self, obj):
         return obj.get_gender_display()
-
-    def get_imageUrl(self, obj):
-        if obj.imageUrl:
-            return self.context["request"].build_absolute_uri(obj.imageUrl.url)
-        return None

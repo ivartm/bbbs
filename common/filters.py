@@ -1,7 +1,31 @@
+from rest_framework.generics import get_object_or_404
+from common.models import City
 from django_filters import rest_framework as filters
-from questions.models import QuestionTag, Question
-from rights.models import RightTag, Right
-from places.models import PlaceTag, Place
+
+from common.exceptions import CityNotSelected
+from places.models import Place, PlaceTag
+from questions.models import Question, QuestionTag
+from rights.models import Right, RightTag
+
+
+class CityRequiredFilterBackend(filters.DjangoFilterBackend):
+    """Mandatory filter by city.
+
+    Takes city from request.user for authorized users.
+    Takes it from query param for anonymous users.
+    """
+
+    def filter_queryset(self, request, queryset, view):
+        if request.user.is_authenticated:
+            city = request.user.profile.city
+        else:
+            city_id = request.query_params.get("city")
+            if not city_id:
+                raise CityNotSelected
+            city = get_object_or_404(City, id=city_id)
+
+        queryset = queryset.filter(city=city)
+        return super().filter_queryset(request, queryset, view)
 
 
 class QuestionFilter(filters.FilterSet):

@@ -23,7 +23,7 @@ services:
       - |
         python manage.py makemigrations
         python manage.py migrate
-        python manage.py shell -c 'from common.fixtures import make_fixtures; make_fixtures()'
+        python manage.py filldb
         python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code/

@@ -1,11 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy
 
+from common.models import City
 from common.utils import slugify
-
-
-def get_upload_path(instance, filename):
-    return "places/{}/{}".format(instance.pk, filename)
 
 
 class PlaceTag(models.Model):
@@ -39,11 +36,21 @@ class Place(models.Model):
         verbose_name="Выбор наставника",
         default=False,
     )
+    published = models.BooleanField(
+        verbose_name="Отображение на странице",
+        default=False,
+    )
     title = models.CharField(
         verbose_name="Название", max_length=200, null=False, blank=False
     )
     address = models.CharField(
         verbose_name="Адрес", max_length=200, null=False, blank=False
+    )
+    city = models.ForeignKey(
+        City,
+        related_name="places",
+        on_delete=models.CASCADE,
+        verbose_name="Город",
     )
     gender = models.CharField(
         verbose_name="Пол",
@@ -77,13 +84,13 @@ class Place(models.Model):
         help_text="Добавить фото",
         null=True,
         blank=True,
-        upload_to=get_upload_path,
+        upload_to="places/",
     )
 
     class Meta:
         verbose_name = "Место - куда пойти?"
         verbose_name_plural = "Места - куда пойти?"
-        ordering = ["-pk"]
+        ordering = ("id",)
 
     def __str__(self):
         return self.title
