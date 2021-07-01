@@ -118,12 +118,26 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ],
+    # "EXCEPTION_HANDLER":
+    # "rest_framework_friendly_errors.handlers.friendly_exception_handler",
+    "EXCEPTION_HANDLER":
+    "common.utils.handlers.custom_exception_handler",
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 20,
 }
+
+# FRIENDLY_ERRORS = {
+#     "EXCEPTION_DICT": {
+#         "CityNotSelected" : 4000,
+#     }
+# }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),

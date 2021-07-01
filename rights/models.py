@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.db import models
 from django.utils.html import format_html
 
-from common.utils import slugify
+from common.utils.slugify import slugify
 
 
 class RightTag(models.Model):

@@ -34,6 +34,7 @@ psycopg2-binary = "^2.8.6"
 python-environ = "^0.4.54"
 drf-yasg = "^1.20.0"
 django-cors-headers = "^3.7.0"
+drf-friendly-errors-egt = "^0.15.0"
 
 [tool.poetry.dev-dependencies]
 django-extensions = "^3.1.3"
