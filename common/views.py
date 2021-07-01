@@ -3,8 +3,12 @@ from rest_framework.mixins import ListModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
-from common.models import City
-from common.serializers import CitySerializer, MyCitySerializer
+from common.models import City, Meeting
+from common.serializers import (
+    CitySerializer,
+    MyCitySerializer,
+    MeetingSerializer,
+)
 from users.models import Profile
 
 
@@ -21,4 +25,14 @@ class MyCityApiView(ListModelMixin, UpdateModelMixin, GenericViewSet):
     def get_queryset(self):
         user = self.request.user
         queryset = Profile.objects.filter(user=user)
+        return queryset
+
+
+class MeetingAPIView(ListModelMixin, UpdateModelMixin, GenericViewSet):
+    serializer_class = MeetingSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Meeting.objects.filter(user=user)
         return queryset
