@@ -514,19 +514,6 @@ MarkupSafe = ">=2.0"
 i18n = ["Babel (>=2.7)"]
 
 [[package]]
-name = "mailcatcher"
-version = "0.1.6"
-description = "Simple mailcatcher client for Python."
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-requests = ">=2.18.4"
-rx = ">=1.6.1"
-websocket-client = ">=0.47.0"
-
-[[package]]
 name = "mailjet-rest"
 version = "1.3.4"
 description = "Mailjet V3 API wrapper"
@@ -867,14 +854,6 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "rx"
-version = "3.2.0"
-description = "Reactive Extensions (Rx) for Python"
-category = "main"
-optional = false
-python-versions = ">=3.6.0"
-
-[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -967,18 +946,10 @@ category = "dev"
 optional = false
 python-versions = "*"
 
-[[package]]
-name = "websocket-client"
-version = "1.1.0"
-description = "WebSocket client for Python with low level API options"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "608980a46ca21b4c3f2c0768708624a793fe0dceaacb56c8dd8112e98c4beade"
+content-hash = "1c21d32744dd44cc8e2b1cbce313ac419394e18fb3032f74160c1d64b91cc136"
 
 [metadata.files]
 appdirs = [
@@ -1205,9 +1176,6 @@ jedi = [
 jinja2 = [
     {file = "Jinja2-3.0.1-py3-none-any.whl", hash = "sha256:1f06f2da51e7b56b8f238affdd6b4e2c61e39598a378cc49345bc1bd42a978a4"},
     {file = "Jinja2-3.0.1.tar.gz", hash = "sha256:703f484b47a6af502e743c9122595cc812b0271f661722403114f71a79d0f5a4"},
-]
-mailcatcher = [
-    {file = "mailcatcher-0.1.6-py3-none-any.whl", hash = "sha256:158c3bda790b6e252e53755a0126199bf57829252c05b5b8dc1efee8cf7ba754"},
 ]
 mailjet-rest = [
     {file = "mailjet_rest-1.3.4-py3-none-any.whl", hash = "sha256:635d53ac3fd61020f309c24ee977ae3458654ab39f9c36fc4b50c74e5d8ad410"},
@@ -1512,10 +1480,6 @@ requests = [
     {file = "ruamel.yaml.clib-0.2.4-cp39-cp39-win_amd64.whl", hash = "sha256:a6d8749819403338093c61ee897b97d0f4aa73297e97feb1705d143c002b5bed"},
     {file = "ruamel.yaml.clib-0.2.4.tar.gz", hash = "sha256:f997f13fd94e37e8b7d7dbe759088bb428adc6570da06b64a913d932d891ac8d"},
 ]
-rx = [
-    {file = "Rx-3.2.0-py3-none-any.whl", hash = "sha256:922c5f4edb3aa1beaa47bf61d65d5380011ff6adcd527f26377d05cb73ed8ec8"},
-    {file = "Rx-3.2.0.tar.gz", hash = "sha256:b657ca2b45aa485da2f7dcfd09fac2e554f7ac51ff3c2f8f2ff962ecd963d91c"},
-]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
@@ -1551,8 +1515,4 @@ virtualenv = [
 wcwidth = [
     {file = "wcwidth-0.2.5-py2.py3-none-any.whl", hash = "sha256:beb4802a9cebb9144e99086eff703a642a13d6a0052920003a230f3294bbe784"},
     {file = "wcwidth-0.2.5.tar.gz", hash = "sha256:c4d647b99872929fdb7bdcaa4fbe7f01413ed3d98077df798530e5b04f116c83"},
-]
-websocket-client = [
-    {file = "websocket-client-1.1.0.tar.gz", hash = "sha256:b68e4959d704768fa20e35c9d508c8dc2bbc041fd8d267c0d7345cffe2824568"},
-    {file = "websocket_client-1.1.0-py2.py3-none-any.whl", hash = "sha256:e5c333bfa9fa739538b652b6f8c8fc2559f1d364243c8a689d7c0e1d41c2e611"},
 ]
