@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from rest_framework import status
 from rest_framework.test import APIClient
 import tempfile
@@ -12,9 +12,9 @@ from common.factories import CityFactory
 from places.factories import PlaceFactory, PlacesTagFactory
 from users.factories import UserFactory
 from users.models import Profile
-from users.utils import get_tokens_for_user
 
-MEETINGS_URL = "http://127.0.0.1:8000/api/v1/meetings/"
+MEETINGS_URL = "/api/v1/meetings/"
+MEETING_URL = "/api/v1/meetings/{id}/"
 PASSWORD = "test"
 CITY_NAME = "Мельбурн"
 SMALL_GIF = (
@@ -26,6 +26,8 @@ SMALL_GIF = (
 )
 DESCRIPTION = "Test"
 TAG = "tag"
+URL_IMAGE = "meetings/small.gif"
+DATA = "2020-10-10"
 
 
 class URLTests(TestCase):
@@ -33,29 +35,47 @@ class URLTests(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         base.MEDIA_ROOT = tempfile.mkdtemp(dir=base.BASE_DIR)
-        cls.UPLOADED = SimpleUploadedFile(
-            name="small.gif", content=SMALL_GIF, content_type="image/gif"
-        )
         cls.city = CityFactory(name=CITY_NAME)
         cls.user = UserFactory(
             profile__role=Profile.Role.MENTOR,
             profile__city=cls.city,
             password=PASSWORD,
         )
-        cls.tag1 = PlacesTagFactory(name=TAG)
+        cls.user2 = UserFactory(
+            profile__role=Profile.Role.MENTOR,
+            profile__city=cls.city,
+            password=PASSWORD,
+        )
+        cls.UPLOADED = SimpleUploadedFile(
+            name="small.gif", content=SMALL_GIF, content_type="image/gif"
+        )
+        cls.tag = PlacesTagFactory(name=TAG)
         cls.place1 = PlaceFactory(
-            tags=[cls.tag1],
+            tags=[cls.tag],
+            city=cls.city,
+        )
+        cls.place2 = PlaceFactory(
+            tags=[cls.tag],
             city=cls.city,
         )
         cls.unauthorized_client = APIClient()
-        cls.token = get_tokens_for_user(cls.user)
-        cls.meeting = Meeting.objects.create(
-            # image=cls.UPLOADED,
-            user=cls.user,
+
+    def setUp(self):
+        self.meeting = Meeting.objects.create(
+            image=self.UPLOADED,
+            user=self.user,
             description=DESCRIPTION,
             smile=Meeting.GLAD,
-            place=cls.place1,
-            date="2001-01-01",
+            place=self.place1,
+            date=DATA,
+        )
+        self.meeting2 = Meeting.objects.create(
+            image=self.UPLOADED,
+            user=self.user2,
+            description=DESCRIPTION,
+            smile=Meeting.GLAD,
+            place=self.place1,
+            date=DATA,
         )
 
     @classmethod
@@ -64,20 +84,74 @@ class URLTests(TestCase):
         # Рекурсивно удаляем временную после завершения тестов
         shutil.rmtree(base.MEDIA_ROOT, ignore_errors=False)
 
+    def url_returns_401_unauthorized_test_utility(
+        self, client, url, method_names
+    ):
+        """Helper. Tests "url" for not allowed methods.
+
+        It translates "methods_names" to correspond methods on "client" and
+        asserts when error different from 401 (UNAUTHORIZED) returns.
+        """
+
+        for method_name in method_names:
+            with self.subTest(method_name):
+                method = getattr(client, method_name)
+                response = method(url)
+                self.assertEqual(
+                    response.status_code,
+                    status.HTTP_401_UNAUTHORIZED,
+                    msg=(
+                        f"Убедитесь, что для '{url}' "
+                        f"метод '{method_name}' запрещен и возвращает "
+                        f"правильный номер ошибки."
+                    ),
+                )
+
+    @override_settings(MEDIA_ROOT=tempfile.gettempdir())
     def return_authorized_user_client(self, user):
         authorized_client = APIClient()
         authorized_client.force_authenticate(user=user)
         return authorized_client
 
-    def test_mentor_get_meeting(self):
-        """Test mentor get meeting"""
+    def test_mentor_get_list_meeting(self):
+        """Test mentor get list meeting"""
         client = self.return_authorized_user_client(self.user)
         response = client.get(MEETINGS_URL)
-        print(MEETINGS_URL)
         self.assertEqual(
             response.status_code,
             status.HTTP_200_OK,
             msg=(f"response = {response.content} \n"),
+        )
+        self.assertEqual(
+            response.data["count"],
+            Meeting.objects.filter(user=self.user).count(),
+        )
+
+    def test_mentor_get_meeting(self):
+        """Test mentor get meeting"""
+        client = self.return_authorized_user_client(self.user)
+        response = client.get(MEETING_URL.format(id=self.meeting.id))
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+            msg=f"response = {response.content} \n",
+        )
+        self.assertEqual(response.data["user"], self.meeting.user.id)
+        self.assertEqual(
+            response.data["description"], self.meeting.description
+        )
+        self.assertEqual(response.data["smile"], self.meeting.smile)
+        self.assertEqual(response.data["place"], self.meeting.place.id)
+        self.assertEqual(response.data["date"], self.meeting.date)
+
+    def test_mentor_delete_meeting(self):
+        """Test mentor delete meeting"""
+        client = self.return_authorized_user_client(self.user)
+        response = client.delete(MEETING_URL.format(id=self.meeting.id))
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_204_NO_CONTENT,
+            msg=f"response = {response.content} \n",
         )
 
     def test_mentor_create_meeting(self):
@@ -85,19 +159,66 @@ class URLTests(TestCase):
         client = self.return_authorized_user_client(self.user)
 
         data = {
-            "image": SMALL_GIF,
             "user": self.user.id,
             "description": DESCRIPTION,
             "smile": Meeting.GLAD,
             "place": self.place1.id,
-            "date": "2020-10-10",
+            "date": DATA,
         }
-        response = client.post(MEETINGS_URL, data, format="json")
+        files = self.UPLOADED
+        response = client.post(
+            MEETINGS_URL, data=data, files=files, format="json"
+        )
 
         self.assertEqual(
             response.status_code,
             status.HTTP_201_CREATED,
             msg=(f"response = {response.content} \n"),
         )
-        # self.assertIn("refresh", response.data)
-        # self.assertIn("access", response.data)
+        self.assertEqual(response.data["user"], data["user"])
+        self.assertEqual(response.data["description"], data["description"])
+        self.assertEqual(response.data["smile"], data["smile"])
+        self.assertEqual(response.data["place"], data["place"])
+        self.assertEqual(response.data["date"], data["date"])
+
+    def test_mentor_patch_meeting(self):
+        """Test mentor patch meeting"""
+        client = self.return_authorized_user_client(self.user)
+        meeting_new = Meeting.objects.create(
+            image=self.UPLOADED,
+            user=self.user,
+            description=DESCRIPTION,
+            smile=Meeting.GLAD,
+            place=self.place1,
+            date=DATA,
+        )
+
+        data = {
+            "description": "Test test",
+        }
+        response = client.patch(
+            MEETING_URL.format(id=meeting_new.id), data=data, format="json"
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+        )
+        print(meeting_new.description)
+        self.assertEqual(response.data["description"], data["description"])
+        # self.assertEqual(meeting_new.description, data['description'])
+
+    def test_all_methods_not_allowed_to_unauthorized_users(self):
+        """All methods not allowed to unauthorized users"""
+        client = self.unauthorized_client
+
+        self.url_returns_401_unauthorized_test_utility(
+            client=client,
+            url=MEETINGS_URL,
+            method_names=["post", "get"],
+        )
+        self.url_returns_401_unauthorized_test_utility(
+            client=client,
+            url=MEETING_URL.format(id=self.meeting.id),
+            method_names=["get", "patch", "put", "delete"],
+        )

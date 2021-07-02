@@ -4,6 +4,7 @@ from rest_framework.mixins import (
     UpdateModelMixin,
     CreateModelMixin,
     RetrieveModelMixin,
+    DestroyModelMixin,
 )
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
@@ -38,6 +39,7 @@ class MeetingAPIView(
     UpdateModelMixin,
     CreateModelMixin,
     GenericViewSet,
+    DestroyModelMixin,
     RetrieveModelMixin,
 ):
     serializer_class = MeetingSerializer
