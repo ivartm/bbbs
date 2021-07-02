@@ -1,7 +1,7 @@
 from colorfield.fields import ColorField
 from django.db import models
 
-from common.utils import slugify
+from common.utils.slugify import slugify
 
 
 class Guide(models.Model):
