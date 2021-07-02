@@ -1,5 +1,10 @@
 from rest_framework.generics import ListAPIView
-from rest_framework.mixins import ListModelMixin, UpdateModelMixin
+from rest_framework.mixins import (
+    ListModelMixin,
+    UpdateModelMixin,
+    CreateModelMixin,
+    RetrieveModelMixin,
+)
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
@@ -28,7 +33,13 @@ class MyCityApiView(ListModelMixin, UpdateModelMixin, GenericViewSet):
         return queryset
 
 
-class MeetingAPIView(ListModelMixin, UpdateModelMixin, GenericViewSet):
+class MeetingAPIView(
+    ListModelMixin,
+    UpdateModelMixin,
+    CreateModelMixin,
+    GenericViewSet,
+    RetrieveModelMixin,
+):
     serializer_class = MeetingSerializer
     permission_classes = [IsAuthenticated]
 
@@ -36,3 +47,6 @@ class MeetingAPIView(ListModelMixin, UpdateModelMixin, GenericViewSet):
         user = self.request.user
         queryset = Meeting.objects.filter(user=user)
         return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

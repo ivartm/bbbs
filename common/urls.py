@@ -5,15 +5,20 @@ from .views import CityAPIView, MyCityApiView, MeetingAPIView
 
 router = DefaultRouter()
 router.register(
-    "my-city",
+    "cities/my-city",
     MyCityApiView,
     basename="user-city",
 )
 
+router.register(
+    "meetings",
+    MeetingAPIView,
+    basename="meetings",
+)
+
 extra_patterns = [
     path("cities/", CityAPIView.as_view(), name="cities"),
-    path("meetings/", MeetingAPIView, name="meetings"),
-    path("cities/", include(router.urls)),
+    path("", include(router.urls)),
 ]
 
 urlpatterns = [

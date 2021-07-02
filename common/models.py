@@ -47,6 +47,7 @@ class Meeting(models.Model):
         upload_to="meetings/",
         verbose_name="Фото",
         help_text="Загрузите фото",
+        blank=True,
     )
     description = models.TextField(
         verbose_name="Описание",
@@ -61,7 +62,7 @@ class Meeting(models.Model):
         related_name="meetings",
         verbose_name="Место",
     )
-    date = models.DateField(verbose_name="Дата")
+    date = models.DateField(verbose_name="Дата", blank=True)
 
     class Meta:
         ordering = ("-date",)
@@ -69,4 +70,4 @@ class Meeting(models.Model):
         verbose_name = "Встреча"
 
     def __str__(self):
-        return f"{self.place[:15]}"
+        return f"{self.place}, {self.date}"
