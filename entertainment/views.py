@@ -1,9 +1,12 @@
-from rest_framework import generics
+# from rest_framework import generics
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.viewsets import GenericViewSet
 from common.filters import BookFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import AllowAny
+
+# from rest_framework.response import Response
+
 
 from entertainment.models import (
     Article,
@@ -24,6 +27,7 @@ from entertainment.serializers import (  # EntertainmentSerializer,
     MovieTagSerializer,
     VideoSerializer,
     VideoTagSerializer,
+    # EntertainmentSerializer
 )
 
 
@@ -93,5 +97,12 @@ class ArticlesView(ListDetailApiView):
         return queryset
 
 
-class EntertainmentList(generics.ListAPIView):
-    pass
+# class EntertainmentList(generics.ListAPIView):
+#     permission_classes = [AllowAny]
+#     serializer_class = EntertainmentSerializer
+
+#     def get_queryset(self):
+#         context = {}
+#         guides = GuidesView.get_queryset(self)
+#         context.update(**guides)
+# return Response(context)
