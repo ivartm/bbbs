@@ -1,6 +1,9 @@
 from rest_framework import generics
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.viewsets import GenericViewSet
+from common.filters import BookFilter
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import AllowAny
 
 from entertainment.models import (
     Article,
@@ -73,6 +76,9 @@ class BooksTagsView(ListViewSet):
 
 class BooksView(ListViewSet):
     serializer_class = BookSerializer
+    permission_classes = [AllowAny]
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = BookFilter
 
     def get_queryset(self):
         queryset = Book.objects.all().order_by("id")

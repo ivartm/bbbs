@@ -6,6 +6,7 @@ from common.exceptions import CityNotSelected
 from places.models import Place, PlaceTag
 from questions.models import Question, QuestionTag
 from rights.models import Right, RightTag
+from entertainment.models import Book, BookTag
 
 
 class CityRequiredFilterBackend(filters.DjangoFilterBackend):
@@ -61,4 +62,16 @@ class PlaceFilter(filters.FilterSet):
 
     class Meta:
         model = Place
+        fields = ["tag"]
+
+
+class BookFilter(filters.FilterSet):
+    tag = filters.ModelMultipleChoiceFilter(
+        field_name="tags__slug",
+        queryset=BookTag.objects.all(),
+        to_field_name="slug",
+    )
+
+    class Meta:
+        model = Book
         fields = ["tag"]
