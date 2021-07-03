@@ -4,7 +4,7 @@ import factory
 from django.core.management.base import BaseCommand
 
 from afisha.factories import EventFactory
-from common.factories import CityFactory
+from common.factories import CityFactory, MeetingFactory
 from common.models import City
 from places.factories import PlaceFactory, PlacesTagFactory
 from questions.factories import (
@@ -72,6 +72,9 @@ class AllFactories:
     def create_guide(self, arg):
         GuideFactory.create_batch(arg)
 
+    def create_meeting(self, arg):
+        MeetingFactory.create_batch(arg)
+
 
 allfactories = AllFactories()
 
@@ -88,6 +91,7 @@ OPTIONS_AND_FINCTIONS = {
     "placetag": allfactories.create_placetag,
     "place": allfactories.create_place,
     "guide": allfactories.create_guide,
+    "meeting": allfactories.create_meeting,
 }
 
 
@@ -190,6 +194,13 @@ class Command(BaseCommand):
             help=("Creates Guide objects"),
             required=False,
         )
+        parser.add_argument(
+            "--meeting",
+            nargs=1,
+            type=int,
+            help="Creates Meeting objects",
+            required=False,
+        )
 
     def handle(self, *args, **options):  # noqa
 
@@ -246,6 +257,8 @@ class Command(BaseCommand):
                         PlaceFactory.create(tags__num=num_tags)
 
                     GuideFactory.create_batch(50)
+
+                    MeetingFactory.create_batch(50)
 
                 self.stdout.write(
                     self.style.SUCCESS("The database is filled with test data")
