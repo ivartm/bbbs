@@ -8,6 +8,10 @@ extra_patterns = [
     path("token/", TokenAPI.as_view(), name="token"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("profile/", ProfileView.as_view(), name="profile"),
+    path(
+        "password_reset/",
+        include("django_rest_passwordreset.urls", namespace="password_reset"),
+    ),
 ]
 
 urlpatterns = [

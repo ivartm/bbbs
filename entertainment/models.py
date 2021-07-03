@@ -105,7 +105,7 @@ class Article(models.Model):
     )
     author = models.CharField(max_length=200, verbose_name="Автор")
     profession = models.CharField(max_length=200, verbose_name="Профессия")
-    text = models.TextField(verbose_name="Описание")
+    text = models.TextField(verbose_name="Текст")
     color = ColorField(
         verbose_name="Цвет обложки на странице",
     )
