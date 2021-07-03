@@ -1,7 +1,4 @@
-from colorfield.fields import ColorField
-from django.contrib import admin
 from django.db import models
-from django.utils.html import format_html
 
 from common.utils.slugify import slugify
 
@@ -34,11 +31,50 @@ class Right(models.Model):
         max_length=500,
         verbose_name="Описание права ребенка",
     )
-    text = models.TextField(
-        verbose_name="Основной текст права ребенка",
+    heading1 = models.CharField(
+        max_length=200,
+        null=True,
+        verbose_name="Заголовок 1",
     )
-    color = ColorField(
-        verbose_name="Цвет обложки на странице",
+    heading2 = models.CharField(
+        max_length=200,
+        null=True,
+        verbose_name="Заголовок 2",
+    )
+    heading3 = models.CharField(
+        max_length=200,
+        null=True,
+        verbose_name="Заголовок 3",
+    )
+    heading4 = models.CharField(
+        max_length=200,
+        null=True,
+        verbose_name="Заголовок 4",
+    )
+    heading5 = models.CharField(
+        max_length=200,
+        null=True,
+        verbose_name="Заголовок 5",
+    )
+    text1 = models.TextField(
+        verbose_name="1 текст права ребенка",
+        null=True,
+    )
+    text2 = models.TextField(
+        verbose_name="2 текст права ребенка",
+        null=True,
+    )
+    text3 = models.TextField(
+        verbose_name="3 текст права ребенка",
+        null=True,
+    )
+    text4 = models.TextField(
+        verbose_name="4 текст права ребенка",
+        null=True,
+    )
+    text5 = models.TextField(
+        verbose_name="5 текст права ребенка",
+        null=True,
     )
     imageUrl = models.ImageField(
         blank=True,
@@ -54,23 +90,6 @@ class Right(models.Model):
 
     def __str__(self):
         return self.title
-
-    @property
-    @admin.display(
-        description="Цвет блока",
-    )
-    def colored_circle(self):
-        return format_html(
-            "<span style='"
-            "height: 25px;"
-            "width: 25px;"
-            "border: 1px solid grey;"
-            "border-radius: 50%;"
-            "display: inline-block;"
-            "background-color: {};'>"
-            "</span>",
-            self.color,
-        )
 
     class Meta:
         ordering = ["title", "id"]
