@@ -44,6 +44,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
     "drf_yasg",
+    'django_rest_passwordreset',
 ]
 LOCAL_APPS = [
     "users",

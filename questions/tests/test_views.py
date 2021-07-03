@@ -136,7 +136,7 @@ class ViewQuestionsTests(APITestCase):
                 self.assertContains(
                     response,
                     status_code=400,
-                    text="Такой вопрос уже задавали",
+                    text="Вопрос с таким Вопрос уже существует.",
                     msg_prefix=(
                         "Проверьте, что пользователь не может задать вопрос, "
                         "который уже есть в базе."
@@ -156,7 +156,7 @@ class ViewQuestionsTests(APITestCase):
                 self.assertContains(
                     response,
                     status_code=400,
-                    text="Пожалуйста, введите вопрос",
+                    text="Это поле не может быть пустым.",
                     msg_prefix=(
                         "Проверьте, что пользователь не может "
                         "отправить запрос без вопроса."

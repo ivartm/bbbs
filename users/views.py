@@ -1,3 +1,5 @@
+from django.dispatch import receiver
+from django_rest_passwordreset.signals import reset_password_token_created
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import action
@@ -7,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from users.models import Profile
+from users.sendmail import send_token
 from users.serializers import (
     ProfileSerializerRead,
     ProfileSerializerWrite,
@@ -41,12 +44,12 @@ class ProfileView(generics.RetrieveAPIView):
         serializer = ProfileSerializerRead(queryset)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-    def patch(self, request):
+    def patch(self, request, *args, **kwargs):
         client = self.get_object()
         serializer = ProfileSerializerWrite(
             client, data=request.data, partial=True
         )
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             serializer = ProfileSerializerRead(client)
             return Response(
@@ -55,3 +58,10 @@ class ProfileView(generics.RetrieveAPIView):
         return Response(
             data="Неверные данные", status=status.HTTP_400_BAD_REQUEST
         )
+
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(
+    sender, instance, reset_password_token, *args, **kwargs
+):
+    send_token(instance, reset_password_token)
