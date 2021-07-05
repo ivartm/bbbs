@@ -1,9 +1,9 @@
 import json
 from datetime import datetime
-from freezegun import freeze_time
 
 import pytz
 from django.urls import reverse
+from freezegun import freeze_time
 from rest_framework.test import APIClient, APITestCase
 
 from afisha.factories import EventFactory, EventParticipantFactory

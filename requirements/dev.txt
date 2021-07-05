@@ -15,6 +15,7 @@ coreschema==0.0.4; python_version >= "3.6"
 coverage==5.5; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version < "4"
 decorator==5.0.9; python_version >= "3.7"
 distlib==0.3.2; python_full_version >= "3.6.1"
+django-anymail==8.4; python_version >= "3.5"
 django-colorfield==0.4.1
 django-cors-headers==3.7.0; python_version >= "3.6"
 django-coverage-plugin==2.0.0
