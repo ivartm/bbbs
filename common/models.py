@@ -56,12 +56,7 @@ class Meeting(models.Model):
 
     smile = models.CharField(choices=SMILE_TYPE_CHOICES, max_length=20)
 
-    place = models.ForeignKey(
-        "places.Place",
-        on_delete=models.CASCADE,
-        related_name="meetings",
-        verbose_name="Место",
-    )
+    place = models.CharField(max_length=200)
     date = models.DateField(verbose_name="Дата", blank=True)
 
     class Meta:
