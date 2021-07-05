@@ -1,15 +1,14 @@
+import shutil
+import tempfile
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from rest_framework import status
 from rest_framework.test import APIClient
-import tempfile
-import shutil
-
-from common.models import Meeting
-from config.settings import base
-from django.core.files.uploadedfile import SimpleUploadedFile
 
 from common.factories import CityFactory
-from places.factories import PlaceFactory, PlacesTagFactory
+from common.models import Meeting
+from config.settings import base
 from users.factories import UserFactory
 from users.models import Profile
 
@@ -28,6 +27,8 @@ DESCRIPTION = "Test"
 TAG = "tag"
 URL_IMAGE = "meetings/small.gif"
 DATA = "2020-10-10"
+PLACE = "Test"
+PLACE2 = "Test2"
 
 
 class URLTests(TestCase):
@@ -49,15 +50,6 @@ class URLTests(TestCase):
         cls.UPLOADED = SimpleUploadedFile(
             name="small.gif", content=SMALL_GIF, content_type="image/gif"
         )
-        cls.tag = PlacesTagFactory(name=TAG)
-        cls.place1 = PlaceFactory(
-            tags=[cls.tag],
-            city=cls.city,
-        )
-        cls.place2 = PlaceFactory(
-            tags=[cls.tag],
-            city=cls.city,
-        )
         cls.unauthorized_client = APIClient()
 
     def setUp(self):
@@ -66,7 +58,7 @@ class URLTests(TestCase):
             user=self.user,
             description=DESCRIPTION,
             smile=Meeting.GLAD,
-            place=self.place1,
+            place=PLACE,
             date=DATA,
         )
         self.meeting2 = Meeting.objects.create(
@@ -74,7 +66,7 @@ class URLTests(TestCase):
             user=self.user2,
             description=DESCRIPTION,
             smile=Meeting.GLAD,
-            place=self.place1,
+            place=PLACE2,
             date=DATA,
         )
 
@@ -141,7 +133,7 @@ class URLTests(TestCase):
             response.data["description"], self.meeting.description
         )
         self.assertEqual(response.data["smile"], self.meeting.smile)
-        self.assertEqual(response.data["place"], self.meeting.place.id)
+        self.assertEqual(response.data["place"], self.meeting.place)
         self.assertEqual(response.data["date"], self.meeting.date)
 
     def test_mentor_delete_meeting(self):
@@ -162,7 +154,7 @@ class URLTests(TestCase):
             "user": self.user.id,
             "description": DESCRIPTION,
             "smile": Meeting.GLAD,
-            "place": self.place1.id,
+            "place": PLACE,
             "date": DATA,
         }
         files = self.UPLOADED
@@ -189,7 +181,7 @@ class URLTests(TestCase):
             user=self.user,
             description=DESCRIPTION,
             smile=Meeting.GLAD,
-            place=self.place1,
+            place=PLACE,
             date=DATA,
         )
 
