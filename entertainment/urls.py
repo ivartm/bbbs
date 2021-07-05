@@ -6,7 +6,6 @@ from entertainment.views import (
     ArticlesView,
     BooksTagsView,
     BooksView,
-    # EntertainmentList,
     GuidesView,
     MoviesTagsView,
     MoviesView,
@@ -25,7 +24,6 @@ router.register("books", BooksView, basename="books")
 router.register("articles", ArticlesView, basename="articles")
 
 entertainment_urls = [
-    # path("entertainment/", EntertainmentList.as_view(),name="entertainment"),
     path("entertainment/", include(router.urls)),
 ]
 
