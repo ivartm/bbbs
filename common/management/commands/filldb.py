@@ -6,6 +6,7 @@ from django.core.management.base import BaseCommand
 from afisha.factories import EventFactory
 from common.factories import CityFactory, MeetingFactory
 from common.models import City
+from entertainment.factories import GuideFactory
 from places.factories import PlaceFactory, PlacesTagFactory
 from questions.factories import (
     QuestionFactory,
@@ -14,7 +15,6 @@ from questions.factories import (
 )
 from rights.factories import RightFactory, RightTagFactory
 from users.factories import UserFactory
-from entertainment.factories import GuideFactory
 
 CITIES = [
     "Волгоград",

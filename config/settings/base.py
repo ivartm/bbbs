@@ -44,7 +44,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
     "drf_yasg",
-    'django_rest_passwordreset',
+    "django_rest_passwordreset",
 ]
 LOCAL_APPS = [
     "users",
@@ -178,8 +178,8 @@ MEDIA_ROOT = str(ROOT_DIR / "media")
 MEDIA_URL = "/media/"
 
 # Default primary key field type
+# ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
@@ -187,3 +187,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # ------------------------------------------------------------------------------
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
+
+# EMAIL
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
+EMAIL_BACKEND = env(
+    "DJANGO_EMAIL_BACKEND",
+    default="django.core.mail.backends.smtp.EmailBackend",
+)
+# https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
+EMAIL_TIMEOUT = 5
+EMAIL_RESET_PASSWORD_TEMPLATE_ID = env(
+    "EMAIL_RESET_PASSWORD_TEMPLATE_ID", default=None
+)

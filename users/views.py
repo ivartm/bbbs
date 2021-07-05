@@ -1,4 +1,7 @@
+from django.conf import settings
+from django.core.mail import EmailMessage
 from django.dispatch import receiver
+from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, permissions, status
@@ -9,13 +12,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from users.models import Profile
-from users.sendmail import send_token
 from users.serializers import (
     ProfileSerializerRead,
     ProfileSerializerWrite,
     TokenSerializer,
 )
 from users.utils import get_tokens_for_user
+
+EMAIL_RESET_PASSWORD_TEMPLATE_ID = settings.EMAIL_RESET_PASSWORD_TEMPLATE_ID
 
 
 class TokenAPI(APIView):
@@ -64,4 +68,18 @@ class ProfileView(generics.RetrieveAPIView):
 def password_reset_token_created(
     sender, instance, reset_password_token, *args, **kwargs
 ):
-    send_token(instance, reset_password_token)
+    base_url = instance.request.build_absolute_uri(
+        reverse("password_reset:reset-password-confirm")
+    )
+    email = reset_password_token.user.email
+    key = reset_password_token.key
+    link = f"{base_url}?token={key}"
+
+    message = EmailMessage(to=[email])
+    message.template_id = EMAIL_RESET_PASSWORD_TEMPLATE_ID
+    message.merge_data = {
+        email: {
+            "link": link,
+        },
+    }
+    message.send()

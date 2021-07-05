@@ -1,10 +1,10 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.mixins import (
-    ListModelMixin,
-    UpdateModelMixin,
     CreateModelMixin,
-    RetrieveModelMixin,
     DestroyModelMixin,
+    ListModelMixin,
+    RetrieveModelMixin,
+    UpdateModelMixin,
 )
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
@@ -12,8 +12,8 @@ from rest_framework.viewsets import GenericViewSet
 from common.models import City, Meeting
 from common.serializers import (
     CitySerializer,
-    MyCitySerializer,
     MeetingSerializer,
+    MyCitySerializer,
 )
 from users.models import Profile
 
