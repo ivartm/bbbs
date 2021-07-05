@@ -11,6 +11,30 @@ User._meta.get_field("email").blank = False
 User._meta.get_field("email").null = False
 
 
+class Curator(models.Model):
+    FEMALE = "female"
+    MALE = "male"
+
+    GENDER_TYPE_CHOICES = [
+        (FEMALE, "женский"),
+        (MALE, "мужской"),
+    ]
+    first_name = models.CharField(max_length=100, verbose_name="Имя")
+    last_name = models.CharField(max_length=50, verbose_name="Фамилия")
+    gender = models.CharField(
+        choices=GENDER_TYPE_CHOICES, max_length=10, verbose_name="Пол"
+    )
+    email = models.EmailField(max_length=25)
+
+    class Meta:
+        verbose_name = "Куратор"
+        verbose_name_plural = "Кураторы"
+        ordering = ("id",)
+
+    def __str__(self):
+        return self.email
+
+
 class Profile(models.Model):
     class Role(models.TextChoices):
         MENTOR = "Наставник", _("Наставник")
@@ -36,6 +60,13 @@ class Profile(models.Model):
         choices=Role.choices,
         default=Role.MENTOR,
         verbose_name="Роль",
+    )
+    curator = models.ForeignKey(
+        Curator,
+        on_delete=models.RESTRICT,
+        verbose_name="Куратор",
+        blank=True,
+        null=True,
     )
 
     class Meta:

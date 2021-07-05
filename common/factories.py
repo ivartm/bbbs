@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from faker import Faker
 
 from common.models import City, Meeting
-from places.models import Place
 from users.models import Profile
 
 User = get_user_model()
@@ -44,7 +43,7 @@ class MeetingFactory(factory.django.DjangoModelFactory):
     smile = factory.LazyFunction(
         lambda: random.choice([Meeting.GLAD, Meeting.SAD, Meeting.NORMAL])
     )
-    place = factory.Iterator(Place.objects.all())
+    place = factory.Faker("text")
     date = factory.Faker(
         "date",
     )
