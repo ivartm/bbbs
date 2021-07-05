@@ -1,14 +1,14 @@
+import shutil
+import tempfile
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from rest_framework import status
 from rest_framework.test import APIClient
-import tempfile
-import shutil
-
-from common.models import Meeting
-from config.settings import base
-from django.core.files.uploadedfile import SimpleUploadedFile
 
 from common.factories import CityFactory
+from common.models import Meeting
+from config.settings import base
 from places.factories import PlaceFactory, PlacesTagFactory
 from users.factories import UserFactory
 from users.models import Profile

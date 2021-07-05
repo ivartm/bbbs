@@ -190,6 +190,23 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-anymail"
+version = "8.4"
+description = "Django email integration for Amazon SES, Mailgun, Mailjet, Postmark, SendGrid, SendinBlue, SparkPost and other transactional ESPs"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.dependencies]
+django = ">=2.0"
+requests = ">=2.4.3"
+
+[package.extras]
+amazon_ses = ["boto3"]
+dev = ["flake8", "sphinx", "sphinx-rtd-theme", "tox", "twine", "wheel"]
+postal = ["cryptography"]
+
+[[package]]
 name = "django-colorfield"
 version = "0.4.1"
 description = "simple color field for your models with a nice color-picker in the admin-interface."
@@ -949,7 +966,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "1c21d32744dd44cc8e2b1cbce313ac419394e18fb3032f74160c1d64b91cc136"
+content-hash = "d226ab5f8be4ff9db1c9e72f4ab2839493fae22fc00081d743d1a4012df75d3b"
 
 [metadata.files]
 appdirs = [
@@ -1073,6 +1090,10 @@ distlib = [
 django = [
     {file = "Django-3.2.5-py3-none-any.whl", hash = "sha256:c58b5f19c5ae0afe6d75cbdd7df561e6eb929339985dbbda2565e1cabb19a62e"},
     {file = "Django-3.2.5.tar.gz", hash = "sha256:3da05fea54fdec2315b54a563d5b59f3b4e2b1e69c3a5841dda35019c01855cd"},
+]
+django-anymail = [
+    {file = "django-anymail-8.4.tar.gz", hash = "sha256:671a338de43b8e414d48c6d16aac1df54d2f24f916e1073f9f60aef5acffaf89"},
+    {file = "django_anymail-8.4-py3-none-any.whl", hash = "sha256:2e8307e84f0a12f9283469017094a8246db9a0fc608ac17dd1027ee011ece986"},
 ]
 django-colorfield = [
     {file = "django-colorfield-0.4.1.tar.gz", hash = "sha256:63a542c417b72d0dac898a0f61a2a00aed3c9aabc2f5057c926efccf421f7887"},
