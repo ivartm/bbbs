@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 
 from common.filters import BookFilter, VideoFilter
+
 from entertainment.models import (
     Article,
     Book,

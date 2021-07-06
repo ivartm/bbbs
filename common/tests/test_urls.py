@@ -10,6 +10,7 @@ from common.factories import CityFactory
 from common.models import Meeting
 from config.settings import base
 from places.factories import PlaceFactory, PlacesTagFactory
+
 from users.factories import UserFactory
 from users.models import Profile
 
@@ -28,6 +29,8 @@ DESCRIPTION = "Test"
 TAG = "tag"
 URL_IMAGE = "meetings/small.gif"
 DATA = "2020-10-10"
+PLACE = "Test"
+PLACE2 = "Test2"
 
 
 class URLTests(TestCase):
@@ -49,15 +52,6 @@ class URLTests(TestCase):
         cls.UPLOADED = SimpleUploadedFile(
             name="small.gif", content=SMALL_GIF, content_type="image/gif"
         )
-        cls.tag = PlacesTagFactory(name=TAG)
-        cls.place1 = PlaceFactory(
-            tags=[cls.tag],
-            city=cls.city,
-        )
-        cls.place2 = PlaceFactory(
-            tags=[cls.tag],
-            city=cls.city,
-        )
         cls.unauthorized_client = APIClient()
 
     def setUp(self):
@@ -65,16 +59,16 @@ class URLTests(TestCase):
             image=self.UPLOADED,
             user=self.user,
             description=DESCRIPTION,
-            smile=Meeting.GLAD,
-            place=self.place1,
+            smile=Meeting.GOOD,
+            place=PLACE,
             date=DATA,
         )
         self.meeting2 = Meeting.objects.create(
             image=self.UPLOADED,
             user=self.user2,
             description=DESCRIPTION,
-            smile=Meeting.GLAD,
-            place=self.place1,
+            smile=Meeting.GOOD,
+            place=PLACE2,
             date=DATA,
         )
 
@@ -100,6 +94,29 @@ class URLTests(TestCase):
                 self.assertEqual(
                     response.status_code,
                     status.HTTP_401_UNAUTHORIZED,
+                    msg=(
+                        f"Убедитесь, что для '{url}' "
+                        f"метод '{method_name}' запрещен и возвращает "
+                        f"правильный номер ошибки."
+                    ),
+                )
+
+    def url_returns_404_not_found_test_utility(
+        self, client, url, method_names
+    ):
+        """Helper. Tests "url" for not allowed methods.
+
+        It translates "methods_names" to correspond methods on "client" and
+        asserts when error different from 404 (not found) returns.
+        """
+
+        for method_name in method_names:
+            with self.subTest(method_name):
+                method = getattr(client, method_name)
+                response = method(url)
+                self.assertEqual(
+                    response.status_code,
+                    status.HTTP_404_NOT_FOUND,
                     msg=(
                         f"Убедитесь, что для '{url}' "
                         f"метод '{method_name}' запрещен и возвращает "
@@ -141,7 +158,7 @@ class URLTests(TestCase):
             response.data["description"], self.meeting.description
         )
         self.assertEqual(response.data["smile"], self.meeting.smile)
-        self.assertEqual(response.data["place"], self.meeting.place.id)
+        self.assertEqual(response.data["place"], self.meeting.place)
         self.assertEqual(response.data["date"], self.meeting.date)
 
     def test_mentor_delete_meeting(self):
@@ -161,8 +178,8 @@ class URLTests(TestCase):
         data = {
             "user": self.user.id,
             "description": DESCRIPTION,
-            "smile": Meeting.GLAD,
-            "place": self.place1.id,
+            "smile": Meeting.GOOD,
+            "place": PLACE,
             "date": DATA,
         }
         files = self.UPLOADED
@@ -188,8 +205,8 @@ class URLTests(TestCase):
             image=self.UPLOADED,
             user=self.user,
             description=DESCRIPTION,
-            smile=Meeting.GLAD,
-            place=self.place1,
+            smile=Meeting.GOOD,
+            place=PLACE,
             date=DATA,
         )
 
@@ -204,9 +221,8 @@ class URLTests(TestCase):
             response.status_code,
             status.HTTP_200_OK,
         )
-        print(meeting_new.description)
         self.assertEqual(response.data["description"], data["description"])
-        # self.assertEqual(meeting_new.description, data['description'])
+        # self.assertEqual(meeting_new.description, data["description"])
 
     def test_all_methods_not_allowed_to_unauthorized_users(self):
         """All methods not allowed to unauthorized users"""
@@ -222,3 +238,20 @@ class URLTests(TestCase):
             url=MEETING_URL.format(id=self.meeting.id),
             method_names=["get", "patch", "put", "delete"],
         )
+
+    def test_all_methods_not_allowed_to_not_owner(self):
+        """All methods not allowed to unauthorized users"""
+        client = self.return_authorized_user_client(self.user2)
+
+        self.url_returns_404_not_found_test_utility(
+            client=client,
+            url=MEETING_URL.format(id=self.meeting.id),
+            method_names=["get", "patch", "put", "delete"],
+        )
+
+        response = client.get(MEETINGS_URL)
+        for meeting in response.data["results"]:
+            self.assertEqual(
+                meeting["user"],
+                self.user2.id,
+            )

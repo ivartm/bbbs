@@ -14,7 +14,9 @@ from questions.factories import (
     QuestionTagFactory,
 )
 from rights.factories import RightFactory, RightTagFactory
-from users.factories import UserFactory
+from users.factories import UserFactory, CuratorFactory
+from entertainment.factories import GuideFactory
+
 
 CITIES = [
     "Волгоград",
@@ -41,6 +43,10 @@ class AllFactories:
         for _ in range(arg):
             num_tags = random.randint(1, 5)
             RightFactory(tags__num=num_tags)
+
+    def create_curator(self, arg):
+        for _ in range(arg):
+            CuratorFactory.create_batch(arg)
 
     def create_user(self, arg):
         for _ in range(arg):
@@ -83,6 +89,7 @@ OPTIONS_AND_FINCTIONS = {
     "event": allfactories.create_event,
     "righttag": allfactories.create_righttag,
     "right": allfactories.create_right,
+    "curator": allfactories.create_curator,
     "user": allfactories.create_user,
     "questiontag": allfactories.create_questiontag,
     "questionwithtag": allfactories.create_questionwithtag,
@@ -131,6 +138,13 @@ class Command(BaseCommand):
             help=(
                 "Creates Right object with at least 1 RightTag related object"
             ),
+            required=False,
+        )
+        parser.add_argument(
+            "--curator",
+            nargs=1,
+            type=int,
+            help="Creates Curator objects",
             required=False,
         )
         parser.add_argument(
@@ -229,6 +243,8 @@ class Command(BaseCommand):
                     CityFactory.create_batch(10)
 
                     EventFactory.create_batch(200)
+
+                    CuratorFactory.create_batch(15)
 
                     RightTagFactory.create_batch(10)
 

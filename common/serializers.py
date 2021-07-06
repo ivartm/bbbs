@@ -1,4 +1,5 @@
 from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 from common.models import City, Meeting
 from users.models import Profile
@@ -18,6 +19,9 @@ class MyCitySerializer(ModelSerializer):
 
 
 class MeetingSerializer(ModelSerializer):
+    name = serializers.CharField(read_only=True, max_length=100)
+
     class Meta:
         model = Meeting
         fields = "__all__"
+        read_only_fields = ["user"]
