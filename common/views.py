@@ -1,7 +1,6 @@
-from django.db.models import Value, CharField
-from petrovich.main import Petrovich
+from django.db.models import CharField, Value
 from petrovich.enums import Case
-
+from petrovich.main import Petrovich
 from rest_framework.generics import ListAPIView
 from rest_framework.mixins import (
     CreateModelMixin,

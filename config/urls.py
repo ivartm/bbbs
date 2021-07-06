@@ -23,6 +23,7 @@ extra_patterns = [
     path("", include("questions.urls")),
     path("", include("rights.urls")),
     path("", include("entertainment.urls")),
+    path("", include("story.urls")),
 ]
 
 urlpatterns = [
