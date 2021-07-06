@@ -95,7 +95,7 @@ def send_meeting_to_curator(request):
         )
         message.body = meeting.description
         message.to = [meeting.user.profile.curator.email]
-        message.attach(meeting.image, "image")
+        message.attach_file(meeting.image.path)
         message.send()
         meeting.send_to_curator = True
         meeting.save()
