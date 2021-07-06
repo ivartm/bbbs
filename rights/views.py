@@ -3,13 +3,13 @@ from rest_framework import generics
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.viewsets import GenericViewSet
 
-from common.filters import RightFilter
+from rights.filters import RightFilter
 from rights.models import Right, RightTag
 from rights.serializers import RightSerializer, RightTagSerializer
 
 
 class RightTagList(generics.ListAPIView):
-    queryset = RightTag.objects.all().order_by("id")
+    queryset = RightTag.objects.exclude(rights=None).order_by("id")
     serializer_class = RightTagSerializer
 
 

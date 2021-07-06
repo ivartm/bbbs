@@ -46,11 +46,53 @@ class Movie(models.Model):
 
 
 class VideoTag(models.Model):
-    pass
+    name = models.CharField(
+        verbose_name="Название тега", max_length=50, unique=True
+    )
+    slug = models.SlugField(
+        verbose_name="Адрес тега", max_length=50, unique=True
+    )
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Тег (Видео)"
+        verbose_name_plural = "Теги (Видео)"
+
+    def __str__(self):
+        return self.name
 
 
 class Video(models.Model):
-    pass
+    tags = models.ManyToManyField(
+        VideoTag,
+        blank=False,
+        related_name="videos",
+    )
+    link = models.CharField(
+        max_length=500,
+        unique=True,
+        verbose_name="Ссылка на видео",
+    )
+    title = models.CharField(
+        max_length=200,
+        unique=True,
+        verbose_name="Название видео",
+    )
+    author = models.CharField(max_length=200, verbose_name="Автор")
+    pubDate = models.DateTimeField(
+        verbose_name="Дата создания", auto_now_add=True
+    )
+
+    class Meta:
+        verbose_name = "Видео"
+        verbose_name_plural = "Видео"
+        ordering = ["id"]
+
+    def __str__(self):
+        return self.title
 
 
 class BookTag(models.Model):
@@ -77,7 +119,7 @@ class Book(models.Model):
     tags = models.ManyToManyField(
         BookTag,
         blank=False,
-        related_name="booktags",
+        related_name="books",
     )
     title = models.CharField(
         max_length=200,

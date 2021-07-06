@@ -4,8 +4,9 @@ import factory
 from django.core.management.base import BaseCommand
 
 from afisha.factories import EventFactory
-from common.factories import CityFactory
+from common.factories import CityFactory, MeetingFactory
 from common.models import City
+from entertainment.factories import GuideFactory
 from places.factories import PlaceFactory, PlacesTagFactory
 from questions.factories import (
     QuestionFactory,
@@ -13,8 +14,7 @@ from questions.factories import (
     QuestionTagFactory,
 )
 from rights.factories import RightFactory, RightTagFactory
-from users.factories import UserFactory
-from entertainment.factories import GuideFactory
+from users.factories import CuratorFactory, UserFactory
 
 
 CITIES = [
@@ -42,6 +42,10 @@ class AllFactories:
         for _ in range(arg):
             num_tags = random.randint(1, 5)
             RightFactory(tags__num=num_tags)
+
+    def create_curator(self, arg):
+        for _ in range(arg):
+            CuratorFactory.create_batch(arg)
 
     def create_user(self, arg):
         for _ in range(arg):
@@ -73,6 +77,9 @@ class AllFactories:
     def create_guide(self, arg):
         GuideFactory.create_batch(arg)
 
+    def create_meeting(self, arg):
+        MeetingFactory.create_batch(arg)
+
 
 allfactories = AllFactories()
 
@@ -81,6 +88,7 @@ OPTIONS_AND_FINCTIONS = {
     "event": allfactories.create_event,
     "righttag": allfactories.create_righttag,
     "right": allfactories.create_right,
+    "curator": allfactories.create_curator,
     "user": allfactories.create_user,
     "questiontag": allfactories.create_questiontag,
     "questionwithtag": allfactories.create_questionwithtag,
@@ -89,6 +97,7 @@ OPTIONS_AND_FINCTIONS = {
     "placetag": allfactories.create_placetag,
     "place": allfactories.create_place,
     "guide": allfactories.create_guide,
+    "meeting": allfactories.create_meeting,
 }
 
 
@@ -128,6 +137,13 @@ class Command(BaseCommand):
             help=(
                 "Creates Right object with at least 1 RightTag related object"
             ),
+            required=False,
+        )
+        parser.add_argument(
+            "--curator",
+            nargs=1,
+            type=int,
+            help="Creates Curator objects",
             required=False,
         )
         parser.add_argument(
@@ -191,6 +207,13 @@ class Command(BaseCommand):
             help=("Creates Guide objects"),
             required=False,
         )
+        parser.add_argument(
+            "--meeting",
+            nargs=1,
+            type=int,
+            help="Creates Meeting objects",
+            required=False,
+        )
 
     def handle(self, *args, **options):  # noqa
 
@@ -220,6 +243,8 @@ class Command(BaseCommand):
 
                     EventFactory.create_batch(200)
 
+                    CuratorFactory.create_batch(15)
+
                     RightTagFactory.create_batch(10)
 
                     for _ in range(20):
@@ -247,6 +272,8 @@ class Command(BaseCommand):
                         PlaceFactory.create(tags__num=num_tags)
 
                     GuideFactory.create_batch(50)
+
+                    MeetingFactory.create_batch(50)
 
                 self.stdout.write(
                     self.style.SUCCESS("The database is filled with test data")

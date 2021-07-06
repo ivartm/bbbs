@@ -3,10 +3,9 @@ from rest_framework.test import APIClient, APITestCase
 
 from common.factories import CityFactory
 from questions.factories import QuestionFactoryWithoutAnswer
-
+from questions.models import Question
 from users.factories import UserFactory
 from users.models import Profile
-from questions.models import Question
 
 
 class ViewQuestionsTests(APITestCase):
