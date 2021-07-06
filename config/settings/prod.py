@@ -11,7 +11,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list(
     "DJANGO_ALLOWED_HOSTS",
-    default=[".bbbs.ru", ".kiryanov.ru"],
+    default=[".bbbs.fun", ".kiryanov.ru"],
 )
 
 # DATABASES
@@ -35,7 +35,7 @@ DEBUG = False
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = env(
-    "DJANGO_DEFAULT_FROM_EMAIL", default="BBBS Team <nikolay@kiryanov.ru>"
+    "DJANGO_DEFAULT_FROM_EMAIL", default="BBBS Team <bbbs@bbbs.fun>"
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
@@ -54,6 +54,4 @@ ANYMAIL = {
     "MAILJET_API_KEY": env("MAILJET_API_KEY"),
     "MAILJET_SECRET_KEY": env("MAILJET_SECRET_KEY"),
 }
-EMAIL_RESET_PASSWORD_TEMPLATE_ID = env(
-    "EMAIL_RESET_PASSWORD_TEMPLATE_ID", default="3021774"
-)
+EMAIL_RESET_PASSWORD_TEMPLATE_ID = "3027185"
