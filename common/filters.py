@@ -1,12 +1,12 @@
-from rest_framework.generics import get_object_or_404
-from common.models import City
 from django_filters import rest_framework as filters
+from rest_framework.generics import get_object_or_404
 
 from common.exceptions import CityNotSelected
+from common.models import City
+from entertainment.models import Book, BookTag, Video, VideoTag
 from places.models import Place, PlaceTag
 from questions.models import Question, QuestionTag
 from rights.models import Right, RightTag
-from entertainment.models import Book, BookTag
 
 
 class CityRequiredFilterBackend(filters.DjangoFilterBackend):
@@ -74,4 +74,16 @@ class BookFilter(filters.FilterSet):
 
     class Meta:
         model = Book
+        fields = ["tag"]
+
+
+class VideoFilter(filters.FilterSet):
+    tag = filters.ModelMultipleChoiceFilter(
+        field_name="tags__slug",
+        queryset=VideoTag.objects.all(),
+        to_field_name="slug",
+    )
+
+    class Meta:
+        model = Video
         fields = ["tag"]
