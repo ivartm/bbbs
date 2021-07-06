@@ -59,7 +59,7 @@ class VideoTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
 
 
 class VideoAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    pass
+    list_display = ("title", "author", "pubDate")
 
 
 class BookTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
