@@ -16,6 +16,7 @@ from rights.factories import RightFactory, RightTagFactory
 from users.factories import UserFactory
 from entertainment.factories import GuideFactory
 
+
 CITIES = [
     "Волгоград",
     "Астрахань",
