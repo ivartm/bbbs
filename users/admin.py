@@ -26,7 +26,7 @@ class ProfileInline(AdminAndModerGenPermissionsMixin, admin.StackedInline):
 
     def get_fields(self, request, obj=None):
         if obj.profile.is_moderator_reg:
-            return ["role", "city", "region", "curator"]
+            return ["role", "city", "region"]
         elif obj.profile.is_mentor:
             return ["role", "city", "curator"]
         return ["role", "city", "curator"]

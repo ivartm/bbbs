@@ -26,14 +26,14 @@ class City(models.Model):
 
 
 class Meeting(models.Model):
-    SAD = "sad"
-    GLAD = "glad"
-    NORMAL = "normal"
+    BAD = "bad"
+    GOOD = "good"
+    NEUTRAL = "neutral"
 
     SMILE_TYPE_CHOICES = [
-        (SAD, "sad"),
-        (GLAD, "glad"),
-        (NORMAL, "normal"),
+        (BAD, "bad"),
+        (GOOD, "good"),
+        (NEUTRAL, "neutral"),
     ]
 
     user = models.ForeignKey(
@@ -58,6 +58,7 @@ class Meeting(models.Model):
 
     place = models.CharField(max_length=200)
     date = models.DateField(verbose_name="Дата", blank=True)
+    send_to_curator = models.BooleanField(default=False)
 
     class Meta:
         ordering = ("-date",)
