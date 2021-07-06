@@ -37,6 +37,8 @@ class VideoTagSerializer(serializers.ModelSerializer):
 
 
 class VideoSerializer(serializers.ModelSerializer):
+    tags = VideoTagSerializer(many=True)
+
     class Meta:
         model = Video
         fields = "__all__"

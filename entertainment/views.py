@@ -4,7 +4,7 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 
-from common.filters import BookFilter
+from common.filters import BookFilter, VideoFilter
 from entertainment.models import (
     Article,
     Book,
@@ -56,13 +56,16 @@ class MoviesView(ListDetailApiView):
         return queryset
 
 
-class VideosTagsView(ListDetailApiView):
+class VideoTagsView(ListDetailApiView):
     queryset = VideoTag.objects.all().order_by("id")
     serializer_class = VideoTagSerializer
 
 
-class VideosView(ListDetailApiView):
+class VideoView(ListDetailApiView):
     serializer_class = VideoSerializer
+    permission_classes = [AllowAny]
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = VideoFilter
 
     def get_queryset(self):
         queryset = Video.objects.all().order_by("id")
