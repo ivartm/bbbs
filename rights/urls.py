@@ -2,7 +2,7 @@ from django.urls import path
 from django.urls.conf import include
 from rest_framework.routers import DefaultRouter
 
-from rights.views import RightViewSet, RightTagList
+from rights.views import RightTagList, RightViewSet
 
 router = DefaultRouter()
 router.register("rights", RightViewSet, basename="rights")

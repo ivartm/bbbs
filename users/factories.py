@@ -1,3 +1,5 @@
+import random
+
 import factory
 from django.contrib.auth import get_user_model
 from django.db.models import F, signals
@@ -5,17 +7,36 @@ from faker import Faker
 
 from afisha.models import Event, EventParticipant
 from common.models import City
-from users.models import Profile
+from users.models import Curator, Profile
 
 User = get_user_model()
 fake = Faker(["ru-RU"])
+
+
+class CuratorFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Curator
+        django_get_or_create = ["last_name"]
+
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
+    gender = factory.LazyFunction(
+        lambda: random.choice([Curator.MALE, Curator.FEMALE])
+    )
+    email = factory.LazyAttribute(
+        lambda obj: f"{obj.first_name}_{Curator.objects.count()}@bbbs.com"
+    )
 
 
 @factory.django.mute_signals(signals.post_save)
 class ProfileFactory(factory.django.DjangoModelFactory):
     """Creates profile itself or could be called as RelatedFactory.
 
-    Rely on City objects, be sure at least one city is present.
+    Requirements:
+        - Rely on City objects. Be sure they are created before use.
+
+    Creates related 'Curator' objects during creation.
+
     Please review factory_boy docs why "mute_signals" decorator is
     required here.
     """
@@ -27,11 +48,27 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     city = factory.Iterator(City.objects.all())
     user = factory.SubFactory("users.factories.UserFactory", profile=None)
     role = factory.Iterator(Profile.Role.choices, getter=lambda role: role[0])
+    curator = factory.LazyAttribute(
+        lambda obj: CuratorFactory()
+        if obj.role == Profile.Role.MENTOR
+        else None
+    )
 
 
 @factory.django.mute_signals(signals.post_save)
 class UserFactory(factory.django.DjangoModelFactory):
-    """Please review factory_boy docs why decoratory is required here."""
+    """Creates User object and related Profile.
+
+    Keyword arguments:
+        - "num_events" if passed creates a User object and book it on
+        available events in the city. It tries to book "num_events" events
+        if such an amount of events are in DB. If there are fewer events than
+        "num_events" it books all of them.
+        The factory assumes that the 'Events' table is not huge otherwise
+        it could take enormous time to order_by("?").
+
+    Please review factory_boy docs why decorator is required here.
+    """
 
     class Meta:
         model = User
