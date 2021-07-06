@@ -73,7 +73,7 @@ class FilterTests(APITestCase):
         )
 
     def test_unauthorized_user_with_invalid_city_query_receives_404(self):
-        """Returns 404 if there is no city matching city query param."""
+        """Returns 400 if there is no city matching city query param."""
         non_existent_city = 200
         query_part_url = f"?city={non_existent_city}"
 
@@ -82,8 +82,11 @@ class FilterTests(APITestCase):
 
         self.assertEqual(
             response.status_code,
-            status.HTTP_404_NOT_FOUND,
-            msg="Убедитесь, что если города нет возвращается ошибка 404.",
+            status.HTTP_400_BAD_REQUEST,
+            msg=(
+                "Неавторизованный пользователи при запросе без города в query"
+                "параметрах должны получать ошибку 400."
+            ),
         )
 
     def test_authorized_user_without_query_receives_200(self):

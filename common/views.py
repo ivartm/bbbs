@@ -1,12 +1,11 @@
-from django.db.models import Value, CharField
-from django.http import JsonResponse
-from petrovich.main import Petrovich
-from petrovich.enums import Case
-from rest_framework.decorators import api_view, permission_classes
 from django.core.mail import EmailMessage
+from django.db.models import CharField, Value
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from petrovich.enums import Case
+from petrovich.main import Petrovich
 from rest_framework import status
-
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import ListAPIView
 from rest_framework.mixins import (
     CreateModelMixin,
@@ -22,9 +21,9 @@ from common.models import City, Meeting
 from common.permissions import IsOwner
 from common.serializers import (
     CitySerializer,
+    MeetingMessageSerializer,
     MeetingSerializer,
     MyCitySerializer,
-    MeetingMessageSerializer,
 )
 from users.models import Profile
 
