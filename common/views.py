@@ -1,3 +1,7 @@
+from django.db.models import Value, CharField
+from petrovich.main import Petrovich
+from petrovich.enums import Case
+
 from rest_framework.generics import ListAPIView
 from rest_framework.mixins import (
     CreateModelMixin,
@@ -48,7 +52,23 @@ class MeetingAPIView(
 
     def get_queryset(self):
         user = self.request.user
-        queryset = Meeting.objects.filter(user=user)
+        if user.profile.curator is not None:
+            change_ending = Petrovich()
+            name = (
+                change_ending.firstname(
+                    value=user.profile.curator.first_name,
+                    case=Case.DATIVE,
+                    gender=user.profile.curator.gender,
+                )
+                + " "
+                + user.profile.curator.last_name[0]
+                + "."
+            )
+            queryset = Meeting.objects.filter(user=user).annotate(
+                name=Value(name, output_field=CharField())
+            )
+        else:
+            queryset = Meeting.objects.filter(user=user)
         return queryset
 
     def perform_create(self, serializer):
