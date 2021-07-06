@@ -77,7 +77,7 @@ class Book(models.Model):
     tags = models.ManyToManyField(
         BookTag,
         blank=False,
-        related_name="booktags",
+        related_name="books",
     )
     title = models.CharField(
         max_length=200,

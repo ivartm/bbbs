@@ -1,12 +1,13 @@
-import factory
 import random
+
+import factory
 from django.contrib.auth import get_user_model
 from django.db.models import F, signals
 from faker import Faker
 
 from afisha.models import Event, EventParticipant
 from common.models import City
-from users.models import Profile, Curator
+from users.models import Curator, Profile
 
 User = get_user_model()
 fake = Faker(["ru-RU"])

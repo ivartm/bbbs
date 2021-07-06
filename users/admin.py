@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group, User
 from django.utils.translation import gettext_lazy as _
 
 from users.mixins import DynamicLookupMixin
-from users.models import Profile, Curator
+from users.models import Curator, Profile
 from users.utils import (
     AdminAndModerGenPermissionsMixin,
     AdminOnlyPermissionsMixin,

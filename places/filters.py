@@ -2,26 +2,7 @@ from django_filters import rest_framework as filters
 
 from common.exceptions import CityNotSelected
 from common.models import City
-from entertainment.models import BookTag
 from places.models import PlaceTag
-from questions.models import QuestionTag
-from rights.models import RightTag
-
-
-class QuestionFilter(filters.FilterSet):
-    tag = filters.ModelMultipleChoiceFilter(
-        field_name="tags__slug",
-        queryset=QuestionTag.objects.all(),
-        to_field_name="slug",
-    )
-
-
-class RightFilter(filters.FilterSet):
-    tag = filters.ModelMultipleChoiceFilter(
-        field_name="tags__slug",
-        queryset=RightTag.objects.all(),
-        to_field_name="slug",
-    )
 
 
 class PlaceFilter(filters.FilterSet):
@@ -58,9 +39,20 @@ class PlaceFilter(filters.FilterSet):
         return parent
 
 
-class BookFilter(filters.FilterSet):
-    tag = filters.ModelMultipleChoiceFilter(
-        field_name="tags__slug",
-        queryset=BookTag.objects.all(),
-        to_field_name="slug",
+class PlaceTagFilter(filters.FilterSet):
+    city = filters.ModelChoiceFilter(
+        field_name="places__city",
+        queryset=City.objects.all(),
     )
+
+    @property
+    def qs(self):
+        parent = super().qs
+        user = getattr(self.request, "user", None)
+        if user.is_authenticated:
+            city = user.profile.city
+            return parent.filter(places__city=city)
+        city_id = self.request.query_params.get("city", None)
+        if not city_id:
+            raise CityNotSelected
+        return parent

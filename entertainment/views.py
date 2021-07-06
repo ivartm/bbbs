@@ -4,7 +4,7 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 
-from common.filters import BookFilter
+from entertainment.filters import BookFilter
 from entertainment.models import (
     Article,
     Book,
@@ -70,7 +70,9 @@ class VideosView(ListDetailApiView):
 
 
 class BooksTagsView(ListViewSet):
-    queryset = BookTag.objects.all().order_by("id")
+    """Returns only BookTags that used in Books."""
+
+    queryset = BookTag.objects.exclude(books=None).order_by("id")
     serializer_class = BookTagSerializer
 
 
