@@ -42,7 +42,7 @@ class MeetingFactory(factory.django.DjangoModelFactory):
     )
     description = factory.Faker("text")
     smile = factory.LazyFunction(
-        lambda: random.choice([Meeting.GLAD, Meeting.SAD, Meeting.NORMAL])
+        lambda: random.choice([Meeting.GOOD, Meeting.BAD, Meeting.NEUTRAL])
     )
     place = factory.Faker("text")
     date = factory.Faker(

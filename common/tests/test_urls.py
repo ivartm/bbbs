@@ -57,7 +57,7 @@ class URLTests(TestCase):
             image=self.UPLOADED,
             user=self.user,
             description=DESCRIPTION,
-            smile=Meeting.GLAD,
+            smile=Meeting.GOOD,
             place=PLACE,
             date=DATA,
         )
@@ -65,7 +65,7 @@ class URLTests(TestCase):
             image=self.UPLOADED,
             user=self.user2,
             description=DESCRIPTION,
-            smile=Meeting.GLAD,
+            smile=Meeting.GOOD,
             place=PLACE2,
             date=DATA,
         )
@@ -176,7 +176,7 @@ class URLTests(TestCase):
         data = {
             "user": self.user.id,
             "description": DESCRIPTION,
-            "smile": Meeting.GLAD,
+            "smile": Meeting.GOOD,
             "place": PLACE,
             "date": DATA,
         }
@@ -203,7 +203,7 @@ class URLTests(TestCase):
             image=self.UPLOADED,
             user=self.user,
             description=DESCRIPTION,
-            smile=Meeting.GLAD,
+            smile=Meeting.GOOD,
             place=PLACE,
             date=DATA,
         )

@@ -26,14 +26,14 @@ class City(models.Model):
 
 
 class Meeting(models.Model):
-    SAD = "sad"
-    GLAD = "glad"
-    NORMAL = "normal"
+    BAD = "bad"
+    GOOD = "good"
+    NEUTRAL = "neutral"
 
     SMILE_TYPE_CHOICES = [
-        (SAD, "sad"),
-        (GLAD, "glad"),
-        (NORMAL, "normal"),
+        (BAD, "bad"),
+        (GOOD, "good"),
+        (NEUTRAL, "neutral"),
     ]
 
     user = models.ForeignKey(
