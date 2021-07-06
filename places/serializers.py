@@ -22,10 +22,13 @@ class InfoField(serializers.ReadOnlyField):
 class PlaceSerializer(serializers.ModelSerializer):
     info = InfoField(source="*")
     tags = PlaceTagSerializer(many=True, read_only=True)
+    gender = serializers.CharField(
+        write_only=True, required=False, max_length=1
+    )
 
     class Meta:
         model = Place
-        exclude = ("gender", "published")
+        exclude = ("published",)
 
     def create(self, validated_data):
         return Place.objects.create(**validated_data)
