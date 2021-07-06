@@ -21,3 +21,4 @@ class MeetingSerializer(ModelSerializer):
     class Meta:
         model = Meeting
         fields = "__all__"
+        read_only_fields = ["user"]

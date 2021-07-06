@@ -10,6 +10,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
 from common.models import City, Meeting
+from common.permissions import IsOwner
 from common.serializers import (
     CitySerializer,
     MeetingSerializer,
@@ -43,7 +44,7 @@ class MeetingAPIView(
     RetrieveModelMixin,
 ):
     serializer_class = MeetingSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsOwner, IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
