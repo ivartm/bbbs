@@ -1,32 +1,11 @@
 from django_filters import rest_framework as filters
-from rest_framework.generics import get_object_or_404
 
 from common.exceptions import CityNotSelected
 from common.models import City
-from entertainment.models import Book, BookTag
-from places.models import Place, PlaceTag
-from questions.models import Question, QuestionTag
-from rights.models import Right, RightTag
-
-
-class CityRequiredFilterBackend(filters.DjangoFilterBackend):
-    """Mandatory filter by city.
-
-    Takes city from request.user for authorized users.
-    Takes it from query param for anonymous users.
-    """
-
-    def filter_queryset(self, request, queryset, view):
-        if request.user.is_authenticated:
-            city = request.user.profile.city
-        else:
-            city_id = request.query_params.get("city")
-            if not city_id:
-                raise CityNotSelected
-            city = get_object_or_404(City, id=city_id)
-
-        queryset = queryset.filter(city=city)
-        return super().filter_queryset(request, queryset, view)
+from entertainment.models import BookTag
+from places.models import PlaceTag
+from questions.models import QuestionTag
+from rights.models import RightTag
 
 
 class QuestionFilter(filters.FilterSet):
@@ -36,10 +15,6 @@ class QuestionFilter(filters.FilterSet):
         to_field_name="slug",
     )
 
-    class Meta:
-        model = Question
-        fields = ["tags"]
-
 
 class RightFilter(filters.FilterSet):
     tag = filters.ModelMultipleChoiceFilter(
@@ -48,21 +23,39 @@ class RightFilter(filters.FilterSet):
         to_field_name="slug",
     )
 
-    class Meta:
-        model = Right
-        fields = ["tag"]
-
 
 class PlaceFilter(filters.FilterSet):
+    """By tags and city filter with request inspecting logic.
+
+    By request basis the filter do:
+        - if user authenticated it returns queryset filtered by user's city.
+        The filter doesn't require any query param but could be filtered by
+        tags.
+
+        - if user is UNauthenticated it requires 'city' query param
+
+        If authenticated user pass 'city' query param that is different from
+        user's city it returns zero result. It's expected behavior.
+    """
+
+    city = filters.ModelChoiceFilter(queryset=City.objects.all())
     tag = filters.ModelMultipleChoiceFilter(
         field_name="tags__slug",
         queryset=PlaceTag.objects.all(),
         to_field_name="slug",
     )
 
-    class Meta:
-        model = Place
-        fields = ["tag"]
+    @property
+    def qs(self):
+        parent = super().qs
+        user = getattr(self.request, "user", None)
+        if user.is_authenticated:
+            city = user.profile.city
+            return parent.filter(city=city)
+        city_id = self.request.query_params.get("city", None)
+        if not city_id:
+            raise CityNotSelected
+        return parent
 
 
 class BookFilter(filters.FilterSet):
@@ -71,7 +64,3 @@ class BookFilter(filters.FilterSet):
         queryset=BookTag.objects.all(),
         to_field_name="slug",
     )
-
-    class Meta:
-        model = Book
-        fields = ["tag"]

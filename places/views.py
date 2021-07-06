@@ -1,7 +1,8 @@
+from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from common.filters import CityRequiredFilterBackend, PlaceFilter
+from common.filters import PlaceFilter
 from places.models import Place, PlaceTag
 from places.serializers import PlaceSerializer, PlaceTagSerializer
 
@@ -19,5 +20,5 @@ class PlacesAPIView(generics.ListCreateAPIView):
     )
     serializer_class = PlaceSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [CityRequiredFilterBackend]
+    filter_backends = [DjangoFilterBackend]
     filterset_class = PlaceFilter
