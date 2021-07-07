@@ -259,6 +259,9 @@ class Command(BaseCommand):
             nargs=1,
             type=int,
             help=("Creates Movie objects"),
+            required=False,
+        ),
+        parser.add_argument(
             "--meeting",
             nargs=1,
             type=int,
