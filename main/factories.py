@@ -1,7 +1,7 @@
 import factory
 from faker import Faker
 
-from entertainment.models import Article, Video, Movie
+from entertainment.models import Article, Movie, Video
 from main.models import Main
 from places.models import Place
 
