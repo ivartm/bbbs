@@ -1,5 +1,4 @@
 from django_filters.rest_framework import DjangoFilterBackend
-
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
@@ -94,6 +93,7 @@ class BooksView(ListViewSet):
 
 class ArticlesView(ListDetailApiView):
     serializer_class = ArticleSerializer
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
         queryset = Article.objects.all().order_by("id")

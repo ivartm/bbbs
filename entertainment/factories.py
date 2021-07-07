@@ -38,6 +38,7 @@ class ArticleFactory(factory.django.DjangoModelFactory):
         model = Article
         django_get_or_create = ["title"]
 
+    isMain = False
     title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=3))
     author = factory.Sequence(lambda n: fake.unique.name())
     profession = factory.Sequence(lambda n: fake.unique.sentence(nb_words=3))

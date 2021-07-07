@@ -150,6 +150,10 @@ class Book(models.Model):
 
 
 class Article(models.Model):
+    isMain = models.BooleanField(
+        verbose_name="Основная статья",
+        default=False,
+    )
     title = models.CharField(
         max_length=200,
         unique=True,
@@ -176,3 +180,20 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+
+        is_main = Article.objects.filter(isMain=True).first()
+        if is_main != self and self.isMain and is_main:
+            raise ValidationError(
+                "Чтобы выбрать данную статью, "
+                "необходимо деактивировать "
+                f"статью №{is_main.pk}"
+            )
+
+    def save(self, *args, **kwargs):
+        is_main = Article.objects.filter(isMain=True)
+        if is_main.exists() and is_main.first() != self:
+            self.isMain = False
+        super().save(*args, **kwargs)
