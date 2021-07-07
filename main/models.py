@@ -1,6 +1,6 @@
 from django.db import models
 
-from entertainment.models import Article, Video
+from entertainment.models import Article, Video, Movie
 from places.models import Place
 from questions.models import Question
 
@@ -13,12 +13,20 @@ class Main(models.Model):
     )
     questions = models.ManyToManyField(Question, verbose_name="Вопросы")
     history = models.OneToOneField(
-        Story, null=True, blank=False, on_delete=models.RESTRICT
+        Story,
+        null=True,
+        blank=False,
+        on_delete=models.RESTRICT,
+        verbose_name="История",
     )
     articles = models.ManyToManyField(Article, verbose_name="Статьи")
-    # movies = models.ManyToManyField(Movie,)
+    movies = models.ManyToManyField(Movie, verbose_name="Фильмы")
     video = models.OneToOneField(
-        Video, null=True, blank=False, on_delete=models.RESTRICT
+        Video,
+        null=True,
+        blank=False,
+        on_delete=models.RESTRICT,
+        verbose_name="Видео",
     )
 
     class Meta:
