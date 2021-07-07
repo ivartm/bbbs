@@ -1,3 +1,4 @@
+# from django.conf import settings
 from django.core.mail import EmailMessage
 from django.db.models import CharField, Value
 from django.http import JsonResponse
@@ -26,6 +27,8 @@ from common.serializers import (
     MyCitySerializer,
 )
 from users.models import Profile
+
+# SEND_MEETING_TEMPLATE_ID = settings.SEND_MEETING_TEMPLATE_ID
 
 
 class CityAPIView(ListAPIView):
@@ -63,7 +66,7 @@ class MeetingAPIView(
                 change_ending.firstname(
                     value=user.profile.curator.first_name,
                     case=Case.DATIVE,
-                    gender=user.profile.curator.gender,
+                    # gender=user.profile.curator.gender,
                 )
                 + " "
                 + user.profile.curator.last_name[0]
@@ -95,6 +98,7 @@ def send_meeting_to_curator(request):
         message.body = meeting.description
         message.to = [meeting.user.profile.curator.email]
         message.attach_file(meeting.image.path)
+        # message.template_id = SEND_MEETING_TEMPLATE_ID
         message.send()
         meeting.send_to_curator = True
         meeting.save()
