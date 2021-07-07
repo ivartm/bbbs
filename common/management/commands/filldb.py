@@ -97,7 +97,7 @@ class AllFactories:
             num_tags = random.randint(1, 5)
             BookFactory.create(tags__num=num_tags)
 
-    def create_videotag(arg):
+    def create_videotag(self, arg):
         VideoTagFactory.create_batch(arg)
 
     def create_video(self, arg):

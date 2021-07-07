@@ -85,6 +85,9 @@ class Video(models.Model):
     pubDate = models.DateTimeField(
         verbose_name="Дата создания", auto_now_add=True
     )
+    duration = models.DurationField(
+        null=True, verbose_name="Продолжительность видео"
+    )
 
     class Meta:
         verbose_name = "Видео"
