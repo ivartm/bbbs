@@ -78,8 +78,6 @@ def password_reset_token_created(
     message = EmailMessage(to=[email])
     message.template_id = EMAIL_RESET_PASSWORD_TEMPLATE_ID
     message.merge_data = {
-        email: {
-            "link": link,
-        },
+        email: {"link": link},
     }
     message.send()
