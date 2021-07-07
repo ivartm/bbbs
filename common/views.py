@@ -22,6 +22,8 @@ from common.serializers import (
 )
 from users.models import Profile
 
+# SEND_MEETING_TEMPLATE_ID = settings.SEND_MEETING_TEMPLATE_ID
+
 
 EMAIL_MEETING_TEMPLATE_ID = settings.EMAIL_MEETING_TEMPLATE_ID
 
@@ -54,7 +56,7 @@ class MeetingAPIView(ModelViewSet):
                 change_ending.firstname(
                     value=user.profile.curator.first_name,
                     case=Case.DATIVE,
-                    gender=user.profile.curator.gender,
+                    # gender=user.profile.curator.gender,
                 )
                 + " "
                 + user.profile.curator.last_name[0]
@@ -89,7 +91,6 @@ def send_meeting_to_curator(request):
             to=[curator_email],
             subject=f"Описание встречи: {meeting.place}, {meeting.date}",
         )
-
         message.template_id = EMAIL_MEETING_TEMPLATE_ID
         message.merge_data = {
             curator_email: {
