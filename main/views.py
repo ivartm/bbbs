@@ -38,5 +38,4 @@ class MainView(ListAPIView):
         context = {}
         context["event"] = {**event_serializer.data}
         context.update(main_serializer.data)
-        # context.update(**TEMP_DATA)
         return Response(context)

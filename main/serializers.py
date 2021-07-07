@@ -28,4 +28,4 @@ class MainSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Main
-        fields = ["place", "questions", "articles"]
+        fields = ["place", "questions", "articles", "movies"]
