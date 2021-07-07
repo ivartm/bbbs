@@ -25,3 +25,7 @@ class MeetingSerializer(ModelSerializer):
         model = Meeting
         fields = "__all__"
         read_only_fields = ["user"]
+
+
+class MeetingMessageSerializer(serializers.Serializer):
+    id = serializers.IntegerField(min_value=1)

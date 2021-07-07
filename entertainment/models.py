@@ -69,7 +69,7 @@ class Video(models.Model):
     tags = models.ManyToManyField(
         VideoTag,
         blank=False,
-        related_name="videotags",
+        related_name="videos",
     )
     link = models.URLField(
         max_length=250,
@@ -119,7 +119,7 @@ class Book(models.Model):
     tags = models.ManyToManyField(
         BookTag,
         blank=False,
-        related_name="booktags",
+        related_name="books",
     )
     title = models.CharField(
         max_length=200,

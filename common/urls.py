@@ -1,7 +1,12 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import CityAPIView, MeetingAPIView, MyCityApiView
+from .views import (
+    CityAPIView,
+    MeetingAPIView,
+    MyCityApiView,
+    send_meeting_to_curator,
+)
 
 router = DefaultRouter()
 router.register(
@@ -18,6 +23,7 @@ router.register(
 
 extra_patterns = [
     path("cities/", CityAPIView.as_view(), name="cities"),
+    path("send_meeting/", send_meeting_to_curator, name="send_meeting"),
     path("", include(router.urls)),
 ]
 

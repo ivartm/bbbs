@@ -85,7 +85,7 @@ class Right(models.Model):
     tags = models.ManyToManyField(
         "RightTag",
         blank=False,
-        related_name="righttags",
+        related_name="rights",
     )
 
     def __str__(self):
