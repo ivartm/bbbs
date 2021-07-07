@@ -14,7 +14,7 @@ from questions.factories import (
 )
 from rights.factories import RightFactory, RightTagFactory
 from users.factories import UserFactory
-from entertainment.factories import GuideFactory
+from entertainment.factories import GuideFactory, MovieTagFactory, MovieFactory
 
 CITIES = [
     "Волгоград",
@@ -72,6 +72,12 @@ class AllFactories:
     def create_guide(self, arg):
         GuideFactory.create_batch(arg)
 
+    def create_movietag(self, arg):
+        MovieTagFactory.create_batch(arg)
+
+    def create_movie(self, arg):
+        MovieFactory.create_batch(arg)
+
 
 allfactories = AllFactories()
 
@@ -88,6 +94,8 @@ OPTIONS_AND_FINCTIONS = {
     "placetag": allfactories.create_placetag,
     "place": allfactories.create_place,
     "guide": allfactories.create_guide,
+    "movietag": allfactories.create_movietag,
+    "movie": allfactories.create_movie,
 }
 
 
@@ -190,6 +198,20 @@ class Command(BaseCommand):
             help=("Creates Guide objects"),
             required=False,
         )
+        parser.add_argument(
+            "--movietag",
+            nargs=1,
+            type=int,
+            help="Creates MovieTag objects",
+            required=False,
+        )
+        parser.add_argument(
+            "--movie",
+            nargs=1,
+            type=int,
+            help=("Creates Movie objects"),
+            required=False,
+        )
 
     def handle(self, *args, **options):  # noqa
 
@@ -246,6 +268,14 @@ class Command(BaseCommand):
                         PlaceFactory.create(num_tags=num_tags)
 
                     GuideFactory.create_batch(50)
+
+                    MovieTagFactory.create_batch(15)
+
+                    for _ in range(30):
+                        num_tags = random.randint(1, 5)
+                        MovieFactory.create(tags=num_tags)
+
+                    MovieFactory.create_batch(5)
 
                 self.stdout.write(
                     self.style.SUCCESS("The database is filled with test data")
