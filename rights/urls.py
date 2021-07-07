@@ -8,8 +8,8 @@ router = DefaultRouter()
 router.register("rights", RightViewSet, basename="rights")
 
 rights_urls = [
-    path("", include(router.urls)),
     path("rights/tags/", RightTagList.as_view(), name="right-tags"),
+    path("", include(router.urls)),
 ]
 
 urlpatterns = [

@@ -48,12 +48,12 @@ class ProfileView(generics.RetrieveAPIView):
         serializer = ProfileSerializerRead(queryset)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-    def patch(self, request):
+    def patch(self, request, *args, **kwargs):
         client = self.get_object()
         serializer = ProfileSerializerWrite(
             client, data=request.data, partial=True
         )
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             serializer = ProfileSerializerRead(client)
             return Response(

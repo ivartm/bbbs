@@ -4,15 +4,18 @@ from entertainment.models import Article
 from places.models import Place
 from questions.models import Question
 
+# from story.models import Story
+
 
 class Main(models.Model):
     place = models.OneToOneField(
         Place, on_delete=models.RESTRICT, verbose_name="Место - куда пойти?"
     )
     questions = models.ManyToManyField(Question, verbose_name="Вопросы")
-    # history = models.OneToOneField(History, on_delete=models.RESTRICT)
+    # history = models.OneToOneField(Story, on_delete=models.RESTRICT)
     articles = models.ManyToManyField(Article, verbose_name="Статьи")
     # movies = models.ManyToManyField(Movie,)
+    # guides = models.ManyToManyField(Guide, verbose_name="Статьи справочника")
     # video = models.OneToOneField(Video, on_delete=models.RESTRICT)
 
     class Meta:

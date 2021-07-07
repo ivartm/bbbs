@@ -37,6 +37,14 @@ class ProfileSerializerWrite(serializers.ModelSerializer):
         fields = ["id", "user", "city"]
         read_only_fields = ("user",)
 
+    def validate(self, data):
+        city = data.get("city")
+        if city is None:
+            raise serializers.ValidationError(
+                {"city": "Проверьте что Вы меняете поле city"}
+            )
+        return data
+
 
 class ProfileSerializerRead(ProfileSerializerWrite):
     city = CitySerializer()

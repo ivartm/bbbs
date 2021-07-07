@@ -35,3 +35,17 @@ class PlaceSerializer(serializers.ModelSerializer):
 
     def get_gender(self, obj):
         return obj.get_gender_display()
+
+    # def validate(self, data):
+    #     question = data.get("question")
+    #     request = self.context.get("request")
+    #     if request.method == "POST":
+    #         if not question:
+    #             raise serializers.ValidationError(
+    #                 {"question": "Пожалуйста, введите вопрос"}
+    #             )
+    #         elif len(question) < 30:
+    #             raise serializers.ValidationError(
+    #                 {"question": "Задайте более развёрнутый вопрос"}
+    #             )
+    #     return data
