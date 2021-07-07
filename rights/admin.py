@@ -8,7 +8,6 @@ class RightAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     list_display = [
         "title",
         "description",
-        "colored_circle",
     ]
     list_filter = [
         "tags",

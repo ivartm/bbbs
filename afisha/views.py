@@ -12,7 +12,6 @@ from rest_framework.viewsets import GenericViewSet
 from afisha.models import Event, EventParticipant
 from afisha.serializers import EventParticipantSerializer, EventSerializer
 
-
 User = get_user_model()
 
 

@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from .models import Question, QuestionTag
+from questions.models import QuestionTag
 
 
 class QuestionFilter(filters.FilterSet):
@@ -9,7 +9,3 @@ class QuestionFilter(filters.FilterSet):
         queryset=QuestionTag.objects.all(),
         to_field_name="slug",
     )
-
-    class Meta:
-        model = Question
-        fields = ["tags"]

@@ -1,12 +1,18 @@
 from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-from django.conf.urls.static import static
+
+from config.views import error400, error404, error500
 
 DEBUG = settings.DEBUG
+
+handler400 = error400
+handler404 = error404
+handler500 = error500
 
 extra_patterns = [
     path("", include("users.urls")),
@@ -17,6 +23,7 @@ extra_patterns = [
     path("", include("questions.urls")),
     path("", include("rights.urls")),
     path("", include("entertainment.urls")),
+    path("", include("story.urls")),
 ]
 
 urlpatterns = [
@@ -53,13 +60,13 @@ urlpatterns += [
     ),
 ]
 
+admin.site.site_header = "Панель администраторов"
+admin.site.site_title = "Наставники.про"
+admin.site.index_title = "Добро пожаловать на портал Наставники.про"
+
 if DEBUG:
     import debug_toolbar
 
     urlpatterns += [
         path("__debug__/", include(debug_toolbar.urls)),
     ]
-
-admin.site.site_header = "Панель администраторов"
-admin.site.site_title = "Наставники.про"
-admin.site.index_title = "Добро пожаловать на портал Наставники.про"

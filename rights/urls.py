@@ -1,11 +1,15 @@
 from django.urls import path
 from django.urls.conf import include
+from rest_framework.routers import DefaultRouter
 
-from rights.views import RightList, RightTagList
+from rights.views import RightTagList, RightViewSet
+
+router = DefaultRouter()
+router.register("rights", RightViewSet, basename="rights")
 
 rights_urls = [
-    path("rights/", RightList.as_view(), name="rights"),
     path("rights/tags/", RightTagList.as_view(), name="right-tags"),
+    path("", include(router.urls)),
 ]
 
 urlpatterns = [

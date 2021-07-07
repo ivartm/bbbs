@@ -1,7 +1,10 @@
 from django.db import models
 
+from entertainment.models import Article
 from places.models import Place
 from questions.models import Question
+
+# from story.models import Story
 
 
 class Main(models.Model):
@@ -9,9 +12,10 @@ class Main(models.Model):
         Place, on_delete=models.RESTRICT, verbose_name="Место - куда пойти?"
     )
     questions = models.ManyToManyField(Question, verbose_name="Вопросы")
-    # history = models.OneToOneField(History, on_delete=models.RESTRICT)
-    # articles = models.ManyToManyField(Article, )
+    # history = models.OneToOneField(Story, on_delete=models.RESTRICT)
+    articles = models.ManyToManyField(Article, verbose_name="Статьи")
     # movies = models.ManyToManyField(Movie,)
+    # guides = models.ManyToManyField(Guide, verbose_name="Статьи справочника")
     # video = models.OneToOneField(Video, on_delete=models.RESTRICT)
 
     class Meta:
@@ -28,27 +32,6 @@ TEMP_DATA = {
         "imageUrl": "https://picsum.photos/870/520",
         "title": "История Марины и Алины",
     },
-    "articles": [
-        {
-            "id": 41,
-            "color": "#C8D1FF",
-            "title": (
-                "Развитие детей-сирот отличается от развития детей, "
-                "живущих в семьях. Все  этапы развития у детей-сирот "
-                "проходят с искажениями и имеют ряд негативных "
-                "особенностей. "
-            ),
-        },
-        {
-            "id": 42,
-            "color": "#8CDD94",
-            "title": (
-                "У таких детей возникает ощущение отверженности. Оно "
-                "приводит к напряженности и  недоверию к людям и, как "
-                "итог, к реальному неприятию себя и окружающих."
-            ),
-        },
-    ],
     "movies": [
         {
             "id": 51,

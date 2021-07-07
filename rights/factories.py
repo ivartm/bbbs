@@ -56,12 +56,36 @@ class RightFactory(factory.django.DjangoModelFactory):
 
     title = factory.Sequence(lambda t: f"{fake.word()} {t}")
     description = factory.Faker("sentence", nb_words=6, variable_nb_words=True)
-    text = factory.Faker(
+    heading1 = factory.Faker("sentence", nb_words=5, variable_nb_words=True)
+    heading2 = factory.Faker("sentence", nb_words=5, variable_nb_words=True)
+    heading3 = factory.Faker("sentence", nb_words=5, variable_nb_words=True)
+    heading4 = factory.Faker("sentence", nb_words=5, variable_nb_words=True)
+    heading5 = factory.Faker("sentence", nb_words=5, variable_nb_words=True)
+    text1 = factory.Faker(
+        "paragraph",
+        nb_sentences=10,
+        variable_nb_sentences=True,
+    )
+    text2 = factory.Faker(
+        "paragraph",
+        nb_sentences=5,
+        variable_nb_sentences=True,
+    )
+    text3 = factory.Faker(
         "paragraph",
         nb_sentences=3,
         variable_nb_sentences=True,
     )
-    color = factory.Faker("color_name", locale="en_US")
+    text4 = factory.Faker(
+        "paragraph",
+        nb_sentences=5,
+        variable_nb_sentences=True,
+    )
+    text5 = factory.Faker(
+        "paragraph",
+        nb_sentences=1,
+        variable_nb_sentences=True,
+    )
     imageUrl = factory.django.ImageField(
         color=factory.Faker("color_name", locale="en_US")
     )

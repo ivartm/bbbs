@@ -1,6 +1,6 @@
 from django.db import models
 
-from common.utils import slugify
+from common.utils.slugify import slugify
 
 
 class QuestionTag(models.Model):
@@ -28,7 +28,7 @@ class Question(models.Model):
     tags = models.ManyToManyField(
         QuestionTag,
         verbose_name="Тэги",
-        related_name="questiontags",
+        related_name="questions",
         blank=False,
     )
     question = models.CharField(

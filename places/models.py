@@ -2,11 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy
 
 from common.models import City
-from common.utils import slugify
-
-
-def get_upload_path(instance, filename):
-    return "places/{}/{}".format(instance.pk, filename)
+from common.utils.slugify import slugify
 
 
 class PlaceTag(models.Model):
@@ -38,6 +34,10 @@ class Place(models.Model):
 
     chosen = models.BooleanField(
         verbose_name="Выбор наставника",
+        default=False,
+    )
+    published = models.BooleanField(
+        verbose_name="Отображение на странице",
         default=False,
     )
     title = models.CharField(
@@ -77,20 +77,20 @@ class Place(models.Model):
         blank=True,
     )
     tags = models.ManyToManyField(
-        PlaceTag, related_name="placetags", blank=False, verbose_name="Теги"
+        PlaceTag, related_name="places", blank=False, verbose_name="Теги"
     )
     imageUrl = models.ImageField(
         verbose_name="Фото",
         help_text="Добавить фото",
         null=True,
         blank=True,
-        upload_to=get_upload_path,
+        upload_to="places/",
     )
 
     class Meta:
         verbose_name = "Место - куда пойти?"
         verbose_name_plural = "Места - куда пойти?"
-        ordering = ["-pk"]
+        ordering = ("id",)
 
     def __str__(self):
         return self.title

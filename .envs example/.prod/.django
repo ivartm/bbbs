@@ -3,3 +3,8 @@
 DJANGO_SETTINGS_MODULE=config.settings.prod
 DJANGO_SECRET_KEY={{ используйте 'make gen-secretkey' для генерации ключа }}
 DJANGO_ALLOWED_HOSTS={{ список IP и FQDN запросы к которым обрабатывает backend }}
+
+# Email
+# ------------------------------------------------------------------------------
+MAILJET_API_KEY={{ уточните ключ у вашего ESP }}
+MAILJET_SECRET_KEY={{ уточните ключ у вашего ESP }}

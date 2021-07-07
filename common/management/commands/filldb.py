@@ -4,7 +4,7 @@ import factory
 from django.core.management.base import BaseCommand
 
 from afisha.factories import EventFactory
-from common.factories import CityFactory
+from common.factories import CityFactory, MeetingFactory
 from common.models import City
 from places.factories import PlaceFactory, PlacesTagFactory
 from questions.factories import (
@@ -13,8 +13,17 @@ from questions.factories import (
     QuestionTagFactory,
 )
 from rights.factories import RightFactory, RightTagFactory
-from users.factories import UserFactory
-from entertainment.factories import GuideFactory, MovieTagFactory, MovieFactory
+from entertainment.factories import (
+    GuideFactory,
+    ArticleFactory,
+    BookTagFactory,
+    BookFactory,
+    VideoTagFactory,
+    VideoFactory,
+    MovieTagFactory,
+    MovieFactory,
+)
+from users.factories import CuratorFactory, UserFactory
 
 CITIES = [
     "Волгоград",
@@ -42,6 +51,10 @@ class AllFactories:
             num_tags = random.randint(1, 5)
             RightFactory(tags__num=num_tags)
 
+    def create_curator(self, arg):
+        for _ in range(arg):
+            CuratorFactory.create_batch(arg)
+
     def create_user(self, arg):
         for _ in range(arg):
             num_events = random.randint(0, 5)
@@ -67,7 +80,7 @@ class AllFactories:
     def create_place(self, arg):
         for _ in range(arg):
             num_tags = random.randint(1, 5)
-            PlaceFactory.create(num_tags=num_tags)
+            PlaceFactory.create(tags__num=num_tags)
 
     def create_guide(self, arg):
         GuideFactory.create_batch(arg)
@@ -78,6 +91,28 @@ class AllFactories:
     def create_movie(self, arg):
         MovieFactory.create_batch(arg)
 
+    def create_meeting(self, arg):
+        MeetingFactory.create_batch(arg)
+
+    def create_article(self, arg):
+        ArticleFactory.create_batch(arg)
+
+    def create_booktag(arg):
+        BookTagFactory.create_batch(arg)
+
+    def create_book(self, arg):
+        for _ in range(arg):
+            num_tags = random.randint(1, 5)
+            BookFactory.create(tags__num=num_tags)
+
+    def create_videotag(arg):
+        VideoTagFactory.create_batch(arg)
+
+    def create_video(self, arg):
+        for _ in range(arg):
+            num_tags = random.randint(1, 5)
+            VideoFactory.create(tags__num=num_tags)
+
 
 allfactories = AllFactories()
 
@@ -86,6 +121,7 @@ OPTIONS_AND_FINCTIONS = {
     "event": allfactories.create_event,
     "righttag": allfactories.create_righttag,
     "right": allfactories.create_right,
+    "curator": allfactories.create_curator,
     "user": allfactories.create_user,
     "questiontag": allfactories.create_questiontag,
     "questionwithtag": allfactories.create_questionwithtag,
@@ -96,6 +132,12 @@ OPTIONS_AND_FINCTIONS = {
     "guide": allfactories.create_guide,
     "movietag": allfactories.create_movietag,
     "movie": allfactories.create_movie,
+    "meeting": allfactories.create_meeting,
+    "article": allfactories.create_article,
+    "booktag": allfactories.create_booktag,
+    "book": allfactories.create_book,
+    "videotag": allfactories.create_videotag,
+    "video": allfactories.create_video,
 }
 
 
@@ -135,6 +177,13 @@ class Command(BaseCommand):
             help=(
                 "Creates Right object with at least 1 RightTag related object"
             ),
+            required=False,
+        )
+        parser.add_argument(
+            "--curator",
+            nargs=1,
+            type=int,
+            help="Creates Curator objects",
             required=False,
         )
         parser.add_argument(
@@ -210,6 +259,45 @@ class Command(BaseCommand):
             nargs=1,
             type=int,
             help=("Creates Movie objects"),
+            "--meeting",
+            nargs=1,
+            type=int,
+            help="Creates Meeting objects",
+            required=False,
+        )
+        parser.add_argument(
+            "--article",
+            nargs=1,
+            type=int,
+            help="Creates Article objects",
+            required=False,
+        )
+        parser.add_argument(
+            "--booktag",
+            nargs=1,
+            type=int,
+            help="Creates BookTag objects",
+            required=False,
+        )
+        parser.add_argument(
+            "--book",
+            nargs=1,
+            type=int,
+            help="Creates Book object with at least 1 BookTag related object",
+            required=False,
+        )
+        parser.add_argument(
+            "--videotag",
+            nargs=1,
+            type=int,
+            help="Creates VideoTag objects",
+            required=False,
+        )
+        parser.add_argument(
+            "--video",
+            nargs=1,
+            type=int,
+            help="Create Video object with at least 1 VideoTag related object",
             required=False,
         )
 
@@ -241,6 +329,8 @@ class Command(BaseCommand):
 
                     EventFactory.create_batch(200)
 
+                    CuratorFactory.create_batch(15)
+
                     RightTagFactory.create_batch(10)
 
                     for _ in range(20):
@@ -265,7 +355,7 @@ class Command(BaseCommand):
 
                     for _ in range(30):
                         num_tags = random.randint(1, 5)
-                        PlaceFactory.create(num_tags=num_tags)
+                        PlaceFactory.create(tags__num=num_tags)
 
                     GuideFactory.create_batch(50)
 
@@ -276,6 +366,22 @@ class Command(BaseCommand):
                         MovieFactory.create(tags=num_tags)
 
                     MovieFactory.create_batch(5)
+
+                    MeetingFactory.create_batch(50)
+
+                    ArticleFactory.create_batch(50)
+
+                    BookTagFactory.create_batch(15)
+
+                    for _ in range(30):
+                        num_tags = random.randint(1, 5)
+                        BookFactory.create(tags__num=num_tags)
+
+                    VideoTagFactory.create_batch(15)
+
+                    for _ in range(30):
+                        num_tags = random.randint(1, 5)
+                        VideoFactory.create(tags__num=num_tags)
 
                 self.stdout.write(
                     self.style.SUCCESS("The database is filled with test data")

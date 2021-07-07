@@ -21,20 +21,14 @@ class InfoField(serializers.ReadOnlyField):
 
 class PlaceSerializer(serializers.ModelSerializer):
     info = InfoField(source="*")
-    tag = serializers.SlugRelatedField(
-        source="tags",
-        slug_field="slug",
-        many=True,
-        read_only=True,
+    tags = PlaceTagSerializer(many=True, read_only=True)
+    gender = serializers.CharField(
+        write_only=True, required=False, max_length=1
     )
-    imageUrl = serializers.SerializerMethodField()
 
     class Meta:
         model = Place
-        exclude = (
-            "tags",
-            "gender",
-        )
+        exclude = ("published",)
 
     def create(self, validated_data):
         return Place.objects.create(**validated_data)
@@ -42,7 +36,16 @@ class PlaceSerializer(serializers.ModelSerializer):
     def get_gender(self, obj):
         return obj.get_gender_display()
 
-    def get_imageUrl(self, obj):
-        if obj.imageUrl:
-            return self.context["request"].build_absolute_uri(obj.imageUrl.url)
-        return None
+    # def validate(self, data):
+    #     question = data.get("question")
+    #     request = self.context.get("request")
+    #     if request.method == "POST":
+    #         if not question:
+    #             raise serializers.ValidationError(
+    #                 {"question": "Пожалуйста, введите вопрос"}
+    #             )
+    #         elif len(question) < 30:
+    #             raise serializers.ValidationError(
+    #                 {"question": "Задайте более развёрнутый вопрос"}
+    #             )
+    #     return data

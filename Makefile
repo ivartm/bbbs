@@ -19,7 +19,6 @@ filldb-with-superuser:
 	python manage.py makemigrations
 	python manage.py migrate
 	python manage.py filldb
-	python manage.py migrate
 	python manage.py createsuperuser
 
 createsuperuser:

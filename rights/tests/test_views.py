@@ -19,7 +19,7 @@ class ViewRightTests(APITestCase):
         cls.mentor = UserFactory()
 
         cls.unauthorized_client = APIClient()
-        cls.path_rights = reverse("rights")
+        cls.path_rights = reverse("rights-list")
 
     def return_authorized_user_client(self, user):
         authorized_client = APIClient()
@@ -42,11 +42,10 @@ class ViewRightTests(APITestCase):
         client = ViewRightTests.unauthorized_client
         fields = [
             "id",
-            "tag",
+            "tags",
             "title",
             "description",
-            "text",
-            "color",
+            "text1",
             "imageUrl",
         ]
         response = client.get(ViewRightTests.path_rights).data
@@ -60,11 +59,19 @@ class ViewRightTests(APITestCase):
         client = ViewRightTests.unauthorized_client
         expected_fields = [
             "id",
-            "tag",
+            "tags",
             "title",
             "description",
-            "text",
-            "color",
+            "heading1",
+            "heading2",
+            "heading3",
+            "heading4",
+            "heading5",
+            "text1",
+            "text2",
+            "text3",
+            "text4",
+            "text5",
             "imageUrl",
         ]
         response = client.get(ViewRightTests.path_rights).data

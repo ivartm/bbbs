@@ -4,11 +4,14 @@ from django.contrib.auth.models import Group, User
 from django.utils.translation import gettext_lazy as _
 
 from users.mixins import DynamicLookupMixin
-from users.models import Profile
-from users.utils import AdminOnlyPermissionsMixin
+from users.models import Curator, Profile
+from users.utils import (
+    AdminAndModerGenPermissionsMixin,
+    AdminOnlyPermissionsMixin,
+)
 
 
-class ProfileInline(AdminOnlyPermissionsMixin, admin.StackedInline):
+class ProfileInline(AdminAndModerGenPermissionsMixin, admin.StackedInline):
     model = Profile
     can_delete = False
     verbose_name_plural = "Profile"
@@ -18,16 +21,15 @@ class ProfileInline(AdminOnlyPermissionsMixin, admin.StackedInline):
         "role",
         "city",
         "region",
+        "curator",
     )
 
     def get_fields(self, request, obj=None):
         if obj.profile.is_moderator_reg:
-            return super().get_fields(self, request)
-        fields = (
-            "role",
-            "city",
-        )
-        return fields
+            return ["role", "city", "region"]
+        elif obj.profile.is_mentor:
+            return ["role", "city", "curator"]
+        return ["role", "city", "curator"]
 
 
 class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
@@ -127,6 +129,20 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
         return False
 
 
+class CuratorAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
+    list_display = [
+        "last_name",
+        "first_name",
+        "gender",
+        "email",
+    ]
+    search_fields = [
+        "last_name",
+        "email",
+    ]
+
+
 admin.site.unregister(Group)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+admin.site.register(Curator, CuratorAdmin)
