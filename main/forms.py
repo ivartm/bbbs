@@ -12,3 +12,8 @@ class MainAdminForm(forms.ModelForm):
         if self.cleaned_data["articles"].count() > 2:
             raise ValidationError("Выбрать можно только 2 статьи.")
         return self.cleaned_data["articles"]
+
+    def clean_movies(self):
+        if self.cleaned_data["movies"].count() > 4:
+            raise ValidationError("Выбрать можно только 4 фильма.")
+        return self.cleaned_data["movies"]

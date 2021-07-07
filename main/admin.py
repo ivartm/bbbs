@@ -10,7 +10,7 @@ from .forms import MainAdminForm
 @register(Main)
 class MainAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
     empty_value_display = "-пусто-"
-    filter_horizontal = ("questions", "articles")
+    filter_horizontal = ("questions", "articles", "movies")
     form = MainAdminForm
 
     def has_add_permission(self, request):
