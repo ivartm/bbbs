@@ -50,7 +50,6 @@ class MovieTag(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ("-name",)
         verbose_name = "Тег (Фильмы)"
         verbose_name_plural = "Теги (Фильмы)"
 
