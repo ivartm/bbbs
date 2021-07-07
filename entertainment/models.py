@@ -39,10 +39,10 @@ class Guide(models.Model):
 
 class MovieTag(models.Model):
     name = models.CharField(
-        verbose_name="Название тега", max_length=50, unique=True
+        verbose_name="Название тега", max_length=50, unique=True, null=True
     )
     slug = models.SlugField(
-        verbose_name="Адрес тега", max_length=50, unique=True
+        verbose_name="Адрес тега", max_length=50, unique=True, null=True
     )
 
     def save(self, *args, **kwargs):
@@ -51,8 +51,8 @@ class MovieTag(models.Model):
 
     class Meta:
         ordering = ("-name",)
-        verbose_name = "Тег"
-        verbose_name_plural = "Теги"
+        verbose_name = "Тег (Фильмы)"
+        verbose_name_plural = "Теги (Фильмы)"
 
     def __str__(self):
         return self.name
@@ -66,6 +66,8 @@ class Movie(models.Model):
         blank=False,
     )
     title = models.CharField(
+        null=True,
+        blank=False,
         max_length=100,
         unique=True,
         verbose_name="Название фильма",
@@ -75,13 +77,18 @@ class Movie(models.Model):
         verbose_name="Картинка к фильму",
         upload_to="entertainment/movies/",
     )
-    info = models.TextField(
-        verbose_name="Информация о фильме",
+    info = models.TextField(verbose_name="Информация о фильме", null=True)
+    description = models.TextField(verbose_name="Описание фильма", null=True)
+    link = models.URLField(
+        verbose_name="Ссылка на фильм",
+        null=True,
+        blank=False,
+        max_length=250,
+        unique=True,
     )
-    description = models.TextField(
-        verbose_name="Описание фильма",
+    duration = models.DurationField(
+        null=True, verbose_name="Продолжительность фильма"
     )
-    link = models.TextField(unique=True, verbose_name="Ссылка на фильм")
 
     class Meta:
         verbose_name = "Фильм"
@@ -131,6 +138,14 @@ class Video(models.Model):
     author = models.CharField(max_length=200, verbose_name="Автор")
     pubDate = models.DateTimeField(
         verbose_name="Дата создания", auto_now_add=True
+    )
+    preview = models.ImageField(
+        blank=True,
+        verbose_name="Картинка к видео",
+        upload_to="entertainment/videos/",
+    )
+    duration = models.DurationField(
+        null=True, verbose_name="Продолжительность видео"
     )
 
     class Meta:

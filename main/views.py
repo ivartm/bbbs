@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from afisha.models import Event, EventParticipant
 from afisha.serializers import EventSerializer
 from common.models import City
-from main.models import TEMP_DATA, Main
+from main.models import Main
 from main.serializers import MainSerializer
 
 
@@ -38,5 +38,4 @@ class MainView(ListAPIView):
         context = {}
         context["event"] = {**event_serializer.data}
         context.update(main_serializer.data)
-        context.update(**TEMP_DATA)
         return Response(context)

@@ -6,6 +6,7 @@ from django.core.management.base import BaseCommand
 from afisha.factories import EventFactory
 from common.factories import CityFactory, MeetingFactory
 from common.models import City
+from main.factories import MainFactory
 from places.factories import PlaceFactory, PlacesTagFactory
 from questions.factories import (
     QuestionFactory,
@@ -89,7 +90,9 @@ class AllFactories:
         MovieTagFactory.create_batch(arg)
 
     def create_movie(self, arg):
-        MovieFactory.create_batch(arg)
+        for _ in range(arg):
+            num_tags = random.randint(1, 5)
+            MovieFactory.create(tags__num=num_tags)
 
     def create_meeting(self, arg):
         MeetingFactory.create_batch(arg)
@@ -105,7 +108,7 @@ class AllFactories:
             num_tags = random.randint(1, 5)
             BookFactory.create(tags__num=num_tags)
 
-    def create_videotag(arg):
+    def create_videotag(self, arg):
         VideoTagFactory.create_batch(arg)
 
     def create_video(self, arg):
@@ -258,7 +261,7 @@ class Command(BaseCommand):
             "--movie",
             nargs=1,
             type=int,
-            help=("Creates Movie objects"),
+            help=("Creates Movie object with at least 1 MovieTag object"),
             required=False,
         ),
         parser.add_argument(
@@ -368,8 +371,6 @@ class Command(BaseCommand):
                         num_tags = random.randint(1, 5)
                         MovieFactory.create(tags=num_tags)
 
-                    MovieFactory.create_batch(5)
-
                     MeetingFactory.create_batch(50)
 
                     ArticleFactory.create_batch(50)
@@ -385,6 +386,8 @@ class Command(BaseCommand):
                     for _ in range(30):
                         num_tags = random.randint(1, 5)
                         VideoFactory.create(tags__num=num_tags)
+
+                    MainFactory.create()
 
                 self.stdout.write(
                     self.style.SUCCESS("The database is filled with test data")
