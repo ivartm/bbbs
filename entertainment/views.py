@@ -1,5 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics
+
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
@@ -15,7 +15,7 @@ from entertainment.models import (
     Video,
     VideoTag,
 )
-from entertainment.serializers import (  # EntertainmentSerializer,
+from entertainment.serializers import (
     ArticleSerializer,
     BookSerializer,
     BookTagSerializer,
@@ -98,7 +98,3 @@ class ArticlesView(ListDetailApiView):
     def get_queryset(self):
         queryset = Article.objects.all().order_by("id")
         return queryset
-
-
-class EntertainmentList(generics.ListAPIView):
-    pass

@@ -1,9 +1,10 @@
 import random
 
 import factory
+import pytz
 from faker import Faker
 
-from entertainment.models import Article, Book, BookTag, Guide
+from entertainment.models import Article, Book, BookTag, Guide, Video, VideoTag
 
 fake = Faker(["ru-RU"])
 
@@ -37,9 +38,15 @@ class ArticleFactory(factory.django.DjangoModelFactory):
         model = Article
         django_get_or_create = ["title"]
 
-    title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=6))
+    title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=3))
     author = factory.Sequence(lambda n: fake.unique.name())
     profession = factory.Sequence(lambda n: fake.unique.sentence(nb_words=3))
+    text = factory.Faker(
+        "paragraph",
+        nb_sentences=3,
+        variable_nb_sentences=True,
+    )
+    color = factory.Faker("color_name", locale="en_US")
     imageUrl = factory.django.ImageField(
         color=factory.LazyFunction(
             lambda: random.choice(["blue", "yellow", "green", "orange"])
@@ -47,12 +54,6 @@ class ArticleFactory(factory.django.DjangoModelFactory):
         width=factory.LazyFunction(lambda: random.randint(10, 1000)),
         height=factory.SelfAttribute("width"),
     )
-    text = factory.Faker(
-        "paragraph",
-        nb_sentences=3,
-        variable_nb_sentences=True,
-    )
-    color = factory.Faker("color_name", locale="en_US")
 
 
 class BookTagFactory(factory.django.DjangoModelFactory):
@@ -75,6 +76,9 @@ class BookFactory(factory.django.DjangoModelFactory):
     year = factory.LazyFunction(lambda: random.randint(1900, 2021))
     description = factory.Faker("text")
     color = factory.Faker("color_name", locale="en_US")
+    link = factory.LazyAttribute(
+        lambda obj: f"http://fakebooks.bbbs/{id(obj)}-{obj.year}/"
+    )
 
     @factory.post_generation
     def tags(self, create, extracted, **kwargs):
@@ -94,4 +98,50 @@ class BookFactory(factory.django.DjangoModelFactory):
         how_many = min(tags_count, how_many)
 
         tags = BookTag.objects.order_by("?")[:how_many]
+        self.tags.add(*tags)
+
+
+class VideoTagFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = VideoTag
+        django_get_or_create = [
+            "name",
+        ]
+
+    name = factory.Faker("word")
+
+
+class VideoFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Video
+        django_get_or_create = ["title"]
+
+    title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=4))
+    author = factory.Sequence(lambda n: fake.unique.name())
+    pubDate = factory.Faker(
+        "date_time_this_year",
+        before_now=False,
+        after_now=True,
+        tzinfo=pytz.UTC,
+    )
+    link = factory.Sequence(lambda n: f"http://fakevideos.bbbs/{n}/")
+
+    @factory.post_generation
+    def tags(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            tags = extracted
+            self.tags.add(*tags)
+            return
+
+        at_least = 1
+        num = kwargs.get("num", None)
+        how_many = num or at_least
+
+        tags_count = VideoTag.objects.count()
+        how_many = min(tags_count, how_many)
+
+        tags = VideoTag.objects.order_by("?")[:how_many]
         self.tags.add(*tags)

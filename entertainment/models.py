@@ -71,8 +71,8 @@ class Video(models.Model):
         blank=False,
         related_name="videos",
     )
-    link = models.CharField(
-        max_length=500,
+    link = models.URLField(
+        max_length=250,
         unique=True,
         verbose_name="Ссылка на видео",
     )
@@ -129,6 +129,16 @@ class Book(models.Model):
     author = models.CharField(max_length=200, verbose_name="Автор")
     year = models.PositiveSmallIntegerField(verbose_name="Год")
     description = models.TextField(verbose_name="Описание")
+    color = ColorField(
+        max_length=30,
+        verbose_name="Цвет обложки на странице",
+    )
+    link = models.URLField(
+        max_length=250,
+        blank=False,
+        unique=True,
+        verbose_name="Ссылка на книгу",
+    )
 
     class Meta:
         verbose_name = "Книга"
@@ -149,6 +159,7 @@ class Article(models.Model):
     profession = models.CharField(max_length=200, verbose_name="Профессия")
     text = models.TextField(verbose_name="Текст")
     color = ColorField(
+        max_length=30,
         verbose_name="Цвет обложки на странице",
     )
     imageUrl = models.ImageField(
