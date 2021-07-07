@@ -38,11 +38,58 @@ class Guide(models.Model):
 
 
 class MovieTag(models.Model):
-    pass
+    name = models.CharField(
+        verbose_name="Название тега", max_length=50, unique=True
+    )
+    slug = models.SlugField(
+        verbose_name="Адрес тега", max_length=50, unique=True
+    )
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ("-name",)
+        verbose_name = "Тег"
+        verbose_name_plural = "Теги"
+
+    def __str__(self):
+        return self.name
 
 
 class Movie(models.Model):
-    pass
+    tags = models.ManyToManyField(
+        MovieTag,
+        related_name="movies",
+        verbose_name="Теги",
+        blank=False,
+    )
+    title = models.CharField(
+        max_length=100,
+        unique=True,
+        verbose_name="Название фильма",
+    )
+    preview = models.ImageField(
+        blank=True,
+        verbose_name="Картинка к фильму",
+        upload_to="entertainment/movies/",
+    )
+    info = models.TextField(
+        verbose_name="Информация о фильме",
+    )
+    description = models.TextField(
+        verbose_name="Описание фильма",
+    )
+    link = models.TextField(unique=True, verbose_name="Ссылка на фильм")
+
+    class Meta:
+        verbose_name = "Фильм"
+        verbose_name_plural = "Фильмы"
+        ordering = ["id"]
+
+    def __str__(self):
+        return self.title
 
 
 class VideoTag(models.Model):
