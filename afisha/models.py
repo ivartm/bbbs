@@ -74,7 +74,6 @@ class Event(models.Model):
         return self.title
 
     class Meta:
-        ordering = ["startAt"]
         verbose_name = "Мероприятие"
         verbose_name_plural = "Мероприятия"
 
