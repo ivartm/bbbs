@@ -198,6 +198,5 @@ EMAIL_BACKEND = env(
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
 EMAIL_TIMEOUT = 5
-EMAIL_RESET_PASSWORD_TEMPLATE_ID = env(
-    "EMAIL_RESET_PASSWORD_TEMPLATE_ID", default=None
-)
+EMAIL_RESET_PASSWORD_TEMPLATE_ID = None
+EMAIL_MEETING_TEMPLATE_ID = None
