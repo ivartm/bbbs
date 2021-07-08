@@ -12,7 +12,7 @@ class StoryImageSerializer(serializers.ModelSerializer):
 
 
 class StorySerializer(serializers.ModelSerializer):
-    images = StoryImageSerializer(source="stories", many=True)
+    imagesUrls = StoryImageSerializer(source="stories", many=True)
 
     class Meta:
         model = Story
