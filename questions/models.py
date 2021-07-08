@@ -16,7 +16,6 @@ class QuestionTag(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ("-name",)
         verbose_name = "Тег (вопросы)"
         verbose_name_plural = "Теги (вопросы)"
 
@@ -28,7 +27,7 @@ class Question(models.Model):
     tags = models.ManyToManyField(
         QuestionTag,
         verbose_name="Тэги",
-        related_name="questiontags",
+        related_name="questions",
         blank=False,
     )
     question = models.CharField(

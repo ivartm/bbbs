@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import CityAPIView, MyCityApiView, MeetingAPIView
+from .views import CityAPIView, MeetingViewSet, MyCityApiView
 
 router = DefaultRouter()
 router.register(
@@ -12,7 +12,7 @@ router.register(
 
 router.register(
     "meetings",
-    MeetingAPIView,
+    MeetingViewSet,
     basename="meetings",
 )
 

@@ -1,8 +1,7 @@
-from django.db.models import Count, Exists, OuterRef
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import UniqueConstraint
+from django.db.models import Count, Exists, OuterRef, UniqueConstraint
 from django.utils import timezone
 
 from common.models import City

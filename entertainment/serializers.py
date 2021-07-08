@@ -37,6 +37,8 @@ class VideoTagSerializer(serializers.ModelSerializer):
 
 
 class VideoSerializer(serializers.ModelSerializer):
+    tags = VideoTagSerializer(many=True)
+
     class Meta:
         model = Video
         fields = "__all__"
@@ -60,11 +62,3 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = "__all__"
-
-
-class EntertainmentSerializer(serializers.ModelSerializer):
-    guides = GuideSerializer(many=True)
-    movies = MovieSerializer(many=True)
-    videos = VideoSerializer(many=True)
-    books = BookSerializer(many=True)
-    articles = ArticleSerializer(many=True)

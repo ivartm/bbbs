@@ -1,10 +1,18 @@
 from django.urls import include, path
 
-from questions.views import QuestionsList, QuestionsTagList
+from questions.views import QuestionsAPIView, QuestionsTagAPIView
 
 extra_patterns = [
-    path("questions/", QuestionsList.as_view(), name="questions"),
-    path("questions/tags/", QuestionsTagList.as_view(), name="questions-tags"),
+    path(
+        route="questions/",
+        view=QuestionsAPIView.as_view(),
+        name="questions",
+    ),
+    path(
+        route="questions/tags/",
+        view=QuestionsTagAPIView.as_view(),
+        name="questions-tags",
+    ),
 ]
 
 urlpatterns = [

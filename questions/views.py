@@ -2,12 +2,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListAPIView, ListCreateAPIView
 from rest_framework.permissions import AllowAny
 
-from common.filters import QuestionFilter
+from questions.filters import QuestionFilter
 from questions.models import Question, QuestionTag
 from questions.serializers import QuestionSerializer, QuestionTagSerializer
 
 
-class QuestionsList(ListCreateAPIView):
+class QuestionsAPIView(ListCreateAPIView):
+    """Returns only questions with answers."""
+
     queryset = (
         Question.objects.exclude(answer__exact="")
         .all()
@@ -20,7 +22,11 @@ class QuestionsList(ListCreateAPIView):
     filterset_class = QuestionFilter
 
 
-class QuestionsTagList(ListAPIView):
-    queryset = QuestionTag.objects.all().order_by("id")
+class QuestionsTagAPIView(ListAPIView):
+    """Returns only QuestionTags that used in questions."""
+
+    queryset = (
+        QuestionTag.objects.exclude(questions=None).distinct().order_by("id")
+    )
     serializer_class = QuestionTagSerializer
     permission_classes = [AllowAny]

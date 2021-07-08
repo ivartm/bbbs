@@ -1,6 +1,15 @@
-import factory
+import random
 
-from common.models import City
+import factory
+from django.contrib.auth import get_user_model
+from faker import Faker
+
+from common.models import City, Meeting
+from users.models import Profile
+
+User = get_user_model()
+
+fake = Faker(["ru-RU"])
 
 
 class CityFactory(factory.django.DjangoModelFactory):
@@ -15,3 +24,28 @@ class CityFactory(factory.django.DjangoModelFactory):
         "boolean",
         chance_of_getting_true=20,
     )
+
+
+class MeetingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Meeting
+
+    user = factory.Iterator(
+        User.objects.filter(profile__role=Profile.Role.MENTOR)
+    )
+    image = factory.django.ImageField(
+        color=factory.LazyFunction(
+            lambda: random.choice(["blue", "yellow", "green", "orange"])
+        ),
+        width=factory.LazyFunction(lambda: random.randint(10, 1000)),
+        height=factory.SelfAttribute("width"),
+    )
+    description = factory.Faker("text")
+    smile = factory.LazyFunction(
+        lambda: random.choice([Meeting.GOOD, Meeting.BAD, Meeting.NEUTRAL])
+    )
+    place = factory.Faker("text")
+    date = factory.Faker(
+        "date",
+    )
+    sendToCurator = factory.LazyFunction(lambda: random.choice([False, True]))

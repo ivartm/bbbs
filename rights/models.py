@@ -13,7 +13,6 @@ class RightTag(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ["name", "slug"]
         verbose_name = "Тег (права детей)"
         verbose_name_plural = "Теги (права детей)"
 
@@ -85,7 +84,7 @@ class Right(models.Model):
     tags = models.ManyToManyField(
         "RightTag",
         blank=False,
-        related_name="righttags",
+        related_name="rights",
     )
 
     def __str__(self):
