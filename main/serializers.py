@@ -17,7 +17,7 @@ class ArticleMainSerializer(serializers.ModelSerializer):
 class StoryMainSerializer(serializers.ModelSerializer):
     class Meta:
         model = Story
-        fields = ["title", "image"]
+        fields = ["title", "imageUrl"]
 
 
 class MainSerializer(serializers.ModelSerializer):
