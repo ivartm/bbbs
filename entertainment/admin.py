@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.utils.html import format_html
 
+from common.utils.mixins import AdminPreview
 from entertainment.models import (
     Article,
     Book,
@@ -14,7 +14,9 @@ from entertainment.models import (
 from users.utils import AdminAndModerGenPermissionsMixin
 
 
-class GuideAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
+class GuideAdmin(
+    AdminAndModerGenPermissionsMixin, AdminPreview, admin.ModelAdmin
+):
     list_display = [
         "id",
         "title",
@@ -24,26 +26,6 @@ class GuideAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     readonly_fields = ("image_change_preview",)
     list_display_links = ("id", "title")
     search_fields = ("title", "description")
-
-    def image_change_preview(self, obj):
-        if obj.imageUrl:
-            return format_html(
-                '<img src="{}" width="600" height="300" />'.format(
-                    obj.imageUrl.url
-                )
-            )
-
-    image_change_preview.short_description = "Превью"
-
-    def image_list_preview(self, obj):
-        if obj.imageUrl:
-            return format_html(
-                '<img src="{}" width="100" height="50" />'.format(
-                    obj.imageUrl.url
-                )
-            )
-
-    image_list_preview.short_description = "Картинка"
 
 
 class MovieTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
@@ -70,8 +52,16 @@ class BookAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     pass
 
 
-class ArticleAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    pass
+class ArticleAdmin(
+    AdminAndModerGenPermissionsMixin, AdminPreview, admin.ModelAdmin
+):
+    list_display = (
+        "id",
+        "title",
+        "isMain",
+        "image_list_preview",
+    )
+    readonly_fields = ("image_change_preview",)
 
 
 admin.site.register(Guide, GuideAdmin)

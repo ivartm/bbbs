@@ -93,6 +93,7 @@ class BooksView(ListViewSet):
 
 class ArticlesView(ListDetailApiView):
     serializer_class = ArticleSerializer
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
         queryset = Article.objects.all().order_by("id")
