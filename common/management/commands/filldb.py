@@ -24,6 +24,7 @@ from questions.factories import (
     QuestionTagFactory,
 )
 from rights.factories import RightFactory, RightTagFactory
+from story.factories import StoryFactory
 from users.factories import CuratorFactory, UserFactory
 
 CITIES = [
@@ -116,6 +117,10 @@ class AllFactories:
             num_tags = random.randint(1, 5)
             VideoFactory.create(tags__num=num_tags)
 
+    def create_history(self, arg):
+        for _ in range(arg):
+            StoryFactory.create()
+
 
 allfactories = AllFactories()
 
@@ -141,6 +146,7 @@ OPTIONS_AND_FINCTIONS = {
     "book": allfactories.create_book,
     "videotag": allfactories.create_videotag,
     "video": allfactories.create_video,
+    "history": allfactories.create_history,
 }
 
 
@@ -306,6 +312,13 @@ class Command(BaseCommand):
             help="Create Video object with at least 1 VideoTag related object",
             required=False,
         )
+        parser.add_argument(
+            "--history",
+            nargs=1,
+            type=int,
+            help="Create History object",
+            required=False,
+        )
 
     def handle(self, *args, **options):  # noqa
 
@@ -386,6 +399,9 @@ class Command(BaseCommand):
                     for _ in range(30):
                         num_tags = random.randint(1, 5)
                         VideoFactory.create(tags__num=num_tags)
+
+                    for _ in range(30):
+                        StoryFactory.create()
 
                     MainFactory.create()
 

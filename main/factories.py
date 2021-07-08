@@ -5,7 +5,7 @@ from entertainment.models import Article, Movie, Video
 from main.models import Main
 from places.models import Place
 
-# from story.models import Story
+from story.models import Story
 from questions.models import Question
 
 fake = Faker(["ru_RU"])
@@ -16,7 +16,7 @@ class MainFactory(factory.django.DjangoModelFactory):
         model = Main
 
     place = factory.Iterator(Place.objects.all())
-    # history = factory.Iterator(Story.objects.all())
+    history = factory.Iterator(Story.objects.all())
     video = factory.Iterator(Video.objects.all())
 
     @factory.post_generation
