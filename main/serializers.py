@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from entertainment.models import Article
-from entertainment.serializers import MovieSerializer
+from entertainment.serializers import MovieSerializer, VideoSerializer
 from main.models import Main
 from places.serializers import PlaceSerializer
 from questions.serializers import QuestionSerializer
@@ -25,7 +25,16 @@ class MainSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True)
     articles = ArticleMainSerializer(many=True)
     movies = MovieSerializer(many=True)
+    history = StoryMainSerializer()
+    video = VideoSerializer()
 
     class Meta:
         model = Main
-        fields = ["place", "questions", "articles", "movies"]
+        fields = [
+            "place",
+            "questions",
+            "articles",
+            "movies",
+            "history",
+            "video",
+        ]
