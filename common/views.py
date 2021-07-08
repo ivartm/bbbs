@@ -8,10 +8,7 @@ from petrovich.main import Petrovich
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView
-from rest_framework.mixins import (
-    ListModelMixin,
-    UpdateModelMixin,
-)
+from rest_framework.mixins import ListModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
@@ -24,7 +21,6 @@ from common.serializers import (
     MyCitySerializer,
 )
 from users.models import Profile
-
 
 EMAIL_MEETING_TEMPLATE_ID = settings.EMAIL_MEETING_TEMPLATE_ID
 
