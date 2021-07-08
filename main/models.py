@@ -1,9 +1,8 @@
 from django.db import models
 
-from entertainment.models import Article, Video, Movie
+from entertainment.models import Article, Movie, Video
 from places.models import Place
 from questions.models import Question
-
 from story.models import Story
 
 

@@ -1,8 +1,8 @@
 import random
+from datetime import timedelta
 
 import factory
 import pytz
-from datetime import timedelta
 from faker import Faker
 
 from entertainment.models import (
@@ -10,10 +10,10 @@ from entertainment.models import (
     Book,
     BookTag,
     Guide,
-    Video,
-    VideoTag,
     Movie,
     MovieTag,
+    Video,
+    VideoTag,
 )
 
 fake = Faker(["ru-RU"])

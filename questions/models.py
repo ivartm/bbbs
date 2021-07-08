@@ -16,7 +16,6 @@ class QuestionTag(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ("-name",)
         verbose_name = "Тег (вопросы)"
         verbose_name_plural = "Теги (вопросы)"
 

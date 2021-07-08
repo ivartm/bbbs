@@ -6,6 +6,16 @@ from django.core.management.base import BaseCommand
 from afisha.factories import EventFactory
 from common.factories import CityFactory, MeetingFactory
 from common.models import City
+from entertainment.factories import (
+    ArticleFactory,
+    BookFactory,
+    BookTagFactory,
+    GuideFactory,
+    MovieFactory,
+    MovieTagFactory,
+    VideoFactory,
+    VideoTagFactory,
+)
 from main.factories import MainFactory
 from places.factories import PlaceFactory, PlacesTagFactory
 from questions.factories import (
@@ -14,16 +24,6 @@ from questions.factories import (
     QuestionTagFactory,
 )
 from rights.factories import RightFactory, RightTagFactory
-from entertainment.factories import (
-    GuideFactory,
-    ArticleFactory,
-    BookTagFactory,
-    BookFactory,
-    VideoTagFactory,
-    VideoFactory,
-    MovieTagFactory,
-    MovieFactory,
-)
 from users.factories import CuratorFactory, UserFactory
 
 CITIES = [

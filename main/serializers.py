@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
 from entertainment.models import Article
-from main.models import Main
-from story.models import Story
 from entertainment.serializers import MovieSerializer
+from main.models import Main
 from places.serializers import PlaceSerializer
 from questions.serializers import QuestionSerializer
+from story.models import Story
 
 
 class ArticleMainSerializer(serializers.ModelSerializer):

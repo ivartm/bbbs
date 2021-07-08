@@ -9,7 +9,7 @@ from rights.serializers import RightSerializer, RightTagSerializer
 
 
 class RightTagList(generics.ListAPIView):
-    queryset = RightTag.objects.exclude(rights=None).order_by("id")
+    queryset = RightTag.objects.exclude(rights=None).distinct().order_by("id")
     serializer_class = RightTagSerializer
 
 
