@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
@@ -20,6 +22,16 @@ class MyCitySerializer(ModelSerializer):
 
 class MeetingSerializer(ModelSerializer):
     name = serializers.CharField(read_only=True, max_length=100)
+    place = serializers.CharField(max_length=50, min_length=2)
+    description = serializers.CharField(max_length=5000, min_length=2)
+    date = serializers.DateField()
+
+    def validate(self, data):
+        if data["date"] > datetime.now().date():
+            raise serializers.ValidationError(
+                "date can not be more than today"
+            )
+        return data
 
     class Meta:
         model = Meeting
