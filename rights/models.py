@@ -75,7 +75,7 @@ class Right(models.Model):
         verbose_name="5 текст права ребенка",
         null=True,
     )
-    imageUrl = models.ImageField(
+    image_url = models.ImageField(
         blank=True,
         verbose_name="Фото",
         help_text="Добавить фото",

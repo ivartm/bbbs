@@ -17,8 +17,8 @@ class StoryFactory(factory.django.DjangoModelFactory):
     title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=7))
     prolog = factory.Sequence(lambda n: fake.unique.sentence(nb_words=10))
     text = factory.Sequence(lambda n: fake.unique.sentence(nb_words=50))
-    beginningOfFriendship = date.today()
-    imageUrl = factory.django.ImageField(
+    beginning_of_friendship = date.today()
+    image_url = factory.django.ImageField(
         color=factory.LazyFunction(
             lambda: random.choice(["blue", "yellow", "green", "orange"])
         ),

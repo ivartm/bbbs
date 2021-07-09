@@ -74,7 +74,7 @@ class ViewPlacesTests(APITestCase):
             "address",
             "description",
             "link",
-            "imageUrl",
+            "image_url",
         ]
         results = response.get("results")[0]
         for field in fields:
@@ -101,7 +101,7 @@ class ViewPlacesTests(APITestCase):
             "city",
             "description",
             "link",
-            "imageUrl",
+            "image_url",
         ]
         results = response.get("results")[0]
         for field in fields:
@@ -127,7 +127,8 @@ class ViewPlacesTests(APITestCase):
         self.assertEqual(results["description"], obj.description)
         self.assertEqual(results["link"], obj.link)
         self.assertEqual(
-            results["imageUrl"], "http://testserver/media/" + str(obj.imageUrl)
+            results["image_url"],
+            "http://testserver/media/" + str(obj.image_url),
         )
 
     def test_places_info_field_context(self):
