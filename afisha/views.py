@@ -44,6 +44,12 @@ class EventParticipantViewSet(CreateListDestroyMixin, GenericViewSet):
 
 
 class EventAPIView(generics.ListAPIView):
+    """Lists all not finished events in user's city.
+
+    Could be filtered by month's number. Supports multiple comma seppareted
+    values.
+    """
+
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [filters.DjangoFilterBackend]
@@ -56,6 +62,8 @@ class EventAPIView(generics.ListAPIView):
 
 
 class MonthAPIView(views.APIView):
+    """List of months when there's non finished event in users's city."""
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
