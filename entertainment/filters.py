@@ -17,3 +17,10 @@ class VideoFilter(filters.FilterSet):
         queryset=VideoTag.objects.all(),
         to_field_name="slug",
     )
+
+
+class ArticleFilter(filters.FilterSet):
+    isMain = filters.BooleanFilter(
+        field_name="is_main",
+        lookup_expr="icontains",
+    )
