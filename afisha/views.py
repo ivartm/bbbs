@@ -1,10 +1,10 @@
-from afisha.filters import EventFilter
 import calendar
 
 from django.contrib.auth import get_user_model
 from django.db.models.functions import ExtractMonth
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django_filters import rest_framework as filters
 from rest_framework import generics, views
 from rest_framework.mixins import (
     CreateModelMixin,
@@ -14,10 +14,9 @@ from rest_framework.mixins import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
+from afisha.filters import EventFilter
 from afisha.models import Event, EventParticipant
 from afisha.serializers import EventParticipantSerializer, EventSerializer
-
-from django_filters import rest_framework as filters
 
 User = get_user_model()
 
