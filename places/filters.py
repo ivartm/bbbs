@@ -5,7 +5,21 @@ from common.models import City
 from places.models import PlaceTag
 
 
-class PlaceFilter(filters.FilterSet):
+class CityRequiredFilterSet(filters.FilterSet):
+    @property
+    def qs(self):
+        parent = super().qs
+        user = getattr(self.request, "user", None)
+        if user.is_authenticated:
+            city = user.profile.city
+            return parent.filter(city=city)
+        city_id = self.request.query_params.get("city", None)
+        if not city_id:
+            raise CityNotSelected
+        return parent
+
+
+class PlaceFilter(CityRequiredFilterSet):
     """By tags and city filter with request inspecting logic.
 
     By request basis the filter do:
@@ -26,33 +40,9 @@ class PlaceFilter(filters.FilterSet):
         to_field_name="slug",
     )
 
-    @property
-    def qs(self):
-        parent = super().qs
-        user = getattr(self.request, "user", None)
-        if user.is_authenticated:
-            city = user.profile.city
-            return parent.filter(city=city)
-        city_id = self.request.query_params.get("city", None)
-        if not city_id:
-            raise CityNotSelected
-        return parent
 
-
-class PlaceTagFilter(filters.FilterSet):
+class PlaceTagFilter(CityRequiredFilterSet):
     city = filters.ModelChoiceFilter(
         field_name="places__city",
         queryset=City.objects.all(),
     )
-
-    @property
-    def qs(self):
-        parent = super().qs
-        user = getattr(self.request, "user", None)
-        if user.is_authenticated:
-            city = user.profile.city
-            return parent.filter(places__city=city)
-        city_id = self.request.query_params.get("city", None)
-        if not city_id:
-            raise CityNotSelected
-        return parent
