@@ -25,6 +25,8 @@ class QuestionsAPIView(ListCreateAPIView):
 class QuestionsTagAPIView(ListAPIView):
     """Returns only QuestionTags that used in questions."""
 
-    queryset = QuestionTag.objects.exclude(questions=None).order_by("id")
+    queryset = (
+        QuestionTag.objects.exclude(questions=None).distinct().order_by("id")
+    )
     serializer_class = QuestionTagSerializer
     permission_classes = [AllowAny]

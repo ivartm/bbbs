@@ -58,7 +58,7 @@ class MoviesView(ListDetailApiView):
 class VideoTagsView(ListDetailApiView):
     """Returns only VideoTags that used in Video objects."""
 
-    queryset = VideoTag.objects.exclude(videos=None).order_by("id")
+    queryset = VideoTag.objects.exclude(videos=None).distinct().order_by("id")
     serializer_class = VideoTagSerializer
 
 
@@ -76,7 +76,7 @@ class VideoView(ListDetailApiView):
 class BooksTagsView(ListViewSet):
     """Returns only BookTags that used in Book objects."""
 
-    queryset = BookTag.objects.exclude(books=None).order_by("id")
+    queryset = BookTag.objects.exclude(books=None).distinct().order_by("id")
     serializer_class = BookTagSerializer
 
 
@@ -93,6 +93,7 @@ class BooksView(ListViewSet):
 
 class ArticlesView(ListDetailApiView):
     serializer_class = ArticleSerializer
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
         queryset = Article.objects.all().order_by("id")

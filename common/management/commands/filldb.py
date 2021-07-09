@@ -11,9 +11,12 @@ from entertainment.factories import (
     BookFactory,
     BookTagFactory,
     GuideFactory,
+    MovieFactory,
+    MovieTagFactory,
     VideoFactory,
     VideoTagFactory,
 )
+from main.factories import MainFactory
 from places.factories import PlaceFactory, PlacesTagFactory
 from questions.factories import (
     QuestionFactory,
@@ -21,6 +24,7 @@ from questions.factories import (
     QuestionTagFactory,
 )
 from rights.factories import RightFactory, RightTagFactory
+from story.factories import StoryFactory
 from users.factories import CuratorFactory, UserFactory
 
 CITIES = [
@@ -83,6 +87,14 @@ class AllFactories:
     def create_guide(self, arg):
         GuideFactory.create_batch(arg)
 
+    def create_movietag(self, arg):
+        MovieTagFactory.create_batch(arg)
+
+    def create_movie(self, arg):
+        for _ in range(arg):
+            num_tags = random.randint(1, 5)
+            MovieFactory.create(tags__num=num_tags)
+
     def create_meeting(self, arg):
         MeetingFactory.create_batch(arg)
 
@@ -97,13 +109,17 @@ class AllFactories:
             num_tags = random.randint(1, 5)
             BookFactory.create(tags__num=num_tags)
 
-    def create_videotag(arg):
+    def create_videotag(self, arg):
         VideoTagFactory.create_batch(arg)
 
     def create_video(self, arg):
         for _ in range(arg):
             num_tags = random.randint(1, 5)
             VideoFactory.create(tags__num=num_tags)
+
+    def create_history(self, arg):
+        for _ in range(arg):
+            StoryFactory.create()
 
 
 allfactories = AllFactories()
@@ -122,12 +138,15 @@ OPTIONS_AND_FINCTIONS = {
     "placetag": allfactories.create_placetag,
     "place": allfactories.create_place,
     "guide": allfactories.create_guide,
+    "movietag": allfactories.create_movietag,
+    "movie": allfactories.create_movie,
     "meeting": allfactories.create_meeting,
     "article": allfactories.create_article,
     "booktag": allfactories.create_booktag,
     "book": allfactories.create_book,
     "videotag": allfactories.create_videotag,
     "video": allfactories.create_video,
+    "history": allfactories.create_history,
 }
 
 
@@ -238,6 +257,20 @@ class Command(BaseCommand):
             required=False,
         )
         parser.add_argument(
+            "--movietag",
+            nargs=1,
+            type=int,
+            help="Creates MovieTag objects",
+            required=False,
+        )
+        parser.add_argument(
+            "--movie",
+            nargs=1,
+            type=int,
+            help=("Creates Movie object with at least 1 MovieTag object"),
+            required=False,
+        ),
+        parser.add_argument(
             "--meeting",
             nargs=1,
             type=int,
@@ -277,6 +310,13 @@ class Command(BaseCommand):
             nargs=1,
             type=int,
             help="Create Video object with at least 1 VideoTag related object",
+            required=False,
+        )
+        parser.add_argument(
+            "--history",
+            nargs=1,
+            type=int,
+            help="Create History object",
             required=False,
         )
 
@@ -338,6 +378,12 @@ class Command(BaseCommand):
 
                     GuideFactory.create_batch(50)
 
+                    MovieTagFactory.create_batch(15)
+
+                    for _ in range(30):
+                        num_tags = random.randint(1, 5)
+                        MovieFactory.create(tags=num_tags)
+
                     MeetingFactory.create_batch(50)
 
                     ArticleFactory.create_batch(50)
@@ -353,6 +399,11 @@ class Command(BaseCommand):
                     for _ in range(30):
                         num_tags = random.randint(1, 5)
                         VideoFactory.create(tags__num=num_tags)
+
+                    for _ in range(30):
+                        StoryFactory.create()
+
+                    MainFactory.create()
 
                 self.stdout.write(
                     self.style.SUCCESS("The database is filled with test data")

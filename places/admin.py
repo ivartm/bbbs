@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.utils.html import format_html
 
+from common.utils.mixins import AdminPreview
 from places.models import Place, PlaceTag
 from users.utils import (
     AdminAndModerGenPermissionsMixin,
@@ -8,7 +8,9 @@ from users.utils import (
 )
 
 
-class PlaceAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
+class PlaceAdmin(
+    AdminAndModerGenPermissionsMixin, AdminPreview, admin.ModelAdmin
+):
     list_display = (
         "id",
         "published",
@@ -27,26 +29,6 @@ class PlaceAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     filter_horizontal = ("tags",)
     list_filter = ("published", "age", "gender", "activity_type", "city")
     search_fields = ("title",)
-
-    def image_change_preview(self, obj):
-        if obj.imageUrl:
-            return format_html(
-                '<img src="{}" width="600" height="300" />'.format(
-                    obj.imageUrl.url
-                )
-            )
-
-    image_change_preview.short_description = "Превью"
-
-    def image_list_preview(self, obj):
-        if obj.imageUrl:
-            return format_html(
-                '<img src="{}" width="100" height="50" />'.format(
-                    obj.imageUrl.url
-                )
-            )
-
-    image_list_preview.short_description = "Картинка"
 
 
 class PlaceTagAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):

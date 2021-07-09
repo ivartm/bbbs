@@ -38,11 +38,64 @@ class Guide(models.Model):
 
 
 class MovieTag(models.Model):
-    pass
+    name = models.CharField(
+        verbose_name="Название тега", max_length=50, unique=True, null=True
+    )
+    slug = models.SlugField(
+        verbose_name="Адрес тега", max_length=50, unique=True, null=True
+    )
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Тег (Фильмы)"
+        verbose_name_plural = "Теги (Фильмы)"
+
+    def __str__(self):
+        return self.name
 
 
 class Movie(models.Model):
-    pass
+    tags = models.ManyToManyField(
+        MovieTag,
+        related_name="movies",
+        verbose_name="Теги",
+        blank=False,
+    )
+    title = models.CharField(
+        null=True,
+        blank=False,
+        max_length=100,
+        unique=True,
+        verbose_name="Название фильма",
+    )
+    preview = models.ImageField(
+        blank=True,
+        verbose_name="Картинка к фильму",
+        upload_to="entertainment/movies/",
+    )
+    info = models.TextField(verbose_name="Информация о фильме", null=True)
+    description = models.TextField(verbose_name="Описание фильма", null=True)
+    link = models.URLField(
+        verbose_name="Ссылка на фильм",
+        null=True,
+        blank=False,
+        max_length=250,
+        unique=True,
+    )
+    duration = models.DurationField(
+        null=True, verbose_name="Продолжительность фильма"
+    )
+
+    class Meta:
+        verbose_name = "Фильм"
+        verbose_name_plural = "Фильмы"
+        ordering = ["id"]
+
+    def __str__(self):
+        return self.title
 
 
 class VideoTag(models.Model):
@@ -84,6 +137,14 @@ class Video(models.Model):
     author = models.CharField(max_length=200, verbose_name="Автор")
     pubDate = models.DateTimeField(
         verbose_name="Дата создания", auto_now_add=True
+    )
+    preview = models.ImageField(
+        blank=True,
+        verbose_name="Картинка к видео",
+        upload_to="entertainment/videos/",
+    )
+    duration = models.DurationField(
+        null=True, verbose_name="Продолжительность видео"
     )
 
     class Meta:
@@ -150,6 +211,10 @@ class Book(models.Model):
 
 
 class Article(models.Model):
+    isMain = models.BooleanField(
+        verbose_name="Основная статья",
+        default=False,
+    )
     title = models.CharField(
         max_length=200,
         unique=True,
@@ -176,3 +241,20 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+
+        is_main = Article.objects.filter(isMain=True).first()
+        if is_main != self and self.isMain and is_main:
+            raise ValidationError(
+                "Чтобы выбрать данную статью, "
+                "необходимо деактивировать "
+                f"статью №{is_main.pk}"
+            )
+
+    def save(self, *args, **kwargs):
+        is_main = Article.objects.filter(isMain=True)
+        if is_main.exists() and is_main.first() != self:
+            self.isMain = False
+        super().save(*args, **kwargs)

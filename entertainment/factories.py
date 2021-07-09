@@ -1,10 +1,20 @@
 import random
+from datetime import timedelta
 
 import factory
 import pytz
 from faker import Faker
 
-from entertainment.models import Article, Book, BookTag, Guide, Video, VideoTag
+from entertainment.models import (
+    Article,
+    Book,
+    BookTag,
+    Guide,
+    Movie,
+    MovieTag,
+    Video,
+    VideoTag,
+)
 
 fake = Faker(["ru-RU"])
 
@@ -33,11 +43,73 @@ class GuideFactory(factory.django.DjangoModelFactory):
     )
 
 
+class MovieTagFactory(factory.django.DjangoModelFactory):
+    """This factory creates movies' tags."""
+
+    class Meta:
+        model = MovieTag
+
+    name = factory.Sequence(lambda n: fake.unique.word())
+
+
+class MovieFactory(factory.django.DjangoModelFactory):
+    """This factory creates Movies."""
+
+    class Meta:
+        model = Movie
+        django_get_or_create = ["title"]
+
+    title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=7))
+    description = factory.Sequence(lambda n: fake.unique.sentence(nb_words=50))
+    info = factory.Sequence(lambda n: fake.unique.sentence(nb_words=50))
+    link = factory.Sequence(lambda n: f"http://fakebooks.bbbs/movie-{n + 1}/")
+    preview = factory.django.ImageField(
+        color=factory.LazyFunction(
+            lambda: random.choice(["blue", "yellow", "green", "orange"])
+        ),
+        width=factory.LazyFunction(lambda: random.randint(10, 1000)),
+        height=factory.SelfAttribute("width"),
+    )
+
+    @factory.post_generation
+    def tags(self, created, extracted, **kwargs):
+        if not created:
+            return
+
+        at_least = 1
+        how_many = extracted or at_least
+
+        tags_count = MovieTag.objects.count()
+        how_many = min(tags_count, how_many)
+
+        tags = MovieTag.objects.order_by("?")[:how_many]
+        self.tags.add(*tags)
+
+    @factory.post_generation
+    def duration(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            duration = extracted
+            self.duration = duration
+            return
+
+        hours = random.randint(0, 2)
+        minutes = random.randint(3, 59)
+        seconds = random.randint(0, 59)
+
+        self.duration = timedelta(
+            hours=hours, minutes=minutes, seconds=seconds
+        )
+
+
 class ArticleFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Article
         django_get_or_create = ["title"]
 
+    isMain = False
     title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=3))
     author = factory.Sequence(lambda n: fake.unique.name())
     profession = factory.Sequence(lambda n: fake.unique.sentence(nb_words=3))
@@ -124,6 +196,13 @@ class VideoFactory(factory.django.DjangoModelFactory):
         after_now=True,
         tzinfo=pytz.UTC,
     )
+    preview = factory.django.ImageField(
+        color=factory.LazyFunction(
+            lambda: random.choice(["blue", "yellow", "green", "orange"])
+        ),
+        width=factory.LazyFunction(lambda: random.randint(10, 1000)),
+        height=factory.SelfAttribute("width"),
+    )
     link = factory.Sequence(lambda n: f"http://fakevideos.bbbs/{n}/")
 
     @factory.post_generation
@@ -145,3 +224,18 @@ class VideoFactory(factory.django.DjangoModelFactory):
 
         tags = VideoTag.objects.order_by("?")[:how_many]
         self.tags.add(*tags)
+
+    @factory.post_generation
+    def duration(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            duration = extracted
+            self.duration = duration
+            return
+
+        minutes = random.randint(3, 59)
+        seconds = random.randint(0, 59)
+
+        self.duration = timedelta(minutes=minutes, seconds=seconds)

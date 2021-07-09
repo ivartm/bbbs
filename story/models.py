@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Story(models.Model):
-    image = models.ImageField(
+    imageUrl = models.ImageField(
         upload_to="stories/",
         verbose_name="Фото",
         help_text="Загрузите фото",

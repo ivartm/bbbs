@@ -14,7 +14,7 @@ class PlacesTagAPIView(generics.ListAPIView):
     If user is unauthenticated the 'city' query param is required.
     """
 
-    queryset = PlaceTag.objects.exclude(places=None).order_by("id")
+    queryset = PlaceTag.objects.exclude(places=None).distinct().order_by("id")
     serializer_class = PlaceTagSerializer
     filter_backends = [DjangoFilterBackend]
     filter_class = PlaceTagFilter
