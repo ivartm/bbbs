@@ -12,13 +12,13 @@ User = get_user_model()
 
 class EventQuerySet(models.QuerySet):
     def with_takenseats(self):
-        return self.annotate(takenSeats=(Count("event_participants")))
+        return self.annotate(taken_seats=(Count("event_participants")))
 
     def not_finished_events(self):
-        return self.filter(endAt__gt=timezone.now())
+        return self.filter(end_at__gt=timezone.now())
 
     def not_started_events(self):
-        return self.filter(startAt__gt=timezone.now())
+        return self.filter(start_at__gt=timezone.now())
 
     def with_booked(self, user: User):
         subquery = EventParticipant.objects.filter(
@@ -58,7 +58,7 @@ class EventQuerySet(models.QuerySet):
         """
         qs = (
             self.not_finished_user_afisha(user=user)
-            .annotate(month_id=ExtractMonth("startAt"))
+            .annotate(month_id=ExtractMonth("start_at"))
             .values_list("month_id", flat=True)
             .distinct()
         )
@@ -72,8 +72,8 @@ class Event(models.Model):
         max_length=200, verbose_name="Название", unique=True
     )
     description = models.TextField(verbose_name="Дополнительная информация")
-    startAt = models.DateTimeField(verbose_name="Начало")
-    endAt = models.DateTimeField(verbose_name="Окончание")
+    start_at = models.DateTimeField(verbose_name="Начало")
+    end_at = models.DateTimeField(verbose_name="Окончание")
     seats = models.PositiveIntegerField(verbose_name="Свободные места")
     city = models.ForeignKey(
         City,
@@ -93,19 +93,19 @@ class Event(models.Model):
         verbose_name_plural = "Мероприятия"
 
     def clean(self):
-        if self.startAt > self.endAt:
+        if self.start_at > self.end_at:
             raise ValidationError(
                 {
-                    "endAt": (
+                    "end_at": (
                         "Проверьте дату окончания мероприятия: "
                         "не может быть меньше даты начала"
                     )
                 }
             )
-        if self.startAt < timezone.now():
+        if self.start_at < timezone.now():
             raise ValidationError(
                 {
-                    "startAt": (
+                    "start_at": (
                         "Проверьте дату начала мероприятия: "
                         "не может быть меньше текущей"
                     )

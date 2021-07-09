@@ -78,6 +78,6 @@ class MeetingViewSet(ModelViewSet):
                 },
             }
             message.send()
-            meeting.sendToCurator = True
+            meeting.send_to_curator = True
             meeting.save()
             return JsonResponse({"success": True}, status=status.HTTP_200_OK)

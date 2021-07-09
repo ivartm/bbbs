@@ -10,15 +10,15 @@ class StoryImagesInline(admin.StackedInline):
 
 
 class StoryAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    list_display = ["title", "prolog", "beginningOfFriendship"]
+    list_display = ["title", "prolog", "beginning_of_friendship"]
     list_filter = [
-        "beginningOfFriendship",
+        "beginning_of_friendship",
     ]
     search_fields = [
         "title",
     ]
     ordering = [
-        "-beginningOfFriendship",
+        "-beginning_of_friendship",
     ]
     inlines = [StoryImagesInline]
 

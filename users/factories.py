@@ -112,7 +112,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 
         user_afisha = Event.afisha_objects.not_finished_user_afisha(user=self)
         not_booked_events = user_afisha.filter(booked=False)
-        events_with_seat = not_booked_events.filter(takenSeats__lt=F("seats"))
+        events_with_seat = not_booked_events.filter(taken_seats__lt=F("seats"))
 
         events_count = events_with_seat.count()
         how_many = min(events_count, extracted)

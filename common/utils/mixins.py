@@ -14,20 +14,20 @@ class AdminPreview:
     """
 
     def image_change_preview(self, obj):
-        if obj.imageUrl:
+        if obj.image_url:
             return format_html(
                 '<img src="{}" width="600" height="300" />'.format(
-                    obj.imageUrl.url
+                    obj.image_url.url
                 )
             )
 
     image_change_preview.short_description = "Превью"
 
     def image_list_preview(self, obj):
-        if obj.imageUrl:
+        if obj.image_url:
             return format_html(
                 '<img src="{}" width="100" height="50" />'.format(
-                    obj.imageUrl.url
+                    obj.image_url.url
                 )
             )
 

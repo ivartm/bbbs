@@ -34,12 +34,12 @@ class Question(models.Model):
         verbose_name="Вопрос", max_length=500, unique=True
     )
     answer = models.TextField(verbose_name="Ответ на вопрос")
-    pubDate = models.DateTimeField(
+    pub_date = models.DateTimeField(
         verbose_name="Дата создания", auto_now_add=True
     )
 
     class Meta:
-        ordering = ("-pubDate",)
+        ordering = ("-pub_date",)
         verbose_name = "Вопрос"
         verbose_name_plural = "Вопросы"
 

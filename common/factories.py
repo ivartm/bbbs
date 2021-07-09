@@ -48,4 +48,6 @@ class MeetingFactory(factory.django.DjangoModelFactory):
     date = factory.Faker(
         "date",
     )
-    sendToCurator = factory.LazyFunction(lambda: random.choice([False, True]))
+    send_to_curator = factory.LazyFunction(
+        lambda: random.choice([False, True])
+    )

@@ -20,8 +20,8 @@ class EventModelTest(TestCase):
 
     def test_event_endat_cant_be_less_startat(self):
         event = EventFactory(
-            startAt=EventModelTest.future,
-            endAt=EventModelTest.tomorrow,
+            start_at=EventModelTest.future,
+            end_at=EventModelTest.tomorrow,
         )
 
         with self.assertRaisesMessage(
@@ -35,7 +35,7 @@ class EventModelTest(TestCase):
 
     def test_event_startat_cant_be_less_today(self):
         event = EventFactory(
-            startAt=EventModelTest.past,
+            start_at=EventModelTest.past,
         )
 
         with self.assertRaisesMessage(

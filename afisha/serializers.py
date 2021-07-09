@@ -8,7 +8,7 @@ from users.models import Profile
 
 class EventSerializer(serializers.ModelSerializer):
     booked = serializers.BooleanField(read_only=True)
-    takenSeats = serializers.IntegerField(read_only=True)
+    taken_seats = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Event
@@ -26,9 +26,9 @@ class EventParticipantSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         user = request.user
         profile = get_object_or_404(Profile, user=user)
-        takenSeats = event.event_participants.count()
+        taken_seats = event.event_participants.count()
         seats = event.seats
-        end_event = event.endAt
+        end_event = event.end_at
         if request.method == "POST":
             if event.city != profile.city:
                 raise serializers.ValidationError(
@@ -38,7 +38,7 @@ class EventParticipantSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     {"message": "Мероприятие уже закончилось."}
                 )
-            if takenSeats >= seats:
+            if taken_seats >= seats:
                 raise serializers.ValidationError(
                     {"message": "Извините, мест больше нет."}
                 )

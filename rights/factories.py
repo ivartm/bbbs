@@ -86,7 +86,7 @@ class RightFactory(factory.django.DjangoModelFactory):
         nb_sentences=1,
         variable_nb_sentences=True,
     )
-    imageUrl = factory.django.ImageField(
+    image_url = factory.django.ImageField(
         color=factory.Faker("color_name", locale="en_US")
     )
 

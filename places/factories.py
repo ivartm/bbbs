@@ -65,7 +65,7 @@ class PlaceFactory(factory.django.DjangoModelFactory):
         lambda: random.choice(Place.ActivityTypes.choices)[0]
     )
     description = factory.Faker("text")
-    imageUrl = factory.django.ImageField(
+    image_url = factory.django.ImageField(
         color=factory.LazyFunction(
             lambda: random.choice(["blue", "yellow", "green", "orange"])
         ),

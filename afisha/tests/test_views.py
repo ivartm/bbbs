@@ -177,8 +177,8 @@ class ViewAfishaTests(APITestCase):
         user = ViewAfishaTests.mentor
         event = EventFactory(
             city=user.profile.city,
-            startAt=datetime(2019, 1, 1, tzinfo=pytz.utc),
-            endAt=datetime(2020, 1, 1, tzinfo=pytz.utc),
+            start_at=datetime(2019, 1, 1, tzinfo=pytz.utc),
+            end_at=datetime(2020, 1, 1, tzinfo=pytz.utc),
         )
 
         client = self.return_authorized_user_client(user)
@@ -331,8 +331,8 @@ class ViewAfishaTests(APITestCase):
         with freeze_time("2010-01-01"):
             EventFactory(
                 city=user.profile.city,
-                startAt=datetime(2011, 1, 1, tzinfo=pytz.utc),
-                endAt=datetime(2012, 1, 1, tzinfo=pytz.utc),
+                start_at=datetime(2011, 1, 1, tzinfo=pytz.utc),
+                end_at=datetime(2012, 1, 1, tzinfo=pytz.utc),
             )
             num_events = Event.objects.count()
             self.assertEqual(
@@ -357,8 +357,8 @@ class ViewAfishaTests(APITestCase):
         with freeze_time("2020-01-01"):
             EventFactory(
                 city=user.profile.city,
-                startAt=datetime(2020, 2, 1, tzinfo=pytz.utc),
-                endAt=datetime(2020, 12, 1, tzinfo=pytz.utc),
+                start_at=datetime(2020, 2, 1, tzinfo=pytz.utc),
+                end_at=datetime(2020, 12, 1, tzinfo=pytz.utc),
             )
             num_events = Event.objects.count()
             self.assertEqual(
