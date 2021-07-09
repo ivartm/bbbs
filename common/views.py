@@ -1,10 +1,7 @@
 from django.conf import settings
 from django.core.mail import EmailMessage
-from django.db.models import CharField, Value
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from petrovich.enums import Case
-from petrovich.main import Petrovich
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView
@@ -47,24 +44,7 @@ class MeetingViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        if user.profile.curator is not None:
-            change_ending = Petrovich()
-            name = (
-                change_ending.firstname(
-                    value=user.profile.curator.first_name,
-                    case=Case.DATIVE,
-                    # gender=user.profile.curator.gender,
-                )
-                + " "
-                + user.profile.curator.last_name[0]
-                + "."
-            )
-            queryset = Meeting.objects.filter(user=user).annotate(
-                name=Value(name, output_field=CharField())
-            )
-        else:
-            queryset = Meeting.objects.filter(user=user)
-        return queryset
+        return Meeting.objects.filter(user=user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
