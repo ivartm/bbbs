@@ -58,7 +58,7 @@ class Meeting(models.Model):
 
     place = models.CharField(max_length=200)
     date = models.DateField(verbose_name="Дата", blank=True)
-    sendToCurator = models.BooleanField(default=False)
+    send_to_curator = models.BooleanField(default=False)
 
     class Meta:
         ordering = ("-date",)

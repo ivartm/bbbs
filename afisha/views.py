@@ -58,7 +58,7 @@ class EventAPIView(generics.ListAPIView):
     def get_queryset(self):
         user = get_object_or_404(User, id=self.request.user.id)
         queryset = Event.afisha_objects.not_finished_user_afisha(user=user)
-        return queryset.order_by("startAt")
+        return queryset.order_by("start_at")
 
 
 class MonthAPIView(generics.GenericAPIView):

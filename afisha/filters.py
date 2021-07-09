@@ -30,6 +30,6 @@ class CitySelectFilter(admin.SimpleListFilter):
 
 class EventFilter(filters.FilterSet):
     month = NumberInFilter(
-        field_name="startAt__month",
+        field_name="start_at__month",
         lookup_expr="in",
     )

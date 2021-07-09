@@ -24,13 +24,13 @@ class ViewArticlesTests(APITestCase):
 
         fields = [
             "id",
-            "isMain",
+            "is_main",
             "title",
             "author",
             "profession",
             "text",
             "color",
-            "imageUrl",
+            "image_url",
         ]
         results = response.get("results")[0]
         for field in fields:
@@ -47,14 +47,15 @@ class ViewArticlesTests(APITestCase):
         obj = Article.objects.get(pk=1)
 
         self.assertEqual(results["id"], obj.pk)
-        self.assertEqual(results["isMain"], obj.isMain)
+        self.assertEqual(results["is_main"], obj.is_main)
         self.assertEqual(results["title"], obj.title)
         self.assertEqual(results["author"], obj.author)
         self.assertEqual(results["profession"], obj.profession)
         self.assertEqual(results["text"], obj.text)
         self.assertEqual(results["color"], obj.color)
         self.assertEqual(
-            results["imageUrl"], "http://testserver/media/" + str(obj.imageUrl)
+            results["image_url"],
+            "http://testserver/media/" + str(obj.image_url),
         )
 
     def test_article_detail_fields(self):
@@ -63,13 +64,13 @@ class ViewArticlesTests(APITestCase):
         response = client.get(ViewArticlesTests.path_articles + "1/").data
         fields = [
             "id",
-            "isMain",
+            "is_main",
             "title",
             "author",
             "profession",
             "text",
             "color",
-            "imageUrl",
+            "image_url",
         ]
 
         for field in fields:
@@ -84,15 +85,15 @@ class ViewArticlesTests(APITestCase):
         obj = Article.objects.get(pk=1)
 
         self.assertEqual(response["id"], obj.pk)
-        self.assertEqual(response["isMain"], obj.isMain)
+        self.assertEqual(response["is_main"], obj.is_main)
         self.assertEqual(response["title"], obj.title)
         self.assertEqual(response["author"], obj.author)
         self.assertEqual(response["profession"], obj.profession)
         self.assertEqual(response["text"], obj.text)
         self.assertEqual(response["color"], obj.color)
         self.assertEqual(
-            response["imageUrl"],
-            "http://testserver/media/" + str(obj.imageUrl),
+            response["image_url"],
+            "http://testserver/media/" + str(obj.image_url),
         )
 
     def test_articles_allowed_methods(self):

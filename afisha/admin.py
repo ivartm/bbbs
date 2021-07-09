@@ -16,13 +16,13 @@ class EventAdmin(AdminAndModersPermissionsMixin, admin.ModelAdmin):
         "contact",
         "title",
         "description",
-        "startAt",
-        "endAt",
+        "start_at",
+        "end_at",
         "seats",
     )
     list_filter = (
         CitySelectFilter,
-        "startAt",
+        "start_at",
     )
     empty_value_display = "-пусто-"
     search_fields = ("title",)
@@ -41,10 +41,10 @@ class EventAdmin(AdminAndModersPermissionsMixin, admin.ModelAdmin):
         if request.user.profile.is_moderator_reg:
             form.base_fields["city"].queryset = request.user.profile.region
         form.base_fields[
-            "startAt"
+            "start_at"
         ].help_text = "Время и дата указываются в формате местного времени"
         form.base_fields[
-            "endAt"
+            "end_at"
         ].help_text = "Время и дата указываются в формате местного времени"
         return form
 

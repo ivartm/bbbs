@@ -5,18 +5,22 @@ from users.utils import AdminAndModerGenPermissionsMixin
 
 
 class QuestionAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    list_display = ["question", "answer", "pubDate"]
+    list_display = [
+        "question",
+        "answer",
+        "pub_date",
+    ]
     list_filter = [
         "tags",
-        "pubDate",
+        "pub_date",
     ]
     search_fields = [
         "question",
     ]
-    filter_horizontal = ("tags",)
+    filter_horizontal = ["tags"]
     ordering = [
         "answer",
-        "-pubDate",
+        "-pub_date",
     ]
 
 
@@ -32,7 +36,7 @@ class QuestionTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     prepopulated_fields = {
         "slug": ["name"],
     }
-    ordering = ("name",)
+    ordering = ["name"]
 
 
 admin.site.register(Question, QuestionAdmin)

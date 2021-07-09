@@ -41,7 +41,7 @@ class VideoTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
 
 
 class VideoAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    list_display = ("title", "author", "pubDate")
+    list_display = ("title", "author", "pub_date")
 
 
 class BookTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
@@ -58,7 +58,7 @@ class ArticleAdmin(
     list_display = (
         "id",
         "title",
-        "isMain",
+        "is_main",
         "image_list_preview",
     )
     readonly_fields = ("image_change_preview",)
