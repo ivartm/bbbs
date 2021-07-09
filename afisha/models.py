@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Count, Exists, OuterRef, UniqueConstraint
+from django.db.models.functions import ExtractMonth
 from django.utils import timezone
 
 from common.models import City
@@ -49,6 +50,20 @@ class EventQuerySet(models.QuerySet):
         qs = qs.with_booked(user=user)
         return qs
 
+    def user_afisha_months(self, user: User):
+        """Returns valuesQuerySet of months of user's events.
+
+        Assumes that user's afisha is list of not finished events, but they may
+        have been started.
+        """
+        qs = (
+            self.not_finished_user_afisha(user=user)
+            .annotate(month_id=ExtractMonth("startAt"))
+            .values_list("month_id", flat=True)
+            .distinct()
+        )
+        return qs
+
 
 class Event(models.Model):
     address = models.CharField(max_length=200, verbose_name="Адрес")
@@ -74,7 +89,6 @@ class Event(models.Model):
         return self.title
 
     class Meta:
-        ordering = ["startAt"]
         verbose_name = "Мероприятие"
         verbose_name_plural = "Мероприятия"
 

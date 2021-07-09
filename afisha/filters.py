@@ -1,6 +1,11 @@
 from django.contrib import admin
+from django_filters import rest_framework as filters
 
 from common.models import City
+
+
+class NumberInFilter(filters.BaseInFilter, filters.NumberFilter):
+    pass
 
 
 class CitySelectFilter(admin.SimpleListFilter):
@@ -21,3 +26,10 @@ class CitySelectFilter(admin.SimpleListFilter):
         if self.value():
             return queryset.filter(city_id=self.value())
         return queryset
+
+
+class EventFilter(filters.FilterSet):
+    month = NumberInFilter(
+        field_name="startAt__month",
+        lookup_expr="in",
+    )
