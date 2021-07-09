@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from common.utils.mixins import AdminPreview
 from places.models import Place, PlaceTag
 from users.utils import (
