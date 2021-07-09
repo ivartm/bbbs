@@ -26,7 +26,7 @@ SMALL_GIF = (
 DESCRIPTION = "Test"
 TAG = "tag"
 URL_IMAGE = "meetings/small.gif"
-DATA = "2020-10-10"
+DATA = "2020-01-10"
 PLACE = "Test"
 PLACE2 = "Test2"
 
