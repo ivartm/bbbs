@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
-from rest_framework import generics, status, views
+from rest_framework import generics, status
 from rest_framework.mixins import (
     CreateModelMixin,
     DestroyModelMixin,
@@ -61,8 +61,8 @@ class EventAPIView(generics.ListAPIView):
         return queryset.order_by("startAt")
 
 
-class MonthAPIView(views.APIView):
-    """List of months when there's non finished event in users's city."""
+class MonthAPIView(generics.GenericAPIView):
+    """List of months with at least one non finished event in users's city."""
 
     permission_classes = [IsAuthenticated]
 
