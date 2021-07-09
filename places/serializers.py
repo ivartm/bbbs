@@ -32,6 +32,7 @@ class PlaceSerializer(serializers.ModelSerializer):
         exclude = ["published"]
 
     def create(self, validated_data):
+        validated_data["chosen"] = True
         return Place.objects.create(**validated_data)
 
     def get_gender(self, obj):

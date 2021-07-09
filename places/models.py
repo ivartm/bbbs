@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy
 
@@ -37,7 +38,7 @@ class Place(models.Model):
         default=False,
     )
     published = models.BooleanField(
-        verbose_name="Отображение на странице",
+        verbose_name="Опубликован",
         default=False,
     )
     title = models.CharField(
@@ -60,7 +61,10 @@ class Place(models.Model):
         blank=True,
     )
     age = models.PositiveSmallIntegerField(
-        verbose_name="Возраст", null=False, blank=False
+        verbose_name="Возраст",
+        null=False,
+        blank=False,
+        validators=[MaxValueValidator(40)],
     )
     activity_type = models.PositiveSmallIntegerField(
         verbose_name="Тип отдыха",
@@ -82,8 +86,6 @@ class Place(models.Model):
     image_url = models.ImageField(
         verbose_name="Фото",
         help_text="Добавить фото",
-        null=True,
-        blank=True,
         upload_to="places/",
     )
 
