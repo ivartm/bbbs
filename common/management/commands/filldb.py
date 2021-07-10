@@ -101,7 +101,7 @@ class AllFactories:
     def create_article(self, arg):
         ArticleFactory.create_batch(arg)
 
-    def create_booktag(arg):
+    def create_booktag(self, arg):
         BookTagFactory.create_batch(arg)
 
     def create_book(self, arg):
