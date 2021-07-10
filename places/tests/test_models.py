@@ -1,26 +1,18 @@
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.test import TestCase
 
-from common.models import City
-from places.models import Place, PlaceTag
+from common.factories import CityFactory
+from places.factories import PlaceFactory, PlacesTagFactory
 
 
 class PlaceModelTest(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
-        cls.city = City.objects.create(name="Учтюпинск")
-        tag = PlaceTag.objects.create(name="test", slug="test")
-        place = Place.objects.create(
-            activity_type=1,
-            title="123",
-            address="1234",
-            city=cls.city,
-            description="1235",
-            age=10,
-        )
-        place.tags.add(tag)
-        cls.place = place
+        cls.city = CityFactory(name="Учтюпинск")
+        cls.tag = PlacesTagFactory(name="test")
+        cls.place = PlaceFactory(tags=[cls.tag])
 
     def test_place_activity_type_required_field(self):
         place = self.place
@@ -69,3 +61,19 @@ class PlaceModelTest(TestCase):
             ValidationError, msg="Поле tag должно быть обязательным"
         ):
             place.full_clean()
+
+    def test_unique_place_for_city_constraint(self):
+        city = CityFactory()
+        address = "Абонентский ящик АЯ 23"
+        title = "Место 1"
+
+        PlaceFactory(city=city, address=address, title=title)
+
+        with self.assertRaises(
+            IntegrityError,
+            msg=(
+                "Убедитесь, что нельзя создать место с одним названием, "
+                "адресом и городом."
+            ),
+        ):
+            PlaceFactory(city=city, address=address, title=title)
