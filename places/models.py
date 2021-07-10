@@ -93,6 +93,12 @@ class Place(models.Model):
         verbose_name = "Место - куда пойти?"
         verbose_name_plural = "Места - куда пойти?"
         ordering = ("id",)
+        constraints = [
+            models.UniqueConstraint(
+                fields=["title", "address", "city"],
+                name="unique_place_for_city",
+            ),
+        ]
 
     def __str__(self):
         return self.title
