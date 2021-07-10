@@ -13,7 +13,7 @@ router.register(
 
 afisha_urls = [
     path("events/", EventAPIView.as_view(), name="events"),
-    path("events/months", MonthAPIView.as_view(), name="events-months"),
+    path("events/months/", MonthAPIView.as_view(), name="events-months"),
     path("", include(router.urls)),
 ]
 
