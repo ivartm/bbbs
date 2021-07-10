@@ -11,6 +11,9 @@ from places.models import Place
 from users.factories import UserFactory
 from users.models import Profile
 
+PLACES = reverse("places")
+PLACES_TAGS = reverse("places-tags")
+
 TEMP_DIR = tempfile_mkdtemp()
 
 
@@ -39,38 +42,8 @@ class ViewPlacesTests(APITestCase):
             profile__role=Profile.Role.MENTOR,
             profile__city=cls.city,
         )
-        cls.moderator_reg = UserFactory(
-            profile__role=Profile.Role.MODERATOR_REG,
-            profile__city=cls.city,
-        )
-        cls.moderator_gen = UserFactory(
-            profile__role=Profile.Role.MODERATOR_GEN,
-            profile__city=cls.city,
-        )
-        cls.admin = UserFactory(
-            profile__role=Profile.Role.ADMIN,
-            profile__city=cls.city,
-        )
-        PlaceFactory.create_batch(10)
+        PlaceFactory.create_batch(10, city=cls.city)
         cls.unauthorized_client = APIClient()
-
-        cls.authorized_users = [
-            cls.mentor,
-            cls.moderator_reg,
-            cls.moderator_gen,
-            cls.admin,
-        ]
-
-        cls.all_users = [
-            cls.mentor,
-            cls.moderator_reg,
-            cls.moderator_gen,
-            cls.admin,
-            cls.unauthorized_client,
-        ]
-
-        cls.path_places = reverse("places")
-        cls.path_query_places = cls.path_places + f"?city={cls.city.id}"
 
     def return_authorized_user_client(self, user):
         authorized_client = APIClient()
@@ -78,39 +51,52 @@ class ViewPlacesTests(APITestCase):
         return authorized_client
 
     def test_unauthorized_user_required_city_query_param(self):
+        """
+        PLACES and PLACES_TAGS should return error for unath users on GET
+        without 'city' query param.
+        """
         client = ViewPlacesTests.unauthorized_client
 
-        response = client.get(ViewPlacesTests.path_places)
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_422_UNPROCESSABLE_ENTITY,
-            msg=(
-                "Проверьте что неавторизованный пользователь при GET запросе"
-                "places получает ошибку."
-            ),
-        )
+        for path in [PLACES, PLACES_TAGS]:
+            with self.subTest(path):
+                response = client.get(path)
+                self.assertEqual(
+                    response.status_code,
+                    status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    msg=(
+                        f"Проверьте что неавторизованный пользователь при GET "
+                        f"запросе '{path}' получает ошибку."
+                    ),
+                )
 
-    def test_unauthorized_user_with_city_query_param_200(self):
+    def test_unauthorized_user_with_city_query_param_receive_200(self):
+        """
+        PLACES and PLACES_TAGS should return HTTP_200_OK for unath users on GET
+        with 'city' query param.
+        """
         client = ViewPlacesTests.unauthorized_client
-        query_param = {"city": 1}
+        query_param = {"city": ViewPlacesTests.city.id}
 
-        response = client.get(ViewPlacesTests.path_places, query_param)
+        for path in [PLACES, PLACES_TAGS]:
+            with self.subTest(path):
+                response = client.get(path, query_param)
 
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_200_OK,
-            msg=(
-                "Проверьте что неавторизованный пользователь если указал в"
-                "GET запросе query param 'city', то получит результат."
-            ),
-        )
+                self.assertEqual(
+                    response.status_code,
+                    status.HTTP_200_OK,
+                    msg=(
+                        f"Проверьте что GET запросы к '{path}' с query "
+                        f"параметром 'city' от неавторизованных пользователей"
+                        f"возвращаются без ошибок."
+                    ),
+                )
 
     def test_places_is_paginated(self):
         """Looks for fields that should be in paginated responses"""
         user = ViewPlacesTests.mentor
         client = self.return_authorized_user_client(user=user)
 
-        response = client.get(ViewPlacesTests.path_places).data
+        response = client.get(PLACES).data
 
         self.assertTrue("count" in response)
         self.assertTrue("next" in response)
@@ -119,8 +105,9 @@ class ViewPlacesTests(APITestCase):
 
     def test_places_correct_fields_unauthorized_client(self):
         client = ViewPlacesTests.unauthorized_client
+        query_param = {"city": ViewPlacesTests.city.id}
 
-        response = client.get(ViewPlacesTests.path_query_places).data
+        response = client.get(PLACES, query_param).data
 
         fields = [
             "id",
@@ -143,7 +130,7 @@ class ViewPlacesTests(APITestCase):
         user = ViewPlacesTests.mentor
         client = self.return_authorized_user_client(user)
 
-        response = client.get(ViewPlacesTests.path_places).data
+        response = client.get(PLACES).data
 
         fields = [
             "id",
@@ -166,7 +153,7 @@ class ViewPlacesTests(APITestCase):
         user = ViewPlacesTests.mentor
         client = self.return_authorized_user_client(user)
 
-        response = client.get(ViewPlacesTests.path_places).data
+        response = client.get(PLACES).data
         self.assertEqual(response["count"], 10)
 
         results = response.get("results")[0]
@@ -195,7 +182,7 @@ class ViewPlacesTests(APITestCase):
         obj_non_gender.save()
 
         obj = Place.objects.get(id=3)
-        response = client.get(ViewPlacesTests.path_places).data
+        response = client.get(PLACES).data
         results = response["results"]
         self.assertEqual(
             results[0]["info"],
@@ -221,7 +208,7 @@ class ViewPlacesTests(APITestCase):
         obj = Place.objects.get(pk=1)
         obj.tags.add(tag)
         obj.save()
-        response = client.get(ViewPlacesTests.path_places).data
+        response = client.get(PLACES).data
         results = response["results"][0]["tags"][0]["name"]
         self.assertTrue(str(tag) in results)
 
@@ -238,7 +225,7 @@ class ViewPlacesTests(APITestCase):
             "image_url": image,
         }
         response = client.post(
-            path=ViewPlacesTests.path_places,
+            path=PLACES,
             data=place,
             format="multipart",
         )
@@ -259,7 +246,7 @@ class ViewPlacesTests(APITestCase):
             "image_url": image,
         }
         response = client.post(
-            path=ViewPlacesTests.path_places,
+            path=PLACES,
             data=place,
             format="multipart",
         )
@@ -275,7 +262,5 @@ class ViewPlacesTests(APITestCase):
     def test_places_post_empty_data(self):
         user = ViewPlacesTests.mentor
         client = self.return_authorized_user_client(user)
-        response = client.post(
-            path=ViewPlacesTests.path_places,
-        )
+        response = client.post(path=PLACES)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
