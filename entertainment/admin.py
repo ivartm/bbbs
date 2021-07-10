@@ -32,8 +32,32 @@ class MovieTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     pass
 
 
-class MovieAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    pass
+class MovieAdmin(
+    AdminAndModerGenPermissionsMixin, AdminPreview, admin.ModelAdmin
+):
+    list_display = (
+        "id",
+        "title",
+        "image_list_preview",
+    )
+    readonly_fields = (
+        "image_change_preview",
+        "image_url",
+    )
+
+    def get_fields(self, request, obj=None):
+        if obj is None:
+            fields = [
+                "tags",
+                "link",
+                "title",
+                "producer",
+                "year",
+                "description",
+                "duration",
+            ]
+            return fields
+        return super().get_fields(request, obj)
 
 
 class VideoTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
