@@ -149,6 +149,36 @@ class ViewPlacesTests(APITestCase):
             with self.subTest(field=field):
                 self.assertTrue(field in results, msg=f"Нет поля {field}")
 
+    def test_duplicate_place_for_city_cannot_be_created(self):
+        """Error should return when try to post existed place."""
+        user = ViewPlacesTests.mentor
+        existed_place = PlaceFactory()
+        client = self.return_authorized_user_client(user)
+
+        data = {
+            "activity_type": 1,
+            "address": existed_place.address,
+            "age": 25,
+            "city": existed_place.city.id,
+            "image_url": get_temporary_image(),
+            "title": existed_place.address,
+        }
+
+        response = client.post(
+            path=PLACES,
+            data=data,
+            format="multipart",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_400_BAD_REQUEST,
+            msg=(
+                "Проверьте, что при попытке создать событие с одинаковым "
+                "адресом, названием и городом возвращается ошибка 400."
+            ),
+        )
+
     def test_places_list_context(self):
         user = ViewPlacesTests.mentor
         client = self.return_authorized_user_client(user)
@@ -217,7 +247,6 @@ class ViewPlacesTests(APITestCase):
         client = ViewPlacesTests.unauthorized_client
         place = {
             "activity_type": 1,
-            "chosen": False,
             "title": "123",
             "address": "1234",
             "city": ViewPlacesTests.city.id,

@@ -37,3 +37,20 @@ class PlaceSerializer(serializers.ModelSerializer):
 
     def get_gender(self, obj):
         return obj.get_gender_display()
+
+    def validate(self, data):
+        request = self.context.get("request")
+        if request.method == "POST":
+            address = data.get("address")
+            title = data.get("title")
+            city = data.get("city")
+
+            is_place_exist = Place.objects.filter(
+                address=address, title=title, city=city
+            ).exists()
+            if is_place_exist:
+                raise serializers.ValidationError(
+                    "Рекомендация с таким названием и адресом для этого "
+                    "города уже есть. Расскажите о новом месте!"
+                )
+        return data
