@@ -1,4 +1,5 @@
 from colorfield.fields import ColorField
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from common.utils.slugify import slugify
@@ -64,6 +65,12 @@ class Movie(models.Model):
         verbose_name="Теги",
         blank=False,
     )
+    link = models.URLField(
+        verbose_name="Ссылка на фильм",
+        null=True,
+        blank=False,
+        max_length=250,
+    )
     title = models.CharField(
         null=True,
         blank=False,
@@ -71,22 +78,17 @@ class Movie(models.Model):
         unique=True,
         verbose_name="Название фильма",
     )
-    preview = models.ImageField(
-        blank=True,
-        verbose_name="Картинка к фильму",
-        upload_to="entertainment/movies/",
-    )
-    info = models.TextField(verbose_name="Информация о фильме", null=True)
-    description = models.TextField(verbose_name="Описание фильма", null=True)
-    link = models.URLField(
-        verbose_name="Ссылка на фильм",
+    producer = models.CharField(verbose_name="Режиссер", max_length=255)
+    year = models.PositiveSmallIntegerField(verbose_name="Год")
+    description = models.TextField(verbose_name="Описание фильма")
+    image_url = models.URLField(
+        verbose_name="Ссылка на превью",
         null=True,
         blank=False,
         max_length=250,
-        unique=True,
     )
     duration = models.DurationField(
-        null=True, verbose_name="Продолжительность фильма"
+        null=True, blank=True, verbose_name="Продолжительность фильма"
     )
 
     class Meta:
@@ -96,6 +98,26 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        if "youtube.com" not in self.link:
+            raise ValidationError("Ссылка должна быть с youtube.com")
+
+    def save(self, *args, **kwargs):
+        watch_id = self.link.split("watch?v=")
+        if "https://www.youtube.com/" in watch_id:
+            embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
+            self.link = embed_link
+            self.image_url = (
+                f"https://i.ytimg.com/vi/{watch_id[1]}/maxresdefault.jpg"
+            )
+        else:
+            if self.link not in Movie.objects.all():
+                watch_id = self.link.split("embed/")
+                self.image_url = (
+                    f"https://i.ytimg.com/vi/{watch_id[1]}/maxresdefault.jpg"
+                )
+        super().save(*args, **kwargs)
 
 
 class VideoTag(models.Model):
@@ -243,8 +265,6 @@ class Article(models.Model):
         return self.title
 
     def clean(self):
-        from django.core.exceptions import ValidationError
-
         is_main = Article.objects.filter(is_main=True).first()
         if is_main != self and self.is_main and is_main:
             raise ValidationError(

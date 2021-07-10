@@ -61,15 +61,9 @@ class MovieFactory(factory.django.DjangoModelFactory):
 
     title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=7))
     description = factory.Sequence(lambda n: fake.unique.sentence(nb_words=50))
-    info = factory.Sequence(lambda n: fake.unique.sentence(nb_words=50))
-    link = factory.Sequence(lambda n: f"http://fakebooks.bbbs/movie-{n + 1}/")
-    preview = factory.django.ImageField(
-        color=factory.LazyFunction(
-            lambda: random.choice(["blue", "yellow", "green", "orange"])
-        ),
-        width=factory.LazyFunction(lambda: random.randint(10, 1000)),
-        height=factory.SelfAttribute("width"),
-    )
+    producer = factory.Sequence(lambda n: fake.unique.name())
+    year = factory.LazyFunction(lambda: random.randint(1900, 2021))
+    link = "https://www.youtube.com/watch?v=f0hQOVfZoIA"
 
     @factory.post_generation
     def tags(self, created, extracted, **kwargs):
