@@ -1,5 +1,5 @@
+import datetime
 import random
-from datetime import date
 
 import factory
 from faker import Faker
@@ -16,7 +16,6 @@ class StoryFactory(factory.django.DjangoModelFactory):
 
     prolog = factory.Sequence(lambda n: fake.unique.sentence(nb_words=10))
     text = factory.Sequence(lambda n: fake.unique.sentence(nb_words=50))
-    beginning_of_friendship = date.today()
     image_url = factory.django.ImageField(
         color=factory.LazyFunction(
             lambda: random.choice(["blue", "yellow", "green", "orange"])
@@ -33,3 +32,11 @@ class StoryFactory(factory.django.DjangoModelFactory):
         trunc_title = title[:28] + ".." if len(title) > 30 else title
 
         return trunc_title
+
+    @factory.lazy_attribute
+    def beginning_of_friendship(self):
+        year = random.randint(2015, 2020)
+        month = random.randint(1, 12)
+        day = random.randint(1, 28)
+        date = datetime.date(year, month, day)
+        return date
