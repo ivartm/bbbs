@@ -188,22 +188,14 @@ class VideoFactory(factory.django.DjangoModelFactory):
         model = Video
         django_get_or_create = ["title"]
 
-    title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=4))
-    author = factory.Sequence(lambda n: fake.unique.name())
+    title = ""
     pubDate = factory.Faker(
         "date_time_this_year",
         before_now=False,
         after_now=True,
         tzinfo=pytz.UTC,
     )
-    preview = factory.django.ImageField(
-        color=factory.LazyFunction(
-            lambda: random.choice(["blue", "yellow", "green", "orange"])
-        ),
-        width=factory.LazyFunction(lambda: random.randint(10, 1000)),
-        height=factory.SelfAttribute("width"),
-    )
-    link = factory.Sequence(lambda n: f"http://fakevideos.bbbs/{n}/")
+    link = None
 
     @factory.post_generation
     def tags(self, create, extracted, **kwargs):
@@ -224,18 +216,3 @@ class VideoFactory(factory.django.DjangoModelFactory):
 
         tags = VideoTag.objects.order_by("?")[:how_many]
         self.tags.add(*tags)
-
-    @factory.post_generation
-    def duration(self, create, extracted, **kwargs):
-        if not create:
-            return
-
-        if extracted:
-            duration = extracted
-            self.duration = duration
-            return
-
-        minutes = random.randint(3, 59)
-        seconds = random.randint(0, 59)
-
-        self.duration = timedelta(minutes=minutes, seconds=seconds)

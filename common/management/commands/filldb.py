@@ -27,6 +27,8 @@ from rights.factories import RightFactory, RightTagFactory
 from story.factories import StoryFactory
 from users.factories import CuratorFactory, UserFactory
 
+from common.management.urls_links import link_video_list
+
 CITIES = [
     "Волгоград",
     "Астрахань",
@@ -112,11 +114,6 @@ class AllFactories:
     def create_videotag(self, arg):
         VideoTagFactory.create_batch(arg)
 
-    def create_video(self, arg):
-        for _ in range(arg):
-            num_tags = random.randint(1, 5)
-            VideoFactory.create(tags__num=num_tags)
-
     def create_history(self, arg):
         for _ in range(arg):
             StoryFactory.create()
@@ -145,7 +142,6 @@ OPTIONS_AND_FINCTIONS = {
     "booktag": allfactories.create_booktag,
     "book": allfactories.create_book,
     "videotag": allfactories.create_videotag,
-    "video": allfactories.create_video,
     "history": allfactories.create_history,
 }
 
@@ -306,13 +302,6 @@ class Command(BaseCommand):
             required=False,
         )
         parser.add_argument(
-            "--video",
-            nargs=1,
-            type=int,
-            help="Create Video object with at least 1 VideoTag related object",
-            required=False,
-        )
-        parser.add_argument(
             "--history",
             nargs=1,
             type=int,
@@ -396,9 +385,9 @@ class Command(BaseCommand):
 
                     VideoTagFactory.create_batch(15)
 
-                    for _ in range(30):
+                    for link in link_video_list:
                         num_tags = random.randint(1, 5)
-                        VideoFactory.create(tags__num=num_tags)
+                        VideoFactory.create(link=link, tags__num=num_tags)
 
                     for _ in range(30):
                         StoryFactory.create()

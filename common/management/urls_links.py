@@ -1,0 +1,32 @@
+link_video_list = [
+    "https://www.youtube.com/watch?v=ih0lHdk0sUc",
+    "https://www.youtube.com/watch?v=B7JQgz9bDUM",
+    "https://www.youtube.com/watch?v=8OM3yfd9X2Y",
+    "https://www.youtube.com/watch?v=g_djWSps3dQ",
+    "https://www.youtube.com/watch?v=zLwvRu8AmUk",
+    "https://www.youtube.com/watch?v=PnR842Frba4",
+    "https://www.youtube.com/watch?v=3kMzlVHIKAo",
+    "https://www.youtube.com/watch?v=tGZUSEtsy7E",
+    "https://www.youtube.com/watch?v=6FuSaQA5CoM",
+    "https://www.youtube.com/watch?v=6By5bY_TEj0",
+    "https://www.youtube.com/watch?v=KA1wI3X5WSU&t=1s",
+    "https://www.youtube.com/watch?v=FygMi4p9mac",
+    "https://www.youtube.com/watch?v=5UQA1aWjYoE",
+    "https://www.youtube.com/watch?v=cn_xyW4Bdyk",
+    "https://www.youtube.com/watch?v=UI0NAJiiOwg",
+    "https://www.youtube.com/watch?v=Ugr43DtV2GE",
+    "https://www.youtube.com/watch?v=VRVa5WfzrwQ",
+    "https://www.youtube.com/watch?v=liDSzRE5Lr4",
+    "https://www.youtube.com/watch?v=VETaVUG66Uk",
+    "https://www.youtube.com/watch?v=XZ-ZSMF9e4w",
+]
+
+link_movie_list = [
+    "https://www.youtube.com/watch?v=byWg5cq-BGU",
+    "https://www.youtube.com/watch?v=aPPk4eP66fA",
+    "https://www.youtube.com/watch?v=COpr-rJgfk8",
+    "https://www.youtube.com/watch?v=COpr-rJgfk8",
+    "https://www.youtube.com/watch?v=EtBb7xsd_1I",
+    "https://www.youtube.com/watch?v=WK30dNXHYWk",
+    "https://www.youtube.com/watch?v=XFYTwHVwUf4",
+]

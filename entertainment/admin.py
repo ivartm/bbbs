@@ -40,8 +40,33 @@ class VideoTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     pass
 
 
-class VideoAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    list_display = ("title", "author", "pubDate")
+class VideoAdmin(
+    AdminAndModerGenPermissionsMixin, AdminPreview, admin.ModelAdmin
+):
+    list_display = ["title", "author", "pubDate", "image_list_preview"]
+    readonly_fields = ("image_change_preview", "duration")
+    filter_horizontal = ("tags",)
+
+    def change_view(self, request, object_id, extra_context=None):
+        self.exclude = ("creative_url",)
+        return super(VideoAdmin, self).change_view(
+            request, object_id, extra_context
+        )
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        if request.user.profile.is_moderator_reg:
+            form.base_fields["city"].queryset = request.user.profile.region
+        form.base_fields[
+            "title"
+        ].help_text = "Если поле пустое - сохранится название с youtube"
+        form.base_fields[
+            "author"
+        ].help_text = "Если поле пустое - сохранится автор с youtube"
+        form.base_fields[
+            "imageUrl"
+        ].help_text = "Если поле пустое - сохранится превью с youtube"
+        return form
 
 
 class BookTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):

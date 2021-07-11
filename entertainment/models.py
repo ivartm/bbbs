@@ -1,7 +1,12 @@
+import urllib
+
 from colorfield.fields import ColorField
+from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
 from django.db import models
 
 from common.utils.slugify import slugify
+from common.utils.youtube_api import get_youtube_data
 
 
 class Guide(models.Model):
@@ -120,9 +125,7 @@ class VideoTag(models.Model):
 
 class Video(models.Model):
     tags = models.ManyToManyField(
-        VideoTag,
-        blank=False,
-        related_name="videos",
+        VideoTag, blank=False, related_name="videos", verbose_name="Тэги"
     )
     link = models.URLField(
         max_length=250,
@@ -132,17 +135,19 @@ class Video(models.Model):
     title = models.CharField(
         max_length=200,
         unique=True,
+        blank=True,
         verbose_name="Название видео",
     )
-    author = models.CharField(max_length=200, verbose_name="Автор")
+    author = models.CharField(max_length=200, verbose_name="Автор", blank=True)
     pubDate = models.DateTimeField(
         verbose_name="Дата создания", auto_now_add=True
     )
-    preview = models.ImageField(
+    imageUrl = models.ImageField(
         blank=True,
         verbose_name="Картинка к видео",
         upload_to="entertainment/videos/",
     )
+    creative_url = models.CharField(blank=True, max_length=250)
     duration = models.DurationField(
         null=True, verbose_name="Продолжительность видео"
     )
@@ -154,6 +159,25 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        data = get_youtube_data(self.link)
+        if self.title == "":
+            self.title = data["title"]
+        if self.author == "":
+            self.author = data["author"]
+        self.creative_url = data["preview"]
+        content = urllib.request.urlopen(self.creative_url).read()
+        if self.imageUrl == "":
+            self.imageUrl.save(
+                self.title + ".jpg", ContentFile(content), save=False
+            )
+        self.duration = data["duration"]
+        super().save(*args, **kwargs)
+
+    def clean(self):
+        if "youtube.com" not in self.link:
+            raise ValidationError("Ссылка должна быть с youtube.com")
 
 
 class BookTag(models.Model):
