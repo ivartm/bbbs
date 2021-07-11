@@ -5,6 +5,7 @@ from django.core.management.base import BaseCommand
 
 from afisha.factories import EventFactory
 from common.factories import CityFactory, MeetingFactory
+from common.management.urls_links import link_video_list
 from common.models import City
 from entertainment.factories import (
     ArticleFactory,
@@ -112,12 +113,7 @@ class AllFactories:
     def create_videotag(self, arg):
         VideoTagFactory.create_batch(arg)
 
-    def create_video(self, arg):
-        for _ in range(arg):
-            num_tags = random.randint(1, 5)
-            VideoFactory.create(tags__num=num_tags)
-
-    def create_story(self, arg):
+    def create_history(self, arg):
         for _ in range(arg):
             StoryFactory.create()
 
@@ -145,8 +141,7 @@ OPTIONS_AND_FINCTIONS = {
     "booktag": allfactories.create_booktag,
     "book": allfactories.create_book,
     "videotag": allfactories.create_videotag,
-    "video": allfactories.create_video,
-    "story": allfactories.create_story,
+    "history": allfactories.create_history,
 }
 
 
@@ -306,14 +301,7 @@ class Command(BaseCommand):
             required=False,
         )
         parser.add_argument(
-            "--video",
-            nargs=1,
-            type=int,
-            help="Create Video object with at least 1 VideoTag related object",
-            required=False,
-        )
-        parser.add_argument(
-            "--story",
+            "--history",
             nargs=1,
             type=int,
             help="Create Story object",
@@ -396,9 +384,9 @@ class Command(BaseCommand):
 
                     VideoTagFactory.create_batch(15)
 
-                    for _ in range(30):
+                    for link in link_video_list:
                         num_tags = random.randint(1, 5)
-                        VideoFactory.create(tags__num=num_tags)
+                        VideoFactory.create(link=link, tags__num=num_tags)
 
                     for _ in range(70):
                         StoryFactory.create()

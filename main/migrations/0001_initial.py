@@ -10,9 +10,9 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('questions', '0002_auto_20210709_2034'),
-        ('places', '0008_rename_imageurl_place_image_url'),
+        ('places', '0011_place_unique_place_for_city'),
         ('story', '0006_auto_20210709_2053'),
-        ('entertainment', '0001_initial'),
+        ('entertainment', '0008_video_creative_url'),
     ]
 
     operations = [
