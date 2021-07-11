@@ -22,6 +22,7 @@ class AdminPreview:
             return format_html(
                 '<img src="{}" width="600" height="300" />'.format(url)
             )
+        pass
 
     image_change_preview.short_description = "Превью"
 
@@ -34,5 +35,6 @@ class AdminPreview:
             return format_html(
                 '<img src="{}" width="100" height="50" />'.format(url)
             )
+        pass
 
     image_list_preview.short_description = "Картинка"

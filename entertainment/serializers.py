@@ -47,7 +47,7 @@ class VideoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Video
-        fields = "__all__"
+        exclude = ["creative_url"]
 
 
 class BookTagSerializer(serializers.ModelSerializer):
