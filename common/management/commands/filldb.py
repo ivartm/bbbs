@@ -117,7 +117,7 @@ class AllFactories:
             num_tags = random.randint(1, 5)
             VideoFactory.create(tags__num=num_tags)
 
-    def create_history(self, arg):
+    def create_story(self, arg):
         for _ in range(arg):
             StoryFactory.create()
 
@@ -146,7 +146,7 @@ OPTIONS_AND_FINCTIONS = {
     "book": allfactories.create_book,
     "videotag": allfactories.create_videotag,
     "video": allfactories.create_video,
-    "history": allfactories.create_history,
+    "story": allfactories.create_story,
 }
 
 
@@ -313,10 +313,10 @@ class Command(BaseCommand):
             required=False,
         )
         parser.add_argument(
-            "--history",
+            "--story",
             nargs=1,
             type=int,
-            help="Create History object",
+            help="Create Story object",
             required=False,
         )
 
@@ -352,17 +352,17 @@ class Command(BaseCommand):
 
                     RightTagFactory.create_batch(10)
 
-                    for _ in range(20):
+                    for _ in range(70):
                         num_tags = random.randint(1, 5)
                         RightFactory(tags__num=num_tags)
 
-                    for _ in range(30):
+                    for _ in range(70):
                         num_events = random.randint(0, 5)
                         UserFactory(num_events=num_events)
 
                     QuestionTagFactory.create_batch(15)
 
-                    for _ in range(30):
+                    for _ in range(70):
                         num_tags = random.randint(1, 5)
                         QuestionFactory.create(tags=num_tags)
 
@@ -372,11 +372,11 @@ class Command(BaseCommand):
 
                     PlacesTagFactory.create_batch(15)
 
-                    for _ in range(30):
+                    for _ in range(70):
                         num_tags = random.randint(1, 5)
                         PlaceFactory.create(tags__num=num_tags)
 
-                    GuideFactory.create_batch(50)
+                    GuideFactory.create_batch(70)
 
                     MovieTagFactory.create_batch(15)
 
@@ -386,7 +386,7 @@ class Command(BaseCommand):
 
                     MeetingFactory.create_batch(50)
 
-                    ArticleFactory.create_batch(50)
+                    ArticleFactory.create_batch(70)
 
                     BookTagFactory.create_batch(15)
 
@@ -400,7 +400,7 @@ class Command(BaseCommand):
                         num_tags = random.randint(1, 5)
                         VideoFactory.create(tags__num=num_tags)
 
-                    for _ in range(30):
+                    for _ in range(70):
                         StoryFactory.create()
 
                     MainFactory.create()
