@@ -50,15 +50,16 @@ class Meeting(models.Model):
         blank=True,
     )
     description = models.TextField(
+        max_length=5000,
         verbose_name="Описание",
         help_text="Краткое описание",
     )
 
     smile = models.CharField(choices=SMILE_TYPE_CHOICES, max_length=20)
 
-    place = models.CharField(max_length=200)
+    place = models.CharField(max_length=50)
     date = models.DateField(verbose_name="Дата", blank=True)
-    sendToCurator = models.BooleanField(default=False)
+    send_to_curator = models.BooleanField(default=False)
 
     class Meta:
         ordering = ("-date",)

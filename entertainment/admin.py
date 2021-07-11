@@ -32,8 +32,32 @@ class MovieTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     pass
 
 
-class MovieAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    pass
+class MovieAdmin(
+    AdminAndModerGenPermissionsMixin, AdminPreview, admin.ModelAdmin
+):
+    list_display = (
+        "id",
+        "title",
+        "image_list_preview",
+    )
+    readonly_fields = (
+        "image_change_preview",
+        "image_url",
+    )
+
+    def get_fields(self, request, obj=None):
+        if obj is None:
+            fields = [
+                "tags",
+                "link",
+                "title",
+                "producer",
+                "year",
+                "description",
+                "duration",
+            ]
+            return fields
+        return super().get_fields(request, obj)
 
 
 class VideoTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
@@ -43,15 +67,16 @@ class VideoTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
 class VideoAdmin(
     AdminAndModerGenPermissionsMixin, AdminPreview, admin.ModelAdmin
 ):
-    list_display = ["title", "author", "pubDate", "image_list_preview"]
+    list_display = ["title", "author", "pub_date", "image_list_preview"]
     readonly_fields = ("image_change_preview", "duration")
     filter_horizontal = ("tags",)
+    exclude = ("creative_url",)
 
-    def change_view(self, request, object_id, extra_context=None):
-        self.exclude = ("creative_url",)
-        return super(VideoAdmin, self).change_view(
-            request, object_id, extra_context
-        )
+    # def change_view(self, request, object_id, extra_context=None):
+    #     self.exclude = ("creative_url",)
+    #     return super(VideoAdmin, self).change_view(
+    #         request, object_id, extra_context
+    #     )
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
@@ -64,7 +89,7 @@ class VideoAdmin(
             "author"
         ].help_text = "Если поле пустое - сохранится автор с youtube"
         form.base_fields[
-            "imageUrl"
+            "image_url"
         ].help_text = "Если поле пустое - сохранится превью с youtube"
         return form
 
@@ -83,7 +108,7 @@ class ArticleAdmin(
     list_display = (
         "id",
         "title",
-        "isMain",
+        "is_main",
         "image_list_preview",
     )
     readonly_fields = ("image_change_preview",)

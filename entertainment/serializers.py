@@ -25,9 +25,15 @@ class MovieTagSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
+    tags = MovieTagSerializer(many=True)
+    info = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Movie
-        fields = "__all__"
+        exclude = ["producer", "year"]
+
+    def get_info(self, obj):
+        return "{}, {} год".format(obj.producer, obj.year)
 
 
 class VideoTagSerializer(serializers.ModelSerializer):

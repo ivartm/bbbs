@@ -26,10 +26,10 @@ class GuideFactory(factory.django.DjangoModelFactory):
 
     title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=7))
     description = factory.Sequence(lambda n: fake.unique.sentence(nb_words=15))
-    imageCaption = factory.Sequence(
+    image_caption = factory.Sequence(
         lambda t: f"Автор фото - {fake.unique.name()}"
     )
-    imageUrl = factory.django.ImageField(
+    image_url = factory.django.ImageField(
         color=factory.LazyFunction(
             lambda: random.choice(["blue", "yellow", "green", "orange"])
         ),
@@ -61,15 +61,9 @@ class MovieFactory(factory.django.DjangoModelFactory):
 
     title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=7))
     description = factory.Sequence(lambda n: fake.unique.sentence(nb_words=50))
-    info = factory.Sequence(lambda n: fake.unique.sentence(nb_words=50))
-    link = factory.Sequence(lambda n: f"http://fakebooks.bbbs/movie-{n + 1}/")
-    preview = factory.django.ImageField(
-        color=factory.LazyFunction(
-            lambda: random.choice(["blue", "yellow", "green", "orange"])
-        ),
-        width=factory.LazyFunction(lambda: random.randint(10, 1000)),
-        height=factory.SelfAttribute("width"),
-    )
+    producer = factory.Sequence(lambda n: fake.unique.name())
+    year = factory.LazyFunction(lambda: random.randint(1900, 2021))
+    link = "https://www.youtube.com/watch?v=f0hQOVfZoIA"
 
     @factory.post_generation
     def tags(self, created, extracted, **kwargs):
@@ -109,7 +103,7 @@ class ArticleFactory(factory.django.DjangoModelFactory):
         model = Article
         django_get_or_create = ["title"]
 
-    isMain = False
+    is_main = False
     title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=3))
     author = factory.Sequence(lambda n: fake.unique.name())
     profession = factory.Sequence(lambda n: fake.unique.sentence(nb_words=3))
@@ -119,7 +113,7 @@ class ArticleFactory(factory.django.DjangoModelFactory):
         variable_nb_sentences=True,
     )
     color = factory.Faker("color_name", locale="en_US")
-    imageUrl = factory.django.ImageField(
+    image_url = factory.django.ImageField(
         color=factory.LazyFunction(
             lambda: random.choice(["blue", "yellow", "green", "orange"])
         ),
@@ -189,7 +183,7 @@ class VideoFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ["title"]
 
     title = ""
-    pubDate = factory.Faker(
+    pub_date = factory.Faker(
         "date_time_this_year",
         before_now=False,
         after_now=True,

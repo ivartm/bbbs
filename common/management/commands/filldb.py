@@ -5,6 +5,7 @@ from django.core.management.base import BaseCommand
 
 from afisha.factories import EventFactory
 from common.factories import CityFactory, MeetingFactory
+from common.management.urls_links import link_video_list
 from common.models import City
 from entertainment.factories import (
     ArticleFactory,
@@ -26,8 +27,6 @@ from questions.factories import (
 from rights.factories import RightFactory, RightTagFactory
 from story.factories import StoryFactory
 from users.factories import CuratorFactory, UserFactory
-
-from common.management.urls_links import link_video_list
 
 CITIES = [
     "Волгоград",
@@ -103,7 +102,7 @@ class AllFactories:
     def create_article(self, arg):
         ArticleFactory.create_batch(arg)
 
-    def create_booktag(arg):
+    def create_booktag(self, arg):
         BookTagFactory.create_batch(arg)
 
     def create_book(self, arg):
@@ -305,7 +304,7 @@ class Command(BaseCommand):
             "--history",
             nargs=1,
             type=int,
-            help="Create History object",
+            help="Create Story object",
             required=False,
         )
 
@@ -341,17 +340,17 @@ class Command(BaseCommand):
 
                     RightTagFactory.create_batch(10)
 
-                    for _ in range(20):
+                    for _ in range(70):
                         num_tags = random.randint(1, 5)
                         RightFactory(tags__num=num_tags)
 
-                    for _ in range(30):
+                    for _ in range(70):
                         num_events = random.randint(0, 5)
                         UserFactory(num_events=num_events)
 
                     QuestionTagFactory.create_batch(15)
 
-                    for _ in range(30):
+                    for _ in range(70):
                         num_tags = random.randint(1, 5)
                         QuestionFactory.create(tags=num_tags)
 
@@ -361,11 +360,11 @@ class Command(BaseCommand):
 
                     PlacesTagFactory.create_batch(15)
 
-                    for _ in range(30):
+                    for _ in range(70):
                         num_tags = random.randint(1, 5)
                         PlaceFactory.create(tags__num=num_tags)
 
-                    GuideFactory.create_batch(50)
+                    GuideFactory.create_batch(70)
 
                     MovieTagFactory.create_batch(15)
 
@@ -375,7 +374,7 @@ class Command(BaseCommand):
 
                     MeetingFactory.create_batch(50)
 
-                    ArticleFactory.create_batch(50)
+                    ArticleFactory.create_batch(70)
 
                     BookTagFactory.create_batch(15)
 
@@ -389,7 +388,7 @@ class Command(BaseCommand):
                         num_tags = random.randint(1, 5)
                         VideoFactory.create(link=link, tags__num=num_tags)
 
-                    for _ in range(30):
+                    for _ in range(70):
                         StoryFactory.create()
 
                     MainFactory.create()

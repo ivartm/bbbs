@@ -1,9 +1,10 @@
 from urllib.parse import urlparse
-from pyyoutube import Api
+
 import isodate
+from django.conf import settings
+from pyyoutube import Api
 
-
-from config.settings.base import YOUTUBE_KEY
+YOUTUBE_KEY = settings.YOUTUBE_KEY
 
 api = Api(api_key=YOUTUBE_KEY)
 
@@ -25,6 +26,7 @@ def get_youtube_data(url):
     author = video_data["snippet"]["channelTitle"]
     new_data.update(
         dict(
+            video_id=video_id,
             title=title,
             description=description,
             preview=preview,

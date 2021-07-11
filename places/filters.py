@@ -8,15 +8,14 @@ from places.models import PlaceTag
 class PlaceFilter(filters.FilterSet):
     """By tags and city filter with request inspecting logic.
 
-    By request basis the filter do:
-        - if user authenticated it returns queryset filtered by user's city.
-        The filter doesn't require any query param but could be filtered by
-        tags.
+    On a request basis the filter do:
+        - if the user is authenticated it returns queryset filtered by the
+        user's city. The filter doesn't require any query param but could be
+        filtered by tags.
+        - if the user is UNauthenticated it requires 'city' query param
 
-        - if user is UNauthenticated it requires 'city' query param
-
-        If authenticated user pass 'city' query param that is different from
-        user's city it returns zero result. It's expected behavior.
+        If an authenticated user passes 'city' query param that is different
+        from the user's city it returns zero results. It's expected behavior.
     """
 
     city = filters.ModelChoiceFilter(queryset=City.objects.all())
@@ -40,6 +39,17 @@ class PlaceFilter(filters.FilterSet):
 
 
 class PlaceTagFilter(filters.FilterSet):
+    """List of PlaceTags that used for 'place' objects in user's city.
+
+    On a request basis the filter do:
+        - if the user is authenticated it returns queryset filtered by the
+        user's city.
+        - if the user is UNauthenticated it requires 'city' query param
+
+        If an authenticated user passes 'city' query param that is different
+        from the user's city it returns zero results. It's expected behavior.
+    """
+
     city = filters.ModelChoiceFilter(
         field_name="places__city",
         queryset=City.objects.all(),
@@ -51,7 +61,7 @@ class PlaceTagFilter(filters.FilterSet):
         user = getattr(self.request, "user", None)
         if user.is_authenticated:
             city = user.profile.city
-            return parent.filter(places__city=city)
+            return parent.filter(places__city=city).distinct()
         city_id = self.request.query_params.get("city", None)
         if not city_id:
             raise CityNotSelected

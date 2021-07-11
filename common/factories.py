@@ -40,12 +40,14 @@ class MeetingFactory(factory.django.DjangoModelFactory):
         width=factory.LazyFunction(lambda: random.randint(10, 1000)),
         height=factory.SelfAttribute("width"),
     )
-    description = factory.Faker("text")
+    description = factory.Faker("text", max_nb_chars=3000)
     smile = factory.LazyFunction(
         lambda: random.choice([Meeting.GOOD, Meeting.BAD, Meeting.NEUTRAL])
     )
-    place = factory.Faker("text")
+    place = factory.Faker("text", max_nb_chars=40)
     date = factory.Faker(
         "date",
     )
-    sendToCurator = factory.LazyFunction(lambda: random.choice([False, True]))
+    send_to_curator = factory.LazyFunction(
+        lambda: random.choice([False, True])
+    )

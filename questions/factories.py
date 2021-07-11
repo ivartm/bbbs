@@ -24,7 +24,7 @@ class QuestionFactory(factory.django.DjangoModelFactory):
 
     question = factory.Sequence(lambda n: fake.unique.sentence(nb_words=7))
     answer = factory.Faker("text")
-    pubDate = factory.Faker(
+    pub_date = factory.Faker(
         "date_time_this_year",
         before_now=False,
         after_now=True,
@@ -53,7 +53,7 @@ class QuestionFactoryWithoutAnswer(factory.django.DjangoModelFactory):
         model = Question
 
     question = factory.Sequence(lambda n: fake.unique.sentence(nb_words=7))
-    pubDate = factory.Faker(
+    pub_date = factory.Faker(
         "date_time_this_year",
         before_now=False,
         after_now=True,

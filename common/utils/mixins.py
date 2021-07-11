@@ -14,11 +14,11 @@ class AdminPreview:
     """
 
     def image_change_preview(self, obj):
-        if obj.imageUrl:
-            if "https://" in obj.imageUrl:
-                url = obj.imageUrl
+        if obj.image_url:
+            if "https://" in obj.image_url:
+                url = obj.image_url
             else:
-                url = obj.imageUrl.url
+                url = obj.image_url.url
             return format_html(
                 '<img src="{}" width="600" height="300" />'.format(url)
             )
@@ -27,11 +27,11 @@ class AdminPreview:
     image_change_preview.short_description = "Превью"
 
     def image_list_preview(self, obj):
-        if obj.imageUrl:
-            if "https://" in obj.imageUrl:
-                url = obj.imageUrl
+        if obj.image_url:
+            if "https://" in obj.image_url:
+                url = obj.image_url
             else:
-                url = obj.imageUrl.url
+                url = obj.image_url.url
             return format_html(
                 '<img src="{}" width="100" height="50" />'.format(url)
             )

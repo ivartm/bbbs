@@ -23,17 +23,17 @@ class EventFactory(factory.django.DjangoModelFactory):
     )
     title = factory.Sequence(lambda t: f"{fake.sentence(nb_words=3)} {t}")
     description = factory.Faker("text")
-    startAt = factory.Faker(
+    start_at = factory.Faker(
         "date_time_this_year",
         before_now=False,
         after_now=True,
         tzinfo=pytz.UTC,
     )
-    endAt = factory.Faker(
+    end_at = factory.Faker(
         "date_time_between",
-        start_date=factory.SelfAttribute("..startAt"),
+        start_date=factory.SelfAttribute("..start_at"),
         end_date=factory.LazyAttribute(
-            lambda obj: obj.start_date + timedelta(days=60)
+            lambda obj: obj.start_date + timedelta(hours=48)
         ),
         tzinfo=pytz.UTC,
     )

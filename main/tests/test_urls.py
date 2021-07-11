@@ -1,6 +1,5 @@
-import unittest
-
 from django.urls import reverse
+from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
 from common.factories import CityFactory
@@ -44,13 +43,12 @@ class StaticURLTests(APITestCase):
         authorized_client.force_authenticate(user=user)
         return authorized_client
 
-    @unittest.skip("The test fails. Set to skip for temporary")
     def test_main_unauthorized_client(self):
         client = StaticURLTests.unauthorized_client
         response = client.get(StaticURLTests.path_main)
         self.assertEqual(
             response.status_code,
-            200,
+            status.HTTP_200_OK,
             msg=(
                 f"Проверьте что неавторизованный пользователь имеет "
                 f"доступ к '{StaticURLTests.path_main}'."
@@ -63,7 +61,7 @@ class StaticURLTests(APITestCase):
             response = client.get(StaticURLTests.path_main)
             self.assertEqual(
                 response.status_code,
-                200,
+                status.HTTP_200_OK,
                 msg=(
                     f"Проверьте что пользователь с ролью "
                     f"'{user.profile.role}' "

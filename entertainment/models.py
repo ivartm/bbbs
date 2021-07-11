@@ -19,11 +19,11 @@ class Guide(models.Model):
         max_length=500,
         verbose_name="Описание статьи",
     )
-    imageCaption = models.CharField(
+    image_caption = models.CharField(
         max_length=200,
         verbose_name="Описание к фотографии",
     )
-    imageUrl = models.ImageField(
+    image_url = models.ImageField(
         blank=True,
         verbose_name="Фото статьи",
         help_text="Добавить фото",
@@ -69,6 +69,12 @@ class Movie(models.Model):
         verbose_name="Теги",
         blank=False,
     )
+    link = models.URLField(
+        verbose_name="Ссылка на фильм",
+        null=True,
+        blank=False,
+        max_length=250,
+    )
     title = models.CharField(
         null=True,
         blank=False,
@@ -76,22 +82,17 @@ class Movie(models.Model):
         unique=True,
         verbose_name="Название фильма",
     )
-    preview = models.ImageField(
-        blank=True,
-        verbose_name="Картинка к фильму",
-        upload_to="entertainment/movies/",
-    )
-    info = models.TextField(verbose_name="Информация о фильме", null=True)
-    description = models.TextField(verbose_name="Описание фильма", null=True)
-    link = models.URLField(
-        verbose_name="Ссылка на фильм",
+    producer = models.CharField(verbose_name="Режиссер", max_length=255)
+    year = models.PositiveSmallIntegerField(verbose_name="Год")
+    description = models.TextField(verbose_name="Описание фильма")
+    image_url = models.URLField(
+        verbose_name="Ссылка на превью",
         null=True,
         blank=False,
         max_length=250,
-        unique=True,
     )
     duration = models.DurationField(
-        null=True, verbose_name="Продолжительность фильма"
+        null=True, blank=True, verbose_name="Продолжительность фильма"
     )
 
     class Meta:
@@ -101,6 +102,26 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        if "youtube.com" not in self.link:
+            raise ValidationError("Ссылка должна быть с youtube.com")
+
+    def save(self, *args, **kwargs):
+        watch_id = self.link.split("watch?v=")
+        if "https://www.youtube.com/" in watch_id:
+            embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
+            self.link = embed_link
+            self.image_url = (
+                f"https://i.ytimg.com/vi/{watch_id[1]}/maxresdefault.jpg"
+            )
+        else:
+            if self.link not in Movie.objects.all():
+                watch_id = self.link.split("embed/")
+                self.image_url = (
+                    f"https://i.ytimg.com/vi/{watch_id[1]}/maxresdefault.jpg"
+                )
+        super().save(*args, **kwargs)
 
 
 class VideoTag(models.Model):
@@ -139,10 +160,10 @@ class Video(models.Model):
         verbose_name="Название видео",
     )
     author = models.CharField(max_length=200, verbose_name="Автор", blank=True)
-    pubDate = models.DateTimeField(
+    pub_date = models.DateTimeField(
         verbose_name="Дата создания", auto_now_add=True
     )
-    imageUrl = models.ImageField(
+    image_url = models.ImageField(
         blank=True,
         verbose_name="Картинка к видео",
         upload_to="entertainment/videos/",
@@ -168,9 +189,9 @@ class Video(models.Model):
             self.author = data["author"]
         self.creative_url = data["preview"]
         content = urllib.request.urlopen(self.creative_url).read()
-        if self.imageUrl == "":
-            self.imageUrl.save(
-                self.title + ".jpg", ContentFile(content), save=False
+        if self.image_url == "":
+            self.image_url.save(
+                data["video_id"] + ".jpg", ContentFile(content), save=False
             )
         self.duration = data["duration"]
         super().save(*args, **kwargs)
@@ -235,7 +256,7 @@ class Book(models.Model):
 
 
 class Article(models.Model):
-    isMain = models.BooleanField(
+    is_main = models.BooleanField(
         verbose_name="Основная статья",
         default=False,
     )
@@ -251,7 +272,7 @@ class Article(models.Model):
         max_length=30,
         verbose_name="Цвет обложки на странице",
     )
-    imageUrl = models.ImageField(
+    image_url = models.ImageField(
         blank=True,
         verbose_name="Обложка",
         help_text="Добавить фото",
@@ -267,10 +288,8 @@ class Article(models.Model):
         return self.title
 
     def clean(self):
-        from django.core.exceptions import ValidationError
-
-        is_main = Article.objects.filter(isMain=True).first()
-        if is_main != self and self.isMain and is_main:
+        is_main = Article.objects.filter(is_main=True).first()
+        if is_main != self and self.is_main and is_main:
             raise ValidationError(
                 "Чтобы выбрать данную статью, "
                 "необходимо деактивировать "
@@ -278,7 +297,7 @@ class Article(models.Model):
             )
 
     def save(self, *args, **kwargs):
-        is_main = Article.objects.filter(isMain=True)
+        is_main = Article.objects.filter(is_main=True)
         if is_main.exists() and is_main.first() != self:
-            self.isMain = False
+            self.is_main = False
         super().save(*args, **kwargs)

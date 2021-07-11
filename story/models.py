@@ -2,24 +2,26 @@ from django.db import models
 
 
 class Story(models.Model):
-    imageUrl = models.ImageField(
+    image_url = models.ImageField(
         upload_to="stories/",
         verbose_name="Фото",
         help_text="Загрузите фото",
         blank=True,
     )
     title = models.CharField(
-        verbose_name="Название истории", max_length=200, unique=True
+        verbose_name="Название истории", max_length=30, unique=True
     )
-    beginningOfFriendship = models.DateField(verbose_name="Дата начала дружбы")
+    beginning_of_friendship = models.DateField(
+        verbose_name="Дата начала дружбы"
+    )
     prolog = models.TextField(verbose_name="Пролог")
     text = models.TextField(verbose_name="Текст истории")
-    pubDate = models.DateTimeField(
+    pub_date = models.DateTimeField(
         verbose_name="Дата создания", auto_now_add=True
     )
 
     class Meta:
-        ordering = ("-beginningOfFriendship",)
+        ordering = ("-beginning_of_friendship",)
         verbose_name = "История"
         verbose_name_plural = "Истории"
 

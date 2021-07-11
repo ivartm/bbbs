@@ -4,9 +4,8 @@ from faker import Faker
 from entertainment.models import Article, Movie, Video
 from main.models import Main
 from places.models import Place
-
-from story.models import Story
 from questions.models import Question
+from story.models import Story
 
 fake = Faker(["ru_RU"])
 

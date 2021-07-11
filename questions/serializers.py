@@ -13,7 +13,7 @@ class QuestionTagSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
     tags = QuestionTagSerializer(many=True, read_only=True)
     answer = serializers.CharField(read_only=True)
-    pubDate = serializers.DateTimeField(read_only=True)
+    pub_date = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Question

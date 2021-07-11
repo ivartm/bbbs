@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from afisha.views import EventAPIView, EventParticipantViewSet
+from afisha.views import EventAPIView, EventParticipantViewSet, MonthAPIView
 
 router = DefaultRouter()
 router.register(
@@ -13,6 +13,7 @@ router.register(
 
 afisha_urls = [
     path("events/", EventAPIView.as_view(), name="events"),
+    path("events/months/", MonthAPIView.as_view(), name="events-months"),
     path("", include(router.urls)),
 ]
 

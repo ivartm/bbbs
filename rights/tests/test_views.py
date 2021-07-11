@@ -46,7 +46,7 @@ class ViewRightTests(APITestCase):
             "title",
             "description",
             "text1",
-            "imageUrl",
+            "image_url",
         ]
         response = client.get(ViewRightTests.path_rights).data
         results = response.get("results")[0]
@@ -72,7 +72,7 @@ class ViewRightTests(APITestCase):
             "text3",
             "text4",
             "text5",
-            "imageUrl",
+            "image_url",
         ]
         response = client.get(ViewRightTests.path_rights).data
         results = response.get("results")[0]
