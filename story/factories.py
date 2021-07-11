@@ -14,7 +14,6 @@ class StoryFactory(factory.django.DjangoModelFactory):
         model = Story
         django_get_or_create = ["title"]
 
-    title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=7))
     prolog = factory.Sequence(lambda n: fake.unique.sentence(nb_words=10))
     text = factory.Sequence(lambda n: fake.unique.sentence(nb_words=50))
     beginning_of_friendship = date.today()
@@ -25,3 +24,12 @@ class StoryFactory(factory.django.DjangoModelFactory):
         width=factory.LazyFunction(lambda: random.randint(500, 1000)),
         height=factory.SelfAttribute("width"),
     )
+
+    @factory.lazy_attribute
+    def title(self):
+        first_friend = fake.first_name()
+        second_friend = fake.first_name()
+        title = first_friend + " и " + second_friend
+        trunc_title = title[:28] + ".." if len(title) > 30 else title
+
+        return trunc_title
