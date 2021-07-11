@@ -9,7 +9,7 @@ class Story(models.Model):
         blank=True,
     )
     title = models.CharField(
-        verbose_name="Название истории", max_length=200, unique=True
+        verbose_name="Название истории", max_length=30, unique=True
     )
     beginning_of_friendship = models.DateField(
         verbose_name="Дата начала дружбы"
