@@ -213,5 +213,17 @@ EMAIL_BACKEND = env(
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
 EMAIL_TIMEOUT = 5
-EMAIL_RESET_PASSWORD_TEMPLATE_ID = None
-EMAIL_MEETING_TEMPLATE_ID = None
+
+# EMAIL Service Provider Template ID
+# Default templates are hosted on mailjet.com, account: bbbs@bbbs.fun
+# ------------------------------------------------------------------------------
+EMAIL_RESET_PASSWORD_TEMPLATE_ID = env(
+    "EMAIL_RESET_PASSWORD_TEMPLATE_ID", default="3027185"
+)
+EMAIL_MEETING_TEMPLATE_ID = env(
+    "EMAIL_MEETING_TEMPLATE_ID", default="3027285"
+)
+
+# Youtube Token
+# ------------------------------------------------------------------------------
+YOUTUBE_KEY = env("YOUTUBE_KEY", default="Some boilerplate value")
