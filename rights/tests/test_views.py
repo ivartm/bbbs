@@ -45,7 +45,7 @@ class ViewRightTests(APITestCase):
             "tags",
             "title",
             "description",
-            "text1",
+            "text",
             "image_url",
         ]
         response = client.get(ViewRightTests.path_rights).data
@@ -62,17 +62,9 @@ class ViewRightTests(APITestCase):
             "tags",
             "title",
             "description",
-            "heading1",
-            "heading2",
-            "heading3",
-            "heading4",
-            "heading5",
-            "text1",
-            "text2",
-            "text3",
-            "text4",
-            "text5",
+            "text",
             "image_url",
+            "color",
         ]
         response = client.get(ViewRightTests.path_rights).data
         results = response.get("results")[0]
