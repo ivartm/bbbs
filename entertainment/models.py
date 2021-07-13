@@ -76,20 +76,20 @@ class Movie(models.Model):
         max_length=250,
     )
     title = models.CharField(
-        null=True,
-        blank=False,
+        blank=True,
         max_length=100,
         unique=True,
         verbose_name="Название фильма",
     )
-    producer = models.CharField(verbose_name="Режиссер", max_length=255)
-    year = models.PositiveSmallIntegerField(verbose_name="Год")
-    description = models.TextField(verbose_name="Описание фильма")
-    image_url = models.URLField(
-        verbose_name="Ссылка на превью",
-        null=True,
-        blank=False,
-        max_length=250,
+    producer = models.CharField(
+        verbose_name="Режиссер", max_length=255, blank=True
+    )
+    year = models.PositiveSmallIntegerField(verbose_name="Год", blank=True)
+    description = models.TextField(verbose_name="Описание фильма", blank=True)
+    image_url = models.ImageField(
+        blank=True,
+        verbose_name="Картинка к видео",
+        upload_to="entertainment/movies/",
     )
     duration = models.DurationField(
         null=True, blank=True, verbose_name="Продолжительность фильма"
@@ -108,19 +108,22 @@ class Movie(models.Model):
             raise ValidationError("Ссылка должна быть с youtube.com")
 
     def save(self, *args, **kwargs):
-        watch_id = self.link.split("watch?v=")
-        if "https://www.youtube.com/" in watch_id:
-            embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
-            self.link = embed_link
-            self.image_url = (
-                f"https://i.ytimg.com/vi/{watch_id[1]}/maxresdefault.jpg"
+        data = get_youtube_data(self.link)
+        if not self.title:
+            self.title = data["title"]
+        if not self.producer:
+            self.producer = data["author"]
+        if not self.image_url:
+            content = urllib.request.urlopen(data["preview"]).read()
+            self.image_url.save(
+                data["video_id"] + ".jpg", ContentFile(content), save=False
             )
-        else:
-            if self.link not in Movie.objects.all():
-                watch_id = self.link.split("embed/")
-                self.image_url = (
-                    f"https://i.ytimg.com/vi/{watch_id[1]}/maxresdefault.jpg"
-                )
+        if not self.year:
+            year = data["date"].split("-")
+            self.year = year[0]
+        if not self.description:
+            self.description = data["description"]
+        self.duration = data["duration"]
         super().save(*args, **kwargs)
 
 
@@ -208,6 +211,12 @@ class BookTag(models.Model):
     slug = models.SlugField(
         verbose_name="Адрес тега", max_length=50, unique=True
     )
+    COLOR_CHOICES = [("#FC8585", "red"), ("#C8D1FF", "violet")]
+    color = ColorField(
+        max_length=8,
+        verbose_name="Цвет обложки на странице",
+        choices=COLOR_CHOICES,
+    )
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -222,9 +231,10 @@ class BookTag(models.Model):
 
 
 class Book(models.Model):
-    tags = models.ManyToManyField(
+    tag = models.ForeignKey(
         BookTag,
         blank=False,
+        on_delete=models.CASCADE,
         related_name="books",
     )
     title = models.CharField(
@@ -235,10 +245,6 @@ class Book(models.Model):
     author = models.CharField(max_length=200, verbose_name="Автор")
     year = models.PositiveSmallIntegerField(verbose_name="Год")
     description = models.TextField(verbose_name="Описание")
-    color = ColorField(
-        max_length=30,
-        verbose_name="Цвет обложки на странице",
-    )
     link = models.URLField(
         max_length=250,
         blank=False,
@@ -256,6 +262,7 @@ class Book(models.Model):
 
 
 class Article(models.Model):
+
     is_main = models.BooleanField(
         verbose_name="Основная статья",
         default=False,
@@ -267,10 +274,18 @@ class Article(models.Model):
     )
     author = models.CharField(max_length=200, verbose_name="Автор")
     profession = models.CharField(max_length=200, verbose_name="Профессия")
+    description = models.TextField(verbose_name="Описание")
     text = models.TextField(verbose_name="Текст")
+    COLOR_CHOICES = [
+        ("#E9D379", "yellow"),
+        ("#AAD59E", "green"),
+        ("#DF9687", "pink"),
+        ("#CDD2FA", "blue"),
+    ]
     color = ColorField(
-        max_length=30,
+        max_length=8,
         verbose_name="Цвет обложки на странице",
+        choices=COLOR_CHOICES,
     )
     image_url = models.ImageField(
         blank=True,
