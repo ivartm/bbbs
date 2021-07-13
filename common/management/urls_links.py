@@ -29,4 +29,10 @@ link_movie_list = [
     "https://www.youtube.com/watch?v=EtBb7xsd_1I",
     "https://www.youtube.com/watch?v=WK30dNXHYWk",
     "https://www.youtube.com/watch?v=XFYTwHVwUf4",
+    "https://www.youtube.com/watch?v=yYKW1DOsDE0",
+    "https://www.youtube.com/watch?v=XrmEns3sE60",
+    "https://www.youtube.com/watch?v=yfNbyy55vXg",
+    "https://www.youtube.com/watch?v=jEQvhO3QCDg",
+    "https://www.youtube.com/watch?v=8vPQKM5UOJU",
+    "https://www.youtube.com/watch?v=nqZRSmNulWI",
 ]

@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 
 from afisha.factories import EventFactory
 from common.factories import CityFactory, MeetingFactory
-from common.management.urls_links import link_video_list
+from common.management.urls_links import link_movie_list, link_video_list
 from common.models import City
 from entertainment.factories import (
     ArticleFactory,
@@ -106,9 +106,7 @@ class AllFactories:
         BookTagFactory.create_batch(arg)
 
     def create_book(self, arg):
-        for _ in range(arg):
-            num_tags = random.randint(1, 5)
-            BookFactory.create(tags__num=num_tags)
+        BookFactory.create_batch(arg)
 
     def create_videotag(self, arg):
         VideoTagFactory.create_batch(arg)
@@ -379,19 +377,23 @@ class Command(BaseCommand):
 
                     MovieTagFactory.create_batch(15)
 
-                    for _ in range(30):
+                    for link in link_movie_list:
                         num_tags = random.randint(1, 5)
-                        MovieFactory.create(tags=num_tags)
+                        MovieFactory.create(link=link, tags__num=num_tags)
 
                     MeetingFactory.create_batch(50)
 
                     ArticleFactory.create_batch(70)
 
-                    BookTagFactory.create_batch(15)
-
-                    for _ in range(30):
-                        num_tags = random.randint(1, 5)
-                        BookFactory.create(tags__num=num_tags)
+                    BookTagFactory.create(
+                        name="Художественные",
+                        slug="hudozhestvennye",
+                        color="#C8D1FF",
+                    )
+                    BookTagFactory.create(
+                        name="Научные", slug="nauchnye", color="#FC8585"
+                    )
+                    BookFactory.create_batch(50)
 
                     VideoTagFactory.create_batch(15)
 

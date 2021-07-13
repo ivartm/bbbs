@@ -27,6 +27,7 @@ class MovieTagSerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
     tags = MovieTagSerializer(many=True)
     info = serializers.SerializerMethodField(read_only=True)
+    link = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Movie
@@ -34,6 +35,11 @@ class MovieSerializer(serializers.ModelSerializer):
 
     def get_info(self, obj):
         return "{}, {} год".format(obj.producer, obj.year)
+
+    def get_link(self, obj):
+        watch_id = obj.link.split("watch?v=")
+        embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
+        return embed_link
 
 
 class VideoTagSerializer(serializers.ModelSerializer):
@@ -53,15 +59,19 @@ class VideoSerializer(serializers.ModelSerializer):
 class BookTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookTag
-        fields = "__all__"
+        fields = ["id", "name", "slug"]
 
 
 class BookSerializer(serializers.ModelSerializer):
-    tags = BookTagSerializer(many=True)
+    tag = BookTagSerializer()
+    color = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Book
         fields = "__all__"
+
+    def get_color(self, obj):
+        return obj.tag.color
 
 
 class ArticleSerializer(serializers.ModelSerializer):

@@ -42,22 +42,27 @@ class MovieAdmin(
     )
     readonly_fields = (
         "image_change_preview",
-        "image_url",
+        "duration",
     )
 
-    def get_fields(self, request, obj=None):
-        if obj is None:
-            fields = [
-                "tags",
-                "link",
-                "title",
-                "producer",
-                "year",
-                "description",
-                "duration",
-            ]
-            return fields
-        return super().get_fields(request, obj)
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields[
+            "title"
+        ].help_text = "Если поле пустое - сохранится название с youtube"
+        form.base_fields[
+            "producer"
+        ].help_text = "Если поле пустое - сохранится автор с youtube"
+        form.base_fields[
+            "image_url"
+        ].help_text = "Если поле пустое - сохранится превью с youtube"
+        form.base_fields[
+            "description"
+        ].help_text = "Если поле пустое - сохранится описание с youtube"
+        form.base_fields[
+            "year"
+        ].help_text = "Если поле пустое - сохранится превью с youtube"
+        return form
 
 
 class VideoTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
@@ -115,10 +120,10 @@ class ArticleAdmin(
 
 
 admin.site.register(Guide, GuideAdmin)
-admin.site.register(MovieTag, MovieTagAdmin)
-admin.site.register(Movie, MovieAdmin)
-admin.site.register(VideoTag, VideoTagAdmin)
 admin.site.register(Video, VideoAdmin)
-admin.site.register(BookTag, BookTagAdmin)
-admin.site.register(Book, BookAdmin)
 admin.site.register(Article, ArticleAdmin)
+admin.site.register(Movie, MovieAdmin)
+admin.site.register(Book, BookAdmin)
+admin.site.register(VideoTag, VideoTagAdmin)
+admin.site.register(MovieTag, MovieTagAdmin)
+admin.site.register(BookTag, BookTagAdmin)
