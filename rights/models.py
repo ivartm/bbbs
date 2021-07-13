@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy
 
 from common.utils.slugify import slugify
 
@@ -21,6 +22,12 @@ class RightTag(models.Model):
 
 
 class Right(models.Model):
+    class Colors(models.TextChoices):
+        YELLOW = "#E9D379", gettext_lazy("Жёлтый")
+        GREEN = "#AAD59E", gettext_lazy("Зелёный")
+        PINK = "#DF9687", gettext_lazy("Розовый")
+        BLUE = "#CDD2FA", gettext_lazy("Голубой")
+
     title = models.CharField(
         max_length=200,
         unique=True,
@@ -30,49 +37,14 @@ class Right(models.Model):
         max_length=500,
         verbose_name="Описание права ребенка",
     )
-    heading1 = models.CharField(
-        max_length=200,
-        null=True,
-        verbose_name="Заголовок 1",
+    color = models.CharField(
+        verbose_name="Цвет фигуры",
+        max_length=8,
+        choices=Colors.choices,
+        default="#E9D379",
     )
-    heading2 = models.CharField(
-        max_length=200,
-        null=True,
-        verbose_name="Заголовок 2",
-    )
-    heading3 = models.CharField(
-        max_length=200,
-        null=True,
-        verbose_name="Заголовок 3",
-    )
-    heading4 = models.CharField(
-        max_length=200,
-        null=True,
-        verbose_name="Заголовок 4",
-    )
-    heading5 = models.CharField(
-        max_length=200,
-        null=True,
-        verbose_name="Заголовок 5",
-    )
-    text1 = models.TextField(
+    text = models.TextField(
         verbose_name="1 текст права ребенка",
-        null=True,
-    )
-    text2 = models.TextField(
-        verbose_name="2 текст права ребенка",
-        null=True,
-    )
-    text3 = models.TextField(
-        verbose_name="3 текст права ребенка",
-        null=True,
-    )
-    text4 = models.TextField(
-        verbose_name="4 текст права ребенка",
-        null=True,
-    )
-    text5 = models.TextField(
-        verbose_name="5 текст права ребенка",
         null=True,
     )
     image_url = models.ImageField(
