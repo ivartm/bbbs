@@ -48,7 +48,9 @@ class GuidesView(ListDetailApiView):
 
 
 class MoviesTagsView(ListDetailApiView):
-    queryset = MovieTag.objects.all().order_by("id")
+    """Returns only MovieTags that used in Video objects."""
+
+    queryset = MovieTag.objects.exclude(movies=None).distinct().order_by("id")
     serializer_class = MovieTagSerializer
 
 
