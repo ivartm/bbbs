@@ -2,17 +2,19 @@ from django_filters import rest_framework as filters
 
 from common.exceptions import CityNotSelected
 from common.models import City
-from places.models import PlaceTag
+from places.models import Place, PlaceTag
 
 
 class PlaceFilter(filters.FilterSet):
-    """By tags and city filter with request inspecting logic.
+    """By tags, age and city filter with request inspecting logic.
 
     On a request basis the filter do:
         - if the user is authenticated it returns queryset filtered by the
-        user's city. The filter doesn't require any query param but could be
-        filtered by tags.
+        user's city
         - if the user is UNauthenticated it requires 'city' query param
+        - could be filtered by tags
+        - could be filtered by age with 'gte' or 'lte' kyewords
+        (age__gte=10 means return all places with age greeter(>) or = 10)
 
         If an authenticated user passes 'city' query param that is different
         from the user's city it returns zero results. It's expected behavior.
@@ -24,6 +26,12 @@ class PlaceFilter(filters.FilterSet):
         queryset=PlaceTag.objects.all(),
         to_field_name="slug",
     )
+
+    class Meta:
+        model = Place
+        fields = {
+            "age": ["gte", "lte"],
+        }
 
     @property
     def qs(self):

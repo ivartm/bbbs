@@ -9,13 +9,8 @@ import environ
 
 env = environ.Env()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# env_file = os.path.join(BASE_DIR, ".env")
-# environ.Env.read_env(env_file)
-
-# Instead of BASE_DIR it's root folder of entire project
+# Root folder of the project
+# ------------------------------------------------------------------------------
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 
 # GENERAL
@@ -227,3 +222,7 @@ EMAIL_MEETING_TEMPLATE_ID = env(
 # Youtube Token
 # ------------------------------------------------------------------------------
 YOUTUBE_KEY = env("YOUTUBE_KEY", default="Some boilerplate value")
+
+# Default City for users
+# ------------------------------------------------------------------------------
+DEFAULT_CITY_NAME = env("DEFAULT_CITY_NAME", default="Москва")

@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 
 from afisha.factories import EventFactory
 from common.factories import CityFactory, MeetingFactory
-from common.management.urls_links import link_video_list
+from common.management.urls_links import link_movie_list, link_video_list
 from common.models import City
 from entertainment.factories import (
     ArticleFactory,
@@ -25,7 +25,7 @@ from questions.factories import (
     QuestionTagFactory,
 )
 from rights.factories import RightFactory, RightTagFactory
-from story.factories import StoryFactory
+from story.factories import StoryFactory, StoryImageFactory
 from users.factories import CuratorFactory, UserFactory
 
 CITIES = [
@@ -34,8 +34,6 @@ CITIES = [
     "Казань",
     "Железногорск",
     "Чебоксары",
-    "Санкт-Петербург",
-    "Москва",
 ]
 
 
@@ -106,16 +104,17 @@ class AllFactories:
         BookTagFactory.create_batch(arg)
 
     def create_book(self, arg):
-        for _ in range(arg):
-            num_tags = random.randint(1, 5)
-            BookFactory.create(tags__num=num_tags)
+        BookFactory.create_batch(arg)
 
     def create_videotag(self, arg):
         VideoTagFactory.create_batch(arg)
 
-    def create_history(self, arg):
+    def create_story(self, arg):
         for _ in range(arg):
             StoryFactory.create()
+
+    def create_story_image(self, arg):
+        StoryImageFactory.create_batch(arg)
 
 
 allfactories = AllFactories()
@@ -141,7 +140,8 @@ OPTIONS_AND_FINCTIONS = {
     "booktag": allfactories.create_booktag,
     "book": allfactories.create_book,
     "videotag": allfactories.create_videotag,
-    "history": allfactories.create_history,
+    "story": allfactories.create_story,
+    "storyimg": allfactories.create_story_image,
 }
 
 
@@ -301,10 +301,17 @@ class Command(BaseCommand):
             required=False,
         )
         parser.add_argument(
-            "--history",
+            "--story",
             nargs=1,
             type=int,
             help="Create Story object",
+            required=False,
+        )
+        parser.add_argument(
+            "--storyimg",
+            nargs=1,
+            type=int,
+            help="Create StoryImage object",
             required=False,
         )
 
@@ -368,19 +375,23 @@ class Command(BaseCommand):
 
                     MovieTagFactory.create_batch(15)
 
-                    for _ in range(30):
+                    for link in link_movie_list:
                         num_tags = random.randint(1, 5)
-                        MovieFactory.create(tags=num_tags)
+                        MovieFactory.create(link=link, tags__num=num_tags)
 
                     MeetingFactory.create_batch(50)
 
                     ArticleFactory.create_batch(70)
 
-                    BookTagFactory.create_batch(15)
-
-                    for _ in range(30):
-                        num_tags = random.randint(1, 5)
-                        BookFactory.create(tags__num=num_tags)
+                    BookTagFactory.create(
+                        name="Художественные",
+                        slug="hudozhestvennye",
+                        color="#C8D1FF",
+                    )
+                    BookTagFactory.create(
+                        name="Научные", slug="nauchnye", color="#FC8585"
+                    )
+                    BookFactory.create_batch(50)
 
                     VideoTagFactory.create_batch(15)
 
@@ -388,8 +399,10 @@ class Command(BaseCommand):
                         num_tags = random.randint(1, 5)
                         VideoFactory.create(link=link, tags__num=num_tags)
 
-                    for _ in range(70):
+                    for _ in range(30):
                         StoryFactory.create()
+
+                    StoryImageFactory.create_batch(100)
 
                     MainFactory.create()
 

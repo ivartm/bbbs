@@ -130,7 +130,7 @@ class URLTests(TestCase):
             "city": {
                 "id": user.profile.city.id,
                 "name": user.profile.city.name,
-                "isPrimary": user.profile.city.isPrimary,
+                "is_primary": user.profile.city.is_primary,
             },
         }
         client = self.return_authorized_user_client(user=user)
@@ -157,7 +157,7 @@ class URLTests(TestCase):
             "city": {
                 "id": self.city_new.id,
                 "name": self.city_new.name,
-                "isPrimary": self.city_new.isPrimary,
+                "is_primary": self.city_new.is_primary,
             },
         }
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

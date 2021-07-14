@@ -24,6 +24,7 @@ def get_youtube_data(url):
         preview = image_thumbnails["maxres"]["url"]
     duration = isodate.parse_duration(video_data["contentDetails"]["duration"])
     author = video_data["snippet"]["channelTitle"]
+    date = video_data["snippet"]["publishedAt"]
     new_data.update(
         dict(
             video_id=video_id,
@@ -32,6 +33,7 @@ def get_youtube_data(url):
             preview=preview,
             author=author,
             duration=duration,
+            date=date,
         )
     )
     return new_data
