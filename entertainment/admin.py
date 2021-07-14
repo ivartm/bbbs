@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from common.utils.mixins import AdminPreview
+from common.utils.mixins import AdminColor, AdminPreview
 from entertainment.models import (
     Article,
     Book,
@@ -99,21 +99,27 @@ class VideoAdmin(
         return form
 
 
-class BookTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    pass
+class BookTagAdmin(
+    AdminAndModerGenPermissionsMixin, AdminColor, admin.ModelAdmin
+):
+    list_display = ("name", "colored_circle")
 
 
 class BookAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    pass
+    list_display = ("id", "tag", "title", "author")
 
 
 class ArticleAdmin(
-    AdminAndModerGenPermissionsMixin, AdminPreview, admin.ModelAdmin
+    AdminAndModerGenPermissionsMixin,
+    AdminPreview,
+    AdminColor,
+    admin.ModelAdmin,
 ):
     list_display = (
         "id",
         "title",
         "is_main",
+        "colored_circle",
         "image_list_preview",
     )
     readonly_fields = ("image_change_preview",)

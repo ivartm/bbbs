@@ -236,6 +236,7 @@ class Book(models.Model):
         blank=False,
         on_delete=models.CASCADE,
         related_name="books",
+        verbose_name="Жанр",
     )
     title = models.CharField(
         max_length=200,
@@ -284,7 +285,7 @@ class Article(models.Model):
     ]
     color = ColorField(
         max_length=8,
-        verbose_name="Цвет обложки на странице",
+        verbose_name="Цвет",
         choices=COLOR_CHOICES,
     )
     image_url = models.ImageField(
