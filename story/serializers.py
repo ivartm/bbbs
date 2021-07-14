@@ -7,6 +7,7 @@ class StoryImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoryImage
         fields = [
+            "id",
             "image",
         ]
 
