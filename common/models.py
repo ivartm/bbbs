@@ -11,7 +11,7 @@ class City(models.Model):
         help_text="Введите город",
         unique=True,
     )
-    isPrimary = models.BooleanField(
+    is_primary = models.BooleanField(
         default=False,
         verbose_name="Приоритет вывода",
         help_text="Укажите, если город должен иметь приоритетный вывод",

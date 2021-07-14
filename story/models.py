@@ -16,6 +16,7 @@ class Story(models.Model):
     )
     prolog = models.TextField(verbose_name="Пролог")
     text = models.TextField(verbose_name="Текст истории")
+    passage = models.TextField(verbose_name="Цитата из текста")
     pub_date = models.DateTimeField(
         verbose_name="Дата создания", auto_now_add=True
     )

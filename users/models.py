@@ -1,10 +1,16 @@
-from django.contrib.auth.models import User
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
 
 from common.models import City
+
+DEFAULT_CITY_NAME = settings.DEFAULT_CITY_NAME
+
+User = get_user_model()
 
 User._meta.get_field("email")._unique = True
 User._meta.get_field("email").blank = False
@@ -99,23 +105,14 @@ class Profile(models.Model):
 
     @receiver(post_save, sender=User)
     def create_and_update_user_profile(sender, instance, created, **kwargs):
-        """Should be analyzed and documented or possibly rewritten.
-
+        """
         Creates Profile object when new user was created. Do nothing if user
         was updated.
         """
-
         if created:
-            obj, city_created = City.objects.get_or_create(
-                name="Москва",
-                defaults={"name": "Москва", "isPrimary": True},
-            )
-            if city_created:
-                obj.save()
-
             Profile.objects.create(
                 user=instance,
-                city=obj,
+                city=get_object_or_404(City, name=DEFAULT_CITY_NAME),
             )
 
     @property

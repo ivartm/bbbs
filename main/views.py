@@ -3,9 +3,8 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from afisha.models import Event, EventParticipant
+from afisha.models import Event
 from afisha.serializers import EventSerializer
-from common.models import City
 from main.models import Main
 from main.serializers import MainSerializer
 
@@ -15,27 +14,17 @@ class MainView(ListAPIView):
     filter_backends = (DjangoFilterBackend,)
 
     def get(self, request):
-        if self.request.user.is_authenticated:
-            city = self.request.user.profile.city
-        else:
-            city, created = City.objects.get_or_create(name="Москва")
+        context = {}
+        user = request.user
+        if user.is_authenticated:
+            event = Event.afisha_objects.not_started_user_afisha(
+                user=user
+            ).first()
+            event_serializer = EventSerializer(event)
+            context["event"] = {**event_serializer.data}
 
         main = Main.objects.first()
-        event = Event.afisha_objects.not_started_city_afisha(city=city).first()
-        booked = (
-            request.user.is_authenticated
-            and EventParticipant.objects.filter(
-                event=event,
-                user=request.user,
-            ).exists()
-        )
-        if event:
-            event.booked = booked
-
         main_serializer = MainSerializer(main, context={"request": request})
-        event_serializer = EventSerializer(event, context={"request": request})
-
-        context = {}
-        context["event"] = {**event_serializer.data}
         context.update(main_serializer.data)
+
         return Response(context)

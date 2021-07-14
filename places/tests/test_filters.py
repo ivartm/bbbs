@@ -16,22 +16,22 @@ class FilterTests(APITestCase):
 
         cls.city = CityFactory()
         cls.other_city = CityFactory()
-        cls.mentor = UserFactory()
+        cls.mentor = UserFactory(profile__city=cls.city)
 
         cls.tag_1 = PlacesTagFactory(name="tag1")
         cls.tag_2 = PlacesTagFactory(name="tag2")
 
-        cls.place_1 = PlaceFactory.create_batch(
+        PlaceFactory.create_batch(
             10,
             tags=[cls.tag_1],
             city=cls.city,
         )
-        cls.place_2 = PlaceFactory.create_batch(
+        PlaceFactory.create_batch(
             20,
             tags=[cls.tag_2],
             city=cls.other_city,
         )
-        cls.place_3 = PlaceFactory.create_batch(
+        PlaceFactory.create_batch(
             40,
             tags=[cls.tag_2],
             city=cls.city,

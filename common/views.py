@@ -5,9 +5,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView
-from rest_framework.mixins import ListModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework.viewsets import ModelViewSet
 
 from common.models import City, Meeting
 from common.permissions import IsOwner
@@ -15,27 +14,15 @@ from common.serializers import (
     CitySerializer,
     MeetingMessageSerializer,
     MeetingSerializer,
-    MyCitySerializer,
 )
-from users.models import Profile
 
 EMAIL_MEETING_TEMPLATE_ID = settings.EMAIL_MEETING_TEMPLATE_ID
 
 
 class CityAPIView(ListAPIView):
-    queryset = City.objects.all().order_by("-isPrimary", "name")
+    queryset = City.objects.all().order_by("-is_primary", "name")
     serializer_class = CitySerializer
     permission_classes = [AllowAny]
-
-
-class MyCityApiView(ListModelMixin, UpdateModelMixin, GenericViewSet):
-    serializer_class = MyCitySerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        user = self.request.user
-        queryset = Profile.objects.filter(user=user)
-        return queryset
 
 
 class MeetingViewSet(ModelViewSet):
@@ -80,4 +67,4 @@ class MeetingViewSet(ModelViewSet):
             message.send()
             meeting.send_to_curator = True
             meeting.save()
-            return JsonResponse({"success": True}, status=status.HTTP_200_OK)
+            return JsonResponse({"success": "Ok"}, status=status.HTTP_200_OK)
