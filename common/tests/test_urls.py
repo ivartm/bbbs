@@ -35,7 +35,7 @@ class URLTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        base.MEDIA_ROOT = tempfile.mkdtemp(dir=base.BASE_DIR)
+        base.MEDIA_ROOT = tempfile.mkdtemp(dir=base.ROOT_DIR)
         cls.city = CityFactory(name=CITY_NAME)
         cls.user = UserFactory(
             profile__role=Profile.Role.MENTOR,

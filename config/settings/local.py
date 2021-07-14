@@ -3,10 +3,8 @@ import os
 from .base import *  # noqa
 from .base import env
 
-# env_file = os.path.join(BASE_DIR, ".env")
-# environ.Env.read_env(env_file)
-
-# YOUTUBE_KEY = env("YOUTUBE_KEY")
+env_file = os.path.join(ROOT_DIR, ".env")
+environ.Env.read_env(env_file)
 
 
 # GENERAL
@@ -64,3 +62,7 @@ DATABASES = {
         "PORT": env("POSTGRES_PORT", default="5432"),
     }
 }
+
+# Youtube Token
+# ------------------------------------------------------------------------------
+YOUTUBE_KEY = env("YOUTUBE_KEY")
