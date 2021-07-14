@@ -34,8 +34,6 @@ CITIES = [
     "Казань",
     "Железногорск",
     "Чебоксары",
-    "Санкт-Петербург",
-    "Москва",
 ]
 
 
@@ -111,11 +109,11 @@ class AllFactories:
     def create_videotag(self, arg):
         VideoTagFactory.create_batch(arg)
 
-    def create_history(self, arg):
+    def create_story(self, arg):
         for _ in range(arg):
             StoryFactory.create()
 
-    def create_history_image(self, arg):
+    def create_story_image(self, arg):
         StoryImageFactory.create_batch(arg)
 
 
@@ -142,8 +140,8 @@ OPTIONS_AND_FINCTIONS = {
     "booktag": allfactories.create_booktag,
     "book": allfactories.create_book,
     "videotag": allfactories.create_videotag,
-    "history": allfactories.create_history,
-    "historyimg": allfactories.create_history_image,
+    "story": allfactories.create_story,
+    "storyimg": allfactories.create_story_image,
 }
 
 
@@ -303,14 +301,14 @@ class Command(BaseCommand):
             required=False,
         )
         parser.add_argument(
-            "--history",
+            "--story",
             nargs=1,
             type=int,
             help="Create Story object",
             required=False,
         )
         parser.add_argument(
-            "--historyimg",
+            "--storyimg",
             nargs=1,
             type=int,
             help="Create StoryImage object",
