@@ -59,9 +59,6 @@ class ProfileView(generics.RetrieveAPIView):
             return Response(
                 data=serializer.data, status=status.HTTP_201_CREATED
             )
-        return Response(
-            data="Неверные данные", status=status.HTTP_400_BAD_REQUEST
-        )
 
 
 @receiver(reset_password_token_created)
