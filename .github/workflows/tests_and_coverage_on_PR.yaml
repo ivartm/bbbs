@@ -1,4 +1,4 @@
-name: tests and CodeCov report
+name: Run tests and Generate Coverage Report
 
 on:
   pull_request:
@@ -7,8 +7,8 @@ on:
       - develop
 
 jobs:
-  tests:
-    name: run tests
+  tests_and_coverage:
+    name: Run tests and Generate Coverage Report
     runs-on: ubuntu-latest
     steps:
     -
@@ -32,5 +32,6 @@ jobs:
       run: |
         pip install coverage
         coverage run --source='.' -m pytest
-    - name: Upload Coverage to Codecov
+    -
+      name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v1

@@ -5,8 +5,8 @@ on:
     branches:
       - main
 jobs:
-  run_tests:
-    name: Testing PEP8 and pytest
+  tests_and_coverage:
+    name: Check codestyle, run test and upload Coverage Report
     runs-on: ubuntu-latest
     steps:
     -
@@ -32,11 +32,18 @@ jobs:
     -
       name: Test with pytest
       run: pytest
+    -
+      name: Generate Report
+      run: |
+        coverage run --source='.' -m pytest
+    -
+      name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v1
 
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    needs: run_tests
+    needs: tests_and_coverage
     environment: production_environment
     steps:
       -

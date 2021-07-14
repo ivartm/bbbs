@@ -1,10 +1,9 @@
 name: pep8 codestyle
 
-on:
-  push
+on: push
 
 jobs:
-  tests:
+  codestyle:
     name: Testing PEP8 and codestyle
     runs-on: ubuntu-latest
     steps:
