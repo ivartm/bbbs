@@ -106,7 +106,7 @@ class BookTagAdmin(
 
 
 class BookAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    pass
+    list_display = ("id", "tag", "title", "author")
 
 
 class ArticleAdmin(

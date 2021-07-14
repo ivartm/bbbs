@@ -23,7 +23,7 @@ class AdminPreview:
             return format_html(
                 '<img src="{}" width="600" height="300" style="'
                 "border: 2px solid grey;"
-                'border-radius:10px;" />'.format(url)
+                'border-radius:50px;" />'.format(url)
             )
         pass
 
