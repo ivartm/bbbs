@@ -71,6 +71,7 @@ class Place(models.Model):
         choices=ActivityTypes.choices,
     )
     description = models.TextField(
+        max_length=2000,
         verbose_name="Комментарий",
         help_text="Поделитесь впечатлениями о проведенном времени",
     )
