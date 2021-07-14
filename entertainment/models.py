@@ -211,7 +211,7 @@ class BookTag(models.Model):
     slug = models.SlugField(
         verbose_name="Адрес тега", max_length=50, unique=True
     )
-    COLOR_CHOICES = [("#FC8585", "red"), ("#C8D1FF", "violet")]
+    COLOR_CHOICES = [("#FF8484", "red"), ("#C8D1FF", "violet")]
     color = ColorField(
         max_length=8,
         verbose_name="Цвет обложки на странице",
@@ -277,10 +277,10 @@ class Article(models.Model):
     description = models.TextField(verbose_name="Описание")
     text = models.TextField(verbose_name="Текст")
     COLOR_CHOICES = [
-        ("#E9D379", "yellow"),
-        ("#AAD59E", "green"),
-        ("#DF9687", "pink"),
-        ("#CDD2FA", "blue"),
+        ("#F8D162", "yellow"),
+        ("#8CDD94", "green"),
+        ("#FF8484", "pink"),
+        ("#C8D1FF", "blue"),
     ]
     color = ColorField(
         max_length=8,
