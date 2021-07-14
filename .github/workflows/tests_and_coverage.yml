@@ -1,11 +1,10 @@
-name: tests
+name: tests and CodeCov report
 
 on:
   pull_request:
     branches:
       - main
       - develop
-      - ci/codecov
 
 jobs:
   tests:
