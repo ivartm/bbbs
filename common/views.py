@@ -20,7 +20,7 @@ EMAIL_MEETING_TEMPLATE_ID = settings.EMAIL_MEETING_TEMPLATE_ID
 
 
 class CityAPIView(ListAPIView):
-    queryset = City.objects.all().order_by("-isPrimary", "name")
+    queryset = City.objects.all().order_by("-is_primary", "name")
     serializer_class = CitySerializer
     permission_classes = [AllowAny]
 

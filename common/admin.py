@@ -9,10 +9,10 @@ from .models import City, Meeting
 
 
 class CityAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    list_display = ("id", "name", "isPrimary")
+    list_display = ("id", "name", "is_primary")
     list_display_links = ("name",)
     search_fields = ("name",)
-    list_filter = ("isPrimary",)
+    list_filter = ("is_primary",)
     empty_field = "--- пусто ---"
 
 
