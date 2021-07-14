@@ -1,6 +1,6 @@
-[![CI/CD](https://github.com/ivartm/bbbs/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/ivartm/bbbs/actions/workflows/build_and_deploy.yml)
+[![CI/CD](https://github.com/ivartm/bbbs/actions/workflows/build_and_deploy.yaml/badge.svg)](https://github.com/ivartm/bbbs/actions/workflows/build_and_deploy.yaml)
 [![codecov](https://codecov.io/gh/ivartm/bbbs/branch/main/graph/badge.svg?token=30U7Y04CUE)](https://codecov.io/gh/ivartm/bbbs)
-![pep8 codestyle](https://github.com/ivartm/bbbs/actions/workflows/codestyle.yml/badge.svg)
+![pep8 codestyle](https://github.com/ivartm/bbbs/actions/workflows/codestyle.yaml/badge.svg)
 
 
 # bbbs
