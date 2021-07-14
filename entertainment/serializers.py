@@ -50,10 +50,16 @@ class VideoTagSerializer(serializers.ModelSerializer):
 
 class VideoSerializer(serializers.ModelSerializer):
     tags = VideoTagSerializer(many=True)
+    link = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Video
         exclude = ["creative_url"]
+
+    def get_link(self, obj):
+        watch_id = obj.link.split("watch?v=")
+        embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
+        return embed_link
 
 
 class BookTagSerializer(serializers.ModelSerializer):
