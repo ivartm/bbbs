@@ -1,16 +1,23 @@
 from django.contrib import admin
-from django.utils.html import format_html
 
+from common.utils.mixins import AdminColor, AdminPreview
 from rights.models import Right, RightTag
 from users.utils import AdminAndModerGenPermissionsMixin
 
 
-class RightAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
+class RightAdmin(
+    AdminAndModerGenPermissionsMixin,
+    AdminPreview,
+    AdminColor,
+    admin.ModelAdmin,
+):
     list_display = [
         "title",
         "description",
         "colored_circle",
+        "image_list_preview",
     ]
+    readonly_fields = ("image_change_preview",)
     list_filter = [
         "tags",
     ]
@@ -20,22 +27,6 @@ class RightAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
         "text",
     ]
     filter_horizontal = ("tags",)
-
-    @admin.display(
-        description="Цвет фигуры",
-    )
-    def colored_circle(self, obj):
-        return format_html(
-            "<span style='"
-            "height: 25px;"
-            "width: 25px;"
-            "border: 1px solid grey;"
-            "border-radius: 50%;"
-            "display: inline-block;"
-            "background-color: {};'>"
-            "</span>",
-            obj.color,
-        )
 
 
 class RightTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):

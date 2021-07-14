@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.utils.html import format_html
 
 
@@ -20,7 +21,9 @@ class AdminPreview:
             else:
                 url = obj.image_url.url
             return format_html(
-                '<img src="{}" width="600" height="300" />'.format(url)
+                '<img src="{}" width="600" height="300" style="'
+                "border: 2px solid grey;"
+                'border-radius:10px;" />'.format(url)
             )
         pass
 
@@ -33,8 +36,38 @@ class AdminPreview:
             else:
                 url = obj.image_url.url
             return format_html(
-                '<img src="{}" width="100" height="50" />'.format(url)
+                '<img src="{}" width="100" height="50" style="'
+                "border: 1px solid grey;"
+                'border-radius:10px;" />'.format(url)
             )
         pass
 
     image_list_preview.short_description = "Картинка"
+
+
+class AdminColor:
+
+    """
+    Mixin makes colored circles from the colors used in the object
+
+    Add this field in admin class
+
+        list_display = ("colored_circle",)
+
+    """
+
+    @admin.display(
+        description="Цвет фигуры",
+    )
+    def colored_circle(self, obj):
+        return format_html(
+            "<span style='"
+            "height: 25px;"
+            "width: 25px;"
+            "border: 1px solid grey;"
+            "border-radius: 50%;"
+            "display: inline-block;"
+            "background-color: {};'>"
+            "</span>",
+            obj.color,
+        )

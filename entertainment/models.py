@@ -284,7 +284,7 @@ class Article(models.Model):
     ]
     color = ColorField(
         max_length=8,
-        verbose_name="Цвет обложки на странице",
+        verbose_name="Цвет",
         choices=COLOR_CHOICES,
     )
     image_url = models.ImageField(
