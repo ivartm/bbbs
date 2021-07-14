@@ -227,3 +227,7 @@ EMAIL_MEETING_TEMPLATE_ID = env(
 # Youtube Token
 # ------------------------------------------------------------------------------
 YOUTUBE_KEY = env("YOUTUBE_KEY", default="Some boilerplate value")
+
+# Default City for users
+# ------------------------------------------------------------------------------
+DEFAULT_CITY_NAME = env("DEFAULT_CITY_NAME", default="Москва")
