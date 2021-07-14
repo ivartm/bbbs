@@ -70,6 +70,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ${{ github.event.repository.name }}
+            git pull
             export COMPOSE_FILE=${{ secrets.COMPOSE_FILE }}
             docker pull ${{ secrets.DOCKER_USERNAME }}/bbbs-backend:latest
             docker-compose down
