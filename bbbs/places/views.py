@@ -17,7 +17,7 @@ class PlacesTagAPIView(generics.ListAPIView):
     queryset = PlaceTag.objects.exclude(places=None).distinct().order_by("id")
     serializer_class = PlaceTagSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_class = PlaceTagFilter
+    filterset_class = PlaceTagFilter
 
 
 class PlacesAPIView(generics.ListCreateAPIView):
