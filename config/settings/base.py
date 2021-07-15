@@ -46,15 +46,15 @@ THIRD_PARTY_APPS = [
     "django_rest_passwordreset",
 ]
 LOCAL_APPS = [
-    "users",
-    "common",
-    "afisha",
-    "main",
-    "places",
-    "rights",
-    "questions",
-    "entertainment",
-    "story",
+    "bbbs.users",
+    "bbbs.common",
+    "bbbs.afisha",
+    "bbbs.main",
+    "bbbs.places",
+    "bbbs.rights",
+    "bbbs.questions",
+    "bbbs.entertainment",
+    "bbbs.story",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
