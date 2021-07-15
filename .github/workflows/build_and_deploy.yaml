@@ -35,7 +35,7 @@ jobs:
     -
       name: Generate Report
       run: |
-        coverage run --source='.' -m pytest
+        coverage run --source='bbbs' -m pytest
     -
       name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v1
