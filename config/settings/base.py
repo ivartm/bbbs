@@ -46,15 +46,15 @@ THIRD_PARTY_APPS = [
     "django_rest_passwordreset",
 ]
 LOCAL_APPS = [
-    "users",
-    "common",
-    "afisha",
-    "main",
-    "places",
-    "rights",
-    "questions",
-    "entertainment",
-    "story",
+    "bbbs.users",
+    "bbbs.common",
+    "bbbs.afisha",
+    "bbbs.main",
+    "bbbs.places",
+    "bbbs.rights",
+    "bbbs.questions",
+    "bbbs.entertainment",
+    "bbbs.story",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -119,7 +119,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
-    "EXCEPTION_HANDLER": "common.utils.handlers.custom_exception_handler",
+    "EXCEPTION_HANDLER": "bbbs.common.utils.handlers.custom_exception_handler",
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
     ],
@@ -146,7 +146,7 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
 }
 
-AUTHENTICATION_BACKENDS = ["users.backends.UserOrEmailBackend"]
+AUTHENTICATION_BACKENDS = ["bbbs.users.backends.UserOrEmailBackend"]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

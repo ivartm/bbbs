@@ -15,15 +15,15 @@ handler404 = error404
 handler500 = error500
 
 extra_patterns = [
-    path("", include("users.urls")),
-    path("", include("main.urls")),
-    path("", include("common.urls")),
-    path("", include("afisha.urls")),
-    path("", include("places.urls")),
-    path("", include("questions.urls")),
-    path("", include("rights.urls")),
-    path("", include("entertainment.urls")),
-    path("", include("story.urls")),
+    path("", include("bbbs.users.urls")),
+    path("", include("bbbs.main.urls")),
+    path("", include("bbbs.common.urls")),
+    path("", include("bbbs.afisha.urls")),
+    path("", include("bbbs.places.urls")),
+    path("", include("bbbs.questions.urls")),
+    path("", include("bbbs.rights.urls")),
+    path("", include("bbbs.entertainment.urls")),
+    path("", include("bbbs.story.urls")),
 ]
 
 urlpatterns = [
