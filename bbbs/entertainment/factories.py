@@ -60,9 +60,9 @@ class MovieFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ["title"]
 
     title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=4))
-    description = None
-    producer = None
-    year = None
+    description = factory.Sequence(lambda n: fake.unique.sentence(nb_words=15))
+    # producer = None
+    # year = None
     link = None
 
     @factory.post_generation

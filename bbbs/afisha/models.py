@@ -74,7 +74,7 @@ class Event(models.Model):
     description = models.TextField(verbose_name="Дополнительная информация")
     start_at = models.DateTimeField(verbose_name="Начало")
     end_at = models.DateTimeField(verbose_name="Окончание")
-    seats = models.PositiveIntegerField(verbose_name="Свободные места")
+    seats = models.PositiveIntegerField(verbose_name="Количество мест")
     city = models.ForeignKey(
         City,
         related_name="events",
@@ -99,6 +99,16 @@ class Event(models.Model):
                     "end_at": (
                         "Проверьте дату окончания мероприятия: "
                         "не может быть меньше даты начала"
+                    )
+                }
+            )
+
+        if self.start_at == self.end_at:
+            raise ValidationError(
+                {
+                    "end_at": (
+                        "Проверьте дату окончания мероприятия: "
+                        "не может быть равна дате начала"
                     )
                 }
             )

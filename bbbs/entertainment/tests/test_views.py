@@ -1,8 +1,8 @@
 from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase
 
-from bbbs.entertainment.factories import ArticleFactory
-from bbbs.entertainment.models import Article, Book, BookTag
+from bbbs.entertainment.factories import ArticleFactory, GuideFactory
+from bbbs.entertainment.models import Article, Book, BookTag, Guide
 
 
 class ViewArticlesTests(APITestCase):
@@ -224,3 +224,115 @@ class ViewBookTests(APITestCase):
             405,
             msg="Метод DELETE должен быть недоступен!",
         )
+
+
+class ViewGuideTests(APITestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+
+        cls.path_guides = reverse("guides-list")
+
+    def test_movies_list_correct_fields(self):
+        client = APIClient()
+        GuideFactory.create_batch(10)
+        response = client.get(ViewGuideTests.path_guides).data
+        self.assertTrue("count" in response)
+        self.assertTrue("next" in response)
+        self.assertTrue("previous" in response)
+        self.assertTrue("results" in response)
+
+        fields = [
+            "id",
+            "title",
+            "description",
+            "image_url",
+            "image_caption",
+            "text",
+        ]
+        results = response.get("results")[0]
+        for field in fields:
+            with self.subTest(field=field):
+                self.assertTrue(field in results, msg=f"Нет поля {field}")
+
+    def test_guides_list_context(self):
+        client = APIClient()
+        GuideFactory.create_batch(40)
+        obj = Guide.objects.get(id=1)
+        response = client.get(ViewGuideTests.path_guides).data
+        self.assertEqual(response["count"], 40)
+        results = response.get("results")[0]
+
+        self.assertEqual(results["id"], obj.pk)
+        self.assertEqual(results["title"], obj.title)
+        self.assertEqual(results["description"], obj.description)
+        self.assertEqual(results["image_caption"], obj.image_caption)
+        self.assertEqual(
+            results["image_url"],
+            "http://testserver/media/" + str(obj.image_url),
+        )
+        self.assertEqual(results["text"], obj.text)
+
+    def test_guides_allowed_methods(self):
+        client = APIClient()
+
+        response = client.get(ViewGuideTests.path_guides)
+        self.assertEqual(
+            response.status_code, 200, msg="Метод GET должен быть доступен!"
+        )
+
+        response = client.post(ViewGuideTests.path_guides)
+        self.assertEqual(
+            response.status_code, 405, msg="Метод POST должен быть недоступен!"
+        )
+
+        response = client.patch(ViewGuideTests.path_guides)
+        self.assertEqual(
+            response.status_code,
+            405,
+            msg="Метод PATCH должен быть недоступен!",
+        )
+
+        response = client.put(ViewGuideTests.path_guides)
+        self.assertEqual(
+            response.status_code, 405, msg="Метод PUT должен быть недоступен!"
+        )
+
+        response = client.delete(ViewGuideTests.path_guides)
+        self.assertEqual(
+            response.status_code,
+            405,
+            msg="Метод DELETE должен быть недоступен!",
+        )
+
+
+# class ViewMovieTests(APITestCase):
+#     @classmethod
+#     def setUpClass(cls) -> None:
+#         super().setUpClass()
+#
+#         cls.path_articles = reverse("movies-list")
+#
+#     def test_movies_list_correct_fields(self):
+#         client = APIClient()
+#         MovieFactory.create_batch(10)
+#         response = client.get(ViewArticlesTests.path_articles).data
+#         self.assertTrue("count" in response)
+#         self.assertTrue("next" in response)
+#         self.assertTrue("previous" in response)
+#         self.assertTrue("results" in response)
+#
+#         fields = [
+#             "id",
+#             "link",
+#             "title",
+#             "producer",
+#             "year",
+#             "description",
+#             "image_url",
+#             "duration",
+#         ]
+#         results = response.get("results")[0]
+#         for field in fields:
+#             with self.subTest(field=field):
+#                 self.assertTrue(field in results, msg=f"Нет поля {field}")
