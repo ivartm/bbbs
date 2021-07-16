@@ -6,8 +6,8 @@ from .views import CityAPIView, MeetingViewSet
 router = DefaultRouter()
 
 router.register(
-    "meetings",
-    MeetingViewSet,
+    prefix="meetings",
+    viewset=MeetingViewSet,
     basename="meetings",
 )
 

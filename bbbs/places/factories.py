@@ -52,8 +52,8 @@ class PlaceFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Place
 
-    chosen = factory.LazyFunction(lambda: random.choice([True, False]))
-    published = True
+    chosen = factory.Faker("boolean", chance_of_getting_true=50)
+    published = factory.Faker("boolean", chance_of_getting_true=90)
     title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=7))
     city = factory.Iterator(City.objects.all())
     address = factory.Faker("address")
