@@ -7,12 +7,12 @@ from rest_framework.test import APIClient, APITestCase, override_settings
 
 from bbbs.common.factories import CityFactory
 from bbbs.places.factories import PlaceFactory, PlacesTagFactory
-from bbbs.places.models import Place
 from bbbs.users.factories import UserFactory
 from bbbs.users.models import Profile
 
-PLACES = reverse("places")
+PLACES = reverse("places-list")
 PLACES_TAGS = reverse("places-tags")
+PLACES_MAIN = reverse("places-main")
 
 TEMP_DIR = tempfile_mkdtemp()
 
@@ -42,13 +42,15 @@ class ViewPlacesTests(APITestCase):
             profile__role=Profile.Role.MENTOR,
             profile__city=cls.city,
         )
-        PlaceFactory.create_batch(10, city=cls.city)
+        PlaceFactory.create_batch(
+            10,
+            city=cls.city,
+            published=True,
+        )
         cls.unauthorized_client = APIClient()
 
-    def return_authorized_user_client(self, user):
-        authorized_client = APIClient()
-        authorized_client.force_authenticate(user=user)
-        return authorized_client
+        cls.authorized_client = APIClient()
+        cls.authorized_client.force_authenticate(user=cls.mentor)
 
     def test_unauthorized_user_required_city_query_param(self):
         """
@@ -93,8 +95,7 @@ class ViewPlacesTests(APITestCase):
 
     def test_places_is_paginated(self):
         """Looks for fields that should be in paginated responses"""
-        user = ViewPlacesTests.mentor
-        client = self.return_authorized_user_client(user=user)
+        client = ViewPlacesTests.authorized_client
 
         response = client.get(PLACES).data
 
@@ -127,8 +128,7 @@ class ViewPlacesTests(APITestCase):
                 self.assertTrue(field in results, msg=f"Нет поля {field}")
 
     def test_places_correct_fields_authorized_client(self):
-        user = ViewPlacesTests.mentor
-        client = self.return_authorized_user_client(user)
+        client = ViewPlacesTests.authorized_client
 
         response = client.get(PLACES).data
 
@@ -151,10 +151,8 @@ class ViewPlacesTests(APITestCase):
 
     def test_duplicate_place_for_city_cannot_be_created(self):
         """Error should return when try to post existed place."""
-        user = ViewPlacesTests.mentor
         existed_place = PlaceFactory()
-        client = self.return_authorized_user_client(user)
-
+        client = ViewPlacesTests.authorized_client
         data = {
             "activity_type": 1,
             "address": existed_place.address,
@@ -179,67 +177,86 @@ class ViewPlacesTests(APITestCase):
             ),
         )
 
-    def test_places_list_context(self):
-        user = ViewPlacesTests.mentor
-        client = self.return_authorized_user_client(user)
+    def test_places_list_ordering(self):
+        """Last created place should be first."""
+        mentor = ViewPlacesTests.mentor
+        last_place = PlaceFactory(
+            city=mentor.profile.city,
+            published=True,
+        )
+        client = ViewPlacesTests.authorized_client
 
-        response = client.get(PLACES).data
-        self.assertEqual(response["count"], 10)
+        response_data = client.get(PLACES).data
+        result = response_data.get("results")[0]
 
-        results = response.get("results")[0]
-        obj = Place.objects.get(pk=1)
-        self.assertEqual(results["id"], obj.pk)
-        # Поле инфо проверю отдельным методом
-        # Теги тоже
-        self.assertEqual(results["chosen"], obj.chosen)
-        self.assertEqual(results["title"], obj.title)
-        self.assertEqual(results["address"], obj.address)
-        self.assertEqual(results["city"], obj.city.id)
-        self.assertEqual(results["description"], obj.description)
-        self.assertEqual(results["link"], obj.link)
         self.assertEqual(
-            results["image_url"],
-            "http://testserver/media/" + str(obj.image_url),
+            result["id"],
+            last_place.pk,
+            msg="Последнее опубликованное место должно быть первым в списке.",
         )
 
-    def test_places_info_field_context(self):
-        user = ViewPlacesTests.mentor
-        client = self.return_authorized_user_client(user)
+    def test_places_info_filed_non_gender(self):
+        """Comparing 'info' field in place without gender."""
+        mentor = ViewPlacesTests.mentor
+        PlaceFactory(
+            city=mentor.profile.city,
+            gender=None,
+            age=10,
+            activity_type=1,
+            published=True,
+        )
+        expected_info = "10 лет. Развлекательный отдых"
 
-        PlaceFactory.create_batch(3)
-        obj_non_gender = Place.objects.get(id=1)
-        obj_non_gender.gender = None
-        obj_non_gender.save()
+        client = ViewPlacesTests.authorized_client
+        response_data = client.get(PLACES).data
+        result = response_data["results"][0]
 
-        obj = Place.objects.get(id=3)
-        response = client.get(PLACES).data
-        results = response["results"]
         self.assertEqual(
-            results[0]["info"],
-            "{} лет. {} отдых".format(
-                str(obj_non_gender.age),
-                obj_non_gender.get_activity_type(obj_non_gender.activity_type),
+            result["info"],
+            expected_info,
+            msg=(
+                "Когда не задан пол, информация о месте должна выглядеть"
+                "как в примере."
             ),
         )
+
+    def test_places_info_filed_male_gender(self):
+        """Comparing 'info' field in place with Male gender."""
+        mentor = ViewPlacesTests.mentor
+        PlaceFactory(
+            city=mentor.profile.city,
+            gender="M",
+            age=16,
+            activity_type=0,
+            published=True,
+        )
+        expected_info = "Мальчик, 16 лет. Активный отдых"
+        client = ViewPlacesTests.authorized_client
+
+        response_data = client.get(PLACES).data
+        result = response_data["results"][0]
+
         self.assertEqual(
-            results[2]["info"],
-            "{}, {} лет. {} отдых".format(
-                obj.get_gender(obj.gender),
-                str(obj.age),
-                obj.get_activity_type(obj.activity_type),
+            result["info"],
+            expected_info,
+            msg=(
+                "Когда у места задан пол ребенка, информация должна выглядеть"
+                "как в примере."
             ),
         )
 
     def test_places_tag_field_correct(self):
-        user = ViewPlacesTests.mentor
-        client = self.return_authorized_user_client(user)
+        client = ViewPlacesTests.authorized_client
         tag = PlacesTagFactory(name="test", slug="test")
-        PlaceFactory.create_batch(1)
-        obj = Place.objects.get(pk=1)
-        obj.tags.add(tag)
-        obj.save()
-        response = client.get(PLACES).data
-        results = response["results"][0]["tags"][0]["name"]
+        PlaceFactory(
+            published=True,
+            tags=[tag],
+            city=ViewPlacesTests.city,
+        )
+
+        response_data = client.get(PLACES).data
+        results = response_data.get("results")[0]["tags"][0]["name"]
+
         self.assertTrue(str(tag) in results)
 
     def test_places_post_unauthorized_client(self):
@@ -261,10 +278,9 @@ class ViewPlacesTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_places_post_authorized_client(self):
-        user = ViewPlacesTests.mentor
         image = get_temporary_image()
 
-        client = self.return_authorized_user_client(user)
+        client = ViewPlacesTests.authorized_client
         place = {
             "age": 10,
             "activity_type": 1,
@@ -289,7 +305,114 @@ class ViewPlacesTests(APITestCase):
         )
 
     def test_places_post_empty_data(self):
-        user = ViewPlacesTests.mentor
-        client = self.return_authorized_user_client(user)
+        client = ViewPlacesTests.authorized_client
         response = client.post(path=PLACES)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_places_main_returns_last_place(self):
+        """
+        Should return last published place with 'chosen=True' in the city.
+        """
+        PlaceFactory(  # previous_place
+            city=ViewPlacesTests.city,
+            published=True,
+            chosen=True,
+        )
+        last_place = PlaceFactory(
+            city=ViewPlacesTests.city, published=True, chosen=True
+        )
+        client = ViewPlacesTests.authorized_client
+
+        response_data = client.get(PLACES_MAIN).data
+        place_id = response_data.get("id")
+
+        self.assertEqual(
+            place_id,
+            last_place.id,
+            msg=(
+                "В main должен возвращаться последний опубликованный"
+                "объект. Не предыдущий."
+            ),
+        )
+
+    def test_places_main_returns_last_place_with_chosen_true(self):
+        """Should return last place with 'chosen=True'."""
+        chosen_place = PlaceFactory(
+            city=ViewPlacesTests.city, published=True, chosen=True
+        )
+        PlaceFactory(  # not chosen place
+            city=ViewPlacesTests.city, published=True, chosen=False
+        )
+        client = ViewPlacesTests.authorized_client
+
+        response_data = client.get(PLACES_MAIN).data
+        place_id = response_data.get("id")
+
+        self.assertEqual(
+            place_id,
+            chosen_place.id,
+            msg=(
+                "В main должен возвращаться последний опубликованный"
+                "объект с атрибутом 'chosen=True'"
+            ),
+        )
+
+    def test_places_main_returns_last_chosen_place_in_city(self):
+        """Should return last place with 'chosen=True' in the city."""
+        other_city = CityFactory()
+        place_in_city = PlaceFactory(
+            city=ViewPlacesTests.city,
+            published=True,
+            chosen=True,
+        )
+        PlaceFactory(  # place in other city
+            city=other_city,
+            published=True,
+            chosen=True,
+        )
+        client = ViewPlacesTests.authorized_client
+
+        response_data = client.get(PLACES_MAIN).data
+        place_id = response_data.get("id")
+
+        self.assertEqual(
+            place_id,
+            place_in_city.id,
+            msg="В main должен возвращаться последний объект в городе.",
+        )
+
+    def test_places_main_returns_last_place_if_there_is_no_chosen(self):
+        """
+        If there is no 'chosen=True' places in the city it should return
+        last 'place' in the city.
+        """
+        city = CityFactory()
+        mentor = UserFactory(
+            profile__role=Profile.Role.MENTOR,
+            profile__city=city,
+        )
+        PlaceFactory.create_batch(  # previous not chosen places
+            10,
+            city=city,
+            published=True,
+            chosen=False,
+        )
+        last_not_chosen_place = PlaceFactory(
+            city=city,
+            published=True,
+            chosen=False,
+        )
+        client = APIClient()
+        client.force_authenticate(user=mentor)
+
+        response_data = client.get(PLACES_MAIN).data
+        place_id = response_data.get("id")
+
+        self.assertEqual(
+            place_id,
+            last_not_chosen_place.id,
+            msg=(
+                "Если нет места с 'chosen=True' должно возвращаться"
+                "последнее."
+            ),
+        )
