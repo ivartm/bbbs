@@ -1,7 +1,6 @@
 from django_filters import rest_framework as filters
 from rest_framework import generics
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from bbbs.rights.filters import RightFilter
 from bbbs.rights.models import Right, RightTag
@@ -13,7 +12,7 @@ class RightTagList(generics.ListAPIView):
     serializer_class = RightTagSerializer
 
 
-class RightViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
+class RightViewSet(ReadOnlyModelViewSet):
     queryset = Right.objects.all().prefetch_related("tags").order_by("id")
     serializer_class = RightSerializer
     filter_backends = (filters.DjangoFilterBackend,)
