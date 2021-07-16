@@ -71,9 +71,8 @@ class Movie(models.Model):
     )
     link = models.URLField(
         verbose_name="Ссылка на фильм",
-        null=True,
+        unique=True,
         blank=False,
-        max_length=250,
     )
     title = models.CharField(
         blank=True,

@@ -69,7 +69,7 @@ class ViewQuestionsTests(APITestCase):
             "id": question.id,
             "tags": [],
             "answer": question.answer,
-            "pub_date": question.pub_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+            "pub_date": question.pub_date.strftime("%Y-%m-%dT%H:%M:%S"),
             "question": question.question,
         }
         self.assertEqual(
@@ -102,7 +102,7 @@ class ViewQuestionsTests(APITestCase):
                     "tags": [],
                     "answer": question.answer,
                     "pub_date": question.pub_date.strftime(
-                        "%Y-%m-%dT%H:%M:%S.%fZ"
+                        "%Y-%m-%dT%H:%M:%S"
                     ),
                     "question": question.question,
                 }
