@@ -90,9 +90,8 @@ class AllFactories:
         MovieTagFactory.create_batch(arg)
 
     def create_movie(self, arg):
-        for _ in range(arg):
+        for link in link_movie_list:
             num_tags = random.randint(1, 5)
-            link = random.choice(link_movie_list)
             MovieFactory.create(link=link, tags__num=num_tags)
 
     def create_meeting(self, arg):
