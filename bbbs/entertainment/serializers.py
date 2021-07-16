@@ -37,9 +37,10 @@ class MovieSerializer(serializers.ModelSerializer):
         return "{}, {} год".format(obj.producer, obj.year)
 
     def get_link(self, obj):
-        watch_id = obj.link.split("watch?v=")
-        embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
-        return embed_link
+        if "youtube.com/" in obj.link:
+            watch_id = obj.link.split("watch?v=")
+            embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
+            return embed_link
 
 
 class VideoTagSerializer(serializers.ModelSerializer):
@@ -57,9 +58,10 @@ class VideoSerializer(serializers.ModelSerializer):
         exclude = ["creative_url"]
 
     def get_link(self, obj):
-        watch_id = obj.link.split("watch?v=")
-        embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
-        return embed_link
+        if "youtube.com/" in obj.link:
+            watch_id = obj.link.split("watch?v=")
+            embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
+            return embed_link
 
 
 class BookTagSerializer(serializers.ModelSerializer):

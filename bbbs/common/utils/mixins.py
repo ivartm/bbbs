@@ -71,3 +71,67 @@ class AdminColor:
             "</span>",
             obj.color,
         )
+
+
+class AdminEditor:
+    """
+    Mixin get help text with recommended tags
+    """
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields[
+            "text"
+        ].help_text = """
+<pre><b><h1>Используйте специальные теги:</h1>
+<h1><подзаголовок>Ваш подзаголовок&lt/подзаголовок>
+<параграф>Ваш текст&lt/параграф>
+<список>
+<*>Элемент списка 1&lt/*>
+<*>Элемент списка 2&lt/*>
+&lt/список>
+<карточка>Ваш текст&lt/карточка></h1></b></pre>"""
+        return form
+
+
+class ConvertEditorTags:
+    """
+    Simple tag editor
+    """
+
+    def save(self, *args, **kwargs):
+        dict = {
+            "<подзаголовок>": '<h2 class="section-title article__subtitle">',
+            "</подзаголовок>": "</h2>",
+            "<параграф>": '<p class="paragraph">',
+            "</параграф>": "</p>",
+            "<список>": '<ul class="card article__card">',
+            "</список>": "</ul>",
+            "<*>": '<li class="article__card-list-item">',
+            "</*>": "</li>",
+            "<карточка>": '<div class="card card_color_ article__card">',
+            "</карточка>": "</div>",
+        }
+        if self.text != "":
+            for key in dict:
+                self.text = self.text.replace(key, dict[key])
+
+        if 'div class="card card_color_' in self.text:
+            color = self.text.split('div class="card card_color_')
+            color = color[1].split(" ")
+            try:
+                obj_color = self.Colors(self.color).name.lower()
+                if obj_color and color[0]:
+                    self.text = self.text.replace(color[0], obj_color)
+                else:
+                    self.text = self.text.replace(
+                        'div class="card card_color_',
+                        f'<div class="card card_color_{obj_color}',
+                    )
+            except Exception:
+                if not color[0]:
+                    self.text = self.text.replace(
+                        'div class="card card_color_',
+                        'div class="card card_color_yellow',
+                    )
+        super().save(*args, **kwargs)

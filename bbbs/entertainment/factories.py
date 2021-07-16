@@ -118,14 +118,7 @@ class ArticleFactory(factory.django.DjangoModelFactory):
         variable_nb_sentences=True,
     )
     color = factory.LazyFunction(
-        lambda: random.choice(
-            [
-                Article.COLOR_CHOICES[0][0],
-                Article.COLOR_CHOICES[1][0],
-                Article.COLOR_CHOICES[2][0],
-                Article.COLOR_CHOICES[3][0],
-            ]
-        )
+        lambda: random.choice(Article.Colors.choices)[0]
     )
     image_url = factory.django.ImageField(
         color=factory.LazyFunction(
