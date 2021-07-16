@@ -57,14 +57,17 @@ class ArticleModelTest(TestCase):
 #  на будущее
 # class MovieModelTest(TestCase):
 #     def test_movie_clean(self):
-#
-#         MovieTagFactory.create_batch(10)
-#         tag = MovieTag.objects.get(id=1)
-#
-#         movie = Movie.objects.create(link="https://rutube.ru")
-#         movie.tags.add(tag)
-#         movie.save()
-#         with self.assertRaises(
-#             ValidationError, msg="Можно добавить только с youtube"
-#         ):
-#             movie.full_clean()
+# MovieTagFactory.create_batch(2)
+# MovieFactory.create_batch(2)
+# tag = MovieTag.objects.create(name="test", slug="name")
+# tag.save()
+# movie = Movie.objects.get(id=1)
+# movie = MovieFactory(link="https://rutube.ru", tags=tag)
+# movie = Movie.objects.create(link="https://rutube.ru")
+# movie.link = "https://rutube.ru"
+# movie.tags.add(tag)
+# movie.save()
+# with self.assertRaises(
+#     ValidationError, msg="Можно добавить только с youtube"
+# ):
+#     movie.full_clean()

@@ -29,7 +29,9 @@ class GuideAdmin(
 
 
 class MovieTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    pass
+    prepopulated_fields = {
+        "slug": ["name"],
+    }
 
 
 class MovieAdmin(
@@ -66,7 +68,9 @@ class MovieAdmin(
 
 
 class VideoTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
-    pass
+    prepopulated_fields = {
+        "slug": ["name"],
+    }
 
 
 class VideoAdmin(
@@ -103,6 +107,9 @@ class BookTagAdmin(
     AdminAndModerGenPermissionsMixin, AdminColor, admin.ModelAdmin
 ):
     list_display = ("name", "colored_circle")
+    prepopulated_fields = {
+        "slug": ["name"],
+    }
 
 
 class BookAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):

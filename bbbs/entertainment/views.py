@@ -41,6 +41,7 @@ class ListViewSet(ListModelMixin, GenericViewSet):
 
 class GuidesView(ListDetailApiView):
     serializer_class = GuideSerializer
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
         queryset = Guide.objects.all().order_by("id")
