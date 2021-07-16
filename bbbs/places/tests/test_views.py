@@ -416,3 +416,22 @@ class ViewPlacesTests(APITestCase):
                 "последнее."
             ),
         )
+
+    def test_places_main_returns_empty_list_if_no_places(self):
+        """If there is no places in city should return []."""
+        city = CityFactory()
+        mentor = UserFactory(
+            profile__role=Profile.Role.MENTOR,
+            profile__city=city,
+        )
+        client = APIClient()
+        client.force_authenticate(user=mentor)
+
+        response = client.get(PLACES_MAIN)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data,
+            [],
+            msg="Если нет событий в городе возвращать пустой список.",
+        )
