@@ -137,6 +137,7 @@ REST_FRAMEWORK = {
         "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
         "djangorestframework_camel_case.parser.CamelCaseJSONParser",
     ),
+    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S",
 }
 
 SIMPLE_JWT = {
@@ -159,7 +160,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {
