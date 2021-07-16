@@ -48,8 +48,11 @@ class MovieTagFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = MovieTag
+        django_get_or_create = [
+            "name",
+        ]
 
-    name = factory.Sequence(lambda n: fake.unique.word())
+    name = factory.Faker("word")
 
 
 class MovieFactory(factory.django.DjangoModelFactory):
@@ -60,9 +63,6 @@ class MovieFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ["title"]
 
     title = factory.Sequence(lambda n: fake.unique.sentence(nb_words=4))
-    description = factory.Sequence(lambda n: fake.unique.sentence(nb_words=15))
-    # producer = None
-    # year = None
     link = None
 
     @factory.post_generation
