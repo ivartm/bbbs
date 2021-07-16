@@ -29,7 +29,7 @@ class PlaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Place
         read_only_fields = ["tags", "chosen"]
-        exclude = ["published"]
+        exclude = ["published", "pub_date"]
 
     def create(self, validated_data):
         validated_data["chosen"] = True
