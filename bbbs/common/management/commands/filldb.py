@@ -92,7 +92,8 @@ class AllFactories:
     def create_movie(self, arg):
         for _ in range(arg):
             num_tags = random.randint(1, 5)
-            MovieFactory.create(tags__num=num_tags)
+            link = random.choice(link_movie_list)
+            MovieFactory.create(link=link, tags__num=num_tags)
 
     def create_meeting(self, arg):
         MeetingFactory.create_batch(arg)
