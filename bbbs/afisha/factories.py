@@ -33,7 +33,7 @@ class EventFactory(factory.django.DjangoModelFactory):
         "date_time_between",
         start_date=factory.SelfAttribute("..start_at"),
         end_date=factory.LazyAttribute(
-            lambda obj: obj.start_date + timedelta(hours=48)
+            lambda obj: obj.start_date + timedelta(hours=5)
         ),
         tzinfo=pytz.UTC,
     )
