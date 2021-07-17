@@ -6,12 +6,11 @@ from django.core.files.base import ContentFile
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from bbbs.common.utils.mixins import ConvertEditorTags
 from bbbs.common.utils.slugify import slugify
 from bbbs.common.utils.youtube_api import get_youtube_data
 
 
-class Guide(ConvertEditorTags, models.Model):
+class Guide(models.Model):
     title = models.CharField(
         max_length=200,
         unique=True,
@@ -265,7 +264,7 @@ class Book(models.Model):
         return self.title
 
 
-class Article(ConvertEditorTags, models.Model):
+class Article(models.Model):
     class Colors(models.TextChoices):
         YELLOW = "#F8D162", _("Жёлтый")
         GREEN = "#8CDD94", _("Зелёный")

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from bbbs.common.utils.mixins import ConvertEditorTags
 from bbbs.rights.models import Right, RightTag
 
 
@@ -9,9 +10,10 @@ class RightTagSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class RightSerializer(serializers.ModelSerializer):
+class RightSerializer(ConvertEditorTags, serializers.ModelSerializer):
     tags = RightTagSerializer(many=True, read_only=True)
     color = serializers.SerializerMethodField("get_colorname")
+    text = serializers.SerializerMethodField()
 
     def get_colorname(self, obj):
         color_dict = {
