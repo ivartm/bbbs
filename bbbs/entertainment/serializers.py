@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from bbbs.common.utils.mixins import ConvertEditorTags
 from bbbs.entertainment.models import (
     Article,
     Book,
@@ -12,7 +13,9 @@ from bbbs.entertainment.models import (
 )
 
 
-class GuideSerializer(serializers.ModelSerializer):
+class GuideSerializer(ConvertEditorTags, serializers.ModelSerializer):
+    text = serializers.SerializerMethodField()
+
     class Meta:
         model = Guide
         fields = "__all__"
@@ -82,7 +85,9 @@ class BookSerializer(serializers.ModelSerializer):
         return obj.tag.color
 
 
-class ArticleSerializer(serializers.ModelSerializer):
+class ArticleSerializer(ConvertEditorTags, serializers.ModelSerializer):
+    text = serializers.SerializerMethodField()
+
     class Meta:
         model = Article
         fields = "__all__"

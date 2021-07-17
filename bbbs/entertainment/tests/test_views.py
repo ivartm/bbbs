@@ -1,11 +1,12 @@
 from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase
 
+from bbbs.common.utils.mixins import ConvertEditorTags
 from bbbs.entertainment.factories import ArticleFactory, GuideFactory
 from bbbs.entertainment.models import Article, Book, BookTag, Guide
 
 
-class ViewArticlesTests(APITestCase):
+class ViewArticlesTests(ConvertEditorTags, APITestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
@@ -44,13 +45,13 @@ class ViewArticlesTests(APITestCase):
 
         results = response.get("results")[0]
         obj = Article.objects.get(pk=1)
-
+        serialize_text_obj = self.get_text(obj)
         self.assertEqual(results["id"], obj.pk)
         self.assertEqual(results["is_main"], obj.is_main)
         self.assertEqual(results["title"], obj.title)
         self.assertEqual(results["author"], obj.author)
         self.assertEqual(results["profession"], obj.profession)
-        self.assertEqual(results["text"], obj.text)
+        self.assertEqual(results["text"], serialize_text_obj)
         self.assertEqual(results["color"], obj.color)
         self.assertEqual(
             results["image_url"],
@@ -82,13 +83,14 @@ class ViewArticlesTests(APITestCase):
         response = client.get(ViewArticlesTests.path_articles + "1/").data
 
         obj = Article.objects.get(pk=1)
+        serialize_text_obj = self.get_text(obj)
 
         self.assertEqual(response["id"], obj.pk)
         self.assertEqual(response["is_main"], obj.is_main)
         self.assertEqual(response["title"], obj.title)
         self.assertEqual(response["author"], obj.author)
         self.assertEqual(response["profession"], obj.profession)
-        self.assertEqual(response["text"], obj.text)
+        self.assertEqual(response["text"], serialize_text_obj)
         self.assertEqual(response["color"], obj.color)
         self.assertEqual(
             response["image_url"],
@@ -226,12 +228,13 @@ class ViewBookTests(APITestCase):
         )
 
 
-class ViewGuideTests(APITestCase):
+class ViewGuideTests(ConvertEditorTags, APITestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
 
         cls.path_guides = reverse("guides-list")
+        # cls.get_text()
 
     def test_movies_list_correct_fields(self):
         client = APIClient()
@@ -259,6 +262,7 @@ class ViewGuideTests(APITestCase):
         client = APIClient()
         GuideFactory.create_batch(40)
         obj = Guide.objects.get(id=1)
+        serialize_text_obj = self.get_text(obj)
         response = client.get(ViewGuideTests.path_guides).data
         self.assertEqual(response["count"], 40)
         results = response.get("results")[0]
@@ -271,7 +275,7 @@ class ViewGuideTests(APITestCase):
             results["image_url"],
             "http://testserver/media/" + str(obj.image_url),
         )
-        self.assertEqual(results["text"], obj.text)
+        self.assertEqual(results["text"], serialize_text_obj)
 
     def test_guides_allowed_methods(self):
         client = APIClient()
