@@ -6,15 +6,12 @@ from bbbs.places.models import Place, PlaceTag
 
 
 class PlaceFilter(filters.FilterSet):
-    """By tags, age and city filter with request inspecting logic.
+    """By tags, age, chosen and city filter with request inspecting logic.
 
-    On a request basis the filter do:
+    How city filter works:
         - if the user is authenticated it returns queryset filtered by the
         user's city
         - if the user is UNauthenticated it requires 'city' query param
-        - could be filtered by tags
-        - could be filtered by age with 'gte' or 'lte' kyewords
-        (age__gte=10 means return all places with age greeter(>) or = 10)
 
         If an authenticated user passes 'city' query param that is different
         from the user's city it returns zero results. It's expected behavior.
@@ -31,6 +28,7 @@ class PlaceFilter(filters.FilterSet):
         model = Place
         fields = {
             "age": ["gte", "lte"],
+            "chosen": ["exact"],
         }
 
     @property

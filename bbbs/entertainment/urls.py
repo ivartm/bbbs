@@ -3,25 +3,25 @@ from django.urls.conf import include
 from rest_framework.routers import DefaultRouter
 
 from bbbs.entertainment.views import (
-    ArticlesView,
-    BooksTagsView,
-    BooksView,
-    GuidesView,
-    MoviesTagsView,
-    MoviesView,
-    VideoTagsView,
-    VideoView,
+    ArticlesViewSet,
+    BooksTagsViewSet,
+    BooksViewSet,
+    GuidesViewSet,
+    MoviesTagsViewSet,
+    MoviesViewSet,
+    VideoTagsViewSet,
+    VideoViewSet,
 )
 
 router = DefaultRouter()
-router.register("guides", GuidesView, basename="guides")
-router.register("movies/tags", MoviesTagsView, basename="movies-tags")
-router.register("movies", MoviesView, basename="movies")
-router.register("videos/tags", VideoTagsView, basename="videos-tags")
-router.register("videos", VideoView, basename="videos")
-router.register("books/tags", BooksTagsView, basename="books-tag")
-router.register("books", BooksView, basename="books")
-router.register("articles", ArticlesView, basename="articles")
+router.register("guides", GuidesViewSet, basename="guides")
+router.register("movies/tags", MoviesTagsViewSet, basename="movies-tags")
+router.register("movies", MoviesViewSet, basename="movies")
+router.register("videos/tags", VideoTagsViewSet, basename="videos-tags")
+router.register("videos", VideoViewSet, basename="videos")
+router.register("books/tags", BooksTagsViewSet, basename="books-tags")
+router.register("books", BooksViewSet, basename="books")
+router.register("articles", ArticlesViewSet, basename="articles")
 
 entertainment_urls = [
     path("entertainment/", include(router.urls)),

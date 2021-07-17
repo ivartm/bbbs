@@ -6,7 +6,7 @@ from bbbs.common.factories import CityFactory
 from bbbs.places.factories import PlaceFactory, PlacesTagFactory
 from bbbs.users.factories import UserFactory
 
-PLACES_URL = reverse("places")
+PLACES_URL = reverse("places-list")
 
 
 class FilterTests(APITestCase):
@@ -25,16 +25,22 @@ class FilterTests(APITestCase):
             10,
             tags=[cls.tag_1],
             city=cls.city,
+            published=True,
+            chosen=True,
         )
         PlaceFactory.create_batch(
             20,
             tags=[cls.tag_2],
             city=cls.other_city,
+            published=True,
+            chosen=True,
         )
         PlaceFactory.create_batch(
             40,
             tags=[cls.tag_2],
             city=cls.city,
+            published=True,
+            chosen=True,
         )
 
         cls.unauthorized_client = APIClient()
@@ -164,5 +170,76 @@ class FilterTests(APITestCase):
             msg=(
                 "Аноним: проверьте фильтрацию по 2 тэгам."
                 "В выборку не должны попадать другие города."
+            ),
+        )
+
+    def test_unpublished_place_should_not_be_listed(self):
+        """
+        Unpublished places should not be counted.
+        It counts places in city, after it creates once more unpublished place
+        and counts againg. The amount should be the same.
+        """
+        client = FilterTests.authorized_client
+
+        response_data = client.get(PLACES_URL).data
+        places_amount_before_creating = response_data.get("count")
+
+        PlaceFactory(
+            city=FilterTests.mentor.profile.city,
+            published=False,
+        )
+
+        response_data = client.get(PLACES_URL).data
+        places_amount_after_creating = response_data.get("count")
+
+        self.assertEqual(
+            places_amount_before_creating,
+            places_amount_after_creating,
+            msg="Неопубликованные места должны отсутствовать в списке.",
+        )
+
+    def test_authorized_user_chosen_is_true_filter(self):
+        """Result should have only places with 'chosen=True' field."""
+        PlaceFactory.create_batch(
+            10,
+            city=FilterTests.mentor.profile.city,
+            published=True,
+            chosen=False,
+        )
+        query_param = {"chosen": True}
+        client = FilterTests.authorized_client
+
+        response_data = client.get(PLACES_URL, query_param).data
+        count = response_data.get("count")
+
+        self.assertEqual(
+            count,
+            50,
+            msg=(
+                "Фильтр 'chosen=True' должен отдавать только места"
+                "с этим флагом."
+            ),
+        )
+
+    def test_authorized_user_chosen_is_false_filter(self):
+        """Result should have only places with 'chosen=False' field."""
+        PlaceFactory.create_batch(
+            10,
+            city=FilterTests.mentor.profile.city,
+            published=True,
+            chosen=False,
+        )
+        client = FilterTests.authorized_client
+        query_param = {"chosen": False}
+
+        response_data = client.get(PLACES_URL, query_param).data
+        count = response_data.get("count")
+
+        self.assertEqual(
+            count,
+            10,
+            msg=(
+                "Фильтр 'chosen=False' должен отдавать только места с этим"
+                "флагом."
             ),
         )

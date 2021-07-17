@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -80,6 +81,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"Дополнительная информация пользователя {self.user.username}"
+
+    def clean(self):
+        if self.role == self.Role.MENTOR and self.curator is None:
+            raise ValidationError(
+                {"curator": _("Наставнику обязательно нужен куратор.")}
+            )
 
     def save(self, *args, **kwargs):
         """Two custom things: adds regions if necessary and sync roles.

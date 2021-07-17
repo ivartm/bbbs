@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from bbbs.common.utils.mixins import ConvertEditorTags
 from bbbs.entertainment.models import (
     Article,
     Book,
@@ -12,7 +13,9 @@ from bbbs.entertainment.models import (
 )
 
 
-class GuideSerializer(serializers.ModelSerializer):
+class GuideSerializer(ConvertEditorTags, serializers.ModelSerializer):
+    text = serializers.SerializerMethodField()
+
     class Meta:
         model = Guide
         fields = "__all__"
@@ -37,9 +40,10 @@ class MovieSerializer(serializers.ModelSerializer):
         return "{}, {} год".format(obj.producer, obj.year)
 
     def get_link(self, obj):
-        watch_id = obj.link.split("watch?v=")
-        embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
-        return embed_link
+        if "youtube.com/" in obj.link:
+            watch_id = obj.link.split("watch?v=")
+            embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
+            return embed_link
 
 
 class VideoTagSerializer(serializers.ModelSerializer):
@@ -57,9 +61,10 @@ class VideoSerializer(serializers.ModelSerializer):
         exclude = ["creative_url"]
 
     def get_link(self, obj):
-        watch_id = obj.link.split("watch?v=")
-        embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
-        return embed_link
+        if "youtube.com/" in obj.link:
+            watch_id = obj.link.split("watch?v=")
+            embed_link = f"https://www.youtube.com/embed/{watch_id[1]}"
+            return embed_link
 
 
 class BookTagSerializer(serializers.ModelSerializer):
@@ -80,7 +85,9 @@ class BookSerializer(serializers.ModelSerializer):
         return obj.tag.color
 
 
-class ArticleSerializer(serializers.ModelSerializer):
+class ArticleSerializer(ConvertEditorTags, serializers.ModelSerializer):
+    text = serializers.SerializerMethodField()
+
     class Meta:
         model = Article
         fields = "__all__"

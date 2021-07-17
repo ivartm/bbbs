@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from bbbs.common.factories import CityFactory
@@ -111,3 +112,13 @@ class UsersCreateTests(TestCase):
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
         self.assertEqual(user.profile.role, Profile.Role.MENTOR)
+
+    def test_mentor_has_to_have_curator(self):
+        """Profile full_clean requires curator for mentor."""
+        user = self.user
+
+        with self.assertRaises(
+            ValidationError,
+            msg="Убедитесь, что нельзя сохранить ментора без куратора.",
+        ):
+            user.profile.full_clean()

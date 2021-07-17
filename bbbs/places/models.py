@@ -89,6 +89,9 @@ class Place(models.Model):
         help_text="Добавить фото",
         upload_to="places/",
     )
+    pub_date = models.DateTimeField(
+        verbose_name="Дата создания", auto_now_add=True
+    )
 
     class Meta:
         verbose_name = "Место - куда пойти?"

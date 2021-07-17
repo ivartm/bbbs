@@ -90,9 +90,9 @@ class AllFactories:
         MovieTagFactory.create_batch(arg)
 
     def create_movie(self, arg):
-        for _ in range(arg):
+        for link in link_movie_list:
             num_tags = random.randint(1, 5)
-            MovieFactory.create(tags__num=num_tags)
+            MovieFactory.create(link=link, tags__num=num_tags)
 
     def create_meeting(self, arg):
         MeetingFactory.create_batch(arg)
@@ -373,7 +373,7 @@ class Command(BaseCommand):
 
                     GuideFactory.create_batch(70)
 
-                    MovieTagFactory.create_batch(15)
+                    MovieTagFactory.create_batch(10)
 
                     for link in link_movie_list:
                         num_tags = random.randint(1, 5)
