@@ -23,9 +23,7 @@ class CuratorFactory(factory.django.DjangoModelFactory):
     gender = factory.LazyFunction(
         lambda: random.choice([Curator.MALE, Curator.FEMALE])
     )
-    email = factory.LazyAttribute(
-        lambda obj: f"{obj.first_name}_{Curator.objects.count()}@bbbs.com"
-    )
+    email = factory.Sequence(lambda n: f"email_{n}@bbbs.fun")
 
 
 @factory.django.mute_signals(signals.post_save)
