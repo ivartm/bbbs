@@ -78,28 +78,81 @@ class AdminEditor:
     Mixin get help text with recommended tags
     """
 
+    # def get_form(self, request, obj=None, **kwargs):
+    #     form = super().get_form(request, obj, **kwargs)
+    #
+    #     return form
+
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         form.base_fields[
             "text"
-        ].help_text = """
-<pre><b><h1>Используйте специальные теги:</h1>
-<h1><подзаголовок>Ваш подзаголовок&lt/подзаголовок>
-<параграф>Ваш текст&lt/параграф>
+        ].initial = """Стандартная структура:
+
+<подзаголовок>Введите ваш подзаголовок</подзаголовок>
+
+<параграф>Введите ваш текст</параграф>
+
+
+<подзаголовок>Подзаголовок для списка</подзаголовок>
+
 <список>
-<*>Элемент списка 1&lt/*>
-<*>Элемент списка 2&lt/*>
+<*>Элемент списка 1</*>
+<*>Элемент списка 2</*>
+</список>
+
+
+<подзаголовок>Подзаголовок для текста</подзаголовок>
+
+<параграф>Введите ваш текст</параграф>
+
+
+<подзаголовок>Подзаголовок для карточки</подзаголовок>
+
+<карточка>
+Введите ваш текст,
+который нужно поместить в цветную карточку
+</карточка>
+"""
+
+        form.base_fields[
+            "text"
+        ].help_text = """
+<pre>Между подзаголовком и текстовым тегом один перенос строки
+Между текстовым тегом и следующим подзаголовком два переноса строки</pre>
+<pre><h3>Используйте специальные теги:</h3>
+<h3>
+<подзаголовок> Тег для формирования подзаголовка в теле статьи&lt/подзаголовок>
+
+<параграф> Тег для вывода стандартного форматированного текста&lt/параграф>
+
+<список>
+<*>
+Тег "<список>" формирует таблицу,
+а каждый ее элемент помещается в тег "<*>"
+&lt/*>
 &lt/список>
-<карточка>Ваш текст&lt/карточка></h1></b></pre>"""
+
+<карточка> Тег для вывода текста,
+который нужно поместить в цветную карточку
+&lt/карточка><h3></pre>
+
+"""
+
         return form
 
 
 class ConvertEditorTags:
     """
     Simple tag editor
+
+    add in your serializer
+        text = serializers.SerializerMethodField()
+
+
     """
 
-    def save(self, *args, **kwargs):
+    def get_text(self, obj):
         dict = {
             "<подзаголовок>": '<h2 class="section-title article__subtitle">',
             "</подзаголовок>": "</h2>",
@@ -109,30 +162,33 @@ class ConvertEditorTags:
             "</список>": "</ul>",
             "<*>": '<li class="article__card-list-item">',
             "</*>": "</li>",
-            "<карточка>": '<div class="card card_color_ article__card">',
-            "</карточка>": "</div>",
+            "<карточка>": '<div class="card card_color_ article__card">'
+            '<p class="paragraph">',
+            "</карточка>": "</p></div>",
         }
-        if self.text != "":
+        if obj.text != "":
             for key in dict:
-                self.text = self.text.replace(key, dict[key])
-        if '<div class="article__container">' not in self.text:
-            self.text = '<div class="article__container"> \n' + self.text
-        if 'div class="card card_color_' in self.text:
-            color = self.text.split('div class="card card_color_')
+                obj.text = obj.text.replace(key, dict[key])
+        if '<div class="article__container">' not in obj.text:
+            obj.text = '<div class="article__container"> \n' + obj.text
+        if 'div class="card card_color_' in obj.text:
+            color = obj.text.split('div class="card card_color_')
             color = color[1].split(" ")
             try:
-                obj_color = self.Colors(self.color).name.lower()
+                obj_color = obj.Colors(obj.color).name.lower()
                 if obj_color and color[0]:
-                    self.text = self.text.replace(color[0], obj_color)
+                    obj.text = obj.text.replace(color[0], obj_color)
                 else:
-                    self.text = self.text.replace(
+                    obj.text = obj.text.replace(
                         'div class="card card_color_',
-                        f'<div class="card card_color_{obj_color}',
+                        f'div class="card card_color_{obj_color}',
                     )
             except Exception:
                 if not color[0]:
-                    self.text = self.text.replace(
+                    # если в админке нет поля color
+                    # цвет карточки устанавливается по умолчанию желтый
+                    obj.text = obj.text.replace(
                         'div class="card card_color_',
                         'div class="card card_color_yellow',
                     )
-        super().save(*args, **kwargs)
+        return obj.text
