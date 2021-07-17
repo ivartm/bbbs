@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from bbbs.common.utils.mixins import AdminColor, AdminEditor, AdminPreview
+from bbbs.common.utils.mixins import (
+    AdminAutoSlugHelpText,
+    AdminColor,
+    AdminEditor,
+    AdminPreview,
+)
 from bbbs.rights.models import Right, RightTag
 from bbbs.users.utils import AdminAndModerGenPermissionsMixin
 
@@ -30,7 +35,9 @@ class RightAdmin(
     filter_horizontal = ("tags",)
 
 
-class RightTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
+class RightTagAdmin(
+    AdminAndModerGenPermissionsMixin, AdminAutoSlugHelpText, admin.ModelAdmin
+):
     list_display = [
         "name",
         "slug",

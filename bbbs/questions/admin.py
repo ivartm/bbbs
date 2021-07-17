@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from bbbs.common.utils.mixins import AdminAutoSlugHelpText
 from bbbs.questions.models import Question, QuestionTag
 from bbbs.users.utils import AdminAndModerGenPermissionsMixin
 
@@ -24,7 +25,9 @@ class QuestionAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
     ]
 
 
-class QuestionTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
+class QuestionTagAdmin(
+    AdminAndModerGenPermissionsMixin, AdminAutoSlugHelpText, admin.ModelAdmin
+):
     list_display = [
         "name",
         "slug",
