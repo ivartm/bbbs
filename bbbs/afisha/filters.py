@@ -13,14 +13,12 @@ class CitySelectFilter(admin.SimpleListFilter):
     parameter_name = "city_name"
 
     def lookups(self, request, model_admin):
-        list_of_cities = []
         if request.user.profile.is_moderator_reg:
             queryset = City.objects.filter(region=request.user.profile)
         else:
             queryset = City.objects.all()
-        for city in queryset:
-            list_of_cities.append((str(city.id), city.name))
-        return sorted(list_of_cities, key=lambda tp: tp[1])
+        values_qs = queryset.values_list("id", "name").order_by("name")
+        return values_qs
 
     def queryset(self, request, queryset):
         if self.value():
