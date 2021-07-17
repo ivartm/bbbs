@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy
 
+from bbbs.common.utils.mixins import ConvertEditorTags
 from bbbs.common.utils.slugify import slugify
 
 
@@ -21,7 +22,7 @@ class RightTag(models.Model):
         return self.name
 
 
-class Right(models.Model):
+class Right(ConvertEditorTags, models.Model):
     class Colors(models.TextChoices):
         YELLOW = "#E9D379", gettext_lazy("Жёлтый")
         GREEN = "#AAD59E", gettext_lazy("Зелёный")

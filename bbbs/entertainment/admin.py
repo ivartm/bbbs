@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from bbbs.common.utils.mixins import AdminColor, AdminPreview
+from bbbs.common.utils.mixins import AdminColor, AdminEditor, AdminPreview
 from bbbs.entertainment.models import (
     Article,
     Book,
@@ -15,7 +15,10 @@ from bbbs.users.utils import AdminAndModerGenPermissionsMixin
 
 
 class GuideAdmin(
-    AdminAndModerGenPermissionsMixin, AdminPreview, admin.ModelAdmin
+    AdminAndModerGenPermissionsMixin,
+    AdminPreview,
+    AdminEditor,
+    admin.ModelAdmin,
 ):
     list_display = [
         "id",
@@ -120,6 +123,7 @@ class ArticleAdmin(
     AdminAndModerGenPermissionsMixin,
     AdminPreview,
     AdminColor,
+    AdminEditor,
     admin.ModelAdmin,
 ):
     list_display = (
