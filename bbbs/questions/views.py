@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListAPIView, ListCreateAPIView
+from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import AllowAny
 
 from bbbs.questions.filters import QuestionFilter
@@ -10,7 +11,7 @@ from bbbs.questions.serializers import (
 )
 
 
-class QuestionsAPIView(ListCreateAPIView):
+class QuestionsAPIView(RetrieveModelMixin, ListCreateAPIView):
     """Returns only questions with answers."""
 
     queryset = (

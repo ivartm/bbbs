@@ -373,7 +373,7 @@ class Command(BaseCommand):
 
                     GuideFactory.create_batch(70)
 
-                    MovieTagFactory.create_batch(15)
+                    MovieTagFactory.create_batch(10)
 
                     for link in link_movie_list:
                         num_tags = random.randint(1, 5)

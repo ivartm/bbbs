@@ -1,15 +1,18 @@
 from django_filters.rest_framework.backends import DjangoFilterBackend
-from rest_framework import generics, mixins, status, viewsets
+from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.generics import ListAPIView
+from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from bbbs.places.filters import PlaceFilter, PlaceTagFilter
 from bbbs.places.models import Place, PlaceTag
 from bbbs.places.serializers import PlaceSerializer, PlaceTagSerializer
 
 
-class PlacesTagAPIView(generics.ListAPIView):
+class PlacesTagAPIView(ListAPIView):
     """Retruns tags that used for 'places' objects in specific city.
 
     The PlaceTagFilter uses user's profile.city to filter result by the city.
@@ -22,11 +25,7 @@ class PlacesTagAPIView(generics.ListAPIView):
     filterset_class = PlaceTagFilter
 
 
-class PlacesViewSet(
-    mixins.CreateModelMixin,
-    mixins.ListModelMixin,
-    viewsets.GenericViewSet,
-):
+class PlacesViewSet(CreateModelMixin, ReadOnlyModelViewSet):
     """Retrun city's places.
 
     The PlaceFilter uses user's profile.city to filter result by the city.
