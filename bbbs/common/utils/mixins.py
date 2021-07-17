@@ -115,7 +115,8 @@ class ConvertEditorTags:
         if self.text != "":
             for key in dict:
                 self.text = self.text.replace(key, dict[key])
-
+        if '<div class="article__container">' not in self.text:
+            self.text = '<div class="article__container"> \n' + self.text
         if 'div class="card card_color_' in self.text:
             color = self.text.split('div class="card card_color_')
             color = color[1].split(" ")
