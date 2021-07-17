@@ -71,3 +71,23 @@ class AdminColor:
             "</span>",
             obj.color,
         )
+
+
+class AdminAutoSlugHelpText:
+
+    """
+    This mixin adds the hint text when editing slug
+    """
+
+    def get_form(self, request, obj, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        if obj is not None:
+            if kwargs["fields"]:
+                form.base_fields[
+                    "slug"
+                ].help_text = """
+                    Будьте внимательны! Slug автоматически заполняется только
+                    при создании тэга. Во время редактирования пожалуйста
+                    введите вручную.
+                    """
+        return form
