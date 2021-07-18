@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from bbbs.common.utils.mixins import AdminPreview
+from bbbs.common.utils.mixins import AdminAutoSlugHelpText, AdminPreview
 from bbbs.places.models import Place, PlaceTag
 from bbbs.users.utils import (
     AdminAndModerGenPermissionsMixin,
@@ -31,7 +31,9 @@ class PlaceAdmin(
     search_fields = ("title",)
 
 
-class PlaceTagAdmin(AdminOnlyPermissionsMixin, admin.ModelAdmin):
+class PlaceTagAdmin(
+    AdminAutoSlugHelpText, AdminOnlyPermissionsMixin, admin.ModelAdmin
+):
     list_display = [
         "name",
         "slug",

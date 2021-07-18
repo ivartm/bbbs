@@ -71,3 +71,144 @@ class AdminColor:
             "</span>",
             obj.color,
         )
+
+
+class AdminAutoSlugHelpText:
+
+    """
+    This mixin adds the hint text when editing slug
+    """
+
+    def get_form(self, request, obj, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        if obj is not None:
+            if kwargs["fields"]:
+                form.base_fields[
+                    "slug"
+                ].help_text = """
+                    Будьте внимательны! Slug автоматически заполняется только
+                    при создании тэга. Во время редактирования пожалуйста
+                    введите вручную.
+                    """
+        return form
+
+
+class AdminEditor:
+    """
+    Mixin get help text with recommended tags
+    """
+
+    # def get_form(self, request, obj=None, **kwargs):
+    #     form = super().get_form(request, obj, **kwargs)
+    #
+    #     return form
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields[
+            "text"
+        ].initial = """Стандартная структура:
+
+<подзаголовок>Введите ваш подзаголовок</подзаголовок>
+
+<параграф>Введите ваш текст</параграф>
+
+
+<подзаголовок>Подзаголовок для списка</подзаголовок>
+
+<список>
+<*>Элемент списка 1</*>
+<*>Элемент списка 2</*>
+</список>
+
+
+<подзаголовок>Подзаголовок для текста</подзаголовок>
+
+<параграф>Введите ваш текст</параграф>
+
+
+<подзаголовок>Подзаголовок для карточки</подзаголовок>
+
+<карточка>
+Введите ваш текст,
+который нужно поместить в цветную карточку
+</карточка>
+"""
+
+        form.base_fields[
+            "text"
+        ].help_text = """
+<pre>Между подзаголовком и текстовым тегом один перенос строки
+Между текстовым тегом и следующим подзаголовком два переноса строки</pre>
+<pre><h3>Используйте специальные теги:</h3>
+<h3>
+<подзаголовок> Тег для формирования подзаголовка в теле статьи&lt/подзаголовок>
+
+<параграф> Тег для вывода стандартного форматированного текста&lt/параграф>
+
+<список>
+<*>
+Тег "<список>" формирует таблицу,
+а каждый ее элемент помещается в тег "<*>"
+&lt/*>
+&lt/список>
+
+<карточка> Тег для вывода текста,
+который нужно поместить в цветную карточку
+&lt/карточка><h3></pre>
+
+"""
+
+        return form
+
+
+class ConvertEditorTags:
+    """
+    Simple tag editor
+
+    add in your serializer
+        text = serializers.SerializerMethodField()
+
+
+    """
+
+    def get_text(self, obj):
+        dict = {
+            "<подзаголовок>": '<h2 class="section-title article__subtitle">',
+            "</подзаголовок>": "</h2>",
+            "<параграф>": '<p class="paragraph">',
+            "</параграф>": "</p>",
+            "<список>": '<ul class="card article__card">',
+            "</список>": "</ul>",
+            "<*>": '<li class="article__card-list-item">',
+            "</*>": "</li>",
+            "<карточка>": '<div class="card card_color_ article__card">'
+            '<p class="paragraph">',
+            "</карточка>": "</p></div>",
+        }
+        if obj.text != "":
+            for key in dict:
+                obj.text = obj.text.replace(key, dict[key])
+        if '<div class="article__container">' not in obj.text:
+            obj.text = '<div class="article__container"> \n' + obj.text
+        if 'div class="card card_color_' in obj.text:
+            color = obj.text.split('div class="card card_color_')
+            color = color[1].split(" ")
+            try:
+                obj_color = obj.Colors(obj.color).name.lower()
+                if obj_color and color[0]:
+                    obj.text = obj.text.replace(color[0], obj_color)
+                else:
+                    obj.text = obj.text.replace(
+                        'div class="card card_color_',
+                        f'div class="card card_color_{obj_color}',
+                    )
+            except Exception:
+                if not color[0]:
+                    # если в админке нет поля color
+                    # цвет карточки устанавливается по умолчанию желтый
+                    obj.text = obj.text.replace(
+                        'div class="card card_color_',
+                        'div class="card card_color_yellow',
+                    )
+        return obj.text

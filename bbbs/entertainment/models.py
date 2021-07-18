@@ -4,6 +4,7 @@ from colorfield.fields import ColorField
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from bbbs.common.utils.slugify import slugify
 from bbbs.common.utils.youtube_api import get_youtube_data
@@ -107,22 +108,23 @@ class Movie(models.Model):
             raise ValidationError("Ссылка должна быть с youtube.com")
 
     def save(self, *args, **kwargs):
-        data = get_youtube_data(self.link)
-        if not self.title:
-            self.title = data["title"]
-        if not self.producer:
-            self.producer = data["author"]
-        if not self.image_url:
-            content = urllib.request.urlopen(data["preview"]).read()
-            self.image_url.save(
-                data["video_id"] + ".jpg", ContentFile(content), save=False
-            )
-        if not self.year:
-            year = data["date"].split("-")
-            self.year = year[0]
-        if not self.description:
-            self.description = data["description"]
-        self.duration = data["duration"]
+        if "youtube.com/" in self.link:
+            data = get_youtube_data(self.link)
+            if not self.title:
+                self.title = data["title"]
+            if not self.producer:
+                self.producer = data["author"]
+            if not self.image_url:
+                content = urllib.request.urlopen(data["preview"]).read()
+                self.image_url.save(
+                    data["video_id"] + ".jpg", ContentFile(content), save=False
+                )
+            if not self.year:
+                year = data["date"].split("-")
+                self.year = year[0]
+            if not self.description:
+                self.description = data["description"]
+            self.duration = data["duration"]
         super().save(*args, **kwargs)
 
 
@@ -184,18 +186,19 @@ class Video(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        data = get_youtube_data(self.link)
-        if self.title == "":
-            self.title = data["title"]
-        if self.author == "":
-            self.author = data["author"]
-        self.creative_url = data["preview"]
-        content = urllib.request.urlopen(self.creative_url).read()
-        if self.image_url == "":
-            self.image_url.save(
-                data["video_id"] + ".jpg", ContentFile(content), save=False
-            )
-        self.duration = data["duration"]
+        if "youtube.com/" in self.link:
+            data = get_youtube_data(self.link)
+            if self.title == "":
+                self.title = data["title"]
+            if self.author == "":
+                self.author = data["author"]
+            self.creative_url = data["preview"]
+            content = urllib.request.urlopen(self.creative_url).read()
+            if self.image_url == "":
+                self.image_url.save(
+                    data["video_id"] + ".jpg", ContentFile(content), save=False
+                )
+            self.duration = data["duration"]
         super().save(*args, **kwargs)
 
     def clean(self):
@@ -262,6 +265,11 @@ class Book(models.Model):
 
 
 class Article(models.Model):
+    class Colors(models.TextChoices):
+        YELLOW = "#F8D162", _("Жёлтый")
+        GREEN = "#8CDD94", _("Зелёный")
+        PINK = "#FF8484", _("Розовый")
+        BLUE = "#C8D1FF", _("Голубой")
 
     is_main = models.BooleanField(
         verbose_name="Основная статья",
@@ -276,16 +284,11 @@ class Article(models.Model):
     profession = models.CharField(max_length=200, verbose_name="Профессия")
     description = models.TextField(verbose_name="Описание")
     text = models.TextField(verbose_name="Текст")
-    COLOR_CHOICES = [
-        ("#F8D162", "yellow"),
-        ("#8CDD94", "green"),
-        ("#FF8484", "pink"),
-        ("#C8D1FF", "blue"),
-    ]
+
     color = ColorField(
         max_length=8,
         verbose_name="Цвет",
-        choices=COLOR_CHOICES,
+        choices=Colors.choices,
     )
     image_url = models.ImageField(
         blank=True,
@@ -312,7 +315,7 @@ class Article(models.Model):
             )
 
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         is_main = Article.objects.filter(is_main=True)
         if is_main.exists() and is_main.first() != self:
             self.is_main = False
-        super().save(*args, **kwargs)

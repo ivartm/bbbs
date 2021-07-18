@@ -56,13 +56,13 @@ class EventQuerySet(models.QuerySet):
         Assumes that user's afisha is list of not finished events, but they may
         have been started.
         """
-        qs = (
+        values_qs = (
             self.not_finished_user_afisha(user=user)
             .annotate(month_id=ExtractMonth("start_at"))
             .values_list("month_id", flat=True)
             .distinct()
         )
-        return qs
+        return values_qs
 
 
 class Event(models.Model):

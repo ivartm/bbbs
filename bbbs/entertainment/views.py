@@ -1,7 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import AllowAny
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
 from bbbs.entertainment.filters import (
     ArticleFilter,
@@ -31,15 +31,11 @@ from bbbs.entertainment.serializers import (
 )
 
 
-class ListDetailApiView(ListModelMixin, RetrieveModelMixin, GenericViewSet):
-    pass
-
-
 class ListViewSet(ListModelMixin, GenericViewSet):
     pass
 
 
-class GuidesView(ListDetailApiView):
+class GuidesViewSet(ReadOnlyModelViewSet):
     serializer_class = GuideSerializer
     permission_classes = [AllowAny]
 
@@ -48,14 +44,16 @@ class GuidesView(ListDetailApiView):
         return queryset
 
 
-class MoviesTagsView(ListDetailApiView):
+class MoviesTagsViewSet(ListViewSet):
+
     """Returns only MovieTags that used in Video objects."""
 
+    permission_classes = [AllowAny]
     queryset = MovieTag.objects.exclude(movies=None).distinct().order_by("id")
     serializer_class = MovieTagSerializer
 
 
-class MoviesView(ListDetailApiView):
+class MoviesViewSet(ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
     serializer_class = MovieSerializer
     filter_backends = (DjangoFilterBackend,)
@@ -66,14 +64,15 @@ class MoviesView(ListDetailApiView):
         return queryset
 
 
-class VideoTagsView(ListDetailApiView):
+class VideoTagsViewSet(ListViewSet):
     """Returns only VideoTags that used in Video objects."""
 
+    permission_classes = [AllowAny]
     queryset = VideoTag.objects.exclude(videos=None).distinct().order_by("id")
     serializer_class = VideoTagSerializer
 
 
-class VideoView(ListDetailApiView):
+class VideoViewSet(ReadOnlyModelViewSet):
     serializer_class = VideoSerializer
     permission_classes = [AllowAny]
     filter_backends = (DjangoFilterBackend,)
@@ -84,14 +83,15 @@ class VideoView(ListDetailApiView):
         return queryset
 
 
-class BooksTagsView(ListViewSet):
+class BooksTagsViewSet(ListViewSet):
     """Returns only BookTags that used in Book objects."""
 
+    permission_classes = [AllowAny]
     queryset = BookTag.objects.exclude(books=None).distinct().order_by("id")
     serializer_class = BookTagSerializer
 
 
-class BooksView(ListViewSet):
+class BooksViewSet(ReadOnlyModelViewSet):
     serializer_class = BookSerializer
     permission_classes = [AllowAny]
     filter_backends = (DjangoFilterBackend,)
@@ -102,7 +102,7 @@ class BooksView(ListViewSet):
         return queryset
 
 
-class ArticlesView(ListDetailApiView):
+class ArticlesViewSet(ReadOnlyModelViewSet):
     serializer_class = ArticleSerializer
     permission_classes = [AllowAny]
     filter_backends = (DjangoFilterBackend,)
