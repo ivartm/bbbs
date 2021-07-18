@@ -7,8 +7,17 @@ from bbbs.common.models import City
 from bbbs.users.utils import AdminAndModersPermissionsMixin
 
 
+class EventParticipantForEventInline(admin.TabularInline):
+    model = EventParticipant
+    extra = 0
+    verbose_name_plural = "Список участников"
+
+
 @register(Event)
 class EventAdmin(AdminAndModersPermissionsMixin, admin.ModelAdmin):
+    inlines = [
+        EventParticipantForEventInline,
+    ]
     list_display = (
         "id",
         "city",

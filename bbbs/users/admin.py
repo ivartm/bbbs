@@ -1,14 +1,51 @@
+from datetime import datetime
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group, User
 from django.utils.translation import gettext_lazy as _
 
+from bbbs.afisha.models import EventParticipant
 from bbbs.users.mixins import DynamicLookupMixin
 from bbbs.users.models import Curator, Profile
 from bbbs.users.utils import (
     AdminAndModerGenPermissionsMixin,
     AdminOnlyPermissionsMixin,
 )
+
+
+class EventParticipantFutureInline(admin.StackedInline):
+    model = EventParticipant
+    extra = 0
+    verbose_name_plural = (
+        "Предстоящие мероприятия на которые записан пользователь"
+    )
+    raw_id_fields = ("event",)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        if not self.has_view_or_change_permission(request):
+            queryset = queryset.none()
+        return queryset.filter(event__start_at__gte=datetime.now()).order_by(
+            "event__start_at"
+        )
+
+
+class EventParticipantPastInline(admin.StackedInline):
+    model = EventParticipant
+    extra = 0
+    verbose_name_plural = (
+        "Прошедшие мероприятия на которых присутствовал пользователь"
+    )
+    raw_id_fields = ("event",)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        if not self.has_view_or_change_permission(request):
+            queryset = queryset.none()
+        return queryset.filter(event__start_at__lt=datetime.now()).order_by(
+            "-event__start_at"
+        )
 
 
 class ProfileInline(AdminAndModerGenPermissionsMixin, admin.StackedInline):
@@ -33,7 +70,11 @@ class ProfileInline(AdminAndModerGenPermissionsMixin, admin.StackedInline):
 
 
 class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
-    inlines = (ProfileInline,)
+    inlines = (
+        ProfileInline,
+        EventParticipantFutureInline,
+        EventParticipantPastInline,
+    )
 
     list_display = (
         "id",
@@ -55,6 +96,10 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
     profile__role_short_description = "роль"
     profile__city_short_description = "город"
     list_display_links = ("username",)
+    readonly_fields = (
+        "is_staff",
+        "is_superuser",
+    )
     fieldsets = (
         (None, {"fields": ("username", "email", "password")}),
         (_("Personal info"), {"fields": ("first_name", "last_name")}),
@@ -65,7 +110,6 @@ class UserAdmin(AdminOnlyPermissionsMixin, DynamicLookupMixin, UserAdmin):
                     "is_active",
                     "is_staff",
                     "is_superuser",
-                    "user_permissions",
                 ),
             },
         ),
