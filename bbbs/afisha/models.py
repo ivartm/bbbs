@@ -157,3 +157,10 @@ class EventParticipant(models.Model):
             raise ValidationError(
                 "Нельзя зарегистрировать участника на событие в другом городе!"
             )
+
+    def __str__(self):
+        return (
+            f"@{self.user.first_name} {self.user.last_name} , "
+            f"мероприятие: {self.event.title} начало в "
+            f"{self.event.start_at}"
+        )
