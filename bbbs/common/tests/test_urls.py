@@ -12,6 +12,7 @@ from bbbs.users.factories import UserFactory
 from bbbs.users.models import Profile
 from config.settings import base
 
+SENT_MAIL_URL = "/api/v1/meetings/send_to_curator/"
 MEETINGS_URL = "/api/v1/meetings/"
 MEETING_URL = "/api/v1/meetings/{id}/"
 PASSWORD = "test"
@@ -253,3 +254,33 @@ class URLTests(TestCase):
                 meeting["user"],
                 self.user2.id,
             )
+
+    def test_mentor_send_meeting(self):
+        """Test mentor send meeting"""
+        client = self.return_authorized_user_client(self.user)
+
+        data = {
+            "id": self.meeting.id,
+        }
+        response = client.post(SENT_MAIL_URL, data=data, format="json")
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+            msg=(f"response = {response.content} \n"),
+        )
+
+    def test_mentor_do_not_send_meeting(self):
+        """Test mentor can not send someone else's meeting"""
+        client = self.return_authorized_user_client(self.user)
+
+        data = {
+            "id": self.meeting2.id,
+        }
+        response = client.post(SENT_MAIL_URL, data=data, format="json")
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_404_NOT_FOUND,
+            msg=(f"response = {response.content} \n"),
+        )
