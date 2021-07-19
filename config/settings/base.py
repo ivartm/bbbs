@@ -1,7 +1,6 @@
 """
 Base settings to build other settings files upon.
 """
-import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -200,6 +199,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r"^/api/.*$"
 
+
+# SECURE_PROXY_SSL_HEADER
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/3.2/ref/settings/#secure-proxy-ssl-header
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
@@ -210,6 +216,7 @@ EMAIL_BACKEND = env(
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
 EMAIL_TIMEOUT = 5
 
+
 # EMAIL Service Provider Template ID
 # Default templates are hosted on mailjet.com, account: bbbs@bbbs.fun
 # ------------------------------------------------------------------------------
@@ -219,6 +226,7 @@ EMAIL_RESET_PASSWORD_TEMPLATE_ID = env(
 EMAIL_MEETING_TEMPLATE_ID = env(
     "EMAIL_MEETING_TEMPLATE_ID", default="3027285"
 )
+
 
 # Youtube Token
 # ------------------------------------------------------------------------------
