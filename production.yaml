@@ -4,6 +4,7 @@ volumes:
   postgres_data:
   static_value:
   media_value:
+  certbot_webroot:
 services:
   postgres:
     image: postgres:13.3
@@ -40,3 +41,30 @@ services:
       - "443:443"
     volumes:
       - ./nginx/frontend/:/etc/nginx/conf.d/
+      - ./certbot/letsencrypt/:/etc/letsencrypt/
+      - certbot_webroot/:/var/certbot-web-root/
+  certbot:
+    image: certbot/certbot:latest
+    depends_on:
+      - public-nginx
+    volumes:
+      - ./certbot/letsencrypt/:/etc/letsencrypt/
+      - ./certbot/logs/:/var/log/letsencrypt/
+      - certbot_webroot/:/var/certbot-web-root/
+    command: certonly
+      --webroot
+      --webroot-path=/var/certbot-web-root/
+      --email admin@bbbs.fun
+      --agree-tos
+      --no-eff-email
+      -d bbbs.fun
+      -d admin-panel.bbbs.fun
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        trap exit TERM;
+        while :;
+        do certbot renew;
+        sleep 12h & wait $${!};
+        done;
