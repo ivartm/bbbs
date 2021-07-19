@@ -399,8 +399,7 @@ class Command(BaseCommand):
                         num_tags = random.randint(1, 5)
                         VideoFactory.create(link=link, tags__num=num_tags)
 
-                    for _ in range(30):
-                        StoryFactory.create()
+                    StoryFactory.create_batch(30)
 
                     StoryImageFactory.create_batch(100)
 
