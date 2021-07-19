@@ -18,7 +18,7 @@ class EventParticipantInline(
         if obj:
             if request.user.profile.is_moderator_reg:
                 return ["user"]
-            return super().get_readonly_fields(request, obj)
+        return super().get_readonly_fields(request, obj)
 
     def has_add_permission(self, request, obj=None):
         if request.user.profile.is_moderator_reg:
