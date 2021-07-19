@@ -85,9 +85,7 @@ class BookSerializer(serializers.ModelSerializer):
         return obj.tag.color
 
 
-class ArticleSerializer(ConvertEditorTags, serializers.ModelSerializer):
-    text = serializers.SerializerMethodField()
-
+class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = "__all__"

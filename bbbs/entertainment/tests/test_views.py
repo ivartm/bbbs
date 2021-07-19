@@ -45,13 +45,13 @@ class ViewArticlesTests(ConvertEditorTags, APITestCase):
 
         results = response.get("results")[0]
         obj = Article.objects.get(pk=1)
-        serialize_text_obj = self.get_text(obj)
+        # serialize_text_obj = self.get_text(obj)
         self.assertEqual(results["id"], obj.pk)
         self.assertEqual(results["is_main"], obj.is_main)
         self.assertEqual(results["title"], obj.title)
         self.assertEqual(results["author"], obj.author)
         self.assertEqual(results["profession"], obj.profession)
-        self.assertEqual(results["text"], serialize_text_obj)
+        self.assertEqual(results["text"], obj.text)
         self.assertEqual(results["color"], obj.color)
         self.assertEqual(
             results["image_url"],
@@ -83,14 +83,14 @@ class ViewArticlesTests(ConvertEditorTags, APITestCase):
         response = client.get(ViewArticlesTests.path_articles + "1/").data
 
         obj = Article.objects.get(pk=1)
-        serialize_text_obj = self.get_text(obj)
+        # serialize_text_obj = self.get_text(obj)
 
         self.assertEqual(response["id"], obj.pk)
         self.assertEqual(response["is_main"], obj.is_main)
         self.assertEqual(response["title"], obj.title)
         self.assertEqual(response["author"], obj.author)
         self.assertEqual(response["profession"], obj.profession)
-        self.assertEqual(response["text"], serialize_text_obj)
+        self.assertEqual(response["text"], obj.text)
         self.assertEqual(response["color"], obj.color)
         self.assertEqual(
             response["image_url"],
