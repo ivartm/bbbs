@@ -13,10 +13,10 @@ TOKEN_URL = reverse("token")
 REFRESH_URL = reverse("token_refresh")
 PROFILE_URL = reverse("profile")
 ADMIN_URL = "/admin/"
-VIEW_URL = "auth/user/"
-ADD_URL = "auth/user/add/"
-EDIT_URL = "auth/user/{id}/change/"
-DELETE_URL = "auth/user/{id}/delete/"
+VIEW_URL = "common/city/"
+ADD_URL = "common/city/add/"
+EDIT_URL = "common/city/{id}/change/"
+DELETE_URL = "common/city/{id}/delete/"
 FULL_VIEW_URL = ADMIN_URL + VIEW_URL
 FULL_ADD_URL = ADMIN_URL + ADD_URL
 FULL_EDIT_URL = ADMIN_URL + EDIT_URL
@@ -38,7 +38,6 @@ class PermissionTests(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.city = CityFactory(name=CITY_NAME)
-        cls.city_new = CityFactory(name=CITY_NEW_NAME)
         cls.mentor = UserFactory(
             profile__role=Profile.Role.MENTOR,
             profile__city=cls.city,
@@ -69,7 +68,7 @@ class PermissionTests(TestCase):
         cls.user_and_code = {
             cls.mentor: status.HTTP_302_FOUND,
             cls.moderator_reg: status.HTTP_403_FORBIDDEN,
-            cls.moderator_gen: status.HTTP_403_FORBIDDEN,
+            cls.moderator_gen: status.HTTP_200_OK,
             cls.admin: status.HTTP_200_OK,
         }
 
@@ -78,8 +77,8 @@ class PermissionTests(TestCase):
         authorized_client.force_login(user)
         return authorized_client
 
-    def test_access_to_view_users_on_admin_site(self):
-        """Test access to view users on admin site"""
+    def test_access_to_view_city_on_admin_site(self):
+        """Test access to view city on admin site"""
         user_and_code = {
             self.mentor: status.HTTP_302_FOUND,
             self.moderator_reg: status.HTTP_403_FORBIDDEN,
@@ -92,32 +91,38 @@ class PermissionTests(TestCase):
 
             self.assertEqual(response.status_code, code)
 
-    def test_access_to_add_users_on_admin_site(self):
-        """Test access to add users on admin site"""
+    def test_access_to_add_city_on_admin_site(self):
+        """Test access to add city on admin site"""
         for user, code in self.user_and_code.items():
             client = self.return_authorized_user_client(user=user)
             response = client.get(FULL_ADD_URL)
 
             self.assertEqual(response.status_code, code)
 
-    def test_access_to_change_users_on_admin_site(self):
-        """Test access to change users on admin site"""
+    def test_access_to_change_city_on_admin_site(self):
+        """Test access to change city on admin site"""
 
-        for user, code in self.user_and_code.items():
+        user_and_code = {
+            self.mentor: status.HTTP_302_FOUND,
+            self.moderator_reg: status.HTTP_403_FORBIDDEN,
+            self.moderator_gen: status.HTTP_302_FOUND,
+            self.admin: status.HTTP_302_FOUND,
+        }
+        data = {"name": "Тест2", "_save": "Сохранить"}
+
+        for user, code in user_and_code.items():
             client = self.return_authorized_user_client(user=user)
-            response = client.post(FULL_EDIT_URL.format(id=user.id))
+            response = client.post(
+                FULL_EDIT_URL.format(id=self.city.id), data=data
+            )
 
             self.assertEqual(response.status_code, code)
 
-    def test_access_to_delete_users_on_admin_site(self):
-        """Test access to delete users on admin site"""
+    def test_access_to_delete_city_on_admin_site(self):
+        """Test access to delete city on admin site"""
+        print(self.userAdminSite.urls)
         for user, code in self.user_and_code.items():
+            city_new = CityFactory(name=CITY_NEW_NAME)
             client = self.return_authorized_user_client(user=user)
-            user_new = UserFactory(
-                profile__role=Profile.Role.MENTOR,
-                profile__city=self.city,
-                password=PASSWORD,
-            )
-            response = client.post(FULL_DELETE_URL.format(id=user_new.id))
-
+            response = client.post(FULL_DELETE_URL.format(id=city_new.id))
             self.assertEqual(response.status_code, code)

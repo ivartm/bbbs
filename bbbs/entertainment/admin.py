@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from bbbs.common.utils.mixins import AdminColor, AdminEditor, AdminPreview
+from bbbs.common.utils.mixins import (
+    AdminAutoSlugHelpText,
+    AdminColor,
+    AdminEditor,
+    AdminPreview,
+)
 from bbbs.entertainment.models import (
     Article,
     Book,
@@ -31,7 +36,13 @@ class GuideAdmin(
     search_fields = ("title", "description")
 
 
-class MovieTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
+class MovieTagAdmin(
+    AdminAutoSlugHelpText, AdminAndModerGenPermissionsMixin, admin.ModelAdmin
+):
+    list_display = [
+        "name",
+        "slug",
+    ]
     prepopulated_fields = {
         "slug": ["name"],
     }
@@ -70,7 +81,13 @@ class MovieAdmin(
         return form
 
 
-class VideoTagAdmin(AdminAndModerGenPermissionsMixin, admin.ModelAdmin):
+class VideoTagAdmin(
+    AdminAutoSlugHelpText, AdminAndModerGenPermissionsMixin, admin.ModelAdmin
+):
+    list_display = [
+        "name",
+        "slug",
+    ]
     prepopulated_fields = {
         "slug": ["name"],
     }
@@ -83,12 +100,6 @@ class VideoAdmin(
     readonly_fields = ("image_change_preview", "duration")
     filter_horizontal = ("tags",)
     exclude = ("creative_url",)
-
-    # def change_view(self, request, object_id, extra_context=None):
-    #     self.exclude = ("creative_url",)
-    #     return super(VideoAdmin, self).change_view(
-    #         request, object_id, extra_context
-    #     )
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
@@ -107,7 +118,10 @@ class VideoAdmin(
 
 
 class BookTagAdmin(
-    AdminAndModerGenPermissionsMixin, AdminColor, admin.ModelAdmin
+    AdminAutoSlugHelpText,
+    AdminAndModerGenPermissionsMixin,
+    AdminColor,
+    admin.ModelAdmin,
 ):
     list_display = ("name", "colored_circle")
     prepopulated_fields = {
