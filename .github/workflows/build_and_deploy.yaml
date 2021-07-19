@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - develop
 jobs:
   tests_and_coverage:
     name: Check codestyle, run test and upload Coverage Report
