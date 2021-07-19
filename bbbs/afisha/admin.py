@@ -7,10 +7,23 @@ from bbbs.common.models import City
 from bbbs.users.utils import AdminAndModersPermissionsMixin
 
 
-class EventParticipantInline(admin.TabularInline):
+class EventParticipantInline(
+    AdminAndModersPermissionsMixin, admin.TabularInline
+):
     model = EventParticipant
     extra = 0
     verbose_name_plural = "Список участников"
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            if request.user.profile.is_moderator_reg:
+                return ["user"]
+            return super().get_readonly_fields(request, obj)
+
+    def has_add_permission(self, request, obj=None):
+        if request.user.profile.is_moderator_reg:
+            return False
+        return super().has_add_permission(request, obj)
 
 
 @register(Event)

@@ -2,10 +2,7 @@ from django.contrib import admin
 
 from bbbs.common.utils.mixins import AdminAutoSlugHelpText, AdminPreview
 from bbbs.places.models import Place, PlaceTag
-from bbbs.users.utils import (
-    AdminAndModerGenPermissionsMixin,
-    AdminOnlyPermissionsMixin,
-)
+from bbbs.users.utils import AdminAndModerGenPermissionsMixin
 
 
 class PlaceAdmin(
@@ -32,7 +29,7 @@ class PlaceAdmin(
 
 
 class PlaceTagAdmin(
-    AdminAutoSlugHelpText, AdminOnlyPermissionsMixin, admin.ModelAdmin
+    AdminAutoSlugHelpText, AdminAndModerGenPermissionsMixin, admin.ModelAdmin
 ):
     list_display = [
         "name",
