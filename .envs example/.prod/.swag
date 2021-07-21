@@ -1,0 +1,11 @@
+# Swag
+# ---------------------------------------------------------------------
+
+# Run on your server command 'id $user' and set UID and GUI
+# https://docs.linuxserver.io/general/understanding-puid-and-pgid
+PUID=1001
+PGID=1003
+
+# URL will be used to run main site
+# https://docs.linuxserver.io/general/swag#create-container-via-http-validation
+URL=staging.bbbs.fun

@@ -200,12 +200,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r"^/api/.*$"
 
 
-# SECURE_PROXY_SSL_HEADER
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/3.2/ref/settings/#secure-proxy-ssl-header
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend

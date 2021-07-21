@@ -1,0 +1,60 @@
+version: '3.8'
+
+volumes:
+  postgres_data:
+  static_value:
+  media_value:
+services:
+  postgres:
+    image: postgres:13.3
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.envs/.prod/.postgres
+  django:
+    image: klyaxa/bbbs-backend:latest
+    restart: always
+    volumes:
+      - static_value:/code/staticfiles/
+      - media_value:/code/media
+    depends_on:
+      - postgres
+    env_file:
+      - ./.envs/.prod/.django
+      - ./.envs/.prod/.postgres
+  backend-nginx:
+    image: nginx:1.21.0
+    restart: always
+    volumes:
+      - ./nginx/backend/:/etc/nginx/conf.d/
+      - static_value:/var/html/static/
+      - media_value:/var/html/media/
+    depends_on:
+      - django
+  frontend-nginx:
+    image: klyaxa/bbbs-frontend:latest
+    restart: always
+    volumes:
+      - ./nginx/frontend/:/etc/nginx/conf.d/
+  swag:
+    image: ghcr.io/linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TZ=Europe/Moscow
+      - SUBDOMAINS=admin-panel
+      - VALIDATION=http
+    env_file:
+      - ./.envs/.prod/.swag
+    volumes:
+      - ./nginx/swag/default:/config/nginx/site-confs/default
+      - ./swag/config:/config
+    ports:
+      - 443:443
+      - 80:80
+    depends_on:
+      - backend-nginx
+      - frontend-nginx
+    restart: unless-stopped

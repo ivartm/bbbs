@@ -11,7 +11,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list(
     "DJANGO_ALLOWED_HOSTS",
-    default=[".bbbs.fun", ".kiryanov.ru"],
+    default=[".bbbs.fun"],
 )
 
 # DATABASES
@@ -30,6 +30,13 @@ DATABASES = {
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+
+
+# SECURE_PROXY_SSL_HEADER
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/3.2/ref/settings/#secure-proxy-ssl-header
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # EMAIL
 # ------------------------------------------------------------------------------
