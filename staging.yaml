@@ -33,7 +33,7 @@ services:
     depends_on:
       - django
   frontend-nginx:
-    image: klyaxa/staging-bbbs-frontend:latest
+    image: klyaxa/bbbs-frontend:latest
     restart: always
     volumes:
       - ./nginx/frontend/:/etc/nginx/conf.d/
