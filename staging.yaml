@@ -13,7 +13,7 @@ services:
     env_file:
       - ./.envs/.prod/.postgres
   django:
-    image: klyaxa/bbbs-backend:latest
+    image: klyaxa/staging-bbbs-backend:latest
     restart: always
     volumes:
       - static_value:/code/staticfiles/
@@ -33,7 +33,7 @@ services:
     depends_on:
       - django
   frontend-nginx:
-    image: klyaxa/bbbs-frontend:latest
+    image: klyaxa/staging-bbbs-frontend:latest
     restart: always
     volumes:
       - ./nginx/frontend/:/etc/nginx/conf.d/
