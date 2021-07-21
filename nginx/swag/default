@@ -28,7 +28,12 @@ server {
 
     client_max_body_size 10M;
 
-    location ^~ /(media|api) {
+    location ^~ /media {
+       include /config/nginx/proxy.conf;
+       proxy_pass http://backend-nginx;
+   }
+
+   location ^~ /api {
        include /config/nginx/proxy.conf;
        proxy_pass http://backend-nginx;
    }
