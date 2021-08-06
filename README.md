@@ -2,7 +2,7 @@
 [![codecov](https://codecov.io/gh/ivartm/bbbs/branch/main/graph/badge.svg?token=30U7Y04CUE)](https://codecov.io/gh/ivartm/bbbs)
 ![pep8 codestyle](https://github.com/ivartm/bbbs/actions/workflows/codestyle.yaml/badge.svg)
 
-
+## https://bbbs.fun/
 # bbbs
 Бэкенд для проекта Старшие Братья Старшие Сестры https://www.nastavniki.org/
 
@@ -14,7 +14,7 @@ Django
 Django REST Framework
 Poetry
 Docker
-*тут нужно дополнить*
+Factory-Boy
 ```
 
 **Проект предполагает 2 типа запуска: локально и в полноценном режиме. В обоих случаях используется docker. В обоих случаях нужно задать переменные окружения.**
